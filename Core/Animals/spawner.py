@@ -1,0 +1,1 @@
+# outputs a random animal given a range of tiers
