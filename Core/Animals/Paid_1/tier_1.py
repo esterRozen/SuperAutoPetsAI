@@ -1,101 +1,101 @@
-from Core.Animals.animal import Animal
+from Core.Animals.baseClasses import Animal, Equipment
 # paid_1 pack
 
 
-class Tier1(Animal):
+class _Tier1(Animal):
     def __init__(self, atk, hp):
-        super(Tier1, self).__init__(atk, hp)
+        super(_Tier1, self).__init__(atk, hp)
 
     @staticmethod
     def tier():
         return 1
 
 
-class Ant(Tier1):
+class Ant(_Tier1):
     def __init__(self):
         super(Ant, self).__init__(2, 1)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [1] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Beaver(Tier1):
+class Beaver(_Tier1):
     def __init__(self):
         super(Beaver, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "sell":
-            return NotImplementedError
-        return NotImplementedError
+            return [2] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Beetle(Tier1):
+class Beetle(_Tier1):
     def __init__(self):
         super(Beetle, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == "eat food":
-            return NotImplementedError
-        return NotImplementedError
+            return [3] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Bluebird(Tier1):
+class Bluebird(_Tier1):
     def __init__(self):
         super(Bluebird, self).__init__(2, 1)
 
     def trigger(self, name):
         if name == "end turn":
-            return NotImplementedError
-        return NotImplementedError
+            return [4] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Cricket(Tier1):
+class Cricket(_Tier1):
     def __init__(self):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [5] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Fish(Tier1):
+class Fish(_Tier1):
     def __init__(self):
         super(Fish, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == "on level":
-            return NotImplementedError
-        return NotImplementedError
+            return [7] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Ladybug(Tier1):
+class Ladybug(_Tier1):
     def __init__(self):
         super(Ladybug, self).__init__(1, 3)
 
     def trigger(self, name):
         if name == "buy food":
-            return NotImplementedError
-        return NotImplementedError
+            return [9] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Mosquito(Tier1):
+class Mosquito(_Tier1):
     def __init__(self):
         super(Mosquito, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "start battle":
-            return NotImplementedError
-        return NotImplementedError
+            return [10] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Pig(Tier1):
+class Pig(_Tier1):
     def __init__(self):
         super(Pig, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "sell":
-            return NotImplementedError
-        return NotImplementedError
+            return [12] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]

@@ -1,121 +1,121 @@
-from Core.Animals.animal import Animal
+from Core.Animals.baseClasses import Animal, Equipment
 # paid_1 pack
 
 
-class Tier2(Animal):
+class _Tier2(Animal):
     def __init__(self, atk, hp):
-        super(Tier2, self).__init__(atk, hp)
+        super(_Tier2, self).__init__(atk, hp)
 
     @staticmethod
     def tier():
         return 2
 
 
-class Bat(Tier2):
+class Bat(_Tier2):
     def __init__(self):
         super(Bat, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == "start battle":
-            return NotImplementedError
-        return NotImplementedError
+            return [13] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Dog(Tier2):
+class Dog(_Tier2):
     def __init__(self):
         super(Dog, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return NotImplementedError
-        return NotImplementedError
+            return [16] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Dromedary(Tier2):
+class Dromedary(_Tier2):
     def __init__(self):
         super(Dromedary, self).__init__(2, 4)
 
     def trigger(self, name):
         if name == "start turn":
-            return NotImplementedError
-        return NotImplementedError
+            return [17] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Flamingo(Tier2):
+class Flamingo(_Tier2):
     def __init__(self):
         super(Flamingo, self).__init__(3, 1)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [19] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Hedgehog(Tier2):
+class Hedgehog(_Tier2):
     def __init__(self):
         super(Hedgehog, self).__init__(3, 2)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [20] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Peacock(Tier2):
+class Peacock(_Tier2):
     def __init__(self):
         super(Peacock, self).__init__(1, 5)
 
     def trigger(self, name):
         if name == "hurt":
-            return NotImplementedError
-        return NotImplementedError
+            return [21] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Rat(Tier2):
+class Rat(_Tier2):
     def __init__(self):
         super(Rat, self).__init__(4, 5)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [22] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Shrimp(Tier2):
+class Shrimp(_Tier2):
     def __init__(self):
         super(Shrimp, self).__init__(2, 1)
 
     def trigger(self, name):
         if name == "friend sold":
-            return NotImplementedError
-        return NotImplementedError
+            return [23] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Spider(Tier2):
+class Spider(_Tier2):
     def __init__(self):
         super(Spider, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [24] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Swan(Tier2):
+class Swan(_Tier2):
     def __init__(self):
         super(Swan, self).__init__(3, 4)
 
     def trigger(self, name):
         if name == "start turn":
-            return NotImplementedError
-        return NotImplementedError
+            return [25] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class TabbyCat(Tier2):
+class TabbyCat(_Tier2):
     def __init__(self):
         super(TabbyCat, self).__init__(4, 3)
 
     def trigger(self, name):
         if name == "eat food":
-            return NotImplementedError
-        return NotImplementedError
+            return [26] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]

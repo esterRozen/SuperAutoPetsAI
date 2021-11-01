@@ -1,86 +1,92 @@
-from Core.Animals.animal import Animal
+from Core.Animals.baseClasses import Animal, Equipment
 # base pack
 
 
-class Tier6(Animal):
+class _Tier6(Animal):
     def __init__(self, atk, hp):
-        super(Tier6, self).__init__(atk, hp)
+        super(_Tier6, self).__init__(atk, hp)
 
     @staticmethod
     def tier():
         return 6
 
 
-class Cat(Tier6):
+class Cat(_Tier6):
     def __init__(self):
         super(Cat, self).__init__(4, 5)
 
     def trigger(self, name):
         if name == "buy food":
-            return NotImplementedError
-        return NotImplementedError
+            return [69] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Dragon(Tier6):
+class Dragon(_Tier6):
     def __init__(self):
         super(Dragon, self).__init__(6, 8)
 
     def trigger(self, name):
         if name == "buy t1 pet":
-            return NotImplementedError
-        return NotImplementedError
+            return [70] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Fly(Tier6):
+class Fly(_Tier6):
     def __init__(self):
         super(Fly, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "friend faints":
-            return NotImplementedError
-        return NotImplementedError
+            return [71] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Gorilla(Tier6):
+class Gorilla(_Tier6):
     def __init__(self):
         super(Gorilla, self).__init__(6, 6)
 
     def trigger(self, name):
         if name == "hurt":
-            return NotImplementedError
-        return NotImplementedError
+            return [72] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Leopard(Tier6):
+class Leopard(_Tier6):
     def __init__(self):
         super(Leopard, self).__init__(6, 4)
 
     def trigger(self, name):
         if name == "start battle":
-            return NotImplementedError
-        return NotImplementedError
+            return [73] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Mammoth(Tier6):
+class Mammoth(_Tier6):
     def __init__(self):
         super(Mammoth, self).__init__(2, 6)
 
     def trigger(self, name):
         if name == "on faint":
-            return NotImplementedError
-        return NotImplementedError
+            return [74] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Snake(Tier6):
+class Snake(_Tier6):
     def __init__(self):
         super(Snake, self).__init__(6, 6)
 
     def trigger(self, name):
         if name == "friend ahead attacks":
-            return NotImplementedError
-        return NotImplementedError
+            return [77] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
 
 
-class Tiger(Tier6):
+class Tiger(_Tier6):
     def __init__(self):
         super(Tiger, self).__init__(4, 3)
+
+    def trigger(self, name):
+        # how to make it trigger animal in front's ability twice
+        if name == "start battle":
+            return [78] + [self.equipment.trigger(name)]
+        return [0] + [self.equipment.trigger(name)]
