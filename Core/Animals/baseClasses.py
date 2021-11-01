@@ -1,8 +1,10 @@
-# noinspection PyUnusedLocal
+# noinspection PyUnusedLocal,PyMethodMayBeStatic
 class Animal:
     xp = 0
     battle_hp = 0
     battle_atk = 0
+
+    equipment = None
 
     def __init__(self, atk, hp):
         self.hp = hp
@@ -21,3 +23,9 @@ class Animal:
 
     def trigger(self, name):
         return NotImplementedError
+
+
+# noinspection PyUnusedLocal,PyMethodMayBeStatic
+class Equipment:
+    def trigger(self, name):
+        return 0
