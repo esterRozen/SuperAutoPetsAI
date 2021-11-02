@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # paid_1 pack
 
 
@@ -17,8 +17,8 @@ class Dragon(_Tier6):
 
     def trigger(self, name):
         if name == "buy t1 pet":
-            return [70] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 70
+        return 0
 
 
 class Gorilla(_Tier6):
@@ -27,8 +27,8 @@ class Gorilla(_Tier6):
 
     def trigger(self, name):
         if name == "hurt":
-            return [72] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 72
+        return 0
 
 
 class Leopard(_Tier6):
@@ -37,8 +37,8 @@ class Leopard(_Tier6):
 
     def trigger(self, name):
         if name == "start battle":
-            return [73] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 73
+        return 0
 
 
 class Mammoth(_Tier6):
@@ -47,8 +47,8 @@ class Mammoth(_Tier6):
 
     def trigger(self, name):
         if name == "on faint":
-            return [74] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 74
+        return 0
 
 
 class Octopus(_Tier6):
@@ -57,10 +57,10 @@ class Octopus(_Tier6):
 
     def trigger(self, name):
         if self.level == 3 and name == "before attack":
-            return [75] + [self.equipment.trigger(name)]
+            return 75
         elif name == "on level":
-            return [75] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 75
+        return 0
 
 
 class Sauropod(_Tier6):
@@ -69,8 +69,8 @@ class Sauropod(_Tier6):
 
     def trigger(self, name):
         if name == "buy food":
-            return [76] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 76
+        return 0
 
 
 class Tyrannosaurus(_Tier6):
@@ -79,6 +79,6 @@ class Tyrannosaurus(_Tier6):
 
     def trigger(self, name):
         if name == "end turn":
-            return [79] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 79
+        return 0
 

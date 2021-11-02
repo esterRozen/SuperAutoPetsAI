@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # base pack
 
 
@@ -17,8 +17,8 @@ class Cow(_Tier5):
 
     def trigger(self, name):
         if name == "buy":
-            return [58] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 58
+        return 0
 
 
 class Crocodile(_Tier5):
@@ -27,8 +27,8 @@ class Crocodile(_Tier5):
 
     def trigger(self, name):
         if name == "start battle":
-            return [59] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 59
+        return 0
 
 
 class Parrot(_Tier5):
@@ -37,8 +37,8 @@ class Parrot(_Tier5):
 
     def trigger(self, name):
         if name == "end turn":
-            return [63] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 63
+        return 0
 
 
 class Rhino(_Tier5):
@@ -47,8 +47,8 @@ class Rhino(_Tier5):
 
     def trigger(self, name):
         if name == "knock out":
-            return [64] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 64
+        return 0
 
 
 class Scorpion(_Tier5):
@@ -56,7 +56,7 @@ class Scorpion(_Tier5):
         super(Scorpion, self).__init__(1, 1)
 
     def trigger(self, name):
-        return [0] + [self.equipment.trigger(name)]
+        return 0
 
 
 class Seal(_Tier5):
@@ -65,8 +65,8 @@ class Seal(_Tier5):
 
     def trigger(self, name):
         if name == "eat food":
-            return [66] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 66
+        return 0
 
 
 class Shark(_Tier5):
@@ -75,8 +75,8 @@ class Shark(_Tier5):
 
     def trigger(self, name):
         if name == "friend faints":
-            return [67] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 67
+        return 0
 
 
 class Turkey(_Tier5):
@@ -85,5 +85,5 @@ class Turkey(_Tier5):
 
     def trigger(self, name):
         if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return [68] + [self.equipment.trigger(name)]
+            return 68
         return 0

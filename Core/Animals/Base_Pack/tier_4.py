@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # base pack
 
 
@@ -17,8 +17,8 @@ class Bison(_Tier4):
 
     def trigger(self, name):
         if name == "end turn":
-            return [43] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 43
+        return 0
 
 
 class Deer(_Tier4):
@@ -27,8 +27,8 @@ class Deer(_Tier4):
 
     def trigger(self, name):
         if name == "on faint":
-            return [45] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 45
+        return 0
 
 
 class Dolphin(_Tier4):
@@ -37,8 +37,8 @@ class Dolphin(_Tier4):
 
     def trigger(self, name):
         if name == "start battle":
-            return [46] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 46
+        return 0
 
 
 class Hippo(_Tier4):
@@ -47,8 +47,8 @@ class Hippo(_Tier4):
 
     def trigger(self, name):
         if name == "knock out":
-            return [47] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 47
+        return 0
 
 
 class Monkey(_Tier4):
@@ -57,8 +57,8 @@ class Monkey(_Tier4):
 
     def trigger(self, name):
         if name == "end turn":
-            return [50] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 50
+        return 0
 
 
 class Penguin(_Tier4):
@@ -67,8 +67,8 @@ class Penguin(_Tier4):
 
     def trigger(self, name):
         if name == "end turn":
-            return [51] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 51
+        return 0
 
 
 class Rooster(_Tier4):
@@ -77,8 +77,8 @@ class Rooster(_Tier4):
 
     def trigger(self, name):
         if name == "on faint":
-            return [53] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 53
+        return 0
 
 
 class Skunk(_Tier4):
@@ -87,8 +87,8 @@ class Skunk(_Tier4):
 
     def trigger(self, name):
         if name == "start battle":
-            return [54] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 54
+        return 0
 
 
 class Squirrel(_Tier4):
@@ -97,8 +97,8 @@ class Squirrel(_Tier4):
 
     def trigger(self, name):
         if name == "buy":
-            return [55] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 55
+        return 0
 
 
 class Worm(_Tier4):
@@ -107,5 +107,5 @@ class Worm(_Tier4):
 
     def trigger(self, name):
         if name == "eat food":
-            return [56] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 56
+        return 0

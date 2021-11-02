@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # base pack
 
 
@@ -17,8 +17,8 @@ class Cat(_Tier6):
 
     def trigger(self, name):
         if name == "buy food":
-            return [69] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 69
+        return 0
 
 
 class Dragon(_Tier6):
@@ -27,8 +27,8 @@ class Dragon(_Tier6):
 
     def trigger(self, name):
         if name == "buy t1 pet":
-            return [70] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 70
+        return 0
 
 
 class Fly(_Tier6):
@@ -37,8 +37,8 @@ class Fly(_Tier6):
 
     def trigger(self, name):
         if name == "friend faints":
-            return [71] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 71
+        return 0
 
 
 class Gorilla(_Tier6):
@@ -47,8 +47,8 @@ class Gorilla(_Tier6):
 
     def trigger(self, name):
         if name == "hurt":
-            return [72] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 72
+        return 0
 
 
 class Leopard(_Tier6):
@@ -57,8 +57,8 @@ class Leopard(_Tier6):
 
     def trigger(self, name):
         if name == "start battle":
-            return [73] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 73
+        return 0
 
 
 class Mammoth(_Tier6):
@@ -67,8 +67,8 @@ class Mammoth(_Tier6):
 
     def trigger(self, name):
         if name == "on faint":
-            return [74] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 74
+        return 0
 
 
 class Snake(_Tier6):
@@ -77,8 +77,8 @@ class Snake(_Tier6):
 
     def trigger(self, name):
         if name == "friend ahead attacks":
-            return [77] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 77
+        return 0
 
 
 class Tiger(_Tier6):
@@ -88,5 +88,5 @@ class Tiger(_Tier6):
     def trigger(self, name):
         # how to make it trigger animal in front's ability twice
         if name == "start battle":
-            return [78] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 78
+        return 0

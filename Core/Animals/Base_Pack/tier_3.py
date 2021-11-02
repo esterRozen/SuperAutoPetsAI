@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # base pack
 
 
@@ -17,8 +17,8 @@ class Badger(_Tier3):
 
     def trigger(self, name):
         if name == "on faint":
-            return [27] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 27
+        return 0
 
 
 class Blowfish(_Tier3):
@@ -27,8 +27,8 @@ class Blowfish(_Tier3):
 
     def trigger(self, name):
         if name == "hurt":
-            return [28] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 28
+        return 0
 
 
 class Camel(_Tier3):
@@ -37,8 +37,8 @@ class Camel(_Tier3):
 
     def trigger(self, name):
         if name == "hurt":
-            return [29] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 29
+        return 0
 
 
 class Giraffe(_Tier3):
@@ -47,8 +47,8 @@ class Giraffe(_Tier3):
 
     def trigger(self, name):
         if name == "end turn":
-            return [31] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 31
+        return 0
 
 
 class Kangaroo(_Tier3):
@@ -57,8 +57,8 @@ class Kangaroo(_Tier3):
 
     def trigger(self, name):
         if name == "friend ahead attacks":
-            return [33] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 33
+        return 0
 
 
 class Ox(_Tier3):
@@ -67,8 +67,8 @@ class Ox(_Tier3):
 
     def trigger(self, name):
         if name == "friend ahead faints":
-            return [35] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 35
+        return 0
 
 
 class Rabbit(_Tier3):
@@ -77,8 +77,8 @@ class Rabbit(_Tier3):
 
     def trigger(self, name):
         if name == "friend eats food":
-            return [37] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 37
+        return 0
 
 
 class Sheep(_Tier3):
@@ -87,8 +87,8 @@ class Sheep(_Tier3):
 
     def trigger(self, name):
         if name == "on faint":
-            return [38] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 38
+        return 0
 
 
 class Snail(_Tier3):
@@ -97,8 +97,8 @@ class Snail(_Tier3):
 
     def trigger(self, name):
         if name == "buy":
-            return [39] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 39
+        return 0
 
 
 class Turtle(_Tier3):
@@ -107,8 +107,8 @@ class Turtle(_Tier3):
 
     def trigger(self, name):
         if name == "on faint":
-            return [41] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 41
+        return 0
 
 
 class Whale(_Tier3):
@@ -117,5 +117,5 @@ class Whale(_Tier3):
 
     def trigger(self, name):
         if name == "start battle":
-            return [42] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 42
+        return 0

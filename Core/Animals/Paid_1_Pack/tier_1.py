@@ -1,7 +1,8 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # paid_1 pack
 
 
+# each animal only needs to handle 
 class _Tier1(Animal):
     def __init__(self, atk, hp):
         super(_Tier1, self).__init__(atk, hp)
@@ -17,8 +18,8 @@ class Ant(_Tier1):
 
     def trigger(self, name):
         if name == "on faint":
-            return [1] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 1
+        return 0
 
 
 class Beaver(_Tier1):
@@ -27,8 +28,8 @@ class Beaver(_Tier1):
 
     def trigger(self, name):
         if name == "sell":
-            return [2] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 2
+        return 0
 
 
 class Beetle(_Tier1):
@@ -37,8 +38,8 @@ class Beetle(_Tier1):
 
     def trigger(self, name):
         if name == "eat food":
-            return [3] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 3
+        return 0
 
 
 class Bluebird(_Tier1):
@@ -47,8 +48,8 @@ class Bluebird(_Tier1):
 
     def trigger(self, name):
         if name == "end turn":
-            return [4] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 4
+        return 0
 
 
 class Cricket(_Tier1):
@@ -57,8 +58,8 @@ class Cricket(_Tier1):
 
     def trigger(self, name):
         if name == "on faint":
-            return [5] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 5
+        return 0
 
 
 class Fish(_Tier1):
@@ -67,8 +68,8 @@ class Fish(_Tier1):
 
     def trigger(self, name):
         if name == "on level":
-            return [7] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 7
+        return 0
 
 
 class Ladybug(_Tier1):
@@ -77,8 +78,8 @@ class Ladybug(_Tier1):
 
     def trigger(self, name):
         if name == "buy food":
-            return [9] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 9
+        return 0
 
 
 class Mosquito(_Tier1):
@@ -87,8 +88,8 @@ class Mosquito(_Tier1):
 
     def trigger(self, name):
         if name == "start battle":
-            return [10] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 10
+        return 0
 
 
 class Pig(_Tier1):
@@ -97,5 +98,5 @@ class Pig(_Tier1):
 
     def trigger(self, name):
         if name == "sell":
-            return [12] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 12
+        return 0

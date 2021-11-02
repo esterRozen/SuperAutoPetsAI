@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal, Equipment
+from Core.Animals.simpleClasses import Animal, Equipment
 # paid_1 pack
 
 
@@ -17,8 +17,8 @@ class Chicken(_Tier5):
 
     def trigger(self, name):
         if name == "buy t1 pet":
-            return [57] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 57
+        return 0
 
 
 class Cow(_Tier5):
@@ -27,8 +27,8 @@ class Cow(_Tier5):
 
     def trigger(self, name):
         if name == "buy":
-            return [58] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 58
+        return 0
 
 
 class Eagle(_Tier5):
@@ -37,8 +37,8 @@ class Eagle(_Tier5):
 
     def trigger(self, name):
         if name == "on faint":
-            return [60] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 60
+        return 0
 
 
 class Goat(_Tier5):
@@ -47,8 +47,8 @@ class Goat(_Tier5):
 
     def trigger(self, name):
         if name == "friend bought":
-            return [61] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 61
+        return 0
 
 
 class Microbe(_Tier5):
@@ -57,8 +57,8 @@ class Microbe(_Tier5):
 
     def trigger(self, name):
         if name == "on faint":
-            return [62] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 62
+        return 0
 
 
 class Rhino(_Tier5):
@@ -67,8 +67,8 @@ class Rhino(_Tier5):
 
     def trigger(self, name):
         if name == "knock out":
-            return [64] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 64
+        return 0
 
 
 class Scorpion(_Tier5):
@@ -76,7 +76,7 @@ class Scorpion(_Tier5):
         super(Scorpion, self).__init__(1, 1)
 
     def trigger(self, name):
-        return [0] + [self.equipment.trigger(name)]
+        return 0
 
 
 class Seal(_Tier5):
@@ -85,5 +85,5 @@ class Seal(_Tier5):
 
     def trigger(self, name):
         if name == "eat food":
-            return [66] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 66
+        return 0

@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Animal
+from Core.Animals.simpleClasses import Animal
 # base pack
 
 
@@ -17,8 +17,8 @@ class Ant(_Tier1):
 
     def trigger(self, name):
         if name == "on faint":
-            return [1] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 1
+        return 0
 
 
 class Beaver(_Tier1):
@@ -27,8 +27,8 @@ class Beaver(_Tier1):
 
     def trigger(self, name):
         if name == "sell":
-            return [2] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 2
+        return 0
 
 
 class Cricket(_Tier1):
@@ -37,8 +37,8 @@ class Cricket(_Tier1):
 
     def trigger(self, name):
         if name == "on faint":
-            return [5] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 5
+        return 0
 
 
 class Duck(_Tier1):
@@ -47,8 +47,8 @@ class Duck(_Tier1):
 
     def trigger(self, name):
         if name == "sell":
-            return [6] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 6
+        return 0
 
 
 class Fish(_Tier1):
@@ -57,8 +57,8 @@ class Fish(_Tier1):
 
     def trigger(self, name):
         if name == "on level":
-            return [7] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 7
+        return 0
 
 
 class Horse(_Tier1):
@@ -67,8 +67,8 @@ class Horse(_Tier1):
 
     def trigger(self, name):
         if name == "friend summoned (battle)":
-            return [8] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 8
+        return 0
 
 
 class Otter(_Tier1):
@@ -77,5 +77,5 @@ class Otter(_Tier1):
 
     def trigger(self, name):
         if name == "buy":
-            return [11] + [self.equipment.trigger(name)]
-        return [0] + [self.equipment.trigger(name)]
+            return 11
+        return 0

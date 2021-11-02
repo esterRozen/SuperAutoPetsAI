@@ -1,4 +1,4 @@
-from Core.Animals.baseClasses import Equipment
+from Core.Animals.simpleClasses import Equipment
 
 
 class _Tier3(Equipment):
