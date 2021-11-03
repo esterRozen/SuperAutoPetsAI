@@ -1,3 +1,5 @@
+from Core.GameElements.simpleClasses import Roster
+
 animals = [
     "Nop",  # No action
     "Ant", "Beaver", "Beetle", "Bluebird", "Cricket", "Duck", "Fish", "Horse", "Ladybug", "Mosquito", "Otter",
@@ -22,6 +24,15 @@ equipment = [
     "Chili", "Chocolate", "Sushi",  # Tier 5
     "Melon", "Mushroom", "Pizza", "Steak"  # Tier 6
 ]
+
+roster = Roster(5)
+
+
+class MessageHandler:
+    inShop = True
+
+    def __init__(self):
+        pass
 
 
 if __name__ == '__main__':
