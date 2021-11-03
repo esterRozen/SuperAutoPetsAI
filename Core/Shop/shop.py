@@ -1,4 +1,4 @@
-from Core.Animals.spawner import Spawner
+from Core.GameElements.spawner import Spawner
 
 
 class Shop:
