@@ -1,5 +1,7 @@
-from Core.Animals.simpleClasses import Animal, Equipment
-# paid_1 pack
+from Core.GameElements.simpleClasses import Animal
+
+
+# base pack
 
 
 class _Tier5(Animal):
@@ -9,16 +11,6 @@ class _Tier5(Animal):
     @staticmethod
     def tier():
         return 5
-
-
-class Chicken(_Tier5):
-    def __init__(self):
-        super(Chicken, self).__init__(3, 4)
-
-    def trigger(self, name):
-        if name == "buy t1 pet":
-            return 57
-        return 0
 
 
 class Cow(_Tier5):
@@ -31,33 +23,23 @@ class Cow(_Tier5):
         return 0
 
 
-class Eagle(_Tier5):
+class Crocodile(_Tier5):
     def __init__(self):
-        super(Eagle, self).__init__(6, 5)
+        super(Crocodile, self).__init__(6, 3)
 
     def trigger(self, name):
-        if name == "on faint":
-            return 60
+        if name == "start battle":
+            return 59
         return 0
 
 
-class Goat(_Tier5):
+class Parrot(_Tier5):
     def __init__(self):
-        super(Goat, self).__init__(4, 5)
+        super(Parrot, self).__init__(3, 2)
 
     def trigger(self, name):
-        if name == "friend bought":
-            return 61
-        return 0
-
-
-class Microbe(_Tier5):
-    def __init__(self):
-        super(Microbe, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == "on faint":
-            return 62
+        if name == "end turn":
+            return 63
         return 0
 
 
@@ -86,4 +68,24 @@ class Seal(_Tier5):
     def trigger(self, name):
         if name == "eat food":
             return 66
+        return 0
+
+
+class Shark(_Tier5):
+    def __init__(self):
+        super(Shark, self).__init__(4, 4)
+
+    def trigger(self, name):
+        if name == "friend faints":
+            return 67
+        return 0
+
+
+class Turkey(_Tier5):
+    def __init__(self):
+        super(Turkey, self).__init__(3, 4)
+
+    def trigger(self, name):
+        if name == "friend summoned (battle)" or "friend summoned (shop)":
+            return 68
         return 0

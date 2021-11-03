@@ -1,8 +1,7 @@
-from Core.Animals.simpleClasses import Animal, Equipment
-# paid_1 pack
+from Core.GameElements.simpleClasses import Animal
+# base pack
 
 
-# each animal only needs to handle 
 class _Tier1(Animal):
     def __init__(self, atk, hp):
         super(_Tier1, self).__init__(atk, hp)
@@ -32,26 +31,6 @@ class Beaver(_Tier1):
         return 0
 
 
-class Beetle(_Tier1):
-    def __init__(self):
-        super(Beetle, self).__init__(2, 3)
-
-    def trigger(self, name):
-        if name == "eat food":
-            return 3
-        return 0
-
-
-class Bluebird(_Tier1):
-    def __init__(self):
-        super(Bluebird, self).__init__(2, 1)
-
-    def trigger(self, name):
-        if name == "end turn":
-            return 4
-        return 0
-
-
 class Cricket(_Tier1):
     def __init__(self):
         super(Cricket, self).__init__(1, 2)
@@ -59,6 +38,16 @@ class Cricket(_Tier1):
     def trigger(self, name):
         if name == "on faint":
             return 5
+        return 0
+
+
+class Duck(_Tier1):
+    def __init__(self):
+        super(Duck, self).__init__(1, 2)
+
+    def trigger(self, name):
+        if name == "sell":
+            return 6
         return 0
 
 
@@ -72,31 +61,21 @@ class Fish(_Tier1):
         return 0
 
 
-class Ladybug(_Tier1):
+class Horse(_Tier1):
     def __init__(self):
-        super(Ladybug, self).__init__(1, 3)
+        super(Horse, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "buy food":
-            return 9
+        if name == "friend summoned (battle)":
+            return 8
         return 0
 
 
-class Mosquito(_Tier1):
+class Otter(_Tier1):
     def __init__(self):
-        super(Mosquito, self).__init__(2, 2)
+        super(Otter, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == "start battle":
-            return 10
-        return 0
-
-
-class Pig(_Tier1):
-    def __init__(self):
-        super(Pig, self).__init__(2, 2)
-
-    def trigger(self, name):
-        if name == "sell":
-            return 12
+        if name == "buy":
+            return 11
         return 0
