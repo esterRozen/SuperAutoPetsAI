@@ -1,4 +1,4 @@
-from Core.Animals.simpleClasses import Equipment
+from Core.GameElements.simpleClasses import Equipment
 
 
 class _Tier6(Equipment):
