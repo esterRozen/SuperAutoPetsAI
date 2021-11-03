@@ -1,13 +1,16 @@
-import sys, inspect
-from Core.Animals.Base_Pack import *
+import inspect
+import sys
+
+# noinspection PyUnresolvedReferences
+from Core.GameElements.Base_Pack import *
 
 
 # meat and potatoes of it
-# this will create a list of all different animal objects, sorted into sublists
+# this will create a list of all different animal objects, sorted into sub-lists
 # according to their respective tiers
 class Base:
     def __init__(self):
-        self.animals = [[],[],[],[],[],[]]
+        self.animals = [[], [], [], [], [], []]
         for name, obj in inspect.getmembers(sys.modules[__name__]):
             if inspect.isclass(obj):
                 class_name = inspect.getmodule(obj).__name__
@@ -24,4 +27,3 @@ class Base:
                         self.animals[4] += [obj()]
                     elif class_name.endswith("tier_6"):
                         self.animals[5] += [obj()]
-

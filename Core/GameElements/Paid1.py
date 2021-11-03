@@ -1,9 +1,12 @@
-import sys, inspect
-from Core.Animals.Paid_1_Pack import *
+import inspect
+import sys
+
+# noinspection PyUnresolvedReferences
+from Core.GameElements.Paid_1_Pack import *
 
 
 # meat and potatoes of it
-# this will create a list of all different animal objects, sorted into sublists
+# this will create a list of all different animal objects, sorted into sub-lists
 # according to their respective tiers
 class Paid1:
     def __init__(self):
