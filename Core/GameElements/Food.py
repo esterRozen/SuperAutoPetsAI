@@ -14,7 +14,7 @@ class Items:
         for name, obj in inspect.getmembers(sys.modules[__name__]):
             if inspect.isclass(obj):
                 class_name = inspect.getmodule(obj).__name__
-                if class_name.startswith('Core.Animals.Equipment'):
+                if class_name.startswith('Core.GameElements.Equipment'):
                     if class_name.endswith("tier_1"):
                         self.items[0] += [obj()]
                     elif class_name.endswith("tier_2"):
