@@ -16,6 +16,14 @@ class Animal:
     def level(self):
         return min(self.xp // 3 + 1, 3)
 
+    def permanent_buff(self, hp, atk):
+        self.hp += hp
+        self.atk += atk
+
+        self.battle_hp += hp
+        self.battle_atk += atk
+        return
+
     def reset_stats(self):
         self.battle_hp = self.hp
         self.battle_atk = self.atk
@@ -34,16 +42,19 @@ class Equipment:
 
 class Roster:
     def __init__(self, size):
-        self.contents = [None] * size
+        self._contents = [None] * size
         self.max_size = size
 
+    def item(self, position):
+        return self._contents[position]
+
     def remove(self, position):
-        item = self.contents[position]
-        self.contents[position] = None
+        item = self._contents[position]
+        self._contents[position] = None
         return item
 
     def clear(self):
-        self.contents = [None] * self.max_size
+        self._contents = [None] * self.max_size
 
     def grow(self):
         self.max_size += 1
@@ -56,8 +67,8 @@ class Roster:
         """
         i = 0
         while i < self.max_size:
-            if self.contents[i] is None:
-                self.contents[i] = item
+            if self._contents[i] is None:
+                self._contents[i] = item
                 return i
         return -1
 
@@ -68,27 +79,27 @@ class Roster:
         :param position:
         :return: -1 on failure
         """
-        if self.contents.count(None) == 0:
+        if self._contents.count(None) == 0:
             return -1
 
-        if self.contents[position] is None:
+        if self._contents[position] is None:
             pass
         # if you need to, shift stuff to the right.
-        elif self.contents[position:].count(None) != 0:
-            value = self.contents[position]
+        elif self._contents[position:].count(None) != 0:
+            value = self._contents[position]
             self._shift_right_recurse(position, value)
-        elif self.contents[:position].count(None) != 0:
-            value = self.contents[position]
+        elif self._contents[:position].count(None) != 0:
+            value = self._contents[position]
             self._shift_left_recurse(position, value)
 
-        self.contents[position] = item
+        self._contents[position] = item
         return 1
 
     def _shift_left_recurse(self, position, value):
-        if self.contents[position - 1] is not None:
-            nextValue = self.contents[position - 1]
+        if self._contents[position - 1] is not None:
+            nextValue = self._contents[position - 1]
             self._shift_left_recurse(position - 1, nextValue)
-        self.contents[position - 1] = value
+        self._contents[position - 1] = value
 
     def _shift_right_recurse(self, position, value):
         """
@@ -98,7 +109,7 @@ class Roster:
         :param value:
         :return:
         """
-        if self.contents[position + 1] is not None:
-            nextValue = self.contents[position + 1]
+        if self._contents[position + 1] is not None:
+            nextValue = self._contents[position + 1]
             self._shift_right_recurse(position + 1, nextValue)
-        self.contents[position + 1] = value
+        self._contents[position + 1] = value
