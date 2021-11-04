@@ -71,6 +71,16 @@ class Horse(_Tier1):
         return 0
 
 
+class Mosquito(_Tier1):
+    def __init__(self):
+        super(Mosquito, self).__init__(2, 2)
+
+    def trigger(self, name):
+        if name == "start battle":
+            return 10
+        return 0
+
+
 class Otter(_Tier1):
     def __init__(self):
         super(Otter, self).__init__(1, 2)
@@ -78,4 +88,14 @@ class Otter(_Tier1):
     def trigger(self, name):
         if name == "buy":
             return 11
+        return 0
+
+
+class Pig(_Tier1):
+    def __init__(self):
+        super(Pig, self).__init__(2, 2)
+
+    def trigger(self, name):
+        if name == "sell":
+            return 12
         return 0

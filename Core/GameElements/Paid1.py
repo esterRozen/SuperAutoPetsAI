@@ -14,7 +14,7 @@ class Paid1:
         for name, obj in inspect.getmembers(sys.modules[__name__]):
             if inspect.isclass(obj):
                 class_name = inspect.getmodule(obj).__name__
-                if class_name.startswith('Core.Animals.Paid_1'):
+                if class_name.startswith('Core.GameElements.Paid_1_Pack'):
                     if class_name.endswith("tier_1"):
                         self.animals[0] += [obj()]
                     elif class_name.endswith("tier_2"):
