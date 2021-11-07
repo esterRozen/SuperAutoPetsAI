@@ -2,6 +2,7 @@ from abc import ABC
 
 import gym
 from gym import spaces
+import API
 
 
 class SAP_Game(gym.Env):
@@ -24,7 +25,9 @@ class SAP_Game(gym.Env):
                 'ShopSlot5': spaces.MultiDiscrete([80, 50, 50]),
                 'ShopSlot6': spaces.MultiDiscrete([80, 50, 50]),
                 'ShopSlot7': spaces.Discrete(15),
-                'ShopSlot8': spaces.Discrete(15)
+                'ShopSlot8': spaces.Discrete(15),
+                'Gold': spaces.Discrete(15),
+                'Turn': spaces.Discrete(20)
             }
         )
 
@@ -32,6 +35,7 @@ class SAP_Game(gym.Env):
         pass
 
     def step(self, action):
+        #
         # return state, reward, done, info
         pass
 
