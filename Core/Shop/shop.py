@@ -4,27 +4,53 @@ from Core.GameElements.simpleClasses import Animal
 
 class Shop:
     def __init__(self, mode, num, tier):
-        self._spawner = Spawner(mode)
+        self._mode = mode
         self._shop_size = num
+        self._food_shop_size = 1
         self._tier = tier
         # populate with 3 tier 1 animals and 1 tier 1 food
         # mark all unfrozen
-        if mode == "paid_1" or mode == "base":
-            slot = AnimalShopSlot
-        elif mode == "food":
-            slot = ShopSlot
-        else:
-            raise ValueError
-        self.roster = [slot(item) for item in self._spawner.spawn_n(num, tier)]
+
+        self.roster = [ShopSlot(mode) for _ in range(num)]
+        self.roster += [ShopSlot("food")]
 
     def summon_level_unit(self):
-        unit = self._spawner.spawn_tier(self._tier+1)
+        # if size < 7, push food over
+        if len(self.roster) < 7:
+            i = 0
+            idx_found = False
+            while i < 7 and not idx_found:
+                if self.roster[i].mode == "food":
+                    idx_found = True
+                else:
+                    i += 1
+            self.roster.insert(i, ShopSlot(self._mode))
+            self.roster[i].spawn_tier(self._tier+1)
+        else:
+            pass
 
     def clear_unfrozen(self):
         for slot in self.roster:
             if not slot.is_frozen:
                 slot.item = None
-        return
+
+        j = 0
+        for i in range(self._shop_size):
+            if self.roster[i].item is not None:
+                self.roster[j].item = self.roster[i].item
+                j += 1
+        # if the first item of the food shop is an animal send it back!!
+        if type(self.roster[self._shop_size].item) == Animal:
+            self.roster[j].item = self.roster[self._shop_size].item
+
+        j = self._shop_size
+        for i in range(self._shop_size, self._shop_size+self._food_shop_size):
+            if self.roster[i].item is not None:
+                self.roster[j].item = self.roster[i].item
+
+    def clear(self):
+        for slot in self.roster:
+            slot.item = None
 
     def fill_shop(self):
         """
@@ -33,8 +59,7 @@ class Shop:
         """
         for slot in self.roster:
             if slot.item is None:
-                slot.item = self._spawner
-        pass
+                slot.spawn(self._tier)
 
     def item(self, position):
         if position >= self._shop_size or position < 0:
@@ -60,8 +85,10 @@ class Shop:
 class ShopSlot:
     is_frozen = False
 
-    def __init__(self, item):
-        self.item = item
+    def __init__(self, mode):
+        self.mode = mode
+        self.spawner = Spawner(mode)
+        self.item = None
 
     def toggle_freeze(self):
         self.is_frozen = not self.is_frozen
@@ -71,6 +98,12 @@ class ShopSlot:
         self.item = None
         self.is_frozen = False
         return item
+
+    def spawn(self, max_tier):
+        self.item = self.spawner.spawn(max_tier)
+
+    def spawn_tier(self, tier):
+        self.item = self.spawner.spawn_tier(tier)
 
 
 class AnimalShopSlot(ShopSlot):
