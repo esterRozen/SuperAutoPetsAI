@@ -24,6 +24,14 @@ class Team:
             return None
         return self.animals[random.choice(a)]
 
+    def friends(self):
+        a: List[int] = list(range(0, 5))
+        a.remove(self.acting)
+        for i in a:
+            if isinstance(self.animals[i], Empty):
+                a.remove(i)
+        return [self.animals[i] for i in a]
+
     def random_friends(self, n):
         a = list(range(0, 5))
         a.remove(self.acting)
