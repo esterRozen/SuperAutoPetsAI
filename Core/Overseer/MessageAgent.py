@@ -159,8 +159,14 @@ class MessageHandler(BaseHandler):
         else:
             self.team.random_friend().permanent_buff(3, 3)
 
-    # have to implement money
+    # gain extra +1/2/3 gold on sell
     def _pig(self):
+        if self.lvl == 1:
+            self.gold += 1
+        elif self.lvl == 2:
+            self.gold += 2
+        else:
+            self.gold += 3
         pass
 
     # have to implement equipments
@@ -174,10 +180,20 @@ class MessageHandler(BaseHandler):
         pass
 
     def _dog(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(1, 1)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(3, 3)
 
     def _dromedary(self):
-        pass
+        if self.lvl == 1:
+            self.shop.buff(1, 1)
+        elif self.lvl == 2:
+            self.shop.buff(2, 2)
+        else:
+            self.shop.buff(3, 3)
 
     def _elephant(self):
         pass
@@ -185,30 +201,55 @@ class MessageHandler(BaseHandler):
     def _flamingo(self):
         pass
 
+    # hedgehog has to trigger the hurt trigger!!
     def _hedgehog(self):
         pass
 
     def _peacock(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].temp_buff(2, 0)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].temp_buff(4, 0)
+        else:
+            self.team.animals[self.team.acting].temp_buff(6, 0)
 
+    # summons, ugh
     def _rat(self):
         pass
 
     def _shrimp(self):
-        pass
+        if self.lvl == 1:
+            self.team.random_friend().temp_buff(0, 1)
+        elif self.lvl == 2:
+            self.team.random_friend().temp_buff(0, 2)
+        else:
+            self.team.random_friend().temp_buff(0, 3)
 
+    # more summons!!
     def _spider(self):
         pass
 
     def _swan(self):
-        pass
+        if self.lvl == 1:
+            self.gold += 1
+        elif self.lvl == 2:
+            self.gold += 2
+        else:
+            self.gold += 3
 
     def _tabby_cat(self):
-        pass
+        if self.lvl == 1:
+            [friend.temp_buff(1, 0) for friend in self.team.friends()]
+        elif self.lvl == 2:
+            [friend.temp_buff(2, 0) for friend in self.team.friends()]
+        else:
+            [friend.temp_buff(3, 0) for friend in self.team.friends()]
 
+    # triggers hurt ugh
     def _badger(self):
         pass
 
+    # triggers hurt
     def _blowfish(self):
         pass
 
@@ -216,7 +257,13 @@ class MessageHandler(BaseHandler):
         pass
 
     def _caterpillar(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].xp += 1
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].xp += 1
+        else:
+            # TODO caterpillar level 3
+            pass
 
     def _giraffe(self):
         pass
