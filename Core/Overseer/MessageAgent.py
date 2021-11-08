@@ -1,7 +1,7 @@
 from Core.Shop.shop import Shop
 from Core.Overseer.BaseHandler import BaseHandler
-from Core.GameElements.simpleClasses import Animal, Empty, Equipment
-from Core.GameElements.team import Team
+from Core.GameElements.simpleClasses import Empty, Equipment, Animal
+from Core.Team.team import Team
 
 animals = [
     "Nop",  # No action
@@ -31,7 +31,10 @@ equipment = [
 
 # noinspection DuplicatedCode
 class ShopMessageHandler(BaseHandler):
+    in_shop = True
     def __init__(self, mode):
+        self.lvl = 0
+        self.event_raiser = 0
         self.team = Team([Empty()]*5, [Equipment()]*5)
         self.shop = Shop(mode, 3, 1)
         self.func = [self._nop,
@@ -51,7 +54,7 @@ class ShopMessageHandler(BaseHandler):
                      ]
 
     def load(self, team):
-        # re-enter the shop
+        # re-enter the shop from a given game state
         pass
 
     def send_engine_message(self, message):
@@ -61,68 +64,104 @@ class ShopMessageHandler(BaseHandler):
 
     def handle(self, message):
         # trigger function that manipulates roster
+        self.lvl = self.team.level()
         self.func[message]()
+
+    def buff(self, unit: Animal, atk, hp):
+        if self.in_shop:
+            unit.permanent_buff(atk, hp)
+        else:
+            unit.temp_buff(atk, hp)
+        return
 
     def _nop(self):
         pass
 
+    # assume event which triggered event handler has already resolved!!!
     def _ant(self):
         # permanently buff random animal on team.
-        lvl = self.team.level()
         friend = self.team.random_friend()
-
         if friend == []:
             return
-        if lvl == 1:
-            friend.permenent_buff(2, 1)
-        elif lvl == 2:
-            friend.permanent_buff(4, 2)
+        if self.lvl == 1:
+            self.buff(friend, 2, 1)
+        elif self.lvl == 2:
+            self.buff(friend, 4, 2)
         else:
-            friend.permanent_buff(6, 3)
+            self.buff(friend, 6, 3)
 
+    # on sell give 2 +1/2/3 hp
     def _beaver(self):
-        lvl = self.roster[self.acting].level()
-
         friends = self.team.random_friends(2)
         if friends == []:
             return
-        if lvl == 1:
+        if self.lvl == 1:
             [friend.permanent_buff(1, 0) for friend in friends]
-        elif lvl == 2:
+        elif self.lvl == 2:
             [friend.permanent_buff(2, 0) for friend in friends]
         else:
             [friend.permanent_buff(3, 0) for friend in friends]
 
     def _beetle(self):
-        pass
+        if self.lvl == 1:
+            self.shop.buff(0, 1)
+        elif self.lvl == 2:
+            self.shop.buff(0, 2)
+        else:
+            self.shop.buff(0, 3)
 
+    # give leftmost friend 1, 2, 3 atk
     def _bluebird(self):
+
         pass
 
+    # how to handle summons???
     def _cricket(self):
         pass
 
     def _duck(self):
-        pass
+        if self.lvl == 1:
+            self.shop.buff(1, 1)
+        elif self.lvl == 2:
+            self.shop.buff(2, 2)
+        else:
+            self.shop.buff(3, 3)
 
+    # on level give all friends +1/1, +2/2, X
     def _fish(self):
         pass
 
+    # friend summoned, give +1/2/3 atk until end of battle
     def _horse(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.event_raiser].temp_buff(1, 0)
+        elif self.lvl == 2:
+            self.team.animals[self.event_raiser].temp_buff(2, 0)
+        else:
+            self.team.animals[self.event_raiser].temp_buff(3, 0)
 
+    #
     def _ladybug(self):
         pass
 
+    # start of battle deal 1/2/3 damage to random enemy
     def _mosquito(self):
         pass
 
+    # buy, give a random friend +1/1, 2/2, 3/3
     def _otter(self):
-        pass
+        if self.lvl == 1:
+            self.team.random_friend().permanent_buff(1, 1)
+        elif self.lvl == 2:
+            self.team.random_friend().permanent_buff(2, 2)
+        else:
+            self.team.random_friend().permanent_buff(3, 3)
 
+    # have to implement money
     def _pig(self):
         pass
 
+    # have to implement equipments
     def _bat(self):
         pass
 
