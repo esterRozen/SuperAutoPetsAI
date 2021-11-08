@@ -38,9 +38,9 @@ class HatchingChick(_Tier3):
         super(HatchingChick, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "end turn" and self.level < 3:
+        if name == "end turn" and self.level() < 3:
             return 32
-        elif name == "start turn" and self.level == 3:
+        elif name == "start turn" and self.level() == 3:
             return 32
         return 0
 
