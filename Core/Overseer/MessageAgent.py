@@ -55,13 +55,17 @@ class MessageHandler(BaseHandler):
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
                      ]
 
-    def load(self, team, turn, gold=10, shop=None):
+    def load(self, team, turn, gold=10, shop=None, hearts=4):
         # re-enter the shop from a given game state
+        # used for simulation/replay
         pass
 
     def send_engine_message(self, message):
         # for unit in roster sorted by descending attack, then descending
         # hp, send message, handle response
+        # sending messages like buy, sell, move, combine, start turn, end turn,
+        # start turn, reroll, freeze/unfreeze, hurt, faint, knock out, attacks,
+        # before attack, unit ahead attacks, unit ahead faints, friend summoned
         pass
 
     def handle(self, message):
