@@ -38,7 +38,8 @@ class Spawner:
 if __name__ == "__main__":
     spawner = Spawner("base")
 
-    spawner.spawn(2)
-    spawner.spawn(3)
-    spawner.spawn_n(3,2)
+    a = spawner.spawn(2)
+    b = spawner.spawn(3)
+    c = spawner.spawn_n(3,2)
+    d = spawner.spawn_tier(4)
     print("end")
