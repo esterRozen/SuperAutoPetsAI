@@ -1,4 +1,4 @@
-# noinspection PyUnusedLocal,PyMethodMayBeStatic
+# noinspection PyUnusedLocal
 class Animal:
     xp = 0
     battle_hp = 0
@@ -14,17 +14,16 @@ class Animal:
         self.battle_hp = hp
         self.battle_atk = atk
 
-    @property
-    def level(self):
-        return min(self.xp // 3 + 1, 3)
-
-    def permanent_buff(self, hp, atk):
+    def permanent_buff(self, atk, hp):
         self.hp += hp
         self.atk += atk
 
         self.battle_hp += hp
         self.battle_atk += atk
         return
+
+    def level(self):
+        return min(self.xp // 3 + 1, 3)
 
     def reset_stats(self):
         self.battle_hp = self.hp
@@ -43,6 +42,14 @@ class Animal:
                 if self.tier < other.tier:
                     return True
         return False
+
+
+class Empty(Animal):
+    def __init__(self):
+        super(Empty, self).__init__(0, 0)
+
+    def level(self):
+        return 0
 
 
 # noinspection PyUnusedLocal,PyMethodMayBeStatic
