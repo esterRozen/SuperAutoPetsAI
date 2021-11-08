@@ -1,5 +1,7 @@
 from Core.Shop.shop import Shop
 from Core.Overseer.BaseHandler import BaseHandler
+from Core.GameElements.simpleClasses import Animal, Empty, Equipment
+from Core.GameElements.team import Team
 
 animals = [
     "Nop",  # No action
@@ -30,7 +32,7 @@ equipment = [
 # noinspection DuplicatedCode
 class ShopMessageHandler(BaseHandler):
     def __init__(self, mode):
-        self.roster = [None]*5
+        self.team = Team([Empty()]*5, [Equipment()]*5)
         self.shop = Shop(mode, 3, 1)
         self.func = [self._nop,
                      self._ant, self._beaver, self._beetle, self._bluebird, self._cricket, self._duck, self._fish,
@@ -65,10 +67,31 @@ class ShopMessageHandler(BaseHandler):
         pass
 
     def _ant(self):
-        pass
+        # permanently buff random animal on team.
+        lvl = self.team.level()
+        friend = self.team.random_friend()
+
+        if friend == []:
+            return
+        if lvl == 1:
+            friend.permenent_buff(2, 1)
+        elif lvl == 2:
+            friend.permanent_buff(4, 2)
+        else:
+            friend.permanent_buff(6, 3)
 
     def _beaver(self):
-        pass
+        lvl = self.roster[self.acting].level()
+
+        friends = self.team.random_friends(2)
+        if friends == []:
+            return
+        if lvl == 1:
+            [friend.permanent_buff(1, 0) for friend in friends]
+        elif lvl == 2:
+            [friend.permanent_buff(2, 0) for friend in friends]
+        else:
+            [friend.permanent_buff(3, 0) for friend in friends]
 
     def _beetle(self):
         pass
@@ -305,8 +328,8 @@ class ShopMessageHandler(BaseHandler):
 # noinspection DuplicatedCode
 class BattleMessageHandler(BaseHandler):
     def __init__(self):
-        self.roster = [None]*5
-        self.enemy = [None]*5
+        self.roster = [Empty]*5
+        self.enemy = [Empty]*5
 
         self.func = [self._nop,
                      self._ant, self._beaver, self._beetle, self._bluebird, self._cricket, self._duck, self._fish,
