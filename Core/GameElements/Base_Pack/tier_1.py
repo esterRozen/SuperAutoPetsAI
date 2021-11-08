@@ -31,6 +31,11 @@ class Beaver(_Tier1):
         return 0
 
 
+class Bee(_Tier1):
+    def __init__(self):
+        super(Bee, self).__init__(1, 1)
+
+
 class Cricket(_Tier1):
     def __init__(self):
         super(Cricket, self).__init__(1, 2)
@@ -99,3 +104,13 @@ class Pig(_Tier1):
         if name == "sell":
             return 12
         return 0
+
+
+class Sloth(_Tier1):
+    def __init__(self):
+        super(Sloth, self).__init__(1, 1)
+
+
+class ZombieCricket(_Tier1):
+    def __init__(self):
+        super(ZombieCricket, self).__init__(1, 1)

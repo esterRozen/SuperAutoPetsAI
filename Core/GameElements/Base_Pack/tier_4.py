@@ -23,6 +23,11 @@ class Bison(_Tier4):
         return 0
 
 
+class Chick(_Tier4):
+    def __init__(self):
+        super(Chick, self).__init__(1, 1)
+
+
 class Deer(_Tier4):
     def __init__(self):
         super(Deer, self).__init__(1, 1)

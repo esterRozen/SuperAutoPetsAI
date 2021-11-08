@@ -83,6 +83,11 @@ class Rabbit(_Tier3):
         return 0
 
 
+class Ram(_Tier3):
+    def __init__(self):
+        super(Ram, self).__init__(2, 2)
+
+
 class Sheep(_Tier3):
     def __init__(self):
         super(Sheep, self).__init__(2, 2)

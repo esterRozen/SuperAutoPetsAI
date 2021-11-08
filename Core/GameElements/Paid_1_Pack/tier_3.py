@@ -23,6 +23,16 @@ class Blowfish(_Tier3):
         return 0
 
 
+class Butterfly(_Tier3):
+    def __init__(self):
+        super(Butterfly, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == "start battle":
+            return NotImplemented
+        return 0
+
+
 class Caterpillar(_Tier3):
     def __init__(self):
         super(Caterpillar, self).__init__(1, 4)
@@ -73,6 +83,11 @@ class Rabbit(_Tier3):
         if name == "friend eats food":
             return 37
         return 0
+
+
+class Ram(_Tier3):
+    def __init__(self):
+        super(Ram, self).__init__(2, 2)
 
 
 class Sheep(_Tier3):

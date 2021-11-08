@@ -33,6 +33,11 @@ class Dragon(_Tier6):
         return 0
 
 
+class FlyFriend(_Tier6):
+    def __init__(self):
+        super(FlyFriend, self).__init__(2, 2)
+
+
 class Fly(_Tier6):
     def __init__(self):
         super(Fly, self).__init__(2, 2)

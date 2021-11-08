@@ -23,6 +23,16 @@ class Bat(_Tier2):
         return 0
 
 
+class DirtyRat(_Tier2):
+    def __init__(self):
+        super(DirtyRat, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == "next unit attacks":
+            return NotImplemented
+        return 0
+
+
 class Dog(_Tier2):
     def __init__(self):
         super(Dog, self).__init__(2, 2)
