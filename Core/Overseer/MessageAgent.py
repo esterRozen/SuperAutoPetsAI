@@ -30,10 +30,12 @@ equipment = [
 
 
 # noinspection DuplicatedCode
-class ShopMessageHandler(BaseHandler):
+class MessageHandler(BaseHandler):
     in_shop = True
     def __init__(self, mode):
         self.lvl = 0
+        self.gold = 0
+        self.turn = 1
         self.event_raiser = 0
         self.team = Team([Empty()]*5, [Equipment()]*5)
         self.shop = Shop(mode, 3, 1)
@@ -53,7 +55,7 @@ class ShopMessageHandler(BaseHandler):
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
                      ]
 
-    def load(self, team):
+    def load(self, team, turn, gold=10, shop=None):
         # re-enter the shop from a given game state
         pass
 
@@ -386,7 +388,7 @@ class BattleMessageHandler(BaseHandler):
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
                      ]
 
-    def load(self, team):
+    def load(self, team, turn):
         # enter new battle with team
         pass
 
@@ -645,5 +647,5 @@ class BattleMessageHandler(BaseHandler):
 
 if __name__ == '__main__':
     while True:
-        a = ShopMessageHandler()
+        a = MessageHandler()
         print(animals[int(input("\nAnimal number: "))])
