@@ -22,6 +22,11 @@ class Animal:
         self.battle_atk += atk
         return
 
+    def temp_buff(self, atk, hp):
+        self.battle_hp += hp
+        self.battle_atk += atk
+        return
+
     def level(self):
         return min(self.xp // 3 + 1, 3)
 
