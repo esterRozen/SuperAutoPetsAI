@@ -1,1 +1,1 @@
-from .Shop import Shop
+from Core.Shop import Shop

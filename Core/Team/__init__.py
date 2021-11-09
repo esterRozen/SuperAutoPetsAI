@@ -1,1 +1,1 @@
-from .Team import Team
+from Core.Team import Team
