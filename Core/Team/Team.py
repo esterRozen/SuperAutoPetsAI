@@ -1,6 +1,5 @@
 from typing import List
-
-from Core.GameElements.simpleClasses import Animal, Equipment, Empty
+from Core.GameElements import *
 import random
 
 

@@ -1,4 +1,4 @@
-from Core.GameElements.simpleClasses import Animal
+from Core.GameElements.SimpleClasses import Animal
 
 
 # paid_1 pack

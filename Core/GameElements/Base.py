@@ -2,10 +2,10 @@ import inspect
 import sys
 
 # noinspection PyUnresolvedReferences
-from Core.GameElements.Base_Pack import *
+from .Base_Pack import *
 
 
-# meat and potatoes of it
+# meat and potatoes of it <- future me weirded out past me said this
 # this will create a list of all different animal objects, sorted into sub-lists
 # according to their respective tiers
 class Base:

@@ -1,3 +1,5 @@
-from Core.GameElements.Base_Pack import *
-from Core.GameElements.Paid_1_Pack import *
-
+from .Spawner import Spawner
+from .SimpleClasses import *
+# from .Base_Pack import *
+# from .Paid_1_Pack import *
+# from .Equipment import *

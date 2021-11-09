@@ -2,7 +2,7 @@ import inspect
 import sys
 
 # noinspection PyUnresolvedReferences
-from Core.GameElements.Paid_1_Pack import *
+from .Paid_1_Pack import *
 
 
 # meat and potatoes of it

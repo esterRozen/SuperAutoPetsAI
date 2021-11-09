@@ -1,7 +1,7 @@
-from Core.Shop.shop import Shop
-from Core.Overseer.BaseHandler import BaseHandler
-from Core.GameElements.simpleClasses import Empty, Equipment, Animal
-from Core.Team.team import Team
+from ..GameElements import *
+from ..Shop import Shop
+from ..Team import Team
+from .BaseHandler import BaseHandler
 
 animals = [
     "Nop",  # No action
@@ -419,15 +419,15 @@ class MessageHandler(BaseHandler):
         pass
 
     def _poodle(self):
-        animals = self.team.ret_diff_tiers()
+        animals_to_buff = self.team.ret_diff_tiers()
         if self.lvl == 1:
-            for animal in animals:
+            for animal in animals_to_buff:
                 animal.permanent_buff(1, 1)
         elif self.lvl == 2:
-            for animal in animals:
+            for animal in animals_to_buff:
                 animal.permanent_buff(2, 2)
         else:
-            for animal in animals:
+            for animal in animals_to_buff:
                 animal.permanent_buff(3, 3)
 
     def _rooster(self):
@@ -549,10 +549,6 @@ class BattleMessageHandler(BaseHandler):
                      self._cat, self._dragon, self._fly, self._gorilla, self._leopard, self._mammoth, self._octopus,
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
                      ]
-
-    def load(self, team, turn):
-        # enter new battle with team
-        pass
 
     def fight(self, enemy):
         self.enemy = enemy
@@ -809,5 +805,5 @@ class BattleMessageHandler(BaseHandler):
 
 if __name__ == '__main__':
     while True:
-        a = MessageHandler()
+        # a = MessageHandler()
         print(animals[int(input("\nAnimal number: "))])
