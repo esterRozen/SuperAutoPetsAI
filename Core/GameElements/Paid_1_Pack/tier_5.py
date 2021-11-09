@@ -46,10 +46,20 @@ class Eagle(_Tier5):
 class Goat(_Tier5):
     def __init__(self):
         super(Goat, self).__init__(4, 5)
+        self.limit = 1
 
     def trigger(self, name):
         if name == "friend bought":
+            self.limit -= 1
+            if self.limit < 0:
+                return 0
             return 61
+        elif name == "start turn":
+            self.limit = self.level()
+            return 0
+        elif name == "on level":
+            self.limit += 1
+            return 0
         return 0
 
 

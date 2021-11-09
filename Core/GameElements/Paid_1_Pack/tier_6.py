@@ -68,10 +68,19 @@ class Octopus(_Tier6):
 class Sauropod(_Tier6):
     def __init__(self):
         super(Sauropod, self).__init__(4, 12)
+        self.limit = 1
 
     def trigger(self, name):
         if name == "buy food":
+            if self.limit < 0:
+                return 0
             return 76
+        elif name == "start turn":
+            self.limit = self.level()
+            return 0
+        elif name == "on level":
+            self.limit += 1
+            return 0
         return 0
 
 
