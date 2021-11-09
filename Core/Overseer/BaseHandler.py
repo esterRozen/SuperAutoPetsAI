@@ -7,6 +7,11 @@ class BaseHandler:
     def __init__(self, mode):
         self.spawner = Spawner(mode)
         self.team = Team([Empty()] * 5, [Equipment()] * 5)
+        # TODO make a copy of team when End Turn is reached,
+        # all battle logic will use the original team,
+        # the backup will be returned at Start Turn, at which point
+        # all battle_hp/atk buffs will revert to hp/atk
+        self.team_backup = None
         self.enemy = Team([Empty()] * 5, [Equipment()] * 5)
         self.shop = Shop(mode, 3, 1)
 
