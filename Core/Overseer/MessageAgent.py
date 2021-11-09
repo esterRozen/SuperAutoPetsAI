@@ -29,7 +29,6 @@ equipment = [
 
 # noinspection DuplicatedCode
 class MessageHandler(Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
-
     def __init__(self, mode):
         super(MessageHandler, self).__init__(mode)
         # event handling matrix
