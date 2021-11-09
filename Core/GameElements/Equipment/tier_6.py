@@ -8,3 +8,11 @@ class _Tier6(Equipment):
     @staticmethod
     def tier():
         return 6
+
+
+class Melon(_Tier6):
+    pass
+
+
+class Mushroom(_Tier6):
+    pass

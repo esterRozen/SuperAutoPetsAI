@@ -19,4 +19,8 @@ class MeatBone(_Tier2):
 
 
 class SleepingPill(_Tier2):
+    cost = 1
+
+
+class Weak(_Tier2):
     pass

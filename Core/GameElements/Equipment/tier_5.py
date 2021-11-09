@@ -8,3 +8,15 @@ class _Tier5(Equipment):
     @staticmethod
     def tier():
         return 5
+
+
+class Chili(_Tier5):
+    pass
+
+
+class Chocolate(_Tier5):
+    pass
+
+
+class Milk(_Tier5):
+    cost = 0

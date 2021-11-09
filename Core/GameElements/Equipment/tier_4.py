@@ -8,3 +8,11 @@ class _Tier4(Equipment):
     @staticmethod
     def tier():
         return 4
+
+
+class CannedFood(_Tier4):
+    pass
+
+
+class Pear(_Tier4):
+    pass
