@@ -1,5 +1,5 @@
 from Core.Overseer.BaseHandler import BaseHandler
-
+from Core.GameElements.Base_Pack import ZombieCricket
 
 class Tier1(BaseHandler):
     def _ant(self):
@@ -45,8 +45,10 @@ class Tier1(BaseHandler):
 
     # how to handle summons???
     def _cricket(self):
-        # TODO
-        pass
+        unit = ZombieCricket()
+        unit.battle_atk = self.lvl
+        unit.battle_hp = self.lvl
+        self.team.summon(unit, self.team.acting)
 
     def _duck(self):
         if self.lvl == 1:
