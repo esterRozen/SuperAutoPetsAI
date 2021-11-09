@@ -1,6 +1,6 @@
-from .Base import Base
-from .Paid1 import Paid1
-from .Food import Items
+from Core.GameElements.Base import Base
+from Core.GameElements.Paid1 import Paid1
+from Core.GameElements.Food import Items
 import random
 
 

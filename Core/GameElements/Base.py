@@ -2,7 +2,7 @@ import inspect
 import sys
 
 # noinspection PyUnresolvedReferences
-from .Base_Pack import *
+from Core.GameElements.Base_Pack import *
 
 
 # meat and potatoes of it <- future me weirded out past me said this

@@ -2,7 +2,7 @@ import inspect
 import sys
 
 # noinspection PyUnresolvedReferences
-from .Equipment import *
+from Core.GameElements.Equipment import *
 
 
 # meat and potatoes of it
