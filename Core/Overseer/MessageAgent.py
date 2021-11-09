@@ -36,6 +36,7 @@ class MessageHandler(BaseHandler):
         self.lvl = 0
         self.gold = 0
         self.turn = 1
+        self.battle_lost = False
         self.event_raiser = 0
         self.team = Team([Empty()]*5, [Equipment()]*5)
         self.shop = Shop(mode, 3, 1)
@@ -55,7 +56,7 @@ class MessageHandler(BaseHandler):
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
                      ]
 
-    def load(self, team, turn, gold=10, shop=None, hearts=4):
+    def load(self, team, turn, gold=10, shop=None, hearts=4, battle_lost=False):
         # re-enter the shop from a given game state
         # used for simulation/replay
         pass
@@ -73,11 +74,19 @@ class MessageHandler(BaseHandler):
         self.lvl = self.team.level()
         self.func[message]()
 
-    def buff(self, unit: Animal, atk, hp):
+    def buff(self, unit, atk, hp):
         if self.in_shop:
-            unit.permanent_buff(atk, hp)
+            if isinstance(unit, Animal):
+                unit.permanent_buff(atk, hp)
+            else:
+                for animal in unit:
+                    animal.permanent_buff(atk, hp)
         else:
-            unit.temp_buff(atk, hp)
+            if isinstance(unit, Animal):
+                unit.temp_buff(atk, hp)
+            else:
+                for animal in unit:
+                    animal.temp_buff(atk, hp)
         return
 
     def _nop(self):
@@ -118,8 +127,12 @@ class MessageHandler(BaseHandler):
 
     # give leftmost friend 1, 2, 3 atk
     def _bluebird(self):
-
-        pass
+        if self.lvl == 1:
+            self.team.leftmost_unit().permanent_buff(1, 0)
+        elif self.lvl == 2:
+            self.team.leftmost_unit().permanent_buff(2, 0)
+        else:
+            self.team.leftmost_unit().permanent_buff(3, 0)
 
     # how to handle summons???
     def _cricket(self):
@@ -258,7 +271,12 @@ class MessageHandler(BaseHandler):
         pass
 
     def _camel(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.friend_behind(), 1, 2)
+        elif self.lvl == 2:
+            self.buff(self.team.friend_behind(), 2, 4)
+        else:
+            self.buff(self.team.friend_behind(), 3, 6)
 
     def _caterpillar(self):
         if self.lvl == 1:
@@ -270,34 +288,76 @@ class MessageHandler(BaseHandler):
             pass
 
     def _giraffe(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.friends_ahead(1), 1, 1)
+        elif self.lvl == 2:
+            self.buff(self.team.friends_ahead(2), 1, 1)
+        else:
+            self.buff(self.team.friends_ahead(3), 1, 1)
 
     def _hatching_chick(self):
-        pass
+        if self.lvl == 1:
+            self.team.friend_ahead().temp_buff(5, 5)
+        elif self.lvl == 2:
+            self.team.friend_ahead().permanent_buff(2, 2)
+        else:
+            self.team.friend_ahead().increase_xp(1)
 
     def _kangaroo(self):
         pass
 
     def _owl(self):
-        pass
+        if self.lvl == 1:
+            self.team.random_friend().permanent_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.random_friend().permanent_buff(4, 4)
+        else:
+            self.team.random_friend().permanent_buff(6, 6)
 
     def _ox(self):
         pass
 
     def _puppy(self):
-        pass
+        if self.gold < 2:
+            return
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(4, 4)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(6, 6)
 
     def _rabbit(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.event_raiser].permanent_buff(0, 1)
+        elif self.lvl == 2:
+            self.team.animals[self.event_raiser].permanent_buff(0, 2)
+        else:
+            self.team.animals[self.event_raiser].permanent_buff(0, 3)
 
     def _sheep(self):
         pass
 
     def _snail(self):
-        pass
+        if not self.battle_lost:
+            return
+        if self.lvl == 1:
+            self.buff(self.team.friends(), 2, 1)
+        elif self.lvl == 2:
+            self.buff(self.team.friends(), 4, 2)
+        else:
+            self.buff(self.team.friends(), 6, 3)
 
     def _tropical_fish(self):
-        pass
+        if self.lvl == 1:
+            self.team.friend_ahead().permanent_buff(0, 1)
+            self.team.friend_behind().permanent_buff(0, 1)
+        elif self.lvl == 2:
+            self.team.friend_ahead().permanent_buff(0, 2)
+            self.team.friend_behind().permanent_buff(0, 2)
+        else:
+            self.team.friend_ahead().permanent_buff(0, 3)
+            self.team.friend_behind().permanent_buff(0, 3)
 
     def _turtle(self):
         pass
@@ -306,24 +366,50 @@ class MessageHandler(BaseHandler):
         pass
 
     def _bison(self):
-        pass
+        if not self.team.has_lvl3():
+            return
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(4, 4)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(6, 6)
 
     def _buffalo(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(1, 1)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(3, 3)
 
     def _deer(self):
         pass
 
     def _dolphin(self):
+
         pass
 
     def _hippo(self):
         pass
 
     def _llama(self):
-        pass
+        if self.team.size() > 4:
+            return
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(4, 4)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(6, 6)
 
     def _lobster(self):
+        if self.lvl == 1:
+            self.team.animals[self.event_raiser].permanent_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.event_raiser].permanent_buff(4, 4)
+        else:
+            self.team.animals[self.event_raiser].permanent_buff(6, 6)
         pass
 
     def _monkey(self):
@@ -333,7 +419,16 @@ class MessageHandler(BaseHandler):
         pass
 
     def _poodle(self):
-        pass
+        animals = self.team.ret_diff_tiers()
+        if self.lvl == 1:
+            for animal in animals:
+                animal.permanent_buff(1, 1)
+        elif self.lvl == 2:
+            for animal in animals:
+                animal.permanent_buff(2, 2)
+        else:
+            for animal in animals:
+                animal.permanent_buff(3, 3)
 
     def _rooster(self):
         pass
@@ -345,10 +440,20 @@ class MessageHandler(BaseHandler):
         pass
 
     def _worm(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].permanent_buff(1, 1)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].permanent_buff(2, 2)
+        else:
+            self.team.animals[self.team.acting].permanent_buff(3, 3)
 
     def _chicken(self):
-        pass
+        if self.lvl == 1:
+            self.shop.perm_buff(1, 1)
+        elif self.lvl == 2:
+            self.shop.perm_buff(2, 2)
+        else:
+            self.shop.perm_buff(3, 3)
 
     def _cow(self):
         pass
@@ -375,7 +480,13 @@ class MessageHandler(BaseHandler):
         pass
 
     def _seal(self):
-        pass
+        friends = self.team.random_friends(2)
+        if self.lvl == 1:
+            self.buff(friends, 1, 1)
+        elif self.lvl == 2:
+            self.buff(friends, 2, 2)
+        else:
+            self.buff(friends, 3, 3)
 
     def _shark(self):
         pass
