@@ -32,14 +32,23 @@ equipment = [
 # noinspection DuplicatedCode
 class MessageHandler(BaseHandler):
     in_shop = True
+
     def __init__(self, mode):
+        self.spawner = Spawner(mode)
+        self.team = Team([Empty()] * 5, [Equipment()] * 5)
+        self.enemy = Team([Empty()] * 5, [Equipment()] * 5)
+        self.shop = Shop(mode, 3, 1)
+
         self.lvl = 0
         self.gold = 0
         self.turn = 1
         self.battle_lost = False
+
+        # animal that triggered the event is the event_raiser
+        # animal that responded to event is the acting animal
         self.event_raiser = 0
-        self.team = Team([Empty()]*5, [Equipment()]*5)
-        self.shop = Shop(mode, 3, 1)
+
+        # event handling matrix
         self.func = [self._nop,
                      self._ant, self._beaver, self._beetle, self._bluebird, self._cricket, self._duck, self._fish,
                      self._fish, self._horse, self._ladybug, self._mosquito, self._otter, self._pig,
@@ -89,10 +98,13 @@ class MessageHandler(BaseHandler):
                     animal.temp_buff(atk, hp)
         return
 
+    # assume event which triggered event handler has already resolved!!!
+    # e.g. if animal sold, then it is no longer in the roster and gold
+    # incremented already
+
     def _nop(self):
         pass
 
-    # assume event which triggered event handler has already resolved!!!
     def _ant(self):
         # permanently buff random animal on team.
         friend = self.team.random_friend()
@@ -136,6 +148,7 @@ class MessageHandler(BaseHandler):
 
     # how to handle summons???
     def _cricket(self):
+        # TODO
         pass
 
     def _duck(self):
@@ -148,7 +161,13 @@ class MessageHandler(BaseHandler):
 
     # on level give all friends +1/1, +2/2, X
     def _fish(self):
-        pass
+        if self.lvl == 1:
+            print("this shouldn't happen! fish lvl 1 trigger")
+            return
+        if self.lvl == 2:
+            self.buff(self.team.friends(), 1, 1)
+        elif self.lvl == 3:
+            self.buff(self.team.friends(), 2, 2)
 
     # friend summoned, give +1/2/3 atk until end of battle
     def _horse(self):
@@ -159,12 +178,18 @@ class MessageHandler(BaseHandler):
         else:
             self.team.animals[self.event_raiser].temp_buff(3, 0)
 
-    #
+    # buy food, gain x/x until end of battle
     def _ladybug(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].temp_buff(1, 1)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].temp_buff(2, 2)
+        else:
+            self.team.animals[self.team.acting].temp_buff(3, 3)
 
     # start of battle deal 1/2/3 damage to random enemy
     def _mosquito(self):
+        # TODO
         pass
 
     # buy, give a random friend +1/1, 2/2, 3/3
@@ -188,13 +213,21 @@ class MessageHandler(BaseHandler):
 
     # have to implement equipments
     def _bat(self):
+        # TODO
         pass
 
     def _crab(self):
-        pass
+        battle_hp = self.team.friend_ahead().battle_hp
+        self.team.animals[self.team.acting].battle_hp = battle_hp
 
     def _dodo(self):
-        pass
+        battle_atk = self.team.animals[self.team.acting].battle_atk
+        if self.lvl == 1:
+            self.team.friend_ahead().battle_atk += battle_atk
+        elif self.lvl == 2:
+            self.team.friend_ahead().battle_atk += 2*battle_atk
+        else:
+            self.team.friend_ahead().battle_atk += 3*battle_atk
 
     def _dog(self):
         if self.lvl == 1:
@@ -213,13 +246,21 @@ class MessageHandler(BaseHandler):
             self.shop.buff(3, 3)
 
     def _elephant(self):
+        # TODO
         pass
 
     def _flamingo(self):
-        pass
+        friends = self.team.friends_behind(2)
+        if self.lvl == 1:
+            self.buff(friends, 1, 1)
+        elif self.lvl == 2:
+            self.buff(friends, 2, 2)
+        else:
+            self.buff(friends, 3, 3)
 
     # hedgehog has to trigger the hurt trigger!!
     def _hedgehog(self):
+        # TODO
         pass
 
     def _peacock(self):
@@ -232,6 +273,7 @@ class MessageHandler(BaseHandler):
 
     # summons, ugh
     def _rat(self):
+        # TODO
         pass
 
     def _shrimp(self):
@@ -244,6 +286,7 @@ class MessageHandler(BaseHandler):
 
     # more summons!!
     def _spider(self):
+        # TODO
         pass
 
     def _swan(self):
@@ -264,10 +307,12 @@ class MessageHandler(BaseHandler):
 
     # triggers hurt ugh
     def _badger(self):
+        # TODO
         pass
 
     # triggers hurt
     def _blowfish(self):
+        # TODO
         pass
 
     def _camel(self):
@@ -304,7 +349,12 @@ class MessageHandler(BaseHandler):
             self.team.friend_ahead().increase_xp(1)
 
     def _kangaroo(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].temp_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].temp_buff(4, 4)
+        else:
+            self.team.animals[self.team.acting].temp_buff(6, 6)
 
     def _owl(self):
         if self.lvl == 1:
@@ -315,6 +365,7 @@ class MessageHandler(BaseHandler):
             self.team.random_friend().permanent_buff(6, 6)
 
     def _ox(self):
+        # TODO
         pass
 
     def _puppy(self):
@@ -336,6 +387,7 @@ class MessageHandler(BaseHandler):
             self.team.animals[self.event_raiser].permanent_buff(0, 3)
 
     def _sheep(self):
+        # TODO
         pass
 
     def _snail(self):
@@ -360,9 +412,11 @@ class MessageHandler(BaseHandler):
             self.team.friend_behind().permanent_buff(0, 3)
 
     def _turtle(self):
+        # TODO
         pass
 
     def _whale(self):
+        # TODO
         pass
 
     def _bison(self):
@@ -384,14 +438,26 @@ class MessageHandler(BaseHandler):
             self.team.animals[self.team.acting].permanent_buff(3, 3)
 
     def _deer(self):
+        # TODO
         pass
 
     def _dolphin(self):
-
-        pass
+        # TODO
+        animal = self.enemy.lowest_health()
+        if self.lvl == 1:
+            pass
+        elif self.lvl == 2:
+            pass
+        else:
+            pass
 
     def _hippo(self):
-        pass
+        if self.lvl == 1:
+            self.team.animals[self.team.acting].temp_buff(2, 2)
+        elif self.lvl == 2:
+            self.team.animals[self.team.acting].temp_buff(4, 4)
+        else:
+            self.team.animals[self.team.acting].temp_buff(6, 6)
 
     def _llama(self):
         if self.team.size() > 4:
@@ -413,10 +479,22 @@ class MessageHandler(BaseHandler):
         pass
 
     def _monkey(self):
-        pass
+        animal_to_buff = self.team.rightmost_unit()
+        if self.lvl == 1:
+            self.buff(animal_to_buff, 2, 2)
+        elif self.lvl == 2:
+            self.buff(animal_to_buff, 4, 4)
+        else:
+            self.buff(animal_to_buff, 6, 6)
 
     def _penguin(self):
-        pass
+        animals_to_buff = self.team.other_lvl2_or_3()
+        if self.lvl == 1:
+            self.buff(animals_to_buff, 1, 1)
+        elif self.lvl == 2:
+            self.buff(animals_to_buff, 2, 2)
+        else:
+            self.buff(animals_to_buff, 3, 3)
 
     def _poodle(self):
         animals_to_buff = self.team.ret_diff_tiers()
@@ -431,13 +509,17 @@ class MessageHandler(BaseHandler):
                 animal.permanent_buff(3, 3)
 
     def _rooster(self):
+        # TODO
         pass
 
     def _skunk(self):
+        # TODO
         pass
 
     def _squirrel(self):
-        pass
+        food_slot = self.shop.roster[-1]
+        for slot in self.shop.roster:
+            slot.item = food_slot.spawn(self.shop.tier)
 
     def _worm(self):
         if self.lvl == 1:
@@ -455,25 +537,35 @@ class MessageHandler(BaseHandler):
         else:
             self.shop.perm_buff(3, 3)
 
+    # add cow's milk to shop
     def _cow(self):
+        # TODO
         pass
 
+    # deal 7/14/21 damage to last enemy
     def _crocodile(self):
+        # TODO
         pass
 
     def _eagle(self):
+        # TODO
         pass
 
+    # limited activation count stored in Goat object
     def _goat(self):
-        pass
+        self.gold += 1
 
     def _microbe(self):
+        # TODO
         pass
 
+    # copy ability should be stored in the parrot object
     def _parrot(self):
+        # TODO
         pass
 
     def _rhino(self):
+        # TODO
         pass
 
     def _scorpion(self):
@@ -489,318 +581,79 @@ class MessageHandler(BaseHandler):
             self.buff(friends, 3, 3)
 
     def _shark(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.animals[self.team.acting], 2, 1)
+        elif self.lvl == 2:
+            self.buff(self.team.animals[self.team.acting], 4, 2)
+        else:
+            self.buff(self.team.animals[self.team.acting], 6, 3)
 
     def _turkey(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.animals[self.event_raiser], 3, 3)
+        elif self.lvl == 2:
+            self.buff(self.team.animals[self.event_raiser], 6, 6)
+        else:
+            self.buff(self.team.animals[self.event_raiser], 9, 9)
 
+    # not 100% sure how to implement cat.
     def _cat(self):
+        # TODO
         pass
 
     def _dragon(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.friends(), 1, 1)
+        elif self.lvl == 2:
+            self.buff(self.team.friends(), 2, 2)
+        else:
+            self.buff(self.team.friends(), 2, 2)
 
     def _fly(self):
+        # TODO
         pass
 
     def _gorilla(self):
+        # TODO
         pass
 
     def _leopard(self):
+        # TODO
         pass
 
     def _mammoth(self):
-        pass
+        if self.lvl == 1:
+            self.buff(self.team.friends(), 2, 2)
+        elif self.lvl == 2:
+            self.buff(self.team.friends(), 4, 4)
+        else:
+            self.buff(self.team.friends(), 6, 6)
 
     def _octopus(self):
+        # TODO
         pass
 
     def _sauropod(self):
-        pass
+        self.gold += 1
 
     def _snake(self):
+        # TODO
         pass
 
+    # how to do this??
     def _tiger(self):
+        # TODO
         pass
 
     def _tyrannosaurus(self):
-        pass
-
-
-# noinspection DuplicatedCode
-class BattleMessageHandler(BaseHandler):
-    def __init__(self):
-        self.roster = [Empty]*5
-        self.enemy = [Empty]*5
-
-        self.func = [self._nop,
-                     self._ant, self._beaver, self._beetle, self._bluebird, self._cricket, self._duck, self._fish,
-                     self._fish, self._horse, self._ladybug, self._mosquito, self._otter, self._pig,
-                     self._bat, self._crab, self._dodo, self._dog, self._dromedary, self._elephant, self._flamingo,
-                     self._hedgehog, self._peacock, self._rat, self._shrimp, self._spider, self._swan, self._tabby_cat,
-                     self._badger, self._blowfish, self._camel, self._caterpillar, self._giraffe, self._hatching_chick,
-                     self._kangaroo, self._owl, self._ox, self._puppy, self._rabbit, self._sheep, self._snail,
-                     self._tropical_fish, self._turtle, self._whale,
-                     self._bison, self._buffalo, self._deer, self._dolphin, self._hippo, self._llama, self._lobster,
-                     self._monkey, self._penguin, self._poodle, self._rooster, self._skunk, self._squirrel, self._worm,
-                     self._chicken, self._cow, self._crocodile, self._eagle, self._goat, self._microbe, self._parrot,
-                     self._rhino, self._scorpion, self._seal, self._shark, self._turkey,
-                     self._cat, self._dragon, self._fly, self._gorilla, self._leopard, self._mammoth, self._octopus,
-                     self._sauropod, self._snake, self._tiger, self._tyrannosaurus
-                     ]
-
-    def fight(self, enemy):
-        self.enemy = enemy
-
-    def send_engine_message(self, message):
-        # for unit in roster sorted by descending attack, then descending
-        # hp, send message, handle response
-        pass
-
-    def handle(self, message):
-        # trigger function that manipulates roster
-        self.func[message]()
-
-    def _nop(self):
-        pass
-
-    def _ant(self):
-        pass
-
-    def _beaver(self):
-        pass
-
-    def _beetle(self):
-        pass
-
-    def _bluebird(self):
-        pass
-
-    def _cricket(self):
-        pass
-
-    def _duck(self):
-        pass
-
-    def _fish(self):
-        pass
-
-    def _horse(self):
-        pass
-
-    def _ladybug(self):
-        pass
-
-    def _mosquito(self):
-        pass
-
-    def _otter(self):
-        pass
-
-    def _pig(self):
-        pass
-
-    def _bat(self):
-        pass
-
-    def _crab(self):
-        pass
-
-    def _dodo(self):
-        pass
-
-    def _dog(self):
-        pass
-
-    def _dromedary(self):
-        pass
-
-    def _elephant(self):
-        pass
-
-    def _flamingo(self):
-        pass
-
-    def _hedgehog(self):
-        pass
-
-    def _peacock(self):
-        pass
-
-    def _rat(self):
-        pass
-
-    def _shrimp(self):
-        pass
-
-    def _spider(self):
-        pass
-
-    def _swan(self):
-        pass
-
-    def _tabby_cat(self):
-        pass
-
-    def _badger(self):
-        pass
-
-    def _blowfish(self):
-        pass
-
-    def _camel(self):
-        pass
-
-    def _caterpillar(self):
-        pass
-
-    def _giraffe(self):
-        pass
-
-    def _hatching_chick(self):
-        pass
-
-    def _kangaroo(self):
-        pass
-
-    def _owl(self):
-        pass
-
-    def _ox(self):
-        pass
-
-    def _puppy(self):
-        pass
-
-    def _rabbit(self):
-        pass
-
-    def _sheep(self):
-        pass
-
-    def _snail(self):
-        pass
-
-    def _tropical_fish(self):
-        pass
-
-    def _turtle(self):
-        pass
-
-    def _whale(self):
-        pass
-
-    def _bison(self):
-        pass
-
-    def _buffalo(self):
-        pass
-
-    def _deer(self):
-        pass
-
-    def _dolphin(self):
-        pass
-
-    def _hippo(self):
-        pass
-
-    def _llama(self):
-        pass
-
-    def _lobster(self):
-        pass
-
-    def _monkey(self):
-        pass
-
-    def _penguin(self):
-        pass
-
-    def _poodle(self):
-        pass
-
-    def _rooster(self):
-        pass
-
-    def _skunk(self):
-        pass
-
-    def _squirrel(self):
-        pass
-
-    def _worm(self):
-        pass
-
-    def _chicken(self):
-        pass
-
-    def _cow(self):
-        pass
-
-    def _crocodile(self):
-        pass
-
-    def _eagle(self):
-        pass
-
-    def _goat(self):
-        pass
-
-    def _microbe(self):
-        pass
-
-    def _parrot(self):
-        pass
-
-    def _rhino(self):
-        pass
-
-    def _scorpion(self):
-        pass
-
-    def _seal(self):
-        pass
-
-    def _shark(self):
-        pass
-
-    def _turkey(self):
-        pass
-
-    def _cat(self):
-        pass
-
-    def _dragon(self):
-        pass
-
-    def _fly(self):
-        pass
-
-    def _gorilla(self):
-        pass
-
-    def _leopard(self):
-        pass
-
-    def _mammoth(self):
-        pass
-
-    def _octopus(self):
-        pass
-
-    def _sauropod(self):
-        pass
-
-    def _snake(self):
-        pass
-
-    def _tiger(self):
-        pass
-
-    def _tyrannosaurus(self):
-        pass
+        if self.gold < 3:
+            return
+        if self.lvl == 1:
+            self.buff(self.team.friends(), 2, 2)
+        elif self.lvl == 2:
+            self.buff(self.team.friends(), 4, 4)
+        else:
+            self.buff(self.team.friends(), 6, 6)
 
 
 if __name__ == '__main__':
