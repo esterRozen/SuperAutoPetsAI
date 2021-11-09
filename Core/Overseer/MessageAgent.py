@@ -1,4 +1,4 @@
-from Core.Overseer.Tiers import *
+from Core.Overseer.Handlers import *
 
 
 animals = [
@@ -28,7 +28,7 @@ equipment = [
 
 
 # noinspection DuplicatedCode
-class MessageHandler(Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
+class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
     def __init__(self, mode):
         super(MessageHandler, self).__init__(mode)
         # event handling matrix
@@ -46,6 +46,7 @@ class MessageHandler(Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
                      self._rhino, self._scorpion, self._seal, self._shark, self._turkey,
                      self._cat, self._dragon, self._fly, self._gorilla, self._leopard, self._mammoth, self._octopus,
                      self._sauropod, self._snake, self._tiger, self._tyrannosaurus
+                     # self._zombie_cricket, self.dirty_rat, self.butterfly, self.honey, self
                      ]
 
     def load(self, team, turn, gold=10, shop=None, hearts=4, battle_lost=False):
