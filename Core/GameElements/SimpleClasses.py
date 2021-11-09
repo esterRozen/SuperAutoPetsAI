@@ -66,3 +66,7 @@ class Equipment:
 
     def trigger(self, name):
         return 0
+
+
+class Unarmed(Equipment):
+    pass
