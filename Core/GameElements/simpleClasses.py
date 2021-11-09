@@ -27,6 +27,9 @@ class Animal:
         self.battle_atk += atk
         return
 
+    def increase_xp(self, n):
+        self.xp = min(6, self.xp+n)
+
     def level(self):
         return min(self.xp // 3 + 1, 3)
 
