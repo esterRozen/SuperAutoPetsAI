@@ -31,6 +31,7 @@ equipment = [
 class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
     def __init__(self, mode):
         super(MessageHandler, self).__init__(mode)
+
         # event handling matrix
         self.func = [self._nop,
                      self._ant, self._beaver, self._beetle, self._bluebird, self._cricket, self._duck, self._fish,
@@ -62,6 +63,8 @@ class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
         # before attack, unit ahead attacks, unit ahead faints, friend summoned
         pass
 
+    # make a new layer of handlers that deals with battle???
+
     def handle(self, message):
         # trigger function that manipulates roster
         self.lvl = self.team.level()
@@ -70,6 +73,8 @@ class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
     # assume event which triggered event handler has already resolved!!!
     # e.g. if animal sold, then it is no longer in the roster and gold
     # incremented already
+    # also assume that self.lvl is the level of the unit whose ability triggered
+    # done for convenience, otherwise it's a pain...
 
 
 if __name__ == '__main__':
