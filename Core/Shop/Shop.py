@@ -6,7 +6,7 @@ class Shop:
         self._mode = mode
         self._shop_size = num
         self._food_shop_size = 1
-        self._tier = tier
+        self.tier = tier
         self._perm_buff = [0, 0] # atk, hp buff
         # populate with 3 tier 1 animals and 1 tier 1 food
         # mark all unfrozen
@@ -47,7 +47,7 @@ class Shop:
                 else:
                     i += 1
             self.roster.insert(i, AnimalShopSlot(self._mode))
-            self.roster[i].spawn_tier(self._tier+1)
+            self.roster[i].spawn_tier(self.tier + 1)
         else:
             return -1
 
@@ -81,7 +81,7 @@ class Shop:
         """
         for slot in self.roster:
             if slot.item is Empty:
-                slot.spawn(self._tier)
+                slot.spawn(self.tier)
 
     def item(self, position):
         if position >= self._shop_size or position < 0:
