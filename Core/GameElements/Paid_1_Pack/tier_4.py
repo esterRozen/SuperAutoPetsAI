@@ -33,6 +33,11 @@ class Buffalo(_Tier4):
         return 0
 
 
+class Bus(_Tier4):
+    def __init__(self):
+        super(Bus, self).__init__(5, 5)
+
+
 class Chick(_Tier4):
     def __init__(self):
         super(Chick, self).__init__(1, 1)
