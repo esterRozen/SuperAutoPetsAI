@@ -17,6 +17,9 @@ class Team:
                 i += 1
         return i
 
+    def lowest_health(self):
+        return min(self.animals, key=lambda animal: animal.battle_hp)
+
     def ret_diff_tiers(self):
         pass
 
@@ -36,10 +39,24 @@ class Team:
             i += 1
         return self.animals[i]
 
+    def rightmost_unit(self):
+        i = len(self.animals)-1
+        while isinstance(self.animals[i], Empty):
+            i -= 1
+        return self.animals[i]
+
     def friend_ahead(self):
         for j in range(self.acting, len(self.animals)):
             if isinstance(self.animals[j], Empty):
                 return self.animals[j]
+
+    def other_lvl2_or_3(self):
+        a: List[int] = list(range(0, 5))
+        a.remove(self.acting)
+        for i in a:
+            if self.animals[i].level() == 1:
+                a.remove(i)
+        return [self.animals[i] for i in a]
 
     def friends_ahead(self, n):
         ret = []
