@@ -27,6 +27,15 @@ class Team:
         # level of currently acting team member
         return self.animals[self.acting].level()
 
+    def summon(self, animal, position):
+        # insert unit to that position, if there would be too many units, insert and delete excess.
+        self.animals.insert(animal, position)
+        self.equipment.insert(Unarmed(), position)
+
+        if self.size() == 6:
+            self.animals.pop(5)
+            self.equipment.pop(5)
+
     def has_lvl3(self):
         for animal in self.animals:
             if animal.level() == 3:
@@ -36,6 +45,7 @@ class Team:
     def leftmost_unit(self):
         i = 0
         while isinstance(self.animals[i], Empty):
+            # TODO will probably have to make it check for battle hp?
             i += 1
         return self.animals[i]
 
