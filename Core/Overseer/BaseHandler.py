@@ -37,6 +37,12 @@ class BaseHandler:
     def _nop(self):
         pass
 
+    def damage_team(self, pos):
+        pass
+
+    def damage_enemy(self, pos):
+        pass
+
     def buff(self, unit, atk, hp):
         if self.in_shop:
             if isinstance(unit, Animal):
