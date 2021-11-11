@@ -1,28 +1,34 @@
 # must have a way to save and load states
-from Core.Overseer import MessageHandler
+from Core.BattleSystem import *
+from Core.Overseer import *
+from Core.Team import *
 
 
 class Engine:
     def __init__(self, mode):
-        self.system = MessageHandler(mode)
+        self.system = MessageAgent(mode)
+        self.battle_director = BattleSystem(self.system)
 
-    def move_action(self, roster_init, roster_final):
+    def move(self, roster_init, roster_final):
         pass
 
-    def combine_action(self, roster_init, roster_final):
+    def combine(self, roster_init, roster_final):
         pass
 
-    def sell_action(self, unit):
+    def sell(self, unit):
         pass
 
-    def buy_action(self, shop_init, roster_final):
+    def buy(self, shop_init, roster_final):
         pass
 
-    def freeze_action(self, shop_pos):
+    def freeze(self, shop_pos):
         pass
 
-    def reroll_action(self):
+    def reroll(self):
         pass
 
-    def end_turn_action(self):
+    def end_turn(self):
+        pass
+
+    def fight(self, team: Team):
         pass
