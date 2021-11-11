@@ -28,9 +28,9 @@ equipment = [
 
 
 # noinspection DuplicatedCode
-class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
+class MessageAgent(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
     def __init__(self, mode):
-        super(MessageHandler, self).__init__(mode)
+        super(MessageAgent, self).__init__(mode)
 
         # event handling matrix
         self.func = [self._nop,
@@ -55,7 +55,7 @@ class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
         # used for simulation/replay
         pass
 
-    def send_engine_message(self, message):
+    def trigger_message(self, message):
         # for unit in roster sorted by descending attack, then descending
         # hp, send message, handle response
         # sending messages like buy, sell, move, combine, start turn, end turn,
@@ -65,7 +65,7 @@ class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
 
     # make a new layer of handlers that deals with battle???
 
-    def handle(self, message):
+    def handle_message(self, message):
         # trigger function that manipulates roster
         self.lvl = self.team.level()
         self.func[message]()
@@ -79,5 +79,5 @@ class MessageHandler(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
 
 if __name__ == '__main__':
     while True:
-        a = MessageHandler("base")
+        a = MessageAgent("base")
         print(animals[int(input("\nAnimal number: "))])
