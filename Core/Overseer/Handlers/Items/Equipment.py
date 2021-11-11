@@ -1,9 +1,9 @@
-from Core.Overseer.Handlers.DamageEffects import DamageEffects
+from Core.Overseer.Handlers.Triggers import Triggers
 from Core.GameElements.Base_Pack import Bee
 from Core.GameElements.Equipment import *
 
 
-class Equipment(DamageEffects):
+class Equipment(Triggers):
     def __init__(self, mode):
         super(Equipment, self).__init__(mode)
 

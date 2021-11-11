@@ -1,9 +1,9 @@
-from Core.Overseer.BaseHandler import BaseHandler
-from Core.Overseer.Handlers.DamageEffects import DamageEffects
+from Core.Overseer.BaseAgent import BaseAgent
+from Core.Overseer.Handlers.Triggers import Triggers
 from Core.GameElements.Base_Pack import ZombieCricket
 
 
-class Tier1(DamageEffects):
+class Tier1(Triggers):
     def __init__(self, mode):
         super(Tier1, self).__init__(mode)
 

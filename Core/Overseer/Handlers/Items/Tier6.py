@@ -1,7 +1,7 @@
-from Core.Overseer.Handlers.DamageEffects import DamageEffects
+from Core.Overseer.Handlers.Triggers import Triggers
 
 
-class Tier6(DamageEffects):
+class Tier6(Triggers):
     def __init__(self, mode):
         super(Tier6, self).__init__(mode)
 

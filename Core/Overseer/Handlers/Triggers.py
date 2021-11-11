@@ -1,9 +1,8 @@
-from Core.Overseer.BaseHandler import BaseHandler
-from Core.Overseer.Handlers.DamageEffects import DamageEffects
+from Core.Overseer.BaseAgent import BaseAgent
 from Core.GameElements import *
 
 
-class Triggers(BaseHandler):
+class Triggers(BaseAgent):
     def __init__(self, mode):
         super(Triggers, self).__init__(mode)
 
@@ -89,4 +88,13 @@ class Triggers(BaseHandler):
     def start_turn(self):
         pass
 
+##############################################################
+    # handles damage system, will check for faint
+    # deal damage to friendly unit
+    def damage_team(self, damage, pos):
+        pass
+
+    # deal damage to enemy unit
+    def deal_enemy(self, damage, pos):
+        pass
 
