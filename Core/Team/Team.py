@@ -27,6 +27,10 @@ class Team:
         # level of currently acting team member
         return self.animals[self.acting].level()
 
+    def faint(self, target):
+        self.equipment[target] = Unarmed()
+        self.animals[target] = Empty()
+
     def summon(self, animal, position):
         # insert unit to that position, if there would be too many units, insert and delete excess.
         self.animals.insert(animal, position)
@@ -147,3 +151,15 @@ class Team:
             return [self.animals[i] for i in a]
         else:
             return random.sample([self.animals[i] for i in a], n)
+
+    def random_units_idx(self, n):
+        a = list(range(0, 5))
+        for i in a:
+            if isinstance(self.animals[i], Empty):
+                a.remove(i)
+        if a == []:
+            return []
+        if len(a) < n:
+            return [self.animals[i] for i in a]
+        else:
+            return random.sample(a, n)
