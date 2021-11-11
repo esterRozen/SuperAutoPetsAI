@@ -3,16 +3,16 @@ from Core.Team.Team import Team
 from Core.GameElements import *
 
 
-class BaseHandler:
+class BaseAgent:
     def __init__(self, mode):
         self.spawner = Spawner(mode)
-        self.team = Team([Empty()] * 5, [Equipment()] * 5)
+        self.team = Team([Empty()] * 5, [Unarmed()] * 5)
         # TODO make a copy of team when End Turn is reached,
         # all battle logic will use the original team,
         # the backup will be returned at Start Turn, at which point
         # all battle_hp/atk buffs will revert to hp/atk
         self.team_backup = None
-        self.enemy = Team([Empty()] * 5, [Equipment()] * 5)
+        self.enemy = Team([Empty()] * 5, [Unarmed()] * 5)
         self.shop = Shop(mode, 3, 1)
 
         self.lvl = 0
@@ -28,19 +28,13 @@ class BaseHandler:
     def load(self, team, turn, gold=10, shop=None, hearts=4, battle_lost=False):
         pass
 
-    def send_engine_message(self, message):
+    def trigger_message(self, message):
         pass
 
-    def handle(self, message):
+    def handle_message(self, message):
         pass
 
     def _nop(self):
-        pass
-
-    def damage_team(self, pos):
-        pass
-
-    def damage_enemy(self, pos):
         pass
 
     def buff(self, unit, atk, hp):
