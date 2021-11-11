@@ -1,7 +1,10 @@
-from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 
 
-class Tier2(BaseHandler):
+class Tier2(DamageEffects):
+    def __init__(self, mode):
+        super(Tier2, self).__init__(mode)
+
     # have to implement equipments
     def _bat(self):
         # TODO

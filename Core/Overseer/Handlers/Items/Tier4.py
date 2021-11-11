@@ -1,7 +1,10 @@
-from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 
 
-class Tier4(BaseHandler):
+class Tier4(DamageEffects):
+    def __init__(self, mode):
+        super(Tier4, self).__init__(mode)
+
     def _bison(self):
         if not self.team.has_lvl3():
             return

@@ -1,7 +1,10 @@
-from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 
 
-class Tier5(BaseHandler):
+class Tier5(DamageEffects):
+    def __init__(self, mode):
+        super(Tier5, self).__init__(mode)
+
     def _chicken(self):
         if self.lvl == 1:
             self.shop.perm_buff(1, 1)

@@ -1,7 +1,12 @@
 from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 from Core.GameElements.Base_Pack import ZombieCricket
 
-class Tier1(BaseHandler):
+
+class Tier1(DamageEffects):
+    def __init__(self, mode):
+        super(Tier1, self).__init__(mode)
+
     def _ant(self):
         # permanently buff random animal on team.
         friend = self.team.random_friend()

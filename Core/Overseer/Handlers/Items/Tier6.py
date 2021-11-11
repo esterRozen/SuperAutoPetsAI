@@ -1,7 +1,10 @@
-from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 
 
-class Tier6(BaseHandler):
+class Tier6(DamageEffects):
+    def __init__(self, mode):
+        super(Tier6, self).__init__(mode)
+
     # not 100% sure how to implement cat.
     def _cat(self):
         # TODO

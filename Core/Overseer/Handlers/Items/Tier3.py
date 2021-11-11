@@ -1,7 +1,10 @@
-from Core.Overseer.BaseHandler import BaseHandler
+from Core.Overseer.Handlers.DamageEffects import DamageEffects
 
 
-class Tier3(BaseHandler):
+class Tier3(DamageEffects):
+    def __init__(self, mode):
+        super(Tier3, self).__init__(mode)
+
     # triggers hurt ugh
     def _badger(self):
         # TODO
