@@ -6,6 +6,7 @@ class Animal:
     cost = 3
 
     tier = 0
+    id = 0
 
     def __init__(self, atk, hp):
         self.hp = hp
@@ -63,6 +64,7 @@ class Empty(Animal):
 # noinspection PyUnusedLocal,PyMethodMayBeStatic
 class Equipment:
     cost = 3
+    id = 0
 
     def trigger(self, name):
         return 0
