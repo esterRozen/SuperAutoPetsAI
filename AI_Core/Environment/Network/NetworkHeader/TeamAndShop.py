@@ -1,6 +1,5 @@
-import torch
 import torch.nn as nn
-from AI_Core.Environment.Network.SimpleObjects import Unit
+from AI_Core.Environment.Network.NetworkHeader.SimpleObjects import Unit
 
 
 class Team(nn.Module):
