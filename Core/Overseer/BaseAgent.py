@@ -1,10 +1,9 @@
-from Core.Shop.Shop import Shop
-from Core.Team.Team import Team
-from Core.GameElements import *
+from Core.GameElements.AbstractElements import Shop, Team
 
 
 class BaseAgent:
     def __init__(self, mode):
+        self.controller = Game(mode)
         self.spawner = Spawner(mode)
         self.team = Team([Empty()] * 5, [Unarmed()] * 5)
         # TODO make a copy of team when End Turn is reached,

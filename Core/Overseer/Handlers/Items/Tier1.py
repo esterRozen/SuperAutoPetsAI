@@ -1,6 +1,5 @@
-from Core.Overseer.BaseAgent import BaseAgent
 from Core.Overseer.Handlers.Triggers import Triggers
-from Core.GameElements.Base_Pack import ZombieCricket
+from Core.GameElements.Objects.Base_Pack import ZombieCricket
 
 
 class Tier1(Triggers):

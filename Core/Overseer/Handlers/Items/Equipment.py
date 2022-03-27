@@ -1,6 +1,5 @@
 from Core.Overseer.Handlers.Triggers import Triggers
-from Core.GameElements.Base_Pack import Bee
-from Core.GameElements.Equipment import *
+from Core.GameElements.Objects.Equipment import *
 
 
 class Equipment(Triggers):

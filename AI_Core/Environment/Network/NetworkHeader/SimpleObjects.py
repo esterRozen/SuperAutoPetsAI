@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from Core.GameElements.SimpleClasses import Animal, Equipment
+from Core.GameElements.AbstractElements.SimpleClasses import Animal, Equipment
 
 
 class Unit(nn.Module):
