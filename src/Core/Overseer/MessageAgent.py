@@ -67,7 +67,7 @@ class MessageAgent(Equipment, Tier1, Tier2, Tier3, Tier4, Tier5, Tier6):
 
     def handle_message(self, message):
         # trigger function that manipulates roster
-        self.lvl = self.team.level()
+        self.lvl = self.team.level
         self.func[message]()
 
     # assume event which triggered event handler has already resolved!!!

@@ -8,8 +8,8 @@ class _Tier5(Animal):
     def __init__(self, atk, hp):
         super(_Tier5, self).__init__(atk, hp)
 
-    @staticmethod
-    def tier():
+    @property
+    def tier(self):
         return 5
 
 
@@ -55,7 +55,7 @@ class Goat(_Tier5):
                 return 0
             return 61
         elif name == "start turn":
-            self.limit = self.level()
+            self.limit = self.level
             return 0
         elif name == "on level":
             self.limit += 1

@@ -5,8 +5,8 @@ class _Tier4(Equipment):
     def __init__(self):
         super(_Tier4, self).__init__()
 
-    @staticmethod
-    def tier():
+    @property
+    def tier(self):
         return 4
 
 

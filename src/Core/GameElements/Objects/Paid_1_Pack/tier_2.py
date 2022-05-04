@@ -8,8 +8,8 @@ class _Tier2(Animal):
     def __init__(self, atk, hp):
         super(_Tier2, self).__init__(atk, hp)
 
-    @staticmethod
-    def tier():
+    @property
+    def tier(self):
         return 2
 
 

@@ -8,8 +8,8 @@ class _Tier6(Animal):
     def __init__(self, atk, hp):
         super(_Tier6, self).__init__(atk, hp)
 
-    @staticmethod
-    def tier():
+    @property
+    def tier(self):
         return 6
 
 
@@ -58,7 +58,7 @@ class Octopus(_Tier6):
         super(Octopus, self).__init__(8, 8)
 
     def trigger(self, name):
-        if self.level() == 3 and name == "before attack":
+        if self.level == 3 and name == "before attack":
             return 75
         elif name == "on level":
             return 75
@@ -76,7 +76,7 @@ class Sauropod(_Tier6):
                 return 0
             return 76
         elif name == "start turn":
-            self.limit = self.level()
+            self.limit = self.level
             return 0
         elif name == "on level":
             self.limit += 1

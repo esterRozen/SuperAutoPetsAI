@@ -6,8 +6,8 @@ class _Tier6(Animal):
     def __init__(self, atk, hp):
         super(_Tier6, self).__init__(atk, hp)
 
-    @staticmethod
-    def tier():
+    @property
+    def tier(self):
         return 6
 
 

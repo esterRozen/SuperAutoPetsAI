@@ -90,6 +90,10 @@ class Equipment:
     cost = 3
     id = 0
 
+    @property
+    def tier(self):
+        return 0
+
     def trigger(self, name: int):
         return 0
 

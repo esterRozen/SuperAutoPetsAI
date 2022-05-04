@@ -25,7 +25,7 @@ class Team:
 
     def level(self):
         # level of currently acting team member
-        return self.animals[self.acting].level()
+        return self.animals[self.acting].level
 
     def faint(self, target):
         self.equipment[target] = Unarmed()
@@ -42,7 +42,7 @@ class Team:
 
     def has_lvl3(self):
         for animal in self.animals:
-            if animal.level() == 3:
+            if animal.level == 3:
                 return True
         return False
 
@@ -68,7 +68,7 @@ class Team:
         a: List[int] = list(range(0, 5))
         a.remove(self.acting)
         for i in a:
-            if self.animals[i].level() == 1:
+            if self.animals[i].level == 1:
                 a.remove(i)
         return [self.animals[i] for i in a]
 
