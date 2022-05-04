@@ -1,5 +1,7 @@
+from typing import List, Union
 import random
 from ..Objects import Base, Items, Paid1
+from ..AbstractElements import Animal, Equipment
 
 
 # outputs a random animal given a range of tiers
@@ -13,10 +15,10 @@ class Spawner:
         elif mode == "food":
             self._population = Items().items
 
-    def spawn(self, max_tier):
+    def spawn(self, max_tier) -> type(Union[Animal, Equipment]):
         return type(self.spawn_n(1, max_tier)[0])()
 
-    def spawn_n(self, n, max_tier):
+    def spawn_n(self, n, max_tier) -> List[type(Union[Animal, Equipment])]:
         max_idx = min(max_tier, 6)
         max_idx = max(max_idx, 1)
 
@@ -24,7 +26,7 @@ class Spawner:
         sample = random.choices(subpopulation, k=n)
         return [type(instance)() for instance in sample]
 
-    def spawn_tier(self, tier):
+    def spawn_tier(self, tier) -> type(Union[Animal, Equipment]):
         idx = tier - 1
         idx = max(idx, 0)
         idx = min(idx, 5)
