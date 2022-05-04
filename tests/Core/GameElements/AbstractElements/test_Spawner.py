@@ -6,6 +6,12 @@ class TestSpawner(TestCase):
     def test_base(self):
         self.fail()
 
+    def test_equipment(self):
+        self.fail()
+
+    def test_paid1(self):
+        self.fail()
+
     def test_spawn(self):
         spawner = ae.Spawner("base")
         self.fail()
