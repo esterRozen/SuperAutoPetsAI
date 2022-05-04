@@ -1,7 +1,5 @@
 import random
-from ..Objects import Base
-from ..Objects.Paid1 import Paid1
-from ..Objects.Food import Items
+from ..Objects import Base, Items, Paid1
 
 
 # outputs a random animal given a range of tiers
