@@ -95,4 +95,5 @@ class Equipment:
 
 
 class Unarmed(Equipment):
-    pass
+    cost = 0
+    id = 0
