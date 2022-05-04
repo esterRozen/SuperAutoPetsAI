@@ -170,11 +170,19 @@ class TestEmpty(TestCase):
 
 
 class TestEquipment(TestCase):
+    def test_instantiation(self):
+        equip = Equipment()
+        self.assertTrue(equip.cost == 3, "cost should be 3")
+        self.assertTrue(equip.id == 0, "id should be 0")
+
     def test_trigger(self):
-        self.fail()
+        equip = Equipment()
+        self.assertTrue(equip.trigger(30) == 0, "trigger should be no-op")
 
 
 class TestUnarmed(TestCase):
-    def __init__(self):
-        super(TestUnarmed, self).__init__()
-        self.fail()
+    def test_instantiation(self):
+        nothing = Unarmed()
+        self.assertTrue(nothing.cost == 0, "cost should be 0")
+        self.assertTrue(nothing.id == 0, "id should be 0")
+        self.assertTrue(nothing.trigger(30) == 0, "trigger should be no-op")
