@@ -1,6 +1,4 @@
-from Core.GameElements.AbstractElements.SimpleClasses import Animal
-
-
+from ...AbstractElements import Animal
 # base pack
 
 

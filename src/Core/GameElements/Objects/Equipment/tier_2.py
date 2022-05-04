@@ -1,4 +1,4 @@
-from Core.GameElements.AbstractElements.SimpleClasses import Equipment
+from ...AbstractElements import Equipment
 
 
 class _Tier2(Equipment):

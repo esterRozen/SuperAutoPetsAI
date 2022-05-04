@@ -1,7 +1,7 @@
-from Core.GameElements.Objects.Base import Base
-from Core.GameElements.Objects.Paid1 import Paid1
-from Core.GameElements.Objects.Food import Items
 import random
+from ..Objects import Base
+from ..Objects.Paid1 import Paid1
+from ..Objects.Food import Items
 
 
 # outputs a random animal given a range of tiers

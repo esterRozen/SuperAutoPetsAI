@@ -1,5 +1,4 @@
-from Core.GameElements.Objects.Base import Base
-from Core.GameElements.AbstractElements import *
+from .AbstractElements import *
 
 
 class Shop:
@@ -21,6 +20,7 @@ class Shop:
             self.roster[i].item.permanent_buff(atk, hp)
 
     def start_turn(self, turn):
+        # TODO start_turn flow
         # clear un-frozen animals, shift left
 
         # check the number of animal shop slots

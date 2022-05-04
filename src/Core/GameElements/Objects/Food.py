@@ -1,11 +1,9 @@
 import inspect
 import sys
-
 # noinspection PyUnresolvedReferences
-from Core.GameElements.Objects.Equipment import *
+from . import Equipment
 
 
-# meat and potatoes of it
 # this will create a list of all different animal objects, sorted into sub-lists
 # according to their respective tiers
 class Items:

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Core.GameElements.AbstractElements import Spawner
+import src.Core.GameElements.AbstractElements as ae
 
 
 class TestSpawner(TestCase):
@@ -7,7 +7,7 @@ class TestSpawner(TestCase):
         self.fail()
 
     def test_spawn(self):
-        spawner = Spawner('base')
+        spawner = ae.Spawner("base")
         self.fail()
 
     def test_spawn_n(self):

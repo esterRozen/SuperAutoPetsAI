@@ -1,4 +1,4 @@
-from Core.Overseer.Handlers.Triggers import Triggers
+from Core.Overseer.Handlers.triggers import Triggers
 
 
 class Tier6(Triggers):

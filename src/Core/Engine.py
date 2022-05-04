@@ -1,6 +1,6 @@
 # must have a way to save and load states
 from Core.BattleSystem import *
-from Core.Team.Team import Team
+from Core.GameElements.AbstractElements.Team import Team
 from Core.Overseer import *
 
 

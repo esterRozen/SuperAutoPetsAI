@@ -1,4 +1,4 @@
-from Core.Overseer import *
+from ..Overseer import *
 
 
 class BattleSystem:

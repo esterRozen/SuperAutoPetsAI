@@ -1,6 +1,4 @@
-from Core.GameElements.AbstractElements.SimpleClasses import Empty, Unarmed
-from Core.GameElements.AbstractElements.Spawner import Spawner
-from Core.GameElements.AbstractElements import Team
+from .AbstractElements import Empty, Unarmed, Spawner, Team
 
 
 class GameSystem():
