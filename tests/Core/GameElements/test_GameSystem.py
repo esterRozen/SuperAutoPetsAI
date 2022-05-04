@@ -2,6 +2,5 @@ from unittest import TestCase
 
 
 class TestGameSystem(TestCase):
-    def __init__(self):
-        super(TestGameSystem, self).__init__()
+    def test_instantiation(self):
         self.fail()
