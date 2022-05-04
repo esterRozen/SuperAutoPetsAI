@@ -1,2 +1,6 @@
-from Core.GameElements.AbstractElements.SimpleClasses import Animal, Empty, Unarmed, Equipment
-from Core.GameElements.AbstractElements.Spawner import Spawner
+from .SimpleClasses import Animal, Empty, Equipment, Unarmed
+from .Spawner import Spawner
+from .Team import Team
+__all__ = ['Animal', 'Empty', 'Equipment', 'Unarmed',
+           'Spawner',
+           'Team']
