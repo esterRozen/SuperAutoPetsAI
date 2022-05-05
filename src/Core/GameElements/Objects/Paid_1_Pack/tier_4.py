@@ -43,6 +43,16 @@ class Chick(_Tier4):
         super(Chick, self).__init__(1, 1)
 
 
+class Dolphin(_Tier4):
+    def __init__(self):
+        super(Dolphin, self).__init__(4, 6)
+
+    def trigger(self, name: str):
+        if name == "start turn":
+            return 80
+        return 0
+
+
 class Deer(_Tier4):
     def __init__(self):
         super(Deer, self).__init__(1, 1)
@@ -73,13 +83,13 @@ class Lobster(_Tier4):
         return 0
 
 
-class Poodle(_Tier4):
+class Microbe(_Tier4):
     def __init__(self):
-        super(Poodle, self).__init__(4, 2)
+        super(Microbe, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "end turn":
-            return 52
+        if name == "faint":
+            return 62
         return 0
 
 

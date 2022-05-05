@@ -33,16 +33,6 @@ class DirtyRat(_Tier2):
         return 0
 
 
-class Dog(_Tier2):
-    def __init__(self):
-        super(Dog, self).__init__(2, 2)
-
-    def trigger(self, name):
-        if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return 16
-        return 0
-
-
 class Dromedary(_Tier2):
     def __init__(self):
         super(Dromedary, self).__init__(2, 4)

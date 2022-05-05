@@ -41,16 +41,6 @@ class Dodo(_Tier2):
         return 0
 
 
-class Dog(_Tier2):
-    def __init__(self):
-        super(Dog, self).__init__(2, 2)
-
-    def trigger(self, name):
-        if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return 16
-        return 0
-
-
 class Elephant(_Tier2):
     def __init__(self):
         super(Elephant, self).__init__(3, 5)

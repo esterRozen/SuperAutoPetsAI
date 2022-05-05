@@ -20,3 +20,11 @@ class Chocolate(_Tier5):
 
 class Milk(_Tier5):
     cost = 0
+
+
+class BetterMilk(_Tier5):
+    cost = 0
+
+
+class BestMilk(_Tier5):
+    cost = 0

@@ -41,6 +41,16 @@ class Camel(_Tier3):
         return 0
 
 
+class Dog(_Tier3):
+    def __init__(self):
+        super(Dog, self).__init__(2, 2)
+
+    def trigger(self, name):
+        if name == "friend summoned (battle)" or "friend summoned (shop)":
+            return 16
+        return 0
+
+
 class Giraffe(_Tier3):
     def __init__(self):
         super(Giraffe, self).__init__(1, 3)
@@ -113,14 +123,4 @@ class Turtle(_Tier3):
     def trigger(self, name):
         if name == "on faint":
             return 41
-        return 0
-
-
-class Whale(_Tier3):
-    def __init__(self):
-        super(Whale, self).__init__(2, 6)
-
-    def trigger(self, name):
-        if name == "start battle":
-            return 42
         return 0

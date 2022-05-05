@@ -63,13 +63,13 @@ class Goat(_Tier5):
         return 0
 
 
-class Microbe(_Tier5):
+class Poodle(_Tier5):
     def __init__(self):
-        super(Microbe, self).__init__(1, 1)
+        super(Poodle, self).__init__(4, 2)
 
     def trigger(self, name):
-        if name == "on faint":
-            return 62
+        if name == "end turn":
+            return 52
         return 0
 
 

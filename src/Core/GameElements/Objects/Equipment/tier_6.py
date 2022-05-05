@@ -16,3 +16,11 @@ class Melon(_Tier6):
 
 class Mushroom(_Tier6):
     pass
+
+
+class Pizza(_Tier6):
+    pass
+
+
+class Steak(_Tier6):
+    pass

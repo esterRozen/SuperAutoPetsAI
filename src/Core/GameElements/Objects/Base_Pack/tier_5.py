@@ -31,13 +31,13 @@ class Crocodile(_Tier5):
         return 0
 
 
-class Parrot(_Tier5):
+class Monkey(_Tier5):
     def __init__(self):
-        super(Parrot, self).__init__(3, 2)
+        super(Monkey, self).__init__(3, 3)
 
     def trigger(self, name):
         if name == "end turn":
-            return 63
+            return 50
         return 0
 
 

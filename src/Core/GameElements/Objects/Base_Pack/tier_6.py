@@ -11,6 +11,16 @@ class _Tier6(Animal):
         return 6
 
 
+class Boar(_Tier6):
+    def __init__(self):
+        super(Boar, self).__init__(8, 6)
+
+    def trigger(self, name):
+        if name == "before attack":
+            return 81
+        return 0
+
+
 class Cat(_Tier6):
     def __init__(self):
         super(Cat, self).__init__(4, 5)

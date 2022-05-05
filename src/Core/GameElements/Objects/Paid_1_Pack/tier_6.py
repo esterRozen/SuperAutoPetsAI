@@ -1,6 +1,4 @@
 from ...AbstractElements import Animal
-
-
 # paid_1 pack
 
 
@@ -11,6 +9,16 @@ class _Tier6(Animal):
     @property
     def tier(self):
         return 6
+
+
+class Boar(_Tier6):
+    def __init__(self):
+        super(Boar, self).__init__(8, 6)
+
+    def trigger(self, name):
+        if name == "before attack":
+            return 81
+        return
 
 
 class Dragon(_Tier6):
@@ -82,6 +90,11 @@ class Sauropod(_Tier6):
             self.limit += 1
             return 0
         return 0
+
+
+class Tiger(_Tier6):
+    def __init__(self):
+        super(Tiger, self).__init__(4, 3)
 
 
 class Tyrannosaurus(_Tier6):

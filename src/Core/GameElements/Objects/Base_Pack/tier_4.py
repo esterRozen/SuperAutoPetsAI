@@ -61,13 +61,13 @@ class Hippo(_Tier4):
         return 0
 
 
-class Monkey(_Tier4):
+class Parrot(_Tier4):
     def __init__(self):
-        super(Monkey, self).__init__(3, 3)
+        super(Parrot, self).__init__(3, 2)
 
     def trigger(self, name):
         if name == "end turn":
-            return 50
+            return 63
         return 0
 
 
@@ -108,6 +108,16 @@ class Squirrel(_Tier4):
     def trigger(self, name):
         if name == "buy":
             return 55
+        return 0
+
+
+class Whale(_Tier4):
+    def __init__(self):
+        super(Whale, self).__init__(2, 6)
+
+    def trigger(self, name):
+        if name == "start battle":
+            return 42
         return 0
 
 
