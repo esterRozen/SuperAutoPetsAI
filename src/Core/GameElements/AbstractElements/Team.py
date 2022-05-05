@@ -4,12 +4,13 @@ from . import Animal, Empty, Equipment, Unarmed
 
 
 class Team:
-    def __init__(self, roster: List[Animal], equipment: List[Equipment]):
-        self.animals = roster
-        self.equipment = equipment
+    def __init__(self):
+        self.animals = [Empty() for _ in range(5)]
+        self.equipment = [Unarmed() for _ in range(5)]
         self.acting = 0
         # random.seed(1)
 
+    @property
     def size(self):
         i = 0
         for animal in self.animals:
@@ -17,34 +18,37 @@ class Team:
                 i += 1
         return i
 
+    @property
+    def has_lvl3(self):
+        for animal in self.animals:
+            if animal.level == 3:
+                return True
+        return False
+
+    @property
+    def level_of_actor(self):
+        # level of currently acting team member
+        return self.animals[self.acting].level
+
     def lowest_health(self):
         return min(self.animals, key=lambda animal: animal.battle_hp)
 
     def ret_diff_tiers(self):
         pass
 
-    def level(self):
-        # level of currently acting team member
-        return self.animals[self.acting].level
-
     def faint(self, target):
         self.equipment[target] = Unarmed()
         self.animals[target] = Empty()
 
+    def push_forward(self):
+        return self
+
     def summon(self, animal, position):
+        if self.size == 5:
+            return self
         # insert unit to that position, if there would be too many units, insert and delete excess.
         self.animals.insert(animal, position)
         self.equipment.insert(Unarmed(), position)
-
-        if self.size() == 6:
-            self.animals.pop(5)
-            self.equipment.pop(5)
-
-    def has_lvl3(self):
-        for animal in self.animals:
-            if animal.level == 3:
-                return True
-        return False
 
     def leftmost_unit(self):
         i = 0
