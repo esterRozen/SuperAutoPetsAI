@@ -15,6 +15,11 @@ class Animal:
         self.battle_hp = hp
         self.battle_atk = atk
 
+    def __repr__(self):
+        return f"({self.id}): " \
+               f"perm.{self.atk}/{self.hp}, " \
+               f"temp.{self.battle_atk}/{self.battle_hp}"
+
     def permanent_buff(self, atk: int, hp: int):
         # accounts for negative buffs
         # which leave with minimum 1 atk or hp
