@@ -11,7 +11,7 @@ Wood Games) as best as I could determine
 through reverse engineering the logic
 behind the game mechanics.
 
-The engine supports save and load states
+The engine is to support save and load states
 through the OpenAI Gym API. Outputs are
 non-deterministic but discrete.
 
@@ -21,7 +21,7 @@ game engine. The AI incrementally learns
 how to play the game, eventually becoming
 skilled.
 
-The webdriver is an implementation of the
+The webdriver is to be an implementation of the
 AI, used so players may play against the
 AI in the real game. Image analysis is
 used to convert the game image to the
