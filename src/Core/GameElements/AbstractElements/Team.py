@@ -58,6 +58,8 @@ class Team:
         return self.animals[i]
 
     def rightmost_unit(self):
+        if self.size == 0:
+            return None
         i = len(self.animals)-1
         while isinstance(self.animals[i], Empty):
             i -= 1
@@ -67,6 +69,7 @@ class Team:
         for j in range(self.acting, len(self.animals)):
             if isinstance(self.animals[j], Empty):
                 return self.animals[j]
+        return None
 
     def other_lvl2_or_3(self):
         a: List[int] = list(range(0, 5))
@@ -84,14 +87,16 @@ class Team:
                 if i < n:
                     ret += [self.animals[j]]
                     i += 1
-        if len(ret) == 1:
-            return ret[0]
+        if not ret:
+            return None
         return ret
 
+    # TODO fix these to have None-case in event of no valid outputs
     def friend_behind(self):
         for j in range(self.acting-1, -1, -1):
             if isinstance(self.animals[j], Empty):
                 return self.animals[j]
+        return None
 
     def friends_behind(self, n):
         ret = []
@@ -101,8 +106,8 @@ class Team:
                 if i < n:
                     ret += [self.animals[j]]
                     i += 1
-        if len(ret) == 1:
-            return ret[0]
+        if not ret:
+            return None
         return ret
 
     def random_friend(self):
