@@ -64,7 +64,7 @@ class Triggers(BaseAgent):
     def hurt(self):
         pass
 
-    # apply to unit acting (knocked unit out)
+    # apply to unit acting (which knocked unit out)
     def knock_out(self):
         pass
 
