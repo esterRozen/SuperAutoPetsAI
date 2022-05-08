@@ -10,9 +10,11 @@ class Engine:
         self.battle_director = BattleSystem(self.system)
 
     def move(self, roster_init, roster_final):
+        # moves init unit to *left* side of final unit
         pass
 
     def combine(self, roster_init, roster_final):
+        # place init unit *onto* final unit
         pass
 
     def sell(self, unit):
