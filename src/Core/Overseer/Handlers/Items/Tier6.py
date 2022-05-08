@@ -1,65 +1,78 @@
-from Core.Overseer.Handlers.triggers import Triggers
+from Core.Overseer import MessageAgent
 
 
-class Tier6(Triggers):
-    def __init__(self, mode):
-        super(Tier6, self).__init__(mode)
+class Tier6:
+    @staticmethod
+    def boar(agent: MessageAgent):
+        # TODO
+        pass
 
     # not 100% sure how to implement cat.
-    def _cat(self):
+    @staticmethod
+    def cat(agent: MessageAgent):
         # TODO
         pass
 
-    def _dragon(self):
-        if self.lvl == 1:
-            self.buff(self.team.friends(), 1, 1)
-        elif self.lvl == 2:
-            self.buff(self.team.friends(), 2, 2)
+    @staticmethod
+    def dragon(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.buff(agent.team.friends(), 1, 1)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friends(), 2, 2)
         else:
-            self.buff(self.team.friends(), 2, 2)
+            agent.buff(agent.team.friends(), 2, 2)
 
-    def _fly(self):
+    @staticmethod
+    def fly(agent: MessageAgent):
         # TODO
         pass
 
-    def _gorilla(self):
+    @staticmethod
+    def gorilla(agent: MessageAgent):
         # TODO
         pass
 
-    def _leopard(self):
+    @staticmethod
+    def leopard(agent: MessageAgent):
         # TODO
         pass
 
-    def _mammoth(self):
-        if self.lvl == 1:
-            self.buff(self.team.friends(), 2, 2)
-        elif self.lvl == 2:
-            self.buff(self.team.friends(), 4, 4)
+    @staticmethod
+    def mammoth(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.buff(agent.team.friends(), 2, 2)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friends(), 4, 4)
         else:
-            self.buff(self.team.friends(), 6, 6)
+            agent.buff(agent.team.friends(), 6, 6)
 
-    def _octopus(self):
+    @staticmethod
+    def octopus(agent: MessageAgent):
         # TODO
         pass
 
-    def _sauropod(self):
-        self.gold += 1
+    @staticmethod
+    def sauropod(agent: MessageAgent):
+        agent.gold += 1
 
-    def _snake(self):
+    @staticmethod
+    def snake(agent: MessageAgent):
         # TODO
         pass
 
     # how to do this??
-    def _tiger(self):
+    @staticmethod
+    def tiger(agent: MessageAgent):
         # TODO
         pass
 
-    def _tyrannosaurus(self):
-        if self.gold < 3:
+    @staticmethod
+    def tyrannosaurus(agent: MessageAgent):
+        if agent.gold < 3:
             return
-        if self.lvl == 1:
-            self.buff(self.team.friends(), 2, 2)
-        elif self.lvl == 2:
-            self.buff(self.team.friends(), 4, 4)
+        if agent.lvl == 1:
+            agent.buff(agent.team.friends(), 2, 2)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friends(), 4, 4)
         else:
-            self.buff(self.team.friends(), 6, 6)
+            agent.buff(agent.team.friends(), 6, 6)

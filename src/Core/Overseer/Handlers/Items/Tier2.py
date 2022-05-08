@@ -1,100 +1,102 @@
-from Core.Overseer.Handlers.triggers import Triggers
+from Core.Overseer import MessageAgent
 
 
-class Tier2(Triggers):
-    def __init__(self, mode):
-        super(Tier2, self).__init__(mode)
-
+class Tier2:
     # have to implement equipments
-    def _bat(self):
+    @staticmethod
+    def bat(agent: MessageAgent):
         # TODO
         pass
 
-    def _crab(self):
-        battle_hp = self.team.friend_ahead().battle_hp
-        self.team.animals[self.team.acting].battle_hp = battle_hp
+    @staticmethod
+    def crab(agent: MessageAgent):
+        battle_hp = agent.team.friend_ahead().battle_hp
+        agent.team.animals[agent.team.acting].battle_hp = battle_hp
 
-    def _dodo(self):
-        battle_atk = self.team.animals[self.team.acting].battle_atk
-        if self.lvl == 1:
-            self.team.friend_ahead().battle_atk += battle_atk
-        elif self.lvl == 2:
-            self.team.friend_ahead().battle_atk += 2 * battle_atk
+    @staticmethod
+    def dodo(agent: MessageAgent):
+        battle_atk = agent.team.animals[agent.team.acting].battle_atk
+        if agent.lvl == 1:
+            agent.team.friend_ahead().battle_atk += battle_atk
+        elif agent.lvl == 2:
+            agent.team.friend_ahead().battle_atk += 2 * battle_atk
         else:
-            self.team.friend_ahead().battle_atk += 3 * battle_atk
+            agent.team.friend_ahead().battle_atk += 3 * battle_atk
 
-    def _dog(self):
-        if self.lvl == 1:
-            self.team.animals[self.team.acting].permanent_buff(1, 1)
-        elif self.lvl == 2:
-            self.team.animals[self.team.acting].permanent_buff(2, 2)
+    @staticmethod
+    def dromedary(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.shop.buff(1, 1)
+        elif agent.lvl == 2:
+            agent.shop.buff(2, 2)
         else:
-            self.team.animals[self.team.acting].permanent_buff(3, 3)
+            agent.shop.buff(3, 3)
 
-    def _dromedary(self):
-        if self.lvl == 1:
-            self.shop.buff(1, 1)
-        elif self.lvl == 2:
-            self.shop.buff(2, 2)
-        else:
-            self.shop.buff(3, 3)
-
-    def _elephant(self):
+    @staticmethod
+    def elephant(agent: MessageAgent):
         # TODO
         pass
 
-    def _flamingo(self):
-        friends = self.team.friends_behind(2)
-        if self.lvl == 1:
-            self.buff(friends, 1, 1)
-        elif self.lvl == 2:
-            self.buff(friends, 2, 2)
+    @staticmethod
+    def flamingo(agent: MessageAgent):
+        friends = agent.team.friends_behind(2)
+        if agent.lvl == 1:
+            agent.buff(friends, 1, 1)
+        elif agent.lvl == 2:
+            agent.buff(friends, 2, 2)
         else:
-            self.buff(friends, 3, 3)
+            agent.buff(friends, 3, 3)
 
     # hedgehog has to trigger the hurt trigger!!
-    def _hedgehog(self):
+    @staticmethod
+    def hedgehog(agent: MessageAgent):
         # TODO
         pass
 
-    def _peacock(self):
-        if self.lvl == 1:
-            self.team.animals[self.team.acting].temp_buff(2, 0)
-        elif self.lvl == 2:
-            self.team.animals[self.team.acting].temp_buff(4, 0)
+    @staticmethod
+    def peacock(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.animals[agent.team.acting].temp_buff(2, 0)
+        elif agent.lvl == 2:
+            agent.team.animals[agent.team.acting].temp_buff(4, 0)
         else:
-            self.team.animals[self.team.acting].temp_buff(6, 0)
+            agent.team.animals[agent.team.acting].temp_buff(6, 0)
 
     # summons, ugh
-    def _rat(self):
+    @staticmethod
+    def rat(agent: MessageAgent):
         # TODO
         pass
 
-    def _shrimp(self):
-        if self.lvl == 1:
-            self.team.random_friend().temp_buff(0, 1)
-        elif self.lvl == 2:
-            self.team.random_friend().temp_buff(0, 2)
+    @staticmethod
+    def shrimp(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.random_friend().temp_buff(0, 1)
+        elif agent.lvl == 2:
+            agent.team.random_friend().temp_buff(0, 2)
         else:
-            self.team.random_friend().temp_buff(0, 3)
+            agent.team.random_friend().temp_buff(0, 3)
 
     # more summons!!
-    def _spider(self):
+    @staticmethod
+    def spider(agent: MessageAgent):
         # TODO
         pass
 
-    def _swan(self):
-        if self.lvl == 1:
-            self.gold += 1
-        elif self.lvl == 2:
-            self.gold += 2
+    @staticmethod
+    def swan(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.gold += 1
+        elif agent.lvl == 2:
+            agent.gold += 2
         else:
-            self.gold += 3
+            agent.gold += 3
 
-    def _tabby_cat(self):
-        if self.lvl == 1:
-            [friend.temp_buff(1, 0) for friend in self.team.friends()]
-        elif self.lvl == 2:
-            [friend.temp_buff(2, 0) for friend in self.team.friends()]
+    @staticmethod
+    def tabby_cat(agent: MessageAgent):
+        if agent.lvl == 1:
+            [friend.temp_buff(1, 0) for friend in agent.team.friends()]
+        elif agent.lvl == 2:
+            [friend.temp_buff(2, 0) for friend in agent.team.friends()]
         else:
-            [friend.temp_buff(3, 0) for friend in self.team.friends()]
+            [friend.temp_buff(3, 0) for friend in agent.team.friends()]

@@ -1,120 +1,137 @@
-from Core.Overseer.Handlers.triggers import Triggers
+from Core.Overseer import MessageAgent
 
 
-class Tier3(Triggers):
-    def __init__(self, mode):
-        super(Tier3, self).__init__(mode)
-
+class Tier3:
     # triggers hurt ugh
-    def _badger(self):
+    @staticmethod
+    def badger(agent: MessageAgent):
         # TODO
         pass
 
     # triggers hurt
-    def _blowfish(self):
+    @staticmethod
+    def blowfish(agent: MessageAgent):
         # TODO
         pass
 
-    def _camel(self):
-        if self.lvl == 1:
-            self.buff(self.team.friend_behind(), 1, 2)
-        elif self.lvl == 2:
-            self.buff(self.team.friend_behind(), 2, 4)
+    @staticmethod
+    def camel(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.buff(agent.team.friend_behind(), 1, 2)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friend_behind(), 2, 4)
         else:
-            self.buff(self.team.friend_behind(), 3, 6)
+            agent.buff(agent.team.friend_behind(), 3, 6)
 
-    def _caterpillar(self):
-        if self.lvl == 1:
-            self.team.animals[self.team.acting].xp += 1
-        elif self.lvl == 2:
-            self.team.animals[self.team.acting].xp += 1
+    @staticmethod
+    def caterpillar(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.animals[agent.team.acting].xp += 1
+        elif agent.lvl == 2:
+            agent.team.animals[agent.team.acting].xp += 1
         else:
             # TODO caterpillar level 3
             pass
 
-    def _giraffe(self):
-        if self.lvl == 1:
-            self.buff(self.team.friends_ahead(1), 1, 1)
-        elif self.lvl == 2:
-            self.buff(self.team.friends_ahead(2), 1, 1)
+    @staticmethod
+    def dog(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.animals[agent.team.acting].permanent_buff(1, 1)
+        elif agent.lvl == 2:
+            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
         else:
-            self.buff(self.team.friends_ahead(3), 1, 1)
+            agent.team.animals[agent.team.acting].permanent_buff(3, 3)
 
-    def _hatching_chick(self):
-        if self.lvl == 1:
-            self.team.friend_ahead().temp_buff(5, 5)
-        elif self.lvl == 2:
-            self.team.friend_ahead().permanent_buff(2, 2)
+    @staticmethod
+    def giraffe(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.buff(agent.team.friends_ahead(1), 1, 1)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friends_ahead(2), 1, 1)
         else:
-            self.team.friend_ahead().increase_xp(1)
+            agent.buff(agent.team.friends_ahead(3), 1, 1)
 
-    def _kangaroo(self):
-        if self.lvl == 1:
-            self.team.animals[self.team.acting].temp_buff(2, 2)
-        elif self.lvl == 2:
-            self.team.animals[self.team.acting].temp_buff(4, 4)
+    @staticmethod
+    def hatching_chick(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.friend_ahead().temp_buff(5, 5)
+        elif agent.lvl == 2:
+            agent.team.friend_ahead().permanent_buff(2, 2)
         else:
-            self.team.animals[self.team.acting].temp_buff(6, 6)
+            agent.team.friend_ahead().increase_xp(1)
 
-    def _owl(self):
-        if self.lvl == 1:
-            self.team.random_friend().permanent_buff(2, 2)
-        elif self.lvl == 2:
-            self.team.random_friend().permanent_buff(4, 4)
+    @staticmethod
+    def kangaroo(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.animals[agent.team.acting].temp_buff(2, 2)
+        elif agent.lvl == 2:
+            agent.team.animals[agent.team.acting].temp_buff(4, 4)
         else:
-            self.team.random_friend().permanent_buff(6, 6)
+            agent.team.animals[agent.team.acting].temp_buff(6, 6)
 
-    def _ox(self):
+    @staticmethod
+    def owl(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.random_friend().permanent_buff(2, 2)
+        elif agent.lvl == 2:
+            agent.team.random_friend().permanent_buff(4, 4)
+        else:
+            agent.team.random_friend().permanent_buff(6, 6)
+
+    @staticmethod
+    def ox(agent: MessageAgent):
         # TODO
         pass
 
-    def _puppy(self):
-        if self.gold < 2:
+    @staticmethod
+    def puppy(agent: MessageAgent):
+        if agent.gold < 2:
             return
-        if self.lvl == 1:
-            self.team.animals[self.team.acting].permanent_buff(2, 2)
-        elif self.lvl == 2:
-            self.team.animals[self.team.acting].permanent_buff(4, 4)
+        if agent.lvl == 1:
+            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
+        elif agent.lvl == 2:
+            agent.team.animals[agent.team.acting].permanent_buff(4, 4)
         else:
-            self.team.animals[self.team.acting].permanent_buff(6, 6)
+            agent.team.animals[agent.team.acting].permanent_buff(6, 6)
 
-    def _rabbit(self):
-        if self.lvl == 1:
-            self.team.animals[self.event_raiser].permanent_buff(0, 1)
-        elif self.lvl == 2:
-            self.team.animals[self.event_raiser].permanent_buff(0, 2)
+    @staticmethod
+    def rabbit(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.animals[agent.event_raiser].permanent_buff(0, 1)
+        elif agent.lvl == 2:
+            agent.team.animals[agent.event_raiser].permanent_buff(0, 2)
         else:
-            self.team.animals[self.event_raiser].permanent_buff(0, 3)
+            agent.team.animals[agent.event_raiser].permanent_buff(0, 3)
 
-    def _sheep(self):
+    @staticmethod
+    def sheep(agent: MessageAgent):
         # TODO
         pass
 
-    def _snail(self):
-        if not self.battle_lost:
+    @staticmethod
+    def snail(agent: MessageAgent):
+        if not agent.battle_lost:
             return
-        if self.lvl == 1:
-            self.buff(self.team.friends(), 2, 1)
-        elif self.lvl == 2:
-            self.buff(self.team.friends(), 4, 2)
+        if agent.lvl == 1:
+            agent.buff(agent.team.friends(), 2, 1)
+        elif agent.lvl == 2:
+            agent.buff(agent.team.friends(), 4, 2)
         else:
-            self.buff(self.team.friends(), 6, 3)
+            agent.buff(agent.team.friends(), 6, 3)
 
-    def _tropical_fish(self):
-        if self.lvl == 1:
-            self.team.friend_ahead().permanent_buff(0, 1)
-            self.team.friend_behind().permanent_buff(0, 1)
-        elif self.lvl == 2:
-            self.team.friend_ahead().permanent_buff(0, 2)
-            self.team.friend_behind().permanent_buff(0, 2)
+    @staticmethod
+    def tropical_fish(agent: MessageAgent):
+        if agent.lvl == 1:
+            agent.team.friend_ahead().permanent_buff(0, 1)
+            agent.team.friend_behind().permanent_buff(0, 1)
+        elif agent.lvl == 2:
+            agent.team.friend_ahead().permanent_buff(0, 2)
+            agent.team.friend_behind().permanent_buff(0, 2)
         else:
-            self.team.friend_ahead().permanent_buff(0, 3)
-            self.team.friend_behind().permanent_buff(0, 3)
+            agent.team.friend_ahead().permanent_buff(0, 3)
+            agent.team.friend_behind().permanent_buff(0, 3)
 
-    def _turtle(self):
-        # TODO
-        pass
-
-    def _whale(self):
+    @staticmethod
+    def turtle(agent: MessageAgent):
         # TODO
         pass
