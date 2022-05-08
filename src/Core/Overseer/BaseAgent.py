@@ -1,4 +1,5 @@
 from typing import List, Union
+from abc import abstractmethod
 from Core.GameElements.AbstractElements import Animal, Team, Spawner
 from Core.GameElements import Shop, GameSystem
 
@@ -6,6 +7,7 @@ from Core.GameElements import Shop, GameSystem
 # all messages flow through the agent
 class BaseAgent:
     def __init__(self, mode):
+        self.__mode = mode
         self.controller = GameSystem(mode)
         self.spawner = Spawner(mode)
         self.team = Team()
@@ -17,6 +19,7 @@ class BaseAgent:
         self.enemy = Team()
         self.shop = Shop(mode, 3, 1)
 
+        self.life = 10
         self.lvl = 0
         self.gold = 0
         self.turn = 1
@@ -27,12 +30,24 @@ class BaseAgent:
         # animal that responded to event is the acting animal
         self.event_raiser = 0
 
-    def load(self, team, turn, gold=10, shop=None, hearts=4, battle_lost=False):
+    # re-enter shop from a given state
+    # used for simulation and replay
+    def load(self, mode, team, turn, gold=10, life=10, battle_lost=False, shop=None):
+        self.__init__(mode)
+        self.team = team
+        self.turn = turn
+        self.gold = gold
+        self.life = life
+        self.battle_lost = battle_lost
+        if shop is not None:
+            self.shop = shop
         pass
 
+    @abstractmethod
     def trigger_message(self, message):
         pass
 
+    @abstractmethod
     def handle_message(self, message):
         pass
 
