@@ -12,46 +12,56 @@ class _Tier5(Animal):
 
 
 class Cow(_Tier5):
+    id = 58
+
     def __init__(self):
         super(Cow, self).__init__(4, 6)
 
     def trigger(self, name):
         if name == "buy":
-            return 58
+            return self.id
         return 0
 
 
 class Crocodile(_Tier5):
+    id = 59
+
     def __init__(self):
         super(Crocodile, self).__init__(6, 3)
 
     def trigger(self, name):
         if name == "start battle":
-            return 59
+            return self.id
         return 0
 
 
 class Monkey(_Tier5):
+    id = 62
+
     def __init__(self):
         super(Monkey, self).__init__(3, 3)
 
     def trigger(self, name):
         if name == "end turn":
-            return 50
+            return self.id
         return 0
 
 
 class Rhino(_Tier5):
+    id = 64
+
     def __init__(self):
         super(Rhino, self).__init__(5, 6)
 
     def trigger(self, name):
         if name == "knock out":
-            return 64
+            return self.id
         return 0
 
 
 class Scorpion(_Tier5):
+    id = 65
+
     def __init__(self):
         super(Scorpion, self).__init__(1, 1)
 
@@ -60,30 +70,36 @@ class Scorpion(_Tier5):
 
 
 class Seal(_Tier5):
+    id = 66
+
     def __init__(self):
         super(Seal, self).__init__(3, 6)
 
     def trigger(self, name):
         if name == "eat food":
-            return 66
+            return self.id
         return 0
 
 
 class Shark(_Tier5):
+    id = 67
+
     def __init__(self):
         super(Shark, self).__init__(4, 4)
 
     def trigger(self, name):
         if name == "friend faints":
-            return 67
+            return self.id
         return 0
 
 
 class Turkey(_Tier5):
+    id = 68
+
     def __init__(self):
         super(Turkey, self).__init__(3, 4)
 
     def trigger(self, name):
         if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return 68
+            return self.id
         return 0

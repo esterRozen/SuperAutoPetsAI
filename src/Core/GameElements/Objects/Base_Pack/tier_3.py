@@ -12,115 +12,139 @@ class _Tier3(Animal):
 
 
 class Badger(_Tier3):
+    id = 26
+
     def __init__(self):
         super(Badger, self).__init__(5, 4)
 
     def trigger(self, name):
         if name == "on faint":
-            return 27
+            return self.id
         return 0
 
 
 class Blowfish(_Tier3):
+    id = 27
+
     def __init__(self):
         super(Blowfish, self).__init__(3, 5)
 
     def trigger(self, name):
         if name == "hurt":
-            return 28
+            return self.id
         return 0
 
 
 class Camel(_Tier3):
+    id = 28
+
     def __init__(self):
         super(Camel, self).__init__(2, 5)
 
     def trigger(self, name):
         if name == "hurt":
-            return 29
+            return self.id
         return 0
 
 
 class Dog(_Tier3):
+    id = 30
+
     def __init__(self):
         super(Dog, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "friend summoned (battle)" or "friend summoned (shop)":
-            return 16
+            return self.id
         return 0
 
 
 class Giraffe(_Tier3):
+    id = 31
+
     def __init__(self):
         super(Giraffe, self).__init__(1, 3)
 
     def trigger(self, name):
         if name == "end turn":
-            return 31
+            return self.id
         return 0
 
 
 class Kangaroo(_Tier3):
+    id = 33
+
     def __init__(self):
         super(Kangaroo, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == "friend ahead attacks":
-            return 33
+            return self.id
         return 0
 
 
 class Ox(_Tier3):
+    id = 35
+
     def __init__(self):
         super(Ox, self).__init__(1, 4)
 
     def trigger(self, name):
         if name == "friend ahead faints":
-            return 35
+            return self.id
         return 0
 
 
 class Rabbit(_Tier3):
+    id = 37
+
     def __init__(self):
         super(Rabbit, self).__init__(3, 2)
 
     def trigger(self, name):
         if name == "friend eats food":
-            return 37
+            return self.id
         return 0
 
 
 class Ram(_Tier3):
+    id = 0
+
     def __init__(self):
         super(Ram, self).__init__(2, 2)
 
 
 class Sheep(_Tier3):
+    id = 38
+
     def __init__(self):
         super(Sheep, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "on faint":
-            return 38
+            return self.id
         return 0
 
 
 class Snail(_Tier3):
+    id = 39
+
     def __init__(self):
         super(Snail, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == "buy":
-            return 39
+            return self.id
         return 0
 
 
 class Turtle(_Tier3):
+    id = 41
+
     def __init__(self):
         super(Turtle, self).__init__(2, 4)
 
     def trigger(self, name):
         if name == "on faint":
-            return 41
+            return self.id
         return 0

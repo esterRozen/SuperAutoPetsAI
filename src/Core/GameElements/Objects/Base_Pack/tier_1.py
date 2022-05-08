@@ -12,6 +12,8 @@ class _Tier1(Animal):
 
 
 class Ant(_Tier1):
+    id = 1
+
     def __init__(self):
         super(Ant, self).__init__(2, 1)
 
@@ -22,6 +24,8 @@ class Ant(_Tier1):
 
 
 class Beaver(_Tier1):
+    id = 2
+
     def __init__(self):
         super(Beaver, self).__init__(2, 2)
 
@@ -32,11 +36,15 @@ class Beaver(_Tier1):
 
 
 class Bee(_Tier1):
+    id = 0
+
     def __init__(self):
         super(Bee, self).__init__(1, 1)
 
 
 class Cricket(_Tier1):
+    id = 5
+
     def __init__(self):
         super(Cricket, self).__init__(1, 2)
 
@@ -47,6 +55,7 @@ class Cricket(_Tier1):
 
 
 class Duck(_Tier1):
+    id = 6
     def __init__(self):
         super(Duck, self).__init__(1, 2)
 
@@ -57,6 +66,8 @@ class Duck(_Tier1):
 
 
 class Fish(_Tier1):
+    id = 7
+
     def __init__(self):
         super(Fish, self).__init__(2, 3)
 
@@ -67,6 +78,8 @@ class Fish(_Tier1):
 
 
 class Horse(_Tier1):
+    id = 8
+
     def __init__(self):
         super(Horse, self).__init__(1, 1)
 
@@ -77,6 +90,8 @@ class Horse(_Tier1):
 
 
 class Mosquito(_Tier1):
+    id = 10
+
     def __init__(self):
         super(Mosquito, self).__init__(2, 2)
 
@@ -87,6 +102,8 @@ class Mosquito(_Tier1):
 
 
 class Otter(_Tier1):
+    id = 11
+
     def __init__(self):
         super(Otter, self).__init__(1, 2)
 
@@ -97,6 +114,8 @@ class Otter(_Tier1):
 
 
 class Pig(_Tier1):
+    id = 12
+
     def __init__(self):
         super(Pig, self).__init__(2, 2)
 
@@ -107,10 +126,13 @@ class Pig(_Tier1):
 
 
 class Sloth(_Tier1):
+    id = 0
+
     def __init__(self):
         super(Sloth, self).__init__(1, 1)
 
 
 class ZombieCricket(_Tier1):
+    id = 0
     def __init__(self):
         super(ZombieCricket, self).__init__(1, 1)
