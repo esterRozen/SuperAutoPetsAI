@@ -13,8 +13,8 @@ class BaseAgent:
         self.team = Team()
         # TODO make a copy of team when End Turn is reached,
         # all battle logic will use the original team,
-        # the backup will be returned at Start Turn, at which point
-        # all battle_hp/atk buffs will revert to hp/atk
+        # TODO load backup at start of turn
+        # also reset all battle-only buffs
         self.team_backup = None
         self.enemy = Team()
         self.shop = Shop(mode, 3, 1)
@@ -32,16 +32,17 @@ class BaseAgent:
 
     # re-enter shop from a given state
     # used for simulation and replay
-    def load(self, mode, team, turn, gold=10, life=10, battle_lost=False, shop=None):
-        self.__init__(mode)
-        self.team = team
-        self.turn = turn
-        self.gold = gold
-        self.life = life
-        self.battle_lost = battle_lost
+    @staticmethod
+    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None):
+        agent = BaseAgent(mode)
+        agent.team = team
+        agent.turn = turn
+        agent.gold = gold
+        agent.life = life
+        agent.battle_lost = battle_lost
         if shop is not None:
-            self.shop = shop
-        pass
+            agent.shop = shop
+        return agent
 
     @abstractmethod
     def trigger_message(self, message):
