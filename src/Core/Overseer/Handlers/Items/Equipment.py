@@ -1,43 +1,43 @@
-from Core.Overseer.Handlers.triggers import Triggers
 from Core.GameElements.Objects.Equipment import *
+from Core.Overseer import MessageAgent
 
 
-class Equipment(Triggers):
-    def __init__(self, mode):
-        super(Equipment, self).__init__(mode)
-
-    def apple(self):
+class Equipment:
+    @staticmethod
+    def apple(agent: MessageAgent):
         # raise eat food
-        self.team.animals[self.team.acting].permanent_buff(1, 1)
+        agent.team.animals[agent.team.acting].permanent_buff(1, 1)
 
-    def honey(self):
-        # raise eat food
-        pass
-
-    def cupcake(self):
-        # raise eat food
-        self.team.animals[self.team.acting].temp_buff(3, 3)
-
-    def meat_bone(self):
+    @staticmethod
+    def honey(agent: MessageAgent):
         # raise eat food
         pass
 
-    def sleeping_pill(self):
+    @staticmethod
+    def cupcake(agent: MessageAgent):
+        # raise eat food
+        agent.team.animals[agent.team.acting].temp_buff(3, 3)
+
+    @staticmethod
+    def meat_bone(agent: MessageAgent):
+        # raise eat food
+        pass
+
+    @staticmethod
+    def sleeping_pill(agent: MessageAgent):
         # raise eat food
         # raise faint, have variables set properly
-        self.event_raiser = self.team.acting
-        self.send_engine_message("faint")
+        agent.event_raiser = agent.team.acting
+        agent.send_engine_message("faint")
 
-    def garlic(self):
+    @staticmethod
+    def garlic(agent: MessageAgent):
         # raise eat food
         pass
 
-    def salad_bowl(self):
-        units = self.team.random_units_idx(2)
+    @staticmethod
+    def salad_bowl(agent: MessageAgent):
+        units = agent.team.random_units_idx(2)
         for unit in units:
             # raise eat food
             pass
-
-
-
-    pass
