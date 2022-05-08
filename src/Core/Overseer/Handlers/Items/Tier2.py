@@ -24,6 +24,10 @@ class Tier2:
             agent.team.friend_ahead().battle_atk += 3 * battle_atk
 
     @staticmethod
+    def dirty_rat(agent: MessageAgent):
+        return NotImplemented
+
+    @staticmethod
     def dromedary(agent: MessageAgent):
         if agent.lvl == 1:
             agent.shop.buff(1, 1)
