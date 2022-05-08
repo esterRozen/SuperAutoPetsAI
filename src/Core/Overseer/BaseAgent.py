@@ -1,18 +1,20 @@
-import Core.GameElements.AbstractElements as ae
-from Core.GameElements import Shop
+from typing import List, Union
+from Core.GameElements.AbstractElements import Animal, Team, Spawner
+from Core.GameElements import Shop, GameSystem
 
 
+# all messages flow through the agent
 class BaseAgent:
     def __init__(self, mode):
-        self.controller = Game(mode)
-        self.spawner = ae.Spawner(mode)
-        self.team = ae.Team([ae.Empty() for _ in range(5)], [ae.Unarmed() for _ in range(5)])
+        self.controller = GameSystem(mode)
+        self.spawner = Spawner(mode)
+        self.team = Team()
         # TODO make a copy of team when End Turn is reached,
         # all battle logic will use the original team,
         # the backup will be returned at Start Turn, at which point
         # all battle_hp/atk buffs will revert to hp/atk
         self.team_backup = None
-        self.enemy = ae.Team([ae.Empty() for _ in range(5)], [ae.Unarmed() for _ in range(5)])
+        self.enemy = Team()
         self.shop = Shop(mode, 3, 1)
 
         self.lvl = 0
@@ -37,15 +39,15 @@ class BaseAgent:
     def _nop(self):
         pass
 
-    def buff(self, unit, atk, hp):
+    def buff(self, unit: Union[List[Animal], Animal], atk, hp):
         if self.in_shop:
-            if isinstance(unit, ae.Animal):
+            if isinstance(unit, Animal):
                 unit.permanent_buff(atk, hp)
             else:
                 for animal in unit:
                     animal.permanent_buff(atk, hp)
         else:
-            if isinstance(unit, ae.Animal):
+            if isinstance(unit, Animal):
                 unit.temp_buff(atk, hp)
             else:
                 for animal in unit:
