@@ -78,7 +78,35 @@ class MessageAgent(BaseAgent):
                                    # zombie_cricket, dirty_rat, butterfly, ram, honey, mushroom
                                    ]
 
-    def handle_event(self, message):
+    @property
+    def sorted_team(self):
+        # for unit in roster sorted by descending attack, then increasing index
+        units_sorted = sorted(
+                self.team.animals,
+                key=lambda animal: (-1*animal.atk, self.team.animals.index(animal)),
+                reverse=False)
+        return units_sorted
+
+    @property
+    def sorted_without_raiser(self):
+        sorted_team = self.sorted_team
+        if self.event_raiser[0] == "team":
+            sorted_team.remove(self.team.animals[self.event_raiser[1]])
+        return sorted_team
+
+    @property
+    def sorted_without_target(self):
+        sorted_team = self.sorted_team
+        if self.target[0] == "team":
+            sorted_team.remove(self.team.animals[self.target[1]])
+        return sorted_team
+
+    def handle_event(self, message, event_raiser, target=None):
+        # set variables
+        self.event_raiser = event_raiser
+        if target is not None:
+            self.target = target
+
         # route to trigger processor, it will figure out which units to have
         # handle messages.
         # for unit in roster sorted by descending attack, then left to right
