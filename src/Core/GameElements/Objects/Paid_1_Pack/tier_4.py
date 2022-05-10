@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 
 
 # paid_1 pack
@@ -20,7 +21,7 @@ class Bison(_Tier4):
         super(Bison, self).__init__(6, 6)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 
@@ -32,7 +33,7 @@ class Buffalo(_Tier4):
         super(Buffalo, self).__init__(5, 5)
 
     def trigger(self, name):
-        if name == "friend bought":
+        if name == FRIEND_BOUGHT:
             return self.id
         return 0
 
@@ -58,7 +59,7 @@ class Deer(_Tier4):
         super(Deer, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -70,7 +71,7 @@ class Dolphin(_Tier4):
         super(Dolphin, self).__init__(4, 6)
 
     def trigger(self, name: str):
-        if name == "start turn":
+        if name == START_TURN:
             return self.id
         return 0
 
@@ -82,7 +83,7 @@ class Llama(_Tier4):
         super(Llama, self).__init__(2, 5)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 
@@ -94,7 +95,7 @@ class Lobster(_Tier4):
         super(Lobster, self).__init__(3, 3)
 
     def trigger(self, name):
-        if name == "friend summoned (shop)":
+        if name == FRIEND_SUMMONED_SHOP:
             return self.id
         return 0
 
@@ -106,7 +107,7 @@ class Microbe(_Tier4):
         super(Microbe, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -118,7 +119,7 @@ class Rooster(_Tier4):
         super(Rooster, self).__init__(3, 3)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -130,7 +131,7 @@ class Skunk(_Tier4):
         super(Skunk, self).__init__(3, 5)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return self.id
         return 0
 
@@ -142,7 +143,7 @@ class Squirrel(_Tier4):
         super(Squirrel, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "buy":
+        if name == START_TURN:
             return self.id
         return 0
 
@@ -154,6 +155,6 @@ class Worm(_Tier4):
         super(Worm, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "eat food":
+        if name == EAT_FOOD:
             return self.id
         return 0

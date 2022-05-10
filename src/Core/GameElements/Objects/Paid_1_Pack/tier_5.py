@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 
 
 # paid_1 pack
@@ -20,7 +21,7 @@ class Chicken(_Tier5):
         super(Chicken, self).__init__(3, 4)
 
     def trigger(self, name):
-        if name == "buy t1 pet":
+        if name == BUY_T1_PET:
             return self.id
         return 0
 
@@ -32,7 +33,7 @@ class Cow(_Tier5):
         super(Cow, self).__init__(4, 6)
 
     def trigger(self, name):
-        if name == "buy":
+        if name == BUY:
             return self.id
         return 0
 
@@ -44,7 +45,7 @@ class Eagle(_Tier5):
         super(Eagle, self).__init__(6, 5)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -57,15 +58,15 @@ class Goat(_Tier5):
         self.limit = 1
 
     def trigger(self, name):
-        if name == "friend bought":
+        if name == FRIEND_BOUGHT:
             self.limit -= 1
             if self.limit < 0:
                 return 0
             return self.id
-        elif name == "start turn":
+        elif name == START_TURN:
             self.limit = self.level
             return 0
-        elif name == "on level":
+        elif name == ON_LEVEL:
             self.limit += 1
             return 0
         return 0
@@ -78,7 +79,7 @@ class Poodle(_Tier5):
         super(Poodle, self).__init__(4, 2)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 
@@ -90,7 +91,7 @@ class Rhino(_Tier5):
         super(Rhino, self).__init__(5, 6)
 
     def trigger(self, name):
-        if name == "knock out":
+        if name == KNOCK_OUT:
             return self.id
         return 0
 
@@ -112,6 +113,6 @@ class Seal(_Tier5):
         super(Seal, self).__init__(3, 6)
 
     def trigger(self, name):
-        if name == "eat food":
+        if name == EAT_FOOD:
             return self.id
         return 0

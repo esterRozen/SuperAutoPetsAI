@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 
 
 # paid_1 pack
@@ -21,7 +22,7 @@ class Ant(_Tier1):
         super(Ant, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -33,7 +34,7 @@ class Beaver(_Tier1):
         super(Beaver, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "sell":
+        if name == SELL:
             return self.id
         return 0
 
@@ -52,7 +53,7 @@ class Beetle(_Tier1):
         super(Beetle, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == "eat food":
+        if name == EAT_FOOD:
             return self.id
         return 0
 
@@ -64,7 +65,7 @@ class Bluebird(_Tier1):
         super(Bluebird, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 
@@ -76,7 +77,7 @@ class Cricket(_Tier1):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -88,7 +89,7 @@ class Fish(_Tier1):
         super(Fish, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == "on level":
+        if name == ON_LEVEL:
             return self.id
         return 0
 
@@ -100,7 +101,7 @@ class Ladybug(_Tier1):
         super(Ladybug, self).__init__(1, 3)
 
     def trigger(self, name):
-        if name == "buy food":
+        if name == FRIEND_EATS_FOOD:
             return self.id
         return 0
 
@@ -112,7 +113,7 @@ class Mosquito(_Tier1):
         super(Mosquito, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return self.id
         return 0
 
@@ -124,7 +125,7 @@ class Pig(_Tier1):
         super(Pig, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "sell":
+        if name == SELL:
             return self.id
         return 0
 

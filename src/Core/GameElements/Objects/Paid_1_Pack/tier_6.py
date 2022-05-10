@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 # paid_1 pack
 
 
@@ -18,7 +19,7 @@ class Boar(_Tier6):
         super(Boar, self).__init__(8, 6)
 
     def trigger(self, name):
-        if name == "before attack":
+        if name == BEFORE_ATTACK:
             return self.id
         return
 
@@ -30,7 +31,7 @@ class Dragon(_Tier6):
         super(Dragon, self).__init__(6, 8)
 
     def trigger(self, name):
-        if name == "buy t1 pet":
+        if name == BUY_T1_PET:
             return self.id
         return 0
 
@@ -42,7 +43,7 @@ class Gorilla(_Tier6):
         super(Gorilla, self).__init__(6, 6)
 
     def trigger(self, name):
-        if name == "hurt":
+        if name == HURT:
             return self.id
         return 0
 
@@ -54,7 +55,7 @@ class Leopard(_Tier6):
         super(Leopard, self).__init__(6, 4)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return self.id
         return 0
 
@@ -66,7 +67,7 @@ class Mammoth(_Tier6):
         super(Mammoth, self).__init__(2, 6)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -78,9 +79,9 @@ class Octopus(_Tier6):
         super(Octopus, self).__init__(8, 8)
 
     def trigger(self, name):
-        if self.level == 3 and name == "before attack":
+        if name == BEFORE_ATTACK and self.level == 3:
             return self.id
-        elif name == "on level":
+        elif name == ON_LEVEL:
             return self.id
         return 0
 
@@ -93,14 +94,14 @@ class Sauropod(_Tier6):
         self.limit = 1
 
     def trigger(self, name):
-        if name == "buy food":
+        if name == BUY_FOOD:
             if self.limit < 0:
                 return 0
             return self.id
-        elif name == "start turn":
+        elif name == START_TURN:
             self.limit = self.level
             return 0
-        elif name == "on level":
+        elif name == ON_LEVEL:
             self.limit += 1
             return 0
         return 0
@@ -112,6 +113,9 @@ class Tiger(_Tier6):
     def __init__(self):
         super(Tiger, self).__init__(4, 3)
 
+    def trigger(self, name):
+        return self.id
+
 
 class Tyrannosaurus(_Tier6):
     id = 80
@@ -120,7 +124,7 @@ class Tyrannosaurus(_Tier6):
         super(Tyrannosaurus, self).__init__(9, 4)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 

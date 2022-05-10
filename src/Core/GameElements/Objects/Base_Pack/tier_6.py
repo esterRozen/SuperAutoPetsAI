@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 # base pack
 
 
@@ -18,7 +19,7 @@ class Boar(_Tier6):
         super(Boar, self).__init__(8, 6)
 
     def trigger(self, name):
-        if name == "before attack":
+        if name == BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -30,7 +31,7 @@ class Cat(_Tier6):
         super(Cat, self).__init__(4, 5)
 
     def trigger(self, name):
-        if name == "buy food":
+        if name == BUY_FOOD:
             return self.id
         return 0
 
@@ -42,7 +43,7 @@ class Dragon(_Tier6):
         super(Dragon, self).__init__(6, 8)
 
     def trigger(self, name):
-        if name == "buy t1 pet":
+        if name == BUY_T1_PET:
             return self.id
         return 0
 
@@ -61,7 +62,7 @@ class Fly(_Tier6):
         super(Fly, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "friend faints":
+        if name == FRIEND_FAINTS:
             return self.id
         return 0
 
@@ -73,7 +74,7 @@ class Gorilla(_Tier6):
         super(Gorilla, self).__init__(6, 6)
 
     def trigger(self, name):
-        if name == "hurt":
+        if name == HURT:
             return self.id
         return 0
 
@@ -85,7 +86,7 @@ class Leopard(_Tier6):
         super(Leopard, self).__init__(6, 4)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return self.id
         return 0
 
@@ -97,7 +98,7 @@ class Mammoth(_Tier6):
         super(Mammoth, self).__init__(2, 6)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -109,7 +110,7 @@ class Snake(_Tier6):
         super(Snake, self).__init__(6, 6)
 
     def trigger(self, name):
-        if name == "friend ahead attacks":
+        if name == FRIEND_AHEAD_ATTACKS:
             return self.id
         return 0
 

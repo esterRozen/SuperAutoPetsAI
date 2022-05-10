@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 # base pack
 
 
@@ -18,7 +19,7 @@ class Cow(_Tier5):
         super(Cow, self).__init__(4, 6)
 
     def trigger(self, name):
-        if name == "buy":
+        if name == BUY:
             return self.id
         return 0
 
@@ -30,7 +31,7 @@ class Crocodile(_Tier5):
         super(Crocodile, self).__init__(6, 3)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return self.id
         return 0
 
@@ -42,7 +43,7 @@ class Monkey(_Tier5):
         super(Monkey, self).__init__(3, 3)
 
     def trigger(self, name):
-        if name == "end turn":
+        if name == END_TURN:
             return self.id
         return 0
 
@@ -54,7 +55,7 @@ class Rhino(_Tier5):
         super(Rhino, self).__init__(5, 6)
 
     def trigger(self, name):
-        if name == "knock out":
+        if name == KNOCK_OUT:
             return self.id
         return 0
 
@@ -76,7 +77,7 @@ class Seal(_Tier5):
         super(Seal, self).__init__(3, 6)
 
     def trigger(self, name):
-        if name == "eat food":
+        if name == EAT_FOOD:
             return self.id
         return 0
 
@@ -88,7 +89,7 @@ class Shark(_Tier5):
         super(Shark, self).__init__(4, 4)
 
     def trigger(self, name):
-        if name == "friend faints":
+        if name == FRIEND_FAINTS:
             return self.id
         return 0
 
@@ -100,6 +101,6 @@ class Turkey(_Tier5):
         super(Turkey, self).__init__(3, 4)
 
     def trigger(self, name):
-        if name == "friend summoned (battle)" or "friend summoned (shop)":
+        if name == FRIEND_SUMMONED_BATTLE or FRIEND_SUMMONED_SHOP:
             return self.id
         return 0
