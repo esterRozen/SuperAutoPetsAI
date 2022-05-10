@@ -9,24 +9,29 @@ from ..BattleSystem import BattleSystem
 class BaseAgent:
     def __init__(self, mode):
         self.__mode = mode
-        self.spawner = Spawner(mode)
         self.__battler = None
         self.__shopper = None
-        self.team = Team()
-        # TODO make a copy of team when End Turn is reached,
-        # all battle logic will use the original team,
-        # TODO load backup at start of turn
-        # also reset all battle-only buffs
-        self.team_backup = None
-        self.enemy = Team()
-        self.shop = Shop(mode, 3, 1)
 
+        self.spawner = Spawner(mode)
+
+        # all that is needed to define current state
+        self.team = Team()
         self.life = 10
         self.lvl = 0
         self.gold = 0
         self.turn = 1
         self.battle_lost = False
         self.in_shop = True
+
+        # TODO make a copy of team when End Turn is reached,
+        # all battle logic will use the original team,
+        # TODO load backup at start of turn
+        # also reset all battle-only buffs
+
+        self.team_backup = None
+        self.enemy = Team()
+
+        self.shop = Shop(mode, 3, 1)
 
         # animal that triggered the event is the event_raiser
         # animal that responded to event is the acting animal
