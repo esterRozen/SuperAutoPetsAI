@@ -2,6 +2,7 @@ from typing import TypeAlias, List, Callable
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
 from .Handlers.eventprocessor import EventProcessor
+from .Handlers.Items.eventnames import *
 
 
 animals = [
@@ -119,49 +120,57 @@ class MessageAgent(BaseAgent):
         self.event_raiser = event_raiser
         if target is not None:
             self.target = target
+        if message == BEFORE_ATTACK:
+            self.__EP.before_attack(self)
+        elif message == BUY:
+            self.__EP.buy(self)
+        elif message == BUY_FOOD:
+            self.__EP.buy_food(self)
+        elif message == BUY_T1_PET:
+            self.__EP.buy_T1_pet(self)
+        elif message == EAT_FOOD:
+            self.__EP.eat_food(self)
+        elif message == ENEMY_ATTACKS:
+            self.__EP.enemy_attacks(self)
+        elif message == END_TURN:
+            self.__EP.end_turn(self)
+        elif message == FRIEND_AHEAD_ATTACKS:
+            self.__EP.friend_ahead_attacks(self)
+        elif message == FRIEND_AHEAD_FAINTS:
+            self.__EP.friend_ahead_faints(self)
+        elif message == FRIEND_BOUGHT:
+            self.__EP.friend_bought(self)
+        elif message == FRIEND_EATS_FOOD:
+            self.__EP.friend_eats_food(self)
+        elif message == FRIEND_FAINTS:
+            self.__EP.friend_faints(self)
+        elif message == FRIEND_SOLD:
+            self.__EP.friend_sold(self)
+        elif message == FRIEND_SUMMONED_BATTLE:
+            self.__EP.friend_summoned_battle(self)
+        elif message == FRIEND_SUMMONED_SHOP:
+            self.__EP.friend_summoned_shop(self)
+        elif message == HURT:
+            self.__EP.hurt(self)
+        elif message == IS_SUMMONED:
+            self.__EP.is_summoned(self)
+        elif message == KNOCK_OUT:
+            self.__EP.knock_out(self)
+        elif message == ON_FAINT:
+            self.__EP.on_faint(self)
+        elif message == ON_LEVEL:
+            self.__EP.on_level(self)
+        elif message == SELL:
+            self.__EP.sell(self)
+        elif message == START_BATTLE:
+            self.__EP.start_battle(self)
+        elif message == START_TURN:
+            self.__EP.start_turn(self)
+
+            # sending messages like buy, sell, move, combine, start turn, end turn,
 
         # route to trigger processor, it will figure out which units to have
         # handle messages.
-        if message == "buy":
-            self.__EP.buy(self)
-        elif message == "buy food":
-            self.__EP.buy_food(self)
-        elif message == "buy t1 pet":
-            self.__EP.buy_T1_pet(self)
-        elif message == "eat food":
-            self.__EP.eat_food(self)
-        elif message == "start turn":
-            self.__EP.start_turn(self)
-        elif message == "sell":
-            self.__EP.sell(self)
-        elif message == "end turn":
-            self.__EP.end_turn(self)
-        elif message == "friend bought":
-            self.__EP.friend_bought(self)
-        elif message == "friend eats food":
-            self.__EP.friend_eats_food(self)
-        elif message == "friend sold":
-            self.__EP.friend_sold(self)
-        elif message == "friend summoned (shop)":
-            self.__EP.friend_summoned_shop(self)
-        elif message == "friend faints":
-            self.__EP.friend_faints(self)
-        elif message == "on level":
-            self.__EP.on_level(self)
-        elif message == "friend ahead faints":
-            self.__EP.friend_ahead_faints(self)
-        elif message == "hurt":
-            self.__EP.hurt(self)
-        elif message == "start battle":
-            self.__EP.start_battle(self)
-        elif message == "before attack":
-            self.__EP.before_attack(self)
-        elif message == "friend summoned (battle)":
-            self.__EP.friend_summoned_battle(self)
-        elif message == "knock out":
-            self.__EP.knock_out(self)
-
-            # sending messages like buy, sell, move, combine, start turn, end turn,
         # start turn, reroll, freeze/unfreeze, hurt, faint, knock out, attacks,
         # before attack, unit ahead attacks, unit ahead faints, friend summoned
         return
