@@ -51,7 +51,7 @@ class Animal:
         self.battle_atk = self.atk
         return self
 
-    def trigger(self, name: int):
+    def trigger(self, name: str):
         return 0
 
     def __lt__(self, other):
