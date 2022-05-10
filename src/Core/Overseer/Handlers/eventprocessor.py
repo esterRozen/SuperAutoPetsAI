@@ -45,22 +45,6 @@ class EventProcessor:
     # engine
     # apply to all units
     @staticmethod
-    def start_turn(agent: MessageAgent):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(START_TURN)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
-
-    # engine
-    # apply to unit that raised event (got sold)
-    @staticmethod
-    def sell(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
-        agent.trigger_ability(operation)
-
-    # engine
-    # apply to all units
-    @staticmethod
     def end_turn(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(END_TURN)
@@ -100,6 +84,22 @@ class EventProcessor:
     def friend_summoned_shop(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SUMMONED_SHOP)
+            agent.target = ("team", agent.team.animals.index(animal))
+            agent.trigger_ability(operation)
+
+    # engine
+    # apply to unit that raised event (got sold)
+    @staticmethod
+    def sell(agent: MessageAgent):
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
+        agent.trigger_ability(operation)
+
+    # engine
+    # apply to all units
+    @staticmethod
+    def start_turn(agent: MessageAgent):
+        for animal in agent.sorted_team:
+            operation = animal.trigger(START_TURN)
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
