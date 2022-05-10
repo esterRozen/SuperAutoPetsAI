@@ -46,11 +46,11 @@ class BaseAgent:
         return agent
 
     @abstractmethod
-    def trigger_message(self, message):
+    def handle_event(self, message):
         pass
 
     @abstractmethod
-    def handle_message(self, message):
+    def trigger_ability(self, message):
         pass
 
     def _nop(self):

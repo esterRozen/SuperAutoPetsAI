@@ -2,6 +2,7 @@ from typing import TypeAlias, List, Callable
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
 
+
 animals = [
     "Nop",  # No action
 
@@ -51,6 +52,8 @@ class MessageAgent(BaseAgent):
         t5 = Tier5()
         t6 = Tier6()
         eq = Equipment()
+
+        # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
         self.func: List[Animal] = [t1.nop,
                                    t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket, t1.duck, t1.fish,
                                    t1.horse, t1.ladybug, t1.mosquito, t1.otter, t1.pig,
@@ -72,10 +75,10 @@ class MessageAgent(BaseAgent):
                                    t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard, t6.mammoth,
                                    t6.octopus, t6.sauropod, t6.snake, t6.tiger, t6.tyrannosaurus
 
-                                   # self.zombie_cricket, self.dirty_rat, self.butterfly, self.ram, self
+                                   # zombie_cricket, dirty_rat, butterfly, ram, honey, mushroom
                                    ]
 
-    def trigger_message(self, message):
+    def handle_event(self, message):
         # route to trigger processor, it will figure out which units to have
         # handle messages.
         # for unit in roster sorted by descending attack, then left to right
@@ -86,7 +89,7 @@ class MessageAgent(BaseAgent):
         pass
 
     # message contains unit_id which sent it
-    def handle_message(self, message):
+    def trigger_ability(self, message):
         # trigger function that manipulates roster
         # does not return anything
         self.func[message](self)
