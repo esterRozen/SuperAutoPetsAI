@@ -1,4 +1,4 @@
 from . import Items
-from .triggerprocessor import TriggerProcessor
+from .eventprocessor import EventProcessor
 
-__all__ = ['Items', 'TriggerProcessor']
+__all__ = ['Items', 'EventProcessor']
