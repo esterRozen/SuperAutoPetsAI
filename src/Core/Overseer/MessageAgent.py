@@ -1,6 +1,7 @@
 from typing import TypeAlias, List, Callable
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
+from .Handlers.eventprocessor import EventProcessor
 
 
 animals = [
@@ -52,6 +53,7 @@ class MessageAgent(BaseAgent):
         t5 = Tier5()
         t6 = Tier6()
         eq = Equipment()
+        self.__EP = EventProcessor()
 
         # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
         self.func: List[Animal] = [t1.nop,
@@ -109,12 +111,49 @@ class MessageAgent(BaseAgent):
 
         # route to trigger processor, it will figure out which units to have
         # handle messages.
-        # for unit in roster sorted by descending attack, then left to right
-        # send message,
-        # sending messages like buy, sell, move, combine, start turn, end turn,
+        if message == "buy":
+            self.__EP.buy(self)
+        elif message == "buy food":
+            self.__EP.buy_food(self)
+        elif message == "buy t1 pet":
+            self.__EP.buy_T1_pet(self)
+        elif message == "eat food":
+            self.__EP.eat_food(self)
+        elif message == "start turn":
+            self.__EP.start_turn(self)
+        elif message == "sell":
+            self.__EP.sell(self)
+        elif message == "end turn":
+            self.__EP.end_turn(self)
+        elif message == "friend bought":
+            self.__EP.friend_bought(self)
+        elif message == "friend eats food":
+            self.__EP.friend_eats_food(self)
+        elif message == "friend sold":
+            self.__EP.friend_sold(self)
+        elif message == "friend summoned (shop)":
+            self.__EP.friend_summoned_shop(self)
+        elif message == "friend faints":
+            self.__EP.friend_faints(self)
+        elif message == "on level":
+            self.__EP.on_level(self)
+        elif message == "friend ahead faints":
+            self.__EP.friend_ahead_faints(self)
+        elif message == "hurt":
+            self.__EP.hurt(self)
+        elif message == "start battle":
+            self.__EP.start_battle(self)
+        elif message == "before attack":
+            self.__EP.before_attack(self)
+        elif message == "friend summoned (battle)":
+            self.__EP.friend_summoned_battle(self)
+        elif message == "knock out":
+            self.__EP.knock_out(self)
+
+            # sending messages like buy, sell, move, combine, start turn, end turn,
         # start turn, reroll, freeze/unfreeze, hurt, faint, knock out, attacks,
         # before attack, unit ahead attacks, unit ahead faints, friend summoned
-        pass
+        return
 
     # message contains unit_id which sent it
     def trigger_ability(self, message):
