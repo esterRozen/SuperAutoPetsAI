@@ -1,4 +1,5 @@
 from Core.Overseer import MessageAgent
+from .Items.eventnames import *
 
 
 class EventProcessor:
@@ -11,7 +12,7 @@ class EventProcessor:
     # apply to unit that acted (was bought)
     @staticmethod
     def buy(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger("buy")
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(BUY)
         agent.trigger_ability(operation)
 
     # engine
@@ -19,7 +20,7 @@ class EventProcessor:
     @staticmethod
     def buy_food(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("buy food")
+            operation = animal.trigger(BUY_FOOD)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -28,7 +29,7 @@ class EventProcessor:
     @staticmethod
     def buy_T1_pet(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("buy t1 pet")
+            operation = animal.trigger(BUY_T1_PET)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -37,7 +38,7 @@ class EventProcessor:
     @staticmethod
     def eat_food(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("eat food")
+            operation = animal.trigger(EAT_FOOD)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -46,7 +47,7 @@ class EventProcessor:
     @staticmethod
     def start_turn(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("start turn")
+            operation = animal.trigger(START_TURN)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -54,7 +55,7 @@ class EventProcessor:
     # apply to unit that raised event (got sold)
     @staticmethod
     def sell(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger("sell")
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
         agent.trigger_ability(operation)
 
     # engine
@@ -62,7 +63,7 @@ class EventProcessor:
     @staticmethod
     def end_turn(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("end turn")
+            operation = animal.trigger(END_TURN)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -71,7 +72,7 @@ class EventProcessor:
     @staticmethod
     def friend_bought(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
-            operation = animal.trigger("friend bought")
+            operation = animal.trigger(FRIEND_BOUGHT)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -80,7 +81,7 @@ class EventProcessor:
     @staticmethod
     def friend_eats_food(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
-            operation = animal.trigger("friend eats food")
+            operation = animal.trigger(FRIEND_EATS_FOOD)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -98,7 +99,7 @@ class EventProcessor:
     @staticmethod
     def friend_summoned_shop(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
-            operation = animal.trigger("friend summoned (shop)")
+            operation = animal.trigger(FRIEND_SUMMONED_SHOP)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -109,7 +110,7 @@ class EventProcessor:
     @staticmethod
     def friend_faints(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("friend faints")
+            operation = animal.trigger(FRIEND_FAINTS)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
