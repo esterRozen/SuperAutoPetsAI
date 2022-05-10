@@ -1,13 +1,18 @@
 # must have a way to save and load states
-from Core.BattleSystem import *
-from Core.GameElements.AbstractElements.Team import Team
-from Core.Overseer import *
+from .BattleSystem import *
+from .GameElements import GameSystem
+from .GameElements.AbstractElements.Team import Team
+from .Overseer import *
 
 
 class Engine:
     def __init__(self, mode):
-        self.system = MessageAgent(mode)
-        self.battle_director = BattleSystem(self.system)
+        self.messenger = MessageAgent(mode)
+        self.battle_director = BattleSystem(self.messenger)
+        self.shop_director = GameSystem(self.messenger)
+
+        self.messenger.set_battler(self.battle_director)
+        self.messenger.set_shopper(self.shop_director)
 
     def move(self, roster_init, roster_final):
         # moves init unit to *left* side of final unit
