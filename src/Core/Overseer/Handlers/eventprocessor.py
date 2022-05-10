@@ -210,7 +210,7 @@ class EventProcessor:
             agent.trigger_ability(operation)
 
     # battle system
-    # deal damage to enemy unit
+    # deal damage to target
     @staticmethod
-    def deal_enemy(damage, pos):
+    def deal_enemy(agent: MessageAgent, damage: int):
         pass
