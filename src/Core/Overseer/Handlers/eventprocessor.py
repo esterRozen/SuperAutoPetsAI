@@ -151,13 +151,6 @@ class EventProcessor:
         operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
         agent.trigger_ability(operation)
 
-    # engine and battle system
-    # handles damage system, will check for faint
-    # deal damage to friendly unit
-    @staticmethod
-    def damage_team(damage, pos):
-        pass
-
     ################################################################
 
     # triggered by battle system (which feeds message to message agent)
@@ -208,9 +201,3 @@ class EventProcessor:
         for animal in agent.sorted_team:
             operation = animal.trigger(START_BATTLE)
             agent.trigger_ability(operation)
-
-    # battle system
-    # deal damage to target
-    @staticmethod
-    def deal_enemy(agent: MessageAgent, damage: int):
-        pass
