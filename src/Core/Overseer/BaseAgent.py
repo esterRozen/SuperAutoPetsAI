@@ -8,7 +8,6 @@ from Core.GameElements import Shop, GameSystem
 class BaseAgent:
     def __init__(self, mode):
         self.__mode = mode
-        self.controller = GameSystem(mode)
         self.spawner = Spawner(mode)
         self.team = Team()
         # TODO make a copy of team when End Turn is reached,
