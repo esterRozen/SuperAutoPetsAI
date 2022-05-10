@@ -1,6 +1,6 @@
 from . import AbstractElements
 from . import Objects
-from .GameSystem import GameSystem
+from Core.GameSystems.ShopSystem import ShopSystem
 from .Shop import Shop
 
-__all__ = ['AbstractElements', 'Objects', 'Shop', 'GameSystem']
+__all__ = ['AbstractElements', 'Objects', 'Shop', 'ShopSystem']
