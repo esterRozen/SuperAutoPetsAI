@@ -1,8 +1,8 @@
 from typing import List, Union, Tuple
 from abc import abstractmethod
 from Core.GameElements.AbstractElements import Animal, Team, Spawner
-from Core.GameElements import Shop, GameSystem
-from ..BattleSystem import BattleSystem
+from Core.GameElements import Shop, ShopSystem
+from ..GameSystems import BattleSystem
 
 
 # all messages flow through the agent
@@ -41,16 +41,18 @@ class BaseAgent:
     # re-enter shop from a given state
     # used for simulation and replay
     @staticmethod
-    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None):
-        agent = BaseAgent(mode)
-        agent.team = team
-        agent.turn = turn
-        agent.gold = gold
-        agent.life = life
-        agent.battle_lost = battle_lost
-        if shop is not None:
-            agent.shop = shop
-        return agent
+    @abstractmethod
+    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None) -> 'BaseAgent':
+        pass
+
+    def save(self, include_shop: bool) -> Tuple:
+        if include_shop:
+            state = (self.__mode, self.team, self.turn, self.gold,
+                     self.life, self.battle_lost, self.shop)
+        else:
+            state = (self.__mode, self.team, self.turn, self.gold,
+                     self.life, self.battle_lost)
+        return state
 
     @abstractmethod
     def handle_event(self, message, event_raiser, target=None):
@@ -63,7 +65,7 @@ class BaseAgent:
     def set_battler(self, battle_system: BattleSystem):
         self.__battler = battle_system
 
-    def set_shopper(self, game_system: GameSystem):
+    def set_shopper(self, game_system: ShopSystem):
         self.__shopper = game_system
 
     def _nop(self):

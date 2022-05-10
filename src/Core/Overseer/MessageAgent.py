@@ -115,6 +115,18 @@ class MessageAgent(BaseAgent):
             return out
         return sorted_team
 
+    @staticmethod
+    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None) -> 'BaseAgent':
+        agent = MessageAgent(mode)
+        agent.team = team
+        agent.turn = turn
+        agent.gold = gold
+        agent.life = life
+        agent.battle_lost = battle_lost
+        if shop is not None:
+            agent.shop = shop
+        return agent
+
     def handle_event(self, message, event_raiser, target=None):
         # set variables
         self.event_raiser = event_raiser
