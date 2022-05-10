@@ -46,7 +46,7 @@ class BaseAgent:
         return agent
 
     @abstractmethod
-    def handle_event(self, message):
+    def handle_event(self, message, event_raiser, target=None):
         pass
 
     @abstractmethod
