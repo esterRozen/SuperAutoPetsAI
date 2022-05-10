@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Tuple
 from abc import abstractmethod
 from Core.GameElements.AbstractElements import Animal, Team, Spawner
 from Core.GameElements import Shop, GameSystem
@@ -28,7 +28,8 @@ class BaseAgent:
 
         # animal that triggered the event is the event_raiser
         # animal that responded to event is the acting animal
-        self.event_raiser = 0
+        self.event_raiser: Tuple[str, int] = ("team", 0)
+        self.target: Tuple[str, int] = ("team", 0)
 
     # re-enter shop from a given state
     # used for simulation and replay
