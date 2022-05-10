@@ -1,4 +1,5 @@
 from ...AbstractElements import Animal
+from ....Overseer.Handlers.Items.eventnames import *
 # base pack
 
 
@@ -18,7 +19,7 @@ class Ant(_Tier1):
         super(Ant, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == ON_FAINT:
             return 1
         return 0
 
@@ -30,7 +31,7 @@ class Beaver(_Tier1):
         super(Beaver, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "sell":
+        if name == SELL:
             return 2
         return 0
 
@@ -49,7 +50,7 @@ class Cricket(_Tier1):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == "on faint":
+        if name == SELL:
             return 5
         return 0
 
@@ -60,7 +61,7 @@ class Duck(_Tier1):
         super(Duck, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == "sell":
+        if name == SELL:
             return 6
         return 0
 
@@ -72,7 +73,7 @@ class Fish(_Tier1):
         super(Fish, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == "on level":
+        if name == ON_LEVEL:
             return 7
         return 0
 
@@ -84,7 +85,7 @@ class Horse(_Tier1):
         super(Horse, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == "friend summoned (battle)":
+        if name == FRIEND_SUMMONED_BATTLE:
             return 8
         return 0
 
@@ -96,7 +97,7 @@ class Mosquito(_Tier1):
         super(Mosquito, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "start battle":
+        if name == START_BATTLE:
             return 10
         return 0
 
@@ -108,7 +109,7 @@ class Otter(_Tier1):
         super(Otter, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == "buy":
+        if name == BUY:
             return 11
         return 0
 
@@ -120,7 +121,7 @@ class Pig(_Tier1):
         super(Pig, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == "sell":
+        if name == SELL:
             return 12
         return 0
 
@@ -134,5 +135,6 @@ class Sloth(_Tier1):
 
 class ZombieCricket(_Tier1):
     id = 0
+
     def __init__(self):
         super(ZombieCricket, self).__init__(1, 1)
