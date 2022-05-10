@@ -1,6 +1,6 @@
 # must have a way to save and load states
-from .BattleSystem import *
-from .GameElements import GameSystem
+from .GameSystems import *
+from .GameElements import ShopSystem
 from .GameElements.AbstractElements.Team import Team
 from .Overseer import *
 
@@ -9,7 +9,7 @@ class Engine:
     def __init__(self, mode):
         self.messenger = MessageAgent(mode)
         self.battle_director = BattleSystem(self.messenger)
-        self.shop_director = GameSystem(self.messenger)
+        self.shop_director = ShopSystem(self.messenger)
 
         self.messenger.set_battler(self.battle_director)
         self.messenger.set_shopper(self.shop_director)
