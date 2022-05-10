@@ -97,7 +97,10 @@ class EventProcessor:
     # apply to units except event raiser
     @staticmethod
     def friend_summoned_shop(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_without_raiser:
+            operation = animal.trigger("friend summoned (shop)")
+            agent.target = agent.team.animals.index(animal)
+            agent.trigger_ability(operation)
 
     ################################################################
 
@@ -105,13 +108,19 @@ class EventProcessor:
     # apply to all units
     @staticmethod
     def friend_faints(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_team:
+            operation = animal.trigger("friend faints")
+            agent.target = agent.team.animals.index(animal)
+            agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (got knocked out)
     @staticmethod
     def on_faint(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_without_raiser:
+            operation = animal.trigger("on faint")
+            agent.target = agent.team.animals.index(animal)
+            agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (went up a level)
