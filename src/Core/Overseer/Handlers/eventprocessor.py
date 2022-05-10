@@ -21,7 +21,7 @@ class EventProcessor:
     def buy_food(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(BUY_FOOD)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -39,7 +39,7 @@ class EventProcessor:
     def eat_food(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(EAT_FOOD)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -48,7 +48,7 @@ class EventProcessor:
     def start_turn(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(START_TURN)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -64,7 +64,7 @@ class EventProcessor:
     def end_turn(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(END_TURN)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -82,7 +82,7 @@ class EventProcessor:
     def friend_eats_food(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_EATS_FOOD)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -100,7 +100,7 @@ class EventProcessor:
     def friend_summoned_shop(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SUMMONED_SHOP)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     ################################################################
@@ -111,7 +111,7 @@ class EventProcessor:
     def friend_faints(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(FRIEND_FAINTS)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine and battle system
@@ -174,7 +174,7 @@ class EventProcessor:
     def friend_summoned_battle(agent: MessageAgent):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # battle system
