@@ -13,10 +13,11 @@ _max_turn = 20
 
 
 class SAP_Game(gym.Env):
-    def __init__(self):
+    def __init__(self, mode):
+        self.__engine = Engine_API(mode)
         self.action_space = gym.spaces.Tuple(
-            Discrete(7),
-            MultiDiscrete([5, 5, 7])
+            Discrete(7),                # represents action
+            MultiDiscrete([5, 5, 7])    # represents targets TODO double check this
         )
         self.observation_space = gym.spaces.Dict(
             {
