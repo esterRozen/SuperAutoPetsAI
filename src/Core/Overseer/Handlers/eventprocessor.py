@@ -106,6 +106,15 @@ class EventProcessor:
     ################################################################
 
     # engine and battle system
+    # apply to units left of event raiser
+    @staticmethod
+    def friend_ahead_faints(agent: MessageAgent):
+        for animal in agent.sorted_left_of_raiser:
+            operation = animal.trigger(FRIEND_AHEAD_FAINTS)
+            agent.target = ("team", agent.team.animals.index(animal))
+            agent.trigger_ability(operation)
+
+    # engine and battle system
     # apply to all units
     @staticmethod
     def friend_faints(agent: MessageAgent):
@@ -113,6 +122,20 @@ class EventProcessor:
             operation = animal.trigger(FRIEND_FAINTS)
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
+
+    # engine and battle system
+    # apply to unit that raised event (got hurt)
+    @staticmethod
+    def hurt(agent: MessageAgent):
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
+        agent.trigger_ability(operation)
+
+    # both
+    # apply to event raiser
+    @staticmethod
+    def is_summoned(agent: MessageAgent):
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
+        agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (got knocked out)
@@ -129,22 +152,6 @@ class EventProcessor:
         agent.trigger_ability(operation)
 
     # engine and battle system
-    # apply to units left of event raiser
-    @staticmethod
-    def friend_ahead_faints(agent: MessageAgent):
-        for animal in agent.sorted_left_of_raiser:
-            operation = animal.trigger(FRIEND_AHEAD_FAINTS)
-            agent.target = agent.team.animals.index(animal)
-            agent.trigger_ability(operation)
-
-    # engine and battle system
-    # apply to unit that raised event (got hurt)
-    @staticmethod
-    def hurt(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
-        agent.trigger_ability(operation)
-
-    # engine and battle system
     # handles damage system, will check for faint
     # deal damage to friendly unit
     @staticmethod
@@ -153,20 +160,30 @@ class EventProcessor:
 
     ################################################################
 
-    # battle system
-    # apply to all units
-    @staticmethod
-    def start_battle(agent: MessageAgent):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(START_BATTLE)
-            agent.trigger_ability(operation)
-
     # triggered by battle system (which feeds message to message agent)
     # apply to unit that raised event (is about to attack)
     @staticmethod
     def before_attack(agent: MessageAgent):
         operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
         agent.trigger_ability(operation)
+
+    # battle system
+    # apply to all units
+    @staticmethod
+    def enemy_attacks(agent: MessageAgent):
+        for animal in agent.sorted_team:
+            operation = animal.trigger(ENEMY_ATTACKS)
+            agent.target = ("team", agent.team.animals.index(animal))
+            agent.trigger_ability(operation)
+
+    # battle system
+    # apply to all units left of event raiser
+    @staticmethod
+    def friend_ahead_attacks(agent: MessageAgent):
+        for animal in agent.sorted_left_of_raiser:
+            operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
+            agent.target = ("team", animal.team.animals.index(animal))
+            agent.trigger_ability(operation)
 
     # battle system
     # apply to units except event raiser
@@ -185,8 +202,15 @@ class EventProcessor:
         agent.trigger_ability(operation)
 
     # battle system
+    # apply to all units
+    @staticmethod
+    def start_battle(agent: MessageAgent):
+        for animal in agent.sorted_team:
+            operation = animal.trigger(START_BATTLE)
+            agent.trigger_ability(operation)
+
+    # battle system
     # deal damage to enemy unit
     @staticmethod
     def deal_enemy(damage, pos):
         pass
-
