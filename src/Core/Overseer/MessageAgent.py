@@ -103,6 +103,17 @@ class MessageAgent(BaseAgent):
             sorted_team.remove(self.team.animals[self.target[1]])
         return sorted_team
 
+    @property
+    def sorted_left_of_raiser(self):
+        sorted_team = self.sorted_team
+        if self.event_raiser[0] == "team":
+            out = []
+            for animal in range(sorted_team):
+                if self.team.animals.index(animal) < self.event_raiser[1]:
+                    out += [animal]
+            return out
+        return sorted_team
+
     def handle_event(self, message, event_raiser, target=None):
         # set variables
         self.event_raiser = event_raiser
