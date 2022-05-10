@@ -2,6 +2,7 @@ from typing import List, Union, Tuple
 from abc import abstractmethod
 from Core.GameElements.AbstractElements import Animal, Team, Spawner
 from Core.GameElements import Shop, GameSystem
+from ..BattleSystem import BattleSystem
 
 
 # all messages flow through the agent
@@ -9,6 +10,8 @@ class BaseAgent:
     def __init__(self, mode):
         self.__mode = mode
         self.spawner = Spawner(mode)
+        self.__battler = None
+        self.__shopper = None
         self.team = Team()
         # TODO make a copy of team when End Turn is reached,
         # all battle logic will use the original team,
@@ -51,6 +54,12 @@ class BaseAgent:
     @abstractmethod
     def trigger_ability(self, message):
         pass
+
+    def set_battler(self, battle_system: BattleSystem):
+        self.__battler = battle_system
+
+    def set_shopper(self, game_system: GameSystem):
+        self.__shopper = game_system
 
     def _nop(self):
         pass
