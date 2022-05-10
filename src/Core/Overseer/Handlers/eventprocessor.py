@@ -90,7 +90,7 @@ class EventProcessor:
     @staticmethod
     def friend_sold(agent: MessageAgent):
         for animal in agent.sorted_team:
-            operation = animal.trigger("friend sold")
+            operation = animal.trigger(FRIEND_SOLD)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
@@ -118,28 +118,31 @@ class EventProcessor:
     # apply to unit that raised event (got knocked out)
     @staticmethod
     def on_faint(agent: MessageAgent):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger("on faint")
-            agent.target = agent.team.animals.index(animal)
-            agent.trigger_ability(operation)
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_FAINT)
+        agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (went up a level)
     @staticmethod
     def on_level(agent: MessageAgent):
-        pass
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
+        agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to units left of event raiser
     @staticmethod
     def friend_ahead_faints(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_left_of_raiser:
+            operation = animal.trigger(FRIEND_AHEAD_FAINTS)
+            agent.target = agent.team.animals.index(animal)
+            agent.trigger_ability(operation)
 
     # engine and battle system
-    # apply to unit that event (got hurt)
+    # apply to unit that raised event (got hurt)
     @staticmethod
     def hurt(agent: MessageAgent):
-        pass
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
+        agent.trigger_ability(operation)
 
     # engine and battle system
     # handles damage system, will check for faint
@@ -154,24 +157,32 @@ class EventProcessor:
     # apply to all units
     @staticmethod
     def start_battle(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_team:
+            operation = animal.trigger(START_BATTLE)
+            agent.trigger_ability(operation)
 
     # triggered by battle system (which feeds message to message agent)
+    # apply to unit that raised event (is about to attack)
     @staticmethod
     def before_attack(agent: MessageAgent):
-        agent.handle(agent.team.rightmost_unit().trigger("before attack"))
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
+        agent.trigger_ability(operation)
 
     # battle system
     # apply to units except event raiser
     @staticmethod
     def friend_summoned_battle(agent: MessageAgent):
-        pass
+        for animal in agent.sorted_without_raiser:
+            operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
+            agent.target = agent.team.animals.index(animal)
+            agent.trigger_ability(operation)
 
     # battle system
     # apply to unit acting (which knocked unit out)
     @staticmethod
     def knock_out(agent: MessageAgent):
-        pass
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
+        agent.trigger_ability(operation)
 
     # battle system
     # deal damage to enemy unit
