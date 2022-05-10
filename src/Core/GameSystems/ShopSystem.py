@@ -8,6 +8,7 @@ class ShopSystem:
 
     def start_turn(self):
         # load backup team into normal team
+        # reset temp stats
 
         # clear shop
 

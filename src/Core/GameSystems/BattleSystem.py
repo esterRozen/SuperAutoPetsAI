@@ -7,6 +7,11 @@ class BattleSystem:
         self.__agent = agent
 
     def start_battle(self, enemy: Team):
+        # make backup of team
+        # opponent needs no inter-turn backup as
+        # opponent is randomized each turn and
+        # opponent team state stored in experience replay
+
         # start battle trigger
 
         # loop:

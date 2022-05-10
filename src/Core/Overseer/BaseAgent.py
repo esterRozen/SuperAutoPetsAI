@@ -23,12 +23,9 @@ class BaseAgent:
         self.battle_lost = False
         self.in_shop = True
 
-        # TODO make a copy of team when End Turn is reached,
-        # all battle logic will use the original team,
-        # TODO load backup at start of turn
-        # also reset all battle-only buffs
-
         self.team_backup = None
+        # another message agent has the enemy as their own team
+        # maintains synchronization between the two
         self.enemy = Team()
 
         self.shop = Shop(mode, 3, 1)
