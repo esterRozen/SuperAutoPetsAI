@@ -1,4 +1,7 @@
 # noinspection PyUnusedLocal
+import copy
+
+
 class Animal:
     xp: int = 0
     battle_hp: int = 0
@@ -14,6 +17,9 @@ class Animal:
 
         self.battle_hp = hp
         self.battle_atk = atk
+
+    def __copy__(self):
+        return copy.deepcopy(self)
 
     def __repr__(self):
         return f"({self.id}): " \
@@ -46,7 +52,7 @@ class Animal:
     def level(self) -> int:
         return min((self.xp + 1) // 3 + 1, 3)
 
-    def reset_stats(self):
+    def reset_temp_stats(self):
         self.battle_hp = self.hp
         self.battle_atk = self.atk
         return self
@@ -83,7 +89,7 @@ class Empty(Animal):
     def level(self):
         return 0
 
-    def reset_stats(self):
+    def reset_temp_stats(self):
         return self
 
     def trigger(self, name: int):

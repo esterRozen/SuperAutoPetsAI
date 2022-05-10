@@ -12,7 +12,7 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.atk == 8, "ATK incorrectly added")
 
         # turn end
-        animal.reset_stats()
+        animal.reset_temp_stats()
         self.assertTrue(animal.id == 0, "id changed")
         self.assertTrue(animal.cost == 3, "cost changed")
         self.assertTrue(animal.xp == 0, "xp changed")
@@ -35,7 +35,7 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.battle_hp == 9, "battle HP incorrect")
         self.assertTrue(animal.battle_atk == 3, "battle ATK incorrect")
 
-        animal.reset_stats()
+        animal.reset_temp_stats()
         self.assertTrue(animal.hp == 6, "perm HP wrong")
         self.assertTrue(animal.atk == 1, "perm ATK wrong")
         self.assertTrue(animal.battle_hp == 6, "battle HP wrong")
@@ -76,7 +76,7 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.battle_atk == 7, "battle atk incorrect")
 
         animal.increase_xp(1)
-        animal.reset_stats()
+        animal.reset_temp_stats()
         self.assertTrue(animal.xp == 4, "xp changed in reset")
         self.assertTrue(animal.hp == 6, "hp changed in reset")
         self.assertTrue(animal.battle_hp == 6, "battle hp changed in reset")
@@ -103,7 +103,7 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.level == 2, "level should have incremented")
 
         animal.increase_xp(1)
-        animal.reset_stats()
+        animal.reset_temp_stats()
         self.assertTrue(animal.level == 2, "level should remain same")
 
         animal.increase_xp(8)
@@ -114,7 +114,7 @@ class TestAnimal(TestCase):
 
         animal.increase_xp(4)
         animal.permanent_buff(3, 3)
-        animal.reset_stats()
+        animal.reset_temp_stats()
 
         self.assertTrue(animal.level == 2, "incorrect level")
         self.assertTrue(animal.hp == 11, "incorrect hp")
@@ -158,7 +158,7 @@ class TestEmpty(TestCase):
     def test_reset_stats(self):
         empty = Empty()
         empty.temp_buff(3, 3)
-        empty.reset_stats()
+        empty.reset_temp_stats()
         self.assertTrue(empty.hp == 0)
         self.assertTrue(empty.atk == 0)
         self.assertTrue(empty.battle_hp == 0)
