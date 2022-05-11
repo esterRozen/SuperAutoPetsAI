@@ -1,5 +1,5 @@
-from Core.Overseer import MessageAgent
-from .Items.eventnames import *
+from .. import MessageAgent
+from ...eventnames import *
 
 
 class EventProcessor:

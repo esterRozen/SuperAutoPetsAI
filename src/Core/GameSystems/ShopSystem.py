@@ -1,8 +1,5 @@
-import copy
-
-from Core.GameElements.AbstractElements import Empty, Unarmed, Spawner, Team
-from Core.Overseer import MessageAgent
-from ..Overseer.Handlers.Items.eventnames import *
+from ..Overseer import MessageAgent
+from ..eventnames import *
 
 
 class ShopSystem:

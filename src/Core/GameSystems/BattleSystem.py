@@ -2,7 +2,7 @@ from typing import Tuple
 
 from ..GameElements.AbstractElements import Team, Animal
 from ..Overseer import *
-from ..Overseer.Handlers.Items.eventnames import *
+from ..eventnames import *
 
 
 class BattleSystem:
@@ -15,7 +15,7 @@ class BattleSystem:
         self.__agent.store_backup()
         self.__agent.enemy = enemy
 
-        # opponent needs no inter-turn backup as
+        # the opponent needs no inter-turn backup as
         # opponent is randomized each turn and
         # opponent team state stored in experience replay
 

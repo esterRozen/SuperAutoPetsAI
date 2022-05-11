@@ -1,5 +1,5 @@
-from Core.Overseer import MessageAgent
-from Core.GameElements.Objects.Base_Pack import ZombieCricket
+from ... import MessageAgent
+from ....GameElements.Objects.Base_Pack import ZombieCricket
 
 
 class Tier1:

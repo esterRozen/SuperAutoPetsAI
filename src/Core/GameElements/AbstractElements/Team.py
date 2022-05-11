@@ -1,5 +1,6 @@
-from typing import List
 import random
+from typing import List
+
 from . import Animal, Empty, Equipment, Unarmed
 
 

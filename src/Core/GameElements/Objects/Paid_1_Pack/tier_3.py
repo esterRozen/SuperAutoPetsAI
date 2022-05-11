@@ -1,5 +1,5 @@
 from ...AbstractElements import Animal
-from ....Overseer.Handlers.Items.eventnames import *
+from ....eventnames import *
 
 
 # paid_1 pack

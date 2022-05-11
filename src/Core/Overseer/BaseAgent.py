@@ -1,10 +1,11 @@
 import copy
-from typing import List, Union, Tuple, Optional
 from abc import abstractmethod
-from Core.GameElements.AbstractElements import Animal, Empty, Team, Spawner
-from Core.GameElements import Shop, ShopSystem
-from .Handlers.Items.eventnames import *
-from ..GameSystems import BattleSystem
+from typing import List, Union, Tuple, Optional
+
+from ..GameElements.AbstractElements import Animal, Team, Spawner
+from ..GameElements import Shop
+from ..eventnames import *
+from ..GameSystems import BattleSystem, ShopSystem
 
 
 # all messages flow through the agent

@@ -1,9 +1,10 @@
 import itertools
-from typing import TypeAlias, List, Callable
+from typing import List, Callable
+
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
 from .Handlers.eventprocessor import EventProcessor
-from .Handlers.Items.eventnames import *
+from ..eventnames import *
 
 
 animals = [
@@ -39,8 +40,6 @@ equipment = [
     "Melon", "Mushroom", "Pizza", "Steak"  # Tier 6
 ]
 
-Animal: TypeAlias = Callable[['MessageAgent'], None]
-
 
 # noinspection DuplicatedCode
 class MessageAgent(BaseAgent):
@@ -58,7 +57,7 @@ class MessageAgent(BaseAgent):
         self.__EP = EventProcessor()
 
         # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
-        self.func: List[Animal] = [t1.nop,
+        self.func: List[Callable[['MessageAgent'], None]] = [t1.nop,
                                    t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket, t1.duck, t1.fish,
                                    t1.horse, t1.ladybug, t1.mosquito, t1.otter, t1.pig,
 

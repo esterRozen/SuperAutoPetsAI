@@ -1,7 +1,8 @@
-from typing import List, Union
 import random
+from typing import List, Union
+
 from ..Objects import Base, Items, Paid1
-from ..AbstractElements import Animal, Equipment
+from . import Animal, Equipment
 
 
 # outputs a random animal given a range of tiers

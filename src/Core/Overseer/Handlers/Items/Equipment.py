@@ -1,5 +1,5 @@
-from Core.GameElements.Objects.Equipment import *
-from Core.Overseer import MessageAgent
+from ....GameElements.Objects.Equipment import *
+from ... import MessageAgent
 
 
 class Equipment:

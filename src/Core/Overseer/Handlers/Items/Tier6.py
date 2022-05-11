@@ -1,4 +1,4 @@
-from Core.Overseer import MessageAgent
+from ... import MessageAgent
 
 
 class Tier6:
