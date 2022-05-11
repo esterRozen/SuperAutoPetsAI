@@ -49,5 +49,5 @@ class BattleSystem:
         # knock out (on friendly team)
         pass
 
-    def summon(self, unit: Animal, position: int):
+    def summon(self, unit: Animal):
         pass
