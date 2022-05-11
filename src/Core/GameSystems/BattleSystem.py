@@ -11,6 +11,9 @@ class BattleSystem:
 
     def start_battle(self, enemy: Team):
         # make backup of team
+        self.__agent.store_backup()
+        self.__agent.enemy = enemy
+
         # opponent needs no inter-turn backup as
         # opponent is randomized each turn and
         # opponent team state stored in experience replay
