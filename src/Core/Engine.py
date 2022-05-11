@@ -28,13 +28,19 @@ class Engine:
         pass
 
     def freeze(self, shop_pos):
-        pass
+        self.shop_director.freeze(shop_pos)
 
     def reroll(self):
-        pass
+        self.shop_director.reroll()
 
     def end_turn(self):
-        pass
+        self.shop_director.end_turn()
 
     def fight(self, team: Team):
-        pass
+        outcome = self.battle_director.start_battle(team)
+
+        # TODO using outcome of fight ->
+        #  return info on state (team, wins, life, etc)
+
+    def start_turn(self):
+        self.shop_director.start_turn()
