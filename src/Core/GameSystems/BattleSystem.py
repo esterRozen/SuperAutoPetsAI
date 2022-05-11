@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from ..GameElements.AbstractElements import Team, Animal
 from ..Overseer import *
 
@@ -5,6 +7,7 @@ from ..Overseer import *
 class BattleSystem:
     def __init__(self, agent: MessageAgent):
         self.__agent = agent
+        self.__er: Tuple[str, int] = self.__agent.event_raiser
 
     def start_battle(self, enemy: Team):
         # make backup of team
