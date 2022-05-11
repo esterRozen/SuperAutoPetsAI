@@ -75,6 +75,10 @@ class BaseAgent:
     def set_shopper(self, game_system: ShopSystem):
         self.__shopper = game_system
 
+    def reset_temp_stats(self):
+        for animal in self.team.animals:
+            animal.reset_temp_stats()
+
     def _nop(self):
         pass
 
