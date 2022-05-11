@@ -30,7 +30,7 @@ class EventProcessor:
     def buy_T1_pet(agent: MessageAgent):
         for animal in agent.sorted_team:
             operation = animal.trigger(BUY_T1_PET)
-            agent.target = agent.team.animals.index(animal)
+            agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
     # engine
@@ -106,50 +106,78 @@ class EventProcessor:
     ################################################################
 
     # engine and battle system
-    # apply to units left of event raiser
+    # apply to friendly units left of event raiser
     @staticmethod
     def friend_ahead_faints(agent: MessageAgent):
-        for animal in agent.sorted_left_of_raiser:
-            operation = animal.trigger(FRIEND_AHEAD_FAINTS)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            for animal in agent.sorted_units_behind_raiser:
+                operation = animal.trigger(FRIEND_AHEAD_FAINTS)
+                agent.target = ("team", agent.team.animals.index(animal))
+                agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            for animal in agent.sorted_units_behind_raiser:
+                operation = animal.trigger(FRIEND_AHEAD_FAINTS)
+                agent.target = ("enemy", agent.enemy.animals.index(animal))
+                agent.trigger_ability(operation)
 
     # engine and battle system
-    # apply to all units
+    # apply to all friendly units
     @staticmethod
     def friend_faints(agent: MessageAgent):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(FRIEND_FAINTS)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            for animal in agent.sorted_team:
+                operation = animal.trigger(FRIEND_FAINTS)
+                agent.target = ("team", agent.team.animals.index(animal))
+                agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            for animal in agent.sorted_team:
+                operation = animal.trigger(FRIEND_FAINTS)
+                agent.target = ("enemy", agent.enemy.animals.index(animal))
+                agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (got hurt)
     @staticmethod
     def hurt(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.enemy.animals[agent.event_raiser[1]].trigger(HURT)
+            agent.trigger_ability(operation)
 
     # both
-    # apply to event raiser
+    # apply to unit that raised event (was summoned)
     @staticmethod
     def is_summoned(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.enemy.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
+            agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (got knocked out)
     @staticmethod
     def on_faint(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_FAINT)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_FAINT)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.enemy.animals[agent.event_raiser[1]].trigger(ON_FAINT)
+            agent.trigger_ability(operation)
 
     # engine and battle system
     # apply to unit that raised event (went up a level)
     @staticmethod
     def on_level(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.enemy.animals[agent.event_raiser[1]].trigger(ON_FAINT)
+            agent.trigger_ability(operation)
 
     ################################################################
 
@@ -157,47 +185,73 @@ class EventProcessor:
     # apply to unit that raised event (is about to attack)
     @staticmethod
     def before_attack(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.enemy.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
+            agent.trigger_ability(operation)
 
     # battle system
-    # apply to all units
+    # apply to all friendly units
     @staticmethod
     def enemy_attacks(agent: MessageAgent):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(ENEMY_ATTACKS)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            for animal in agent.sorted_team:
+                operation = animal.trigger(ENEMY_ATTACKS)
+                agent.target = ("team", agent.team.animals.index(animal))
+                agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            for animal in agent.sorted_team:
+                operation = animal.trigger(ENEMY_ATTACKS)
+                agent.target = ("enemy", agent.enemy.animals.index(animal))
+                agent.trigger_ability(operation)
 
     # battle system
-    # apply to all units left of event raiser
+    # apply to all friendly units left of event raiser
     @staticmethod
     def friend_ahead_attacks(agent: MessageAgent):
-        for animal in agent.sorted_left_of_raiser:
-            operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
-            agent.target = ("team", animal.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            for animal in agent.sorted_units_behind_raiser:
+                operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
+                agent.target = ("team", animal.team.animals.index(animal))
+                agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            for animal in agent.sorted_units_behind_raiser:
+                operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
+                agent.target = ("enemy", agent.enemy.animals.index(animal))
+                agent.trigger_ability(operation)
 
     # battle system
-    # apply to units except event raiser
+    # apply to all friendly units except event raiser
     @staticmethod
     def friend_summoned_battle(agent: MessageAgent):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            for animal in agent.sorted_without_raiser:
+                operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
+                agent.target = ("team", agent.team.animals.index(animal))
+                agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            for animal in agent.sorted_without_raiser:
+                operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
+                agent.target = ("enemy", agent.enemy.animals.index(animal))
+                agent.trigger_ability(operation)
 
     # battle system
     # apply to unit acting (which knocked unit out)
     @staticmethod
     def knock_out(agent: MessageAgent):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
-        agent.trigger_ability(operation)
+        if agent.event_raiser[0] == "team":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
+            agent.trigger_ability(operation)
+        elif agent.event_raiser[0] == "enemy":
+            operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
+            agent.trigger_ability(operation)
 
     # battle system
-    # apply to all units
+    # apply to all units on both teams
     @staticmethod
     def start_battle(agent: MessageAgent):
-        for animal in agent.sorted_team:
+        for animal in agent.sorted_team(team="both"):
             operation = animal.trigger(START_BATTLE)
             agent.trigger_ability(operation)
