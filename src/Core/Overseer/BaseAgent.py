@@ -1,8 +1,9 @@
 import copy
 from typing import List, Union, Tuple, Optional
 from abc import abstractmethod
-from Core.GameElements.AbstractElements import Animal, Team, Spawner
+from Core.GameElements.AbstractElements import Animal, Empty, Team, Spawner
 from Core.GameElements import Shop, ShopSystem
+from .Handlers.Items.eventnames import *
 from ..GameSystems import BattleSystem
 
 
@@ -91,3 +92,38 @@ class BaseAgent:
                 for animal in unit:
                     animal.temp_buff(atk, hp)
         return
+
+    def damage(self, damage: int):
+        if self.event_raiser[0] == "team":
+            self.team.animals[self.event_raiser[1]].battle_hp -= damage
+            if self.team.animals[self.event_raiser[1]].battle_hp < 1:
+                self.faint()
+            else:
+                self.handle_event(HURT)
+        elif self.event_raiser[0] == "enemy":
+            self.team.animals[self.event_raiser[1]].battle_hp -= damage
+            if self.enemy.animals[self.event_raiser[1]].battle_hp < 1:
+                self.faint()
+            else:
+                self.handle_event(HURT)
+
+    def faint(self):
+        # assume current event raiser is the one to faint!
+        # assume *target* is current unit to have attacked!
+        if self.event_raiser[0] == "team":
+            self.handle_event(ON_FAINT)
+
+            self.handle_event(FRIEND_AHEAD_FAINTS)
+
+            self.event_raiser = ("enemy", self.target[1])
+            self.handle_event(KNOCK_OUT)
+        elif self.event_raiser[0] == "enemy":
+            self.handle_event(ON_FAINT)
+
+            self.handle_event(FRIEND_AHEAD_FAINTS)
+
+            self.event_raiser = ("team", self.target[1])
+            self.handle_event(KNOCK_OUT)
+
+    def summon(self, unit: Animal):
+        self.__battler.summon(unit)
