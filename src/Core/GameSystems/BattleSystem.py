@@ -2,6 +2,7 @@ from typing import Tuple
 
 from ..GameElements.AbstractElements import Team, Animal
 from ..Overseer import *
+from ..Overseer.Handlers.Items.eventnames import *
 
 
 class BattleSystem:
@@ -19,22 +20,41 @@ class BattleSystem:
         # opponent team state stored in experience replay
 
         # start battle trigger
+        # handles start of battle for both teams
+        self.__agent.handle_event(START_BATTLE)
 
-        # loop:
-        # (team)
-        # before attack trigger,
+        # loop: (interleave team and enemy events)
+        # team events
+        # before attack
         # friend ahead attacks,
         # enemy attacks,
-        # (enemy)
+
+        # enemy events
         # before attack,
         # friend ahead attacks,
         # enemy attacks
 
+        self.__er = ("team", 0)
+        self.__agent.handle_event(BEFORE_ATTACK)
+        self.__er = ("enemy", 0)
+        self.__agent.handle_event(BEFORE_ATTACK)
+
+        # handle hurt and faint triggers in *response* to attack events.
         # if team unit still above 0 hp:
         # hurt
 
         # if enemy unit still above 0 hp:
         # hurt (enemy)
+
+        self.__er = ("team", 0)
+        self.__agent.handle_event(FRIEND_AHEAD_ATTACKS)
+        self.__er = ("enemy", 0)
+        self.__agent.handle_event(FRIEND_AHEAD_ATTACKS)
+
+        self.__er = ("enemy", 0)
+        self.__agent.handle_event(ENEMY_ATTACKS)
+        self.__er = ("team", 0)
+        self.__agent.handle_event(ENEMY_ATTACKS)
 
         # if team unit not above 0 hp:
         # on faint (team)
