@@ -11,8 +11,8 @@ from ..GameSystems import BattleSystem
 class BaseAgent:
     def __init__(self, mode):
         self.__mode = mode
-        self.__battler = None
-        self.__shopper = None
+        self.__battler: Optional[BattleSystem] = None
+        self.__shopper: Optional[ShopSystem] = None
 
         self.spawner = Spawner(mode)
 
@@ -54,7 +54,7 @@ class BaseAgent:
         return state
 
     @abstractmethod
-    def handle_event(self, message, event_raiser, target=None):
+    def handle_event(self, message, event_raiser=None, target=None):
         pass
 
     @abstractmethod
