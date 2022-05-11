@@ -1,4 +1,5 @@
-from typing import List, Union, Tuple
+import copy
+from typing import List, Union, Tuple, Optional
 from abc import abstractmethod
 from Core.GameElements.AbstractElements import Animal, Team, Spawner
 from Core.GameElements import Shop, ShopSystem
@@ -58,6 +59,14 @@ class BaseAgent:
     @abstractmethod
     def trigger_ability(self, message):
         pass
+
+    def store_backup(self):
+        self.team_backup = copy.deepcopy(self.team)
+
+    def load_backup(self):
+        if self.team_backup is not None:
+            self.team = copy.deepcopy(self.team_backup)
+            self.team_backup = None
 
     def set_battler(self, battle_system: BattleSystem):
         self.__battler = battle_system
