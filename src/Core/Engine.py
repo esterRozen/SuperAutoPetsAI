@@ -1,6 +1,5 @@
 # must have a way to save and load states
-from .GameSystems import *
-from .GameElements import ShopSystem
+from .GameSystems import BattleSystem, ShopSystem
 from .GameElements.AbstractElements.Team import Team
 from .Overseer import *
 
