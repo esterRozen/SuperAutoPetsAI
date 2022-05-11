@@ -1,6 +1,6 @@
 from unittest import TestCase
 
 
-class TestGameSystem(TestCase):
+class TestShopSystem(TestCase):
     def test_instantiation(self):
         self.fail()
