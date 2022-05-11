@@ -92,7 +92,7 @@ class Empty(Animal):
     def reset_temp_stats(self):
         return self
 
-    def trigger(self, name: int):
+    def trigger(self, name: str) -> int:
         return 0
 
 
