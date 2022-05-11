@@ -151,11 +151,14 @@ class MessageAgent(BaseAgent):
             agent.shop = shop
         return agent
 
-    def handle_event(self, message, event_raiser, target=None):
+    def handle_event(self, message, event_raiser=None, target=None):
         # set variables
-        self.event_raiser = event_raiser
+        if self.event_raiser is not None:
+            self.event_raiser = event_raiser
         if target is not None:
             self.target = target
+
+        # handle event
         if message == BEFORE_ATTACK:
             self.__EP.before_attack(self)
         elif message == BUY:
