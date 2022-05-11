@@ -1,3 +1,4 @@
+import itertools
 from typing import TypeAlias, List, Callable
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
@@ -82,11 +83,20 @@ class MessageAgent(BaseAgent):
                                    ]
 
     @property
-    def sorted_team(self):
+    def sorted_team(self, team=None):
         # for unit in roster sorted by descending attack, then increasing index
+        if team == "team" or self.event_raiser[0] == "team":
+            roster = self.team.animals
+        elif team == "enemy" or self.event_raiser[0] == "enemy":
+            roster = self.enemy.animals
+        elif team == "both":
+            # interleaved units to maintain left/right ordering for enemies and friendlies
+            roster = list(itertools.chain(*zip(self.team.animals, self.enemy.animals)))
+        else:
+            raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
         units_sorted = sorted(
-                self.team.animals,
-                key=lambda animal: (-1*animal.atk, self.team.animals.index(animal)),
+                roster,
+                key=lambda animal: (-1*animal.atk, roster.index(animal)),
                 reverse=False)
         return units_sorted
 
@@ -95,17 +105,25 @@ class MessageAgent(BaseAgent):
         sorted_team = self.sorted_team
         if self.event_raiser[0] == "team":
             sorted_team.remove(self.team.animals[self.event_raiser[1]])
-        return sorted_team
+            return sorted_team
+        elif self.event_raiser[0] == "enemy":
+            sorted_team.remove(self.enemy.animals[self.event_raiser[1]])
+            return sorted_team
+        raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
 
     @property
     def sorted_without_target(self):
         sorted_team = self.sorted_team
         if self.target[0] == "team":
             sorted_team.remove(self.team.animals[self.target[1]])
-        return sorted_team
+            return sorted_team
+        elif self.target[0] == "enemy":
+            sorted_team.remove(self.enemy.animals[self.target[1]])
+            return sorted_team
+        raise ValueError(f"self.target should not contain {self.target[0]}")
 
     @property
-    def sorted_left_of_raiser(self):
+    def sorted_units_behind_raiser(self):
         sorted_team = self.sorted_team
         if self.event_raiser[0] == "team":
             out = []
@@ -113,7 +131,13 @@ class MessageAgent(BaseAgent):
                 if self.team.animals.index(animal) < self.event_raiser[1]:
                     out += [animal]
             return out
-        return sorted_team
+        elif self.event_raiser[0] == "enemy":
+            out = []
+            for animal in range(sorted_team):
+                if self.enemy.animals.index(animal) < self.event_raiser[1]:
+                    out += [animal]
+            return out
+        raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
 
     @staticmethod
     def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None) -> 'BaseAgent':
