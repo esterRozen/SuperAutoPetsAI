@@ -1,3 +1,3 @@
-from .Engine import Engine
+from .Engine import Engine, State
 
-__all__ = ['Engine']
+__all__ = ['Engine', 'State']

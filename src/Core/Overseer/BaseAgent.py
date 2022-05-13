@@ -2,6 +2,7 @@ import copy
 from abc import abstractmethod
 from typing import List, Union, Tuple, Optional
 
+from .. import State
 from ..GameElements.AbstractElements import Animal, Team, Spawner
 from ..GameElements import Shop
 from ..eventnames import *
@@ -42,16 +43,17 @@ class BaseAgent:
     # used for simulation and replay
     @staticmethod
     @abstractmethod
-    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None) -> 'BaseAgent':
+    def load(state: State) -> 'BaseAgent':
         pass
 
-    def save(self, include_shop: bool) -> Tuple:
+    def save(self, include_shop: bool) -> State:
+        state = State(
+                self.__mode, self.turn, self.life, self.battle_lost,
+                self.team, gold=self.gold
+        )
+
         if include_shop:
-            state = (self.__mode, self.team, self.turn, self.gold,
-                     self.life, self.battle_lost, self.shop)
-        else:
-            state = (self.__mode, self.team, self.turn, self.gold,
-                     self.life, self.battle_lost)
+            state.shop = self.shop
         return state
 
     @abstractmethod

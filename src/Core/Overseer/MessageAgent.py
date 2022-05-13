@@ -1,11 +1,11 @@
 import itertools
 from typing import List, Callable
 
+from .. import State
 from .BaseAgent import BaseAgent
 from .Handlers.Items import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
 from .Handlers.eventprocessor import EventProcessor
 from ..eventnames import *
-
 
 animals = [
     "Nop",  # No action
@@ -57,29 +57,44 @@ class MessageAgent(BaseAgent):
         self.__EP = EventProcessor()
 
         # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
-        self.func: List[Callable[['MessageAgent'], None]] = [t1.nop,
-                                   t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket, t1.duck, t1.fish,
-                                   t1.horse, t1.ladybug, t1.mosquito, t1.otter, t1.pig,
+        self.func: List[
+            Callable[['MessageAgent'], None]] \
+            = [t1.nop,
 
-                                   t2.bat, t2.crab, t2.dodo, t2.dromedary, t2.elephant, t2.flamingo,
-                                   t2.hedgehog, t2.peacock, t2.rat, t2.shrimp, t2.spider, t2.swan, t2.tabby_cat,
+               t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket,
+               t1.duck, t1.fish,
+               t1.horse, t1.ladybug, t1.mosquito, t1.otter, t1.pig,
 
-                                   t3.badger, t3.blowfish, t3.camel, t3.caterpillar, t3.dog, t3.giraffe,
-                                   t3.hatching_chick, t3.kangaroo, t3.owl, t3.ox, t3.puppy, t3.rabbit,
-                                   t3.sheep, t3.snail, t3.tropical_fish, t3.turtle,
+               t2.bat, t2.crab, t2.dodo, t2.dromedary, t2.elephant,
+               t2.flamingo,
+               t2.hedgehog, t2.peacock, t2.rat, t2.shrimp, t2.spider,
+               t2.swan, t2.tabby_cat,
 
-                                   t4.bison, t4.buffalo, t4.deer, t4.dolphin, t4.hippo, t4.llama, t4.lobster,
-                                   t4.penguin, t4.poodle, t4.rooster, t4.skunk, t4.squirrel, t4.whale,
-                                   t4.worm,
+               t3.badger, t3.blowfish, t3.camel, t3.caterpillar, t3.dog,
+               t3.giraffe,
+               t3.hatching_chick, t3.kangaroo, t3.owl, t3.ox, t3.puppy,
+               t3.rabbit,
+               t3.sheep, t3.snail, t3.tropical_fish, t3.turtle,
 
-                                   t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat, t5.microbe, t5.monkey,
-                                   t5.parrot, t5.rhino, t5.scorpion, t5.seal, t5.shark, t5.turkey,
+               t4.bison, t4.buffalo, t4.deer, t4.dolphin, t4.hippo,
+               t4.llama, t4.lobster,
+               t4.penguin, t4.poodle, t4.rooster, t4.skunk, t4.squirrel,
+               t4.whale,
+               t4.worm,
 
-                                   t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard, t6.mammoth,
-                                   t6.octopus, t6.sauropod, t6.snake, t6.tiger, t6.tyrannosaurus
+               t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
+               t5.microbe, t5.monkey,
+               t5.parrot, t5.rhino, t5.scorpion, t5.seal, t5.shark,
+               t5.turkey,
 
-                                   # zombie_cricket, dirty_rat, butterfly, ram, honey, mushroom
-                                   ]
+               t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,
+               t6.mammoth,
+               t6.octopus, t6.sauropod, t6.snake, t6.tiger,
+               t6.tyrannosaurus
+
+               # zombie_cricket, dirty_rat, butterfly, ram, honey,
+               # mushroom
+               ]
 
     @property
     def sorted_team(self, team=None):
@@ -95,7 +110,7 @@ class MessageAgent(BaseAgent):
             raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
         units_sorted = sorted(
                 roster,
-                key=lambda animal: (-1*animal.atk, roster.index(animal)),
+                key=lambda animal: (-1 * animal.atk, roster.index(animal)),
                 reverse=False)
         return units_sorted
 
@@ -139,15 +154,15 @@ class MessageAgent(BaseAgent):
         raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
 
     @staticmethod
-    def load(mode, team, turn, gold=10, life=10, battle_lost=False, shop=None) -> 'BaseAgent':
-        agent = MessageAgent(mode)
-        agent.team = team
-        agent.turn = turn
-        agent.gold = gold
-        agent.life = life
-        agent.battle_lost = battle_lost
-        if shop is not None:
-            agent.shop = shop
+    def load(state: State) -> 'BaseAgent':
+        agent = MessageAgent(state.mode)
+        agent.team = state.team
+        agent.turn = state.turn
+        agent.gold = state.gold
+        agent.life = state.life
+        agent.battle_lost = state.battle_lost
+        if state.shop is not None:
+            agent.shop = state.shop
         return agent
 
     def handle_event(self, message, event_raiser=None, target=None):

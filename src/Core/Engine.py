@@ -1,7 +1,21 @@
 # must have a way to save and load states
+from dataclasses import dataclass
+
 from .GameSystems import BattleSystem, ShopSystem
-from .GameElements.AbstractElements.Team import Team
+from .GameElements.AbstractElements import Team
+from .GameElements import Shop
 from .Overseer import *
+
+
+@dataclass
+class State:
+    mode: str
+    turn: int
+    life: int
+    battle_lost: bool
+    team: Team
+    shop: Shop = None
+    gold: int = 10
 
 
 class Engine:
