@@ -1,3 +1,4 @@
+from ....eventnames import ON_FAINT
 from ....game_elements.game_objects.equipment import *
 from ... import MessageAgent
 
@@ -28,7 +29,7 @@ class Equipment:
         # raise eat food
         # raise faint, have variables set properly
         agent.event_raiser = agent.team.acting
-        agent.send_engine_message("faint")
+        agent.handle_event(ON_FAINT)
 
     @staticmethod
     def garlic(agent: MessageAgent):
