@@ -1,20 +1,23 @@
-from ... import MessageAgent
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ... import MessageAgent
 
 
 class Tier2:
     # have to implement equipments
     @staticmethod
-    def bat(agent: MessageAgent):
+    def bat(agent: 'MessageAgent'):
         # TODO
         pass
 
     @staticmethod
-    def crab(agent: MessageAgent):
+    def crab(agent: 'MessageAgent'):
         battle_hp = agent.team.friend_ahead().battle_hp
         agent.team.animals[agent.team.acting].battle_hp = battle_hp
 
     @staticmethod
-    def dodo(agent: MessageAgent):
+    def dodo(agent: 'MessageAgent'):
         battle_atk = agent.team.animals[agent.team.acting].battle_atk
         if agent.lvl == 1:
             agent.team.friend_ahead().battle_atk += battle_atk
@@ -24,11 +27,11 @@ class Tier2:
             agent.team.friend_ahead().battle_atk += 3 * battle_atk
 
     @staticmethod
-    def dirty_rat(agent: MessageAgent):
+    def dirty_rat(agent: 'MessageAgent'):
         return NotImplemented
 
     @staticmethod
-    def dromedary(agent: MessageAgent):
+    def dromedary(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.shop.buff(1, 1)
         elif agent.lvl == 2:
@@ -37,12 +40,12 @@ class Tier2:
             agent.shop.buff(3, 3)
 
     @staticmethod
-    def elephant(agent: MessageAgent):
+    def elephant(agent: 'MessageAgent'):
         # TODO
         pass
 
     @staticmethod
-    def flamingo(agent: MessageAgent):
+    def flamingo(agent: 'MessageAgent'):
         friends = agent.team.friends_behind(2)
         if agent.lvl == 1:
             agent.buff(friends, 1, 1)
@@ -53,12 +56,12 @@ class Tier2:
 
     # hedgehog has to trigger the hurt trigger!!
     @staticmethod
-    def hedgehog(agent: MessageAgent):
+    def hedgehog(agent: 'MessageAgent'):
         # TODO
         pass
 
     @staticmethod
-    def peacock(agent: MessageAgent):
+    def peacock(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.animals[agent.team.acting].temp_buff(2, 0)
         elif agent.lvl == 2:
@@ -68,12 +71,12 @@ class Tier2:
 
     # summons, ugh
     @staticmethod
-    def rat(agent: MessageAgent):
+    def rat(agent: 'MessageAgent'):
         # TODO
         pass
 
     @staticmethod
-    def shrimp(agent: MessageAgent):
+    def shrimp(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.random_friend().temp_buff(0, 1)
         elif agent.lvl == 2:
@@ -83,12 +86,12 @@ class Tier2:
 
     # more summons!!
     @staticmethod
-    def spider(agent: MessageAgent):
+    def spider(agent: 'MessageAgent'):
         # TODO
         pass
 
     @staticmethod
-    def swan(agent: MessageAgent):
+    def swan(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.gold += 1
         elif agent.lvl == 2:
@@ -97,7 +100,7 @@ class Tier2:
             agent.gold += 3
 
     @staticmethod
-    def tabby_cat(agent: MessageAgent):
+    def tabby_cat(agent: 'MessageAgent'):
         if agent.lvl == 1:
             [friend.temp_buff(1, 0) for friend in agent.team.friends()]
         elif agent.lvl == 2:

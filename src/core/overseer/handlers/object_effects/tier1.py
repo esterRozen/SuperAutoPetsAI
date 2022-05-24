@@ -1,14 +1,17 @@
-from ... import MessageAgent
+from typing import TYPE_CHECKING
+
 from ....game_elements.game_objects.base_pack import ZombieCricket
+if TYPE_CHECKING:
+    from ... import MessageAgent
 
 
 class Tier1:
     @staticmethod
-    def nop(agent: MessageAgent):
+    def nop(agent: 'MessageAgent'):
         return
 
     @staticmethod
-    def ant(agent: MessageAgent):
+    def ant(agent: 'MessageAgent'):
         # permanently buff random animal on team.
         friend = agent.team.random_friend()
         if friend == []:
@@ -22,7 +25,7 @@ class Tier1:
 
     # on sell give 2 +1/2/3 hp
     @staticmethod
-    def beaver(agent: MessageAgent):
+    def beaver(agent: 'MessageAgent'):
         friends = agent.team.random_friends(2)
         if friends == []:
             return
@@ -34,7 +37,7 @@ class Tier1:
             [friend.permanent_buff(3, 0) for friend in friends]
 
     @staticmethod
-    def beetle(agent: MessageAgent):
+    def beetle(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.shop.buff(0, 1)
         elif agent.lvl == 2:
@@ -44,7 +47,7 @@ class Tier1:
 
     # give leftmost friend 1, 2, 3 atk
     @staticmethod
-    def bluebird(agent: MessageAgent):
+    def bluebird(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.leftmost_unit().permanent_buff(1, 0)
         elif agent.lvl == 2:
@@ -54,14 +57,14 @@ class Tier1:
 
     # how to handle summons???
     @staticmethod
-    def cricket(agent: MessageAgent):
+    def cricket(agent: 'MessageAgent'):
         unit = ZombieCricket()
         unit.battle_atk = agent.lvl
         unit.battle_hp = agent.lvl
         agent.team.summon(unit, agent.team.acting)
 
     @staticmethod
-    def duck(agent: MessageAgent):
+    def duck(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.shop.buff(1, 1)
         elif agent.lvl == 2:
@@ -71,7 +74,7 @@ class Tier1:
 
     # on level give all friends +1/1, +2/2, X
     @staticmethod
-    def fish(agent: MessageAgent):
+    def fish(agent: 'MessageAgent'):
         if agent.lvl == 1:
             print("this shouldn't happen! fish lvl 1 trigger")
             return
@@ -82,7 +85,7 @@ class Tier1:
 
     # friend summoned, give +1/2/3 atk until end of battle
     @staticmethod
-    def horse(agent: MessageAgent):
+    def horse(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.animals[agent.event_raiser].temp_buff(1, 0)
         elif agent.lvl == 2:
@@ -92,7 +95,7 @@ class Tier1:
 
     # buy food, gain x/x until end of battle
     @staticmethod
-    def ladybug(agent: MessageAgent):
+    def ladybug(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.animals[agent.team.acting].temp_buff(1, 1)
         elif agent.lvl == 2:
@@ -102,13 +105,13 @@ class Tier1:
 
     # start of battle deal 1/2/3 damage to random enemy
     @staticmethod
-    def mosquito(agent: MessageAgent):
+    def mosquito(agent: 'MessageAgent'):
         # TODO
         pass
 
     # buy, give a random friend +1/1, 2/2, 3/3
     @staticmethod
-    def otter(agent: MessageAgent):
+    def otter(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.team.random_friend().permanent_buff(1, 1)
         elif agent.lvl == 2:
@@ -118,7 +121,7 @@ class Tier1:
 
     # gain extra +1/2/3 gold on sell
     @staticmethod
-    def pig(agent: MessageAgent):
+    def pig(agent: 'MessageAgent'):
         if agent.lvl == 1:
             agent.gold += 1
         elif agent.lvl == 2:
@@ -129,5 +132,5 @@ class Tier1:
 
     # sloth automatically no ops
     @staticmethod
-    def sloth(agent: MessageAgent):
+    def sloth(agent: 'MessageAgent'):
         pass

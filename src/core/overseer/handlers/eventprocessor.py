@@ -1,5 +1,8 @@
-from .. import MessageAgent
+from typing import TYPE_CHECKING
+
 from ...eventnames import *
+if TYPE_CHECKING:
+    from ... import MessageAgent
 
 
 class EventProcessor:
@@ -11,14 +14,14 @@ class EventProcessor:
     # engine
     # apply to unit that acted (was bought)
     @staticmethod
-    def buy(agent: MessageAgent):
+    def buy(agent: 'MessageAgent'):
         operation = agent.team.animals[agent.event_raiser[1]].trigger(BUY)
         agent.trigger_ability(operation)
 
     # engine
     # apply to all units
     @staticmethod
-    def buy_food(agent: MessageAgent):
+    def buy_food(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(BUY_FOOD)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -27,7 +30,7 @@ class EventProcessor:
     # engine
     # apply to all units
     @staticmethod
-    def buy_T1_pet(agent: MessageAgent):
+    def buy_T1_pet(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(BUY_T1_PET)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -36,7 +39,7 @@ class EventProcessor:
     # engine
     # apply to unit that acted (ate food)
     @staticmethod
-    def eat_food(agent: MessageAgent):
+    def eat_food(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(EAT_FOOD)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -45,7 +48,7 @@ class EventProcessor:
     # engine
     # apply to all units
     @staticmethod
-    def end_turn(agent: MessageAgent):
+    def end_turn(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(END_TURN)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -54,7 +57,7 @@ class EventProcessor:
     # engine
     # apply to all units except event raiser
     @staticmethod
-    def friend_bought(agent: MessageAgent):
+    def friend_bought(agent: 'MessageAgent'):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_BOUGHT)
             agent.target = agent.team.animals.index(animal)
@@ -63,7 +66,7 @@ class EventProcessor:
     # engine
     # apply to all units except event raiser
     @staticmethod
-    def friend_eats_food(agent: MessageAgent):
+    def friend_eats_food(agent: 'MessageAgent'):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_EATS_FOOD)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -72,7 +75,7 @@ class EventProcessor:
     # engine
     # apply to all units
     @staticmethod
-    def friend_sold(agent: MessageAgent):
+    def friend_sold(agent: 'MessageAgent'):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SOLD)
             agent.target = agent.team.animals.index(animal)
@@ -81,7 +84,7 @@ class EventProcessor:
     # engine
     # apply to units except event raiser
     @staticmethod
-    def friend_summoned_shop(agent: MessageAgent):
+    def friend_summoned_shop(agent: 'MessageAgent'):
         for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SUMMONED_SHOP)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -90,14 +93,14 @@ class EventProcessor:
     # engine
     # apply to unit that raised event (got sold)
     @staticmethod
-    def sell(agent: MessageAgent):
+    def sell(agent: 'MessageAgent'):
         operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
         agent.trigger_ability(operation)
 
     # engine
     # apply to all units
     @staticmethod
-    def start_turn(agent: MessageAgent):
+    def start_turn(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(START_TURN)
             agent.target = ("team", agent.team.animals.index(animal))
@@ -108,7 +111,7 @@ class EventProcessor:
     # engine and battle system
     # apply to friendly units left of event raiser
     @staticmethod
-    def friend_ahead_faints(agent: MessageAgent):
+    def friend_ahead_faints(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_FAINTS)
@@ -123,7 +126,7 @@ class EventProcessor:
     # engine and battle system
     # apply to all friendly units
     @staticmethod
-    def friend_faints(agent: MessageAgent):
+    def friend_faints(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             for animal in agent.sorted_team:
                 operation = animal.trigger(FRIEND_FAINTS)
@@ -138,7 +141,7 @@ class EventProcessor:
     # engine and battle system
     # apply to unit that raised event (got hurt)
     @staticmethod
-    def hurt(agent: MessageAgent):
+    def hurt(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
             agent.trigger_ability(operation)
@@ -149,7 +152,7 @@ class EventProcessor:
     # both
     # apply to unit that raised event (was summoned)
     @staticmethod
-    def is_summoned(agent: MessageAgent):
+    def is_summoned(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
             agent.trigger_ability(operation)
@@ -160,7 +163,7 @@ class EventProcessor:
     # engine and battle system
     # apply to unit that raised event (got knocked out)
     @staticmethod
-    def on_faint(agent: MessageAgent):
+    def on_faint(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_FAINT)
             agent.trigger_ability(operation)
@@ -171,7 +174,7 @@ class EventProcessor:
     # engine and battle system
     # apply to unit that raised event (went up a level)
     @staticmethod
-    def on_level(agent: MessageAgent):
+    def on_level(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
             agent.trigger_ability(operation)
@@ -184,7 +187,7 @@ class EventProcessor:
     # triggered by battle system (which feeds message to message agent)
     # apply to unit that raised event (is about to attack)
     @staticmethod
-    def before_attack(agent: MessageAgent):
+    def before_attack(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
             agent.trigger_ability(operation)
@@ -195,7 +198,7 @@ class EventProcessor:
     # battle system
     # apply to all friendly units
     @staticmethod
-    def enemy_attacks(agent: MessageAgent):
+    def enemy_attacks(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             for animal in agent.sorted_team:
                 operation = animal.trigger(ENEMY_ATTACKS)
@@ -210,7 +213,7 @@ class EventProcessor:
     # battle system
     # apply to all friendly units left of event raiser
     @staticmethod
-    def friend_ahead_attacks(agent: MessageAgent):
+    def friend_ahead_attacks(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
@@ -225,7 +228,7 @@ class EventProcessor:
     # battle system
     # apply to all friendly units except event raiser
     @staticmethod
-    def friend_summoned_battle(agent: MessageAgent):
+    def friend_summoned_battle(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             for animal in agent.sorted_without_raiser:
                 operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
@@ -240,7 +243,7 @@ class EventProcessor:
     # battle system
     # apply to unit acting (which knocked unit out)
     @staticmethod
-    def knock_out(agent: MessageAgent):
+    def knock_out(agent: 'MessageAgent'):
         if agent.event_raiser[0] == "team":
             operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
             agent.trigger_ability(operation)
@@ -251,7 +254,7 @@ class EventProcessor:
     # battle system
     # apply to all units on both teams
     @staticmethod
-    def start_battle(agent: MessageAgent):
+    def start_battle(agent: 'MessageAgent'):
         for animal in agent.sorted_team(team="both"):
             operation = animal.trigger(START_BATTLE)
             agent.trigger_ability(operation)
