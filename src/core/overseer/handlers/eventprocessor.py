@@ -1,8 +1,16 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 from ...eventnames import *
 if TYPE_CHECKING:
     from ... import MessageAgent
+
+
+def event_raiser_is_team(event_raiser: Tuple[str, int]) -> bool:
+    return event_raiser[0] == "team"
+
+
+def event_raiser_is_enemy(event_raiser: Tuple[str, int]) -> bool:
+    return event_raiser[0] == "enemy"
 
 
 class EventProcessor:
@@ -112,12 +120,12 @@ class EventProcessor:
     # apply to friendly units left of event raiser
     @staticmethod
     def friend_ahead_faints(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_FAINTS)
                 agent.target = ("team", agent.team.animals.index(animal))
                 agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_FAINTS)
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
@@ -127,12 +135,12 @@ class EventProcessor:
     # apply to all friendly units
     @staticmethod
     def friend_faints(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             for animal in agent.sorted_team:
                 operation = animal.trigger(FRIEND_FAINTS)
                 agent.target = ("team", agent.team.animals.index(animal))
                 agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             for animal in agent.sorted_team:
                 operation = animal.trigger(FRIEND_FAINTS)
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
@@ -142,10 +150,10 @@ class EventProcessor:
     # apply to unit that raised event (got hurt)
     @staticmethod
     def hurt(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(HURT)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(HURT)
             agent.trigger_ability(operation)
 
@@ -153,10 +161,10 @@ class EventProcessor:
     # apply to unit that raised event (was summoned)
     @staticmethod
     def is_summoned(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
             agent.trigger_ability(operation)
 
@@ -164,10 +172,10 @@ class EventProcessor:
     # apply to unit that raised event (got knocked out)
     @staticmethod
     def on_faint(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_FAINT)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(ON_FAINT)
             agent.trigger_ability(operation)
 
@@ -175,10 +183,10 @@ class EventProcessor:
     # apply to unit that raised event (went up a level)
     @staticmethod
     def on_level(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(ON_LEVEL)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(ON_FAINT)
             agent.trigger_ability(operation)
 
@@ -188,10 +196,10 @@ class EventProcessor:
     # apply to unit that raised event (is about to attack)
     @staticmethod
     def before_attack(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(BEFORE_ATTACK)
             agent.trigger_ability(operation)
 
@@ -199,12 +207,12 @@ class EventProcessor:
     # apply to all friendly units
     @staticmethod
     def enemy_attacks(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             for animal in agent.sorted_team:
                 operation = animal.trigger(ENEMY_ATTACKS)
                 agent.target = ("team", agent.team.animals.index(animal))
                 agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             for animal in agent.sorted_team:
                 operation = animal.trigger(ENEMY_ATTACKS)
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
@@ -214,12 +222,12 @@ class EventProcessor:
     # apply to all friendly units left of event raiser
     @staticmethod
     def friend_ahead_attacks(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
                 agent.target = ("team", animal.team.animals.index(animal))
                 agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             for animal in agent.sorted_units_behind_raiser:
                 operation = animal.trigger(FRIEND_AHEAD_ATTACKS)
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
@@ -229,12 +237,12 @@ class EventProcessor:
     # apply to all friendly units except event raiser
     @staticmethod
     def friend_summoned_battle(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             for animal in agent.sorted_without_raiser:
                 operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
                 agent.target = ("team", agent.team.animals.index(animal))
                 agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             for animal in agent.sorted_without_raiser:
                 operation = animal.trigger(FRIEND_SUMMONED_BATTLE)
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
@@ -244,10 +252,10 @@ class EventProcessor:
     # apply to unit acting (which knocked unit out)
     @staticmethod
     def knock_out(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
+        if event_raiser_is_team(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
             agent.trigger_ability(operation)
-        elif agent.event_raiser[0] == "enemy":
+        elif event_raiser_is_enemy(agent.event_raiser):
             operation = agent.team.animals[agent.event_raiser[1]].trigger(KNOCK_OUT)
             agent.trigger_ability(operation)
 
