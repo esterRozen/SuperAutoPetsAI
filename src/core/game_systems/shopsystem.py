@@ -122,7 +122,16 @@ class ShopSystem:
         pass
 
     def sell(self, pos: int):
-        pass
+        if isinstance(self.__agent.team.animals[pos], Empty):
+            return
+
+        # set event raiser
+        # handle sell event and friend sold event
+        self.__agent.event_raiser = pos
+        self.__agent.handle_event(SELL)
+        self.__agent.handle_event(FRIEND_SOLD)
+
+        self.__agent.gold += 1
 
     def move(self, roster_init, roster_final):
         pass
