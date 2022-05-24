@@ -58,6 +58,12 @@ class Shop:
             return -1
 
     def clear_unfrozen(self):
+        """
+        clears all unfrozen items in shop
+        shifts animals left, foods right
+        Returns:
+
+        """
         for slot in self.roster:
             if not slot.is_frozen:
                 slot.clear()
