@@ -31,8 +31,12 @@ class ShopSystem:
         # start turn
         self.__agent.handle_event(START_TURN)
 
-    def freeze(self, pos: int):
-        pass
+        # shop flows
+        self.__agent.shop.start_turn()
+
+    def toggle_freeze(self, pos: int):
+        self.__agent.shop.toggle_freeze(pos)
+        return
 
     def reroll(self):
         self.__agent.shop.reroll()
