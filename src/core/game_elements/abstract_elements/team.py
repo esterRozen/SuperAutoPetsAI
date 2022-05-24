@@ -8,6 +8,7 @@ class Team:
     def __init__(self):
         self.animals = [Empty() for _ in range(5)]
         self.acting = 0
+        self.__max_capacity = 5
         # random.seed(1)
 
     @property
@@ -30,6 +31,10 @@ class Team:
         # level of currently acting team member
         return self.animals[self.acting].level
 
+    @property
+    def has_summon_space(self):
+        return self.size < self.__max_capacity
+
     def lowest_health(self):
         return min(self.animals, key=lambda animal: animal.battle_hp)
 
@@ -40,6 +45,7 @@ class Team:
         self.animals[target] = Empty()
 
     def push_forward(self):
+        # TODO push_forward
         return self
 
     def summon(self, animal, position):
