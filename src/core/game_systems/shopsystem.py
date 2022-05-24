@@ -118,8 +118,20 @@ class ShopSystem:
         self.__agent.team.animals[target_pos].held = item
         return
 
-    def __buy_different_animal_response(self, shop_slot, target_pos):
-        pass
+    def __buy_different_animal_response(self, shop_slot, target_pos: int):
+        if not self.__agent.team.has_summon_space:
+            return
+
+        animal: Animal = shop_slot.item
+        self.__agent.gold -= animal.cost
+        self.__agent.team.summon(animal, target_pos)
+
+        self.__agent.handle_event(FRIEND_SUMMONED_SHOP)
+        self.__agent.handle_event(FRIEND_BOUGHT)
+        self.__agent.handle_event(BUY)
+        if animal.tier == 1:
+            self.__agent.handle_event(BUY_T1_PET)
+        return
 
     def sell(self, pos: int):
         if isinstance(self.__agent.team.animals[pos], Empty):
