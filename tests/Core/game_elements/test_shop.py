@@ -1,7 +1,12 @@
 from unittest import TestCase
 
+from core.game_elements import Shop
+
 
 class TestShop(TestCase):
+    def new_shop(self, mode: str, tier: int) -> Shop:
+        pass
+
     def test_buff(self):
         self.fail()
 
