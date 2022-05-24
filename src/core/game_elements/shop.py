@@ -1,3 +1,5 @@
+from typing import Union
+
 from .abstract_elements import *
 
 
@@ -112,12 +114,12 @@ class ShopSlot:
     def __init__(self, mode):
         self.mode = mode
         self.spawner = Spawner(mode)
-        self.item = Empty()
+        self.item: Union[Animal, Equipment] = Empty()
 
     def toggle_freeze(self):
         self.is_frozen = not self.is_frozen
 
-    def buy(self):
+    def buy(self) -> Union[Animal, Equipment]:
         item = self.item
         self.item = Empty()
         self.is_frozen = False
