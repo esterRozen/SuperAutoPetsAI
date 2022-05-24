@@ -1,25 +1,26 @@
-from typing import Union
+from typing import Union, Tuple, List
 
 from .abstract_elements import *
 
 
 class Shop:
-    def __init__(self, mode, num, tier):
+    def __init__(self, mode, turn):
+        self._turn = turn
         self._mode = mode
-        self._shop_size = num
-        self._food_shop_size = 1
-        self.tier = tier
-        self._perm_buff = [0, 0] # atk, hp buff
-        # populate with 3 tier 1 animals and 1 tier 1 food
-        # mark all unfrozen
 
-        self.roster = [AnimalShopSlot(mode) for _ in range(num)]
-        self.roster += [ShopSlot("food")]
+        # permanent buff for all future animals spawned
+        self._perm_buff = [0, 0]
+
+        self._animal_slots, self._item_slots, self.tier = Shop.shop_params(turn)
+
+        self.roster: List[ShopSlot] = [AnimalShopSlot(mode) for _ in range(self._animal_slots)]
+        self.roster += [ShopSlot("food") for _ in range(self._item_slots)]
 
     def buff(self, atk, hp):
         # only for animals in current shop
-        for i in range(0, self._shop_size):
-            self.roster[i].item.permanent_buff(atk, hp)
+        for shop_slot in self.roster:
+            if isinstance(shop_slot.item, Animal):
+                shop_slot.item.permanent_buff(atk, hp)
 
     def start_turn(self, turn):
         # TODO start_turn flow
@@ -33,11 +34,11 @@ class Shop:
         pass
 
     def perm_buff(self, atk, hp):
-        for i in range(0, self._shop_size):
-            new_buff = self.roster[i].perm_buff
-            new_buff = [new_buff[0]+atk, new_buff[1]+hp]
-            self.roster[i].perm_buff = new_buff
         self.buff(atk, hp)
+        self._perm_buff = [self._perm_buff[0] + atk, self._perm_buff[1] + hp]
+        for shop_slot in self.roster:
+            if isinstance(shop_slot, AnimalShopSlot):
+                shop_slot.perm_buff = self._perm_buff
 
     def summon_level_unit(self):
         # if size < 7, push food over
@@ -57,25 +58,32 @@ class Shop:
     def clear_unfrozen(self):
         for slot in self.roster:
             if not slot.is_frozen:
-                slot.item = Empty()
+                slot.clear()
+
+        animals = []
+        items = []
+        for shop_slot in self.roster:
+            if isinstance(shop_slot.item, Animal) and not isinstance(shop_slot.item, Empty):
+                animals += [shop_slot.item]
+                shop_slot.clear()
+            if isinstance(shop_slot.item, Equipment) and not isinstance(shop_slot.item, Unarmed):
+                items += [shop_slot.item]
+                shop_slot.clear()
 
         j = 0
-        for i in range(self._shop_size):
-            if isinstance(self.roster[i].item, Empty):
-                self.roster[j].item = self.roster[i].item
-                j += 1
-        # if the first item of the food shop is an animal send it back!!
-        if isinstance(self.roster[self._shop_size].item, Animal):
-            self.roster[j].item = self.roster[self._shop_size].item
+        while animals:
+            self.roster[j].item = animals.pop()
+            j += 1
 
-        j = self._shop_size
-        for i in range(self._shop_size, self._shop_size+self._food_shop_size):
-            if isinstance(self.roster[i].item, Empty):
-                self.roster[j].item = self.roster[i].item
+        j = len(self.roster) - 1
+        while items:
+            self.roster[j].item = items.pop(-1)
+            j -= 1
 
     def clear(self):
         for slot in self.roster:
-            slot.item = Empty()
+            slot.clear()
+        return
 
     def fill_shop(self):
         """
@@ -87,14 +95,30 @@ class Shop:
                 slot.spawn(self.tier)
 
     def item(self, position):
-        if position >= self._shop_size or position < 0:
-            return 0
+        if position >= len(self.roster) or position < 0:
+            return Empty()
 
         return self.roster[position]
 
     def grow_shop(self, turn):
-        # grow shop depending on turn number
-        pass
+        curr = Shop.shop_params(turn)
+        prev = Shop.shop_params(turn - 1)
+
+        # add animal slot
+        if curr[0] - prev[0]:
+            new_animal_slot = AnimalShopSlot(self._mode)
+            new_animal_slot.perm_buff = self._perm_buff
+            self.roster.insert(prev[0], new_animal_slot)
+
+        # add item slot
+        if curr[1] - prev[1]:
+            new_item_slot = ShopSlot(self._mode)
+            self.roster.insert(len(self.roster)-prev[1])
+            pass
+
+        # raise tier
+        if curr[2] - prev[2]:
+            self.tier = curr[2]
 
     def reroll(self):
         # populate shop based on current rank and animals frozen
@@ -103,9 +127,26 @@ class Shop:
         pass
 
     @staticmethod
+    def shop_params(turn: int) -> Tuple[int, int, int]:
+        """
+
+        Args:
+            turn:
+
+        Returns: Tuple of ints -> animal slots, food slots, tier
+
+        """
+        animal_slots = min((turn - 1)//4 + 3, 5)
+        item_slots = min((turn - 1)//2 + 1, 2)
+        tier = min((turn - 1)//2 + 1, 6)
+
+        return animal_slots, item_slots, tier
+
+
+    @staticmethod
     def freeze(item):
         item.freeze = not item.freeze
-        pass
+        return
 
 
 class ShopSlot:
@@ -115,6 +156,10 @@ class ShopSlot:
         self.mode = mode
         self.spawner = Spawner(mode)
         self.item: Union[Animal, Equipment] = Empty()
+
+    def clear(self):
+        self.item = Unarmed()
+        return
 
     def toggle_freeze(self):
         self.is_frozen = not self.is_frozen
@@ -135,8 +180,12 @@ class ShopSlot:
 class AnimalShopSlot(ShopSlot):
     perm_buff = [0, 0]
 
-    def __init__(self, item: Animal):
-        super(AnimalShopSlot, self).__init__(item)
+    def __init__(self, mode: str):
+        super(AnimalShopSlot, self).__init__(mode)
+
+    def clear(self):
+        self.item = Empty()
+        return
 
     def spawn(self, max_tier):
         self.item = self.spawner.spawn(max_tier)
@@ -145,8 +194,3 @@ class AnimalShopSlot(ShopSlot):
     def spawn_tier(self, tier):
         self.item = self.spawner.spawn_tier(tier)
         self.item.permanent_buff(self.perm_buff[0], self.perm_buff[1])
-
-
-if __name__ == "__main__":
-    a = Shop("base", 3, 1)
-    a.roster
