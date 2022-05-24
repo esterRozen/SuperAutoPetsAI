@@ -22,11 +22,6 @@ class ShopSystem:
         self.__agent.load_backup()
         self.__agent.reset_temp_stats()
 
-        # reload shop
-        shop = self.__agent.shop
-        shop.clear_unfrozen()
-        shop.fill_shop()
-
         # events
         # start turn
         self.__agent.handle_event(START_TURN)
