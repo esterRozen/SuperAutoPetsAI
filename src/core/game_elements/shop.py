@@ -159,10 +159,8 @@ class Shop:
 
         return animal_slots, item_slots, tier
 
-
-    @staticmethod
-    def freeze(item):
-        item.freeze = not item.freeze
+    def toggle_freeze(self, pos: int):
+        self.roster[pos].toggle_freeze()
         return
 
 
