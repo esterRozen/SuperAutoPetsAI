@@ -35,6 +35,7 @@ class ShopSystem:
         pass
 
     def reroll(self):
+        self.__agent.shop.reroll()
         pass
 
     def buy(self, item_pos: int, target_pos: int):
@@ -45,6 +46,7 @@ class ShopSystem:
         if isinstance(shop_slot.item, Empty) or isinstance(shop_slot, Unarmed):
             return
 
+        # guard clause, no gold, no purchase.
         if self.__agent.gold < shop_slot.item.cost:
             return
 
@@ -100,7 +102,7 @@ class ShopSystem:
             self.__agent.handle_event(BUY_T1_PET)
         return
 
-    def __buy_equipment_response(self, shop_slot, target_pos):
+    def __buy_equipment_response(self, shop_slot, target_pos: int):
         target_unit = self.__agent.team.animals[target_pos]
 
         item: Equipment = shop_slot.item
