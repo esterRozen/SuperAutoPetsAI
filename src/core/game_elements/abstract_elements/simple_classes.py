@@ -1,5 +1,6 @@
 # noinspection PyUnusedLocal
 import copy
+from typing import Tuple
 
 
 class Animal:
@@ -12,6 +13,8 @@ class Animal:
     id: int = 0
 
     def __init__(self, atk: int, hp: int):
+        self.held: Equipment = Unarmed()
+
         self.hp: int = hp
         self.atk: int = atk
 
@@ -21,10 +24,31 @@ class Animal:
     def __copy__(self):
         return copy.deepcopy(self)
 
+    def __lt__(self, other):
+        if self.battle_atk < other.battle_atk:
+            return True
+        elif self.battle_atk == other.battle_atk:
+            if self.battle_hp < other.battle_hp:
+                return True
+            elif self.battle_hp == other.battle_hp:
+                if self.tier < other.tier:
+                    return True
+        return False
+
     def __repr__(self):
         return f"({self.id}): " \
                f"perm.{self.atk}/{self.hp}, " \
                f"temp.{self.battle_atk}/{self.battle_hp}"
+
+    @property
+    def level(self) -> int:
+        return min((self.xp + 1) // 3 + 1, 3)
+
+    def trigger(self, name: str) -> int:
+        return 0
+
+    def equipment_modifier(self, message):
+        return self.held.query(message)
 
     def permanent_buff(self, atk: int, hp: int):
         # accounts for negative buffs
@@ -41,35 +65,17 @@ class Animal:
         self.battle_atk = max(self.battle_atk + atk, 1)
         return self
 
+    def reset_temp_stats(self):
+        self.battle_hp = self.hp
+        self.battle_atk = self.atk
+        return self
+
     def increase_xp(self, n: int):
         if self.xp == 5 or n == 0:
             return self
         self.permanent_buff(1, 1)
         self.xp += 1
         return self.increase_xp(n-1)
-
-    @property
-    def level(self) -> int:
-        return min((self.xp + 1) // 3 + 1, 3)
-
-    def reset_temp_stats(self):
-        self.battle_hp = self.hp
-        self.battle_atk = self.atk
-        return self
-
-    def trigger(self, name: str) -> int:
-        return 0
-
-    def __lt__(self, other):
-        if self.battle_atk < other.battle_atk:
-            return True
-        elif self.battle_atk == other.battle_atk:
-            if self.battle_hp < other.battle_hp:
-                return True
-            elif self.battle_hp == other.battle_hp:
-                if self.tier < other.tier:
-                    return True
-        return False
 
 
 class Empty(Animal):
@@ -108,6 +114,9 @@ class Equipment:
         return 0
 
     def trigger(self, name: int):
+        return 0
+
+    def query(self, message: Tuple[str, int]):
         return 0
 
 
