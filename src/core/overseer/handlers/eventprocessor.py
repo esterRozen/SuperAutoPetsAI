@@ -73,7 +73,7 @@ class EventProcessor:
     # apply to all units
     @staticmethod
     def friend_sold(agent: MessageAgent):
-        for animal in agent.sorted_team:
+        for animal in agent.sorted_without_raiser:
             operation = animal.trigger(FRIEND_SOLD)
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
