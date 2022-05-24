@@ -22,16 +22,18 @@ class Shop:
             if isinstance(shop_slot.item, Animal):
                 shop_slot.item.permanent_buff(atk, hp)
 
-    def start_turn(self, turn):
+    def start_turn(self):
         # TODO start_turn flow
-        # clear un-frozen animals, shift left
+        # grow shop size
+        self._turn += 1
+        self.upgrade_shop(self._turn)
 
-        # check the number of animal shop slots
-        # removes excess animal slots if needed
+        # clear un-frozen animals, shift left
+        self.clear_unfrozen()
 
         # spawn new animals
-
-        pass
+        self.fill_shop()
+        return
 
     def perm_buff(self, atk, hp):
         self.buff(atk, hp)
