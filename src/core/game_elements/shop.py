@@ -99,7 +99,7 @@ class Shop:
         :return:
         """
         for slot in self.roster:
-            if isinstance(slot.item, Empty):
+            if isinstance(slot.item, Empty) or isinstance(slot.item, Unarmed):
                 slot.spawn(self.tier)
 
     def item(self, position):
