@@ -14,7 +14,7 @@ class Tier1:
     def ant(agent: 'MessageAgent'):
         # permanently buff random animal on team.
         friend = agent.team.random_friend()
-        if friend == []:
+        if not friend:
             return
         if agent.lvl == 1:
             agent.buff(friend, 2, 1)
@@ -27,7 +27,7 @@ class Tier1:
     @staticmethod
     def beaver(agent: 'MessageAgent'):
         friends = agent.team.random_friends(2)
-        if friends == []:
+        if not friends:
             return
         if agent.lvl == 1:
             [friend.permanent_buff(1, 0) for friend in friends]
