@@ -7,7 +7,6 @@ from . import Animal, Empty, Equipment, Unarmed
 class Team:
     def __init__(self):
         self.animals = [Empty() for _ in range(5)]
-        self.equipment = [Unarmed() for _ in range(5)]
         self.acting = 0
         # random.seed(1)
 
@@ -38,7 +37,6 @@ class Team:
         pass
 
     def faint(self, target):
-        self.equipment[target] = Unarmed()
         self.animals[target] = Empty()
 
     def push_forward(self):
@@ -49,7 +47,6 @@ class Team:
             return self
         # insert unit to that position, if there would be too many units, insert and delete excess.
         self.animals.insert(animal, position)
-        self.equipment.insert(Unarmed(), position)
 
     def leftmost_unit(self):
         i = 0

@@ -115,7 +115,7 @@ class ShopSystem:
             # handle non-targeted food e.g. can, sushi
             return
         # handle equipment e.g. meat bone
-        self.__agent.team.equipment[target_pos] = item
+        self.__agent.team.animals[target_pos].held = item
         return
 
     def __buy_different_animal_response(self, shop_slot, target_pos):
