@@ -4,6 +4,32 @@ from src.core.game_elements.abstract_elements import Animal, Empty, Equipment, U
 
 # testing generics and nulls
 class TestAnimal(TestCase):
+    def test_level(self):
+        animal = Animal(6, 3)
+
+        self.assertTrue(animal.level == 1, "level starts at 1")
+
+        animal.increase_xp(1)
+        self.assertTrue(animal.level == 1, "level should not increment at 1 xp")
+
+        animal.increase_xp(2)
+        self.assertTrue(animal.level == 2, "level should have incremented")
+
+        animal.increase_xp(1)
+        animal.reset_temp_stats()
+        self.assertTrue(animal.level == 2, "level should remain same")
+
+        animal.increase_xp(8)
+        self.assertTrue(animal.level == 3, "level limited to 3")
+
+    def test_trigger(self):
+        animal = Animal(3, 4)
+        self.assertTrue(animal.trigger(30) == 0, "default trigger should be 0")
+
+    def test_equipment_modifier(self):
+        # TODO
+        self.fail()
+
     def test_permanent_buff(self):
         animal = Animal(5, 2)
 
@@ -59,6 +85,19 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.battle_hp == 9, "battle HP incorrect")
         self.assertTrue(animal.battle_atk == 4, "battle ATK incorrect")
 
+    def test_reset_stats(self):
+        animal = Animal(5, 4)
+
+        animal.increase_xp(4)
+        animal.permanent_buff(3, 3)
+        animal.reset_temp_stats()
+
+        self.assertTrue(animal.level == 2, "incorrect level")
+        self.assertTrue(animal.hp == 11, "incorrect hp")
+        self.assertTrue(animal.atk == 12, "incorrect atk")
+        self.assertTrue(animal.battle_hp == 11, "incorrect battle hp")
+        self.assertTrue(animal.battle_atk == 12, "incorrect battle atk")
+
     def test_increase_xp(self):
         animal = Animal(4, 2)
         animal.increase_xp(1)
@@ -91,43 +130,22 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.battle_hp == 7, "battle hp limited by xp cap")
         self.assertTrue(animal.battle_atk == 9, "battle atk limited by xp cap")
 
-    def test_level(self):
-        animal = Animal(6, 3)
-
-        self.assertTrue(animal.level == 1, "level starts at 1")
-
-        animal.increase_xp(1)
-        self.assertTrue(animal.level == 1, "level should not increment at 1 xp")
-
-        animal.increase_xp(2)
-        self.assertTrue(animal.level == 2, "level should have incremented")
-
-        animal.increase_xp(1)
-        animal.reset_temp_stats()
-        self.assertTrue(animal.level == 2, "level should remain same")
-
-        animal.increase_xp(8)
-        self.assertTrue(animal.level == 3, "level limited to 3")
-
-    def test_reset_stats(self):
-        animal = Animal(5, 4)
-
-        animal.increase_xp(4)
-        animal.permanent_buff(3, 3)
-        animal.reset_temp_stats()
-
-        self.assertTrue(animal.level == 2, "incorrect level")
-        self.assertTrue(animal.hp == 11, "incorrect hp")
-        self.assertTrue(animal.atk == 12, "incorrect atk")
-        self.assertTrue(animal.battle_hp == 11, "incorrect battle hp")
-        self.assertTrue(animal.battle_atk == 12, "incorrect battle atk")
-
-    def test_trigger(self):
-        animal = Animal(3, 4)
-        self.assertTrue(animal.trigger(30) == 0, "default trigger should be 0")
-
 
 class TestEmpty(TestCase):
+    def test_level(self):
+        empty = Empty()
+        self.assertTrue(empty.level == 0)
+        empty.increase_xp(40)
+        self.assertTrue(empty.level == 0)
+
+    def test_trigger(self):
+        empty = Empty()
+        self.assertTrue(empty.trigger(30) == 0)
+
+    def test_equipment_modifier(self):
+        # TODO
+        self.fail()
+
     def test_permanent_buff(self):
         empty = Empty()
         empty.permanent_buff(3, 3)
@@ -144,17 +162,6 @@ class TestEmpty(TestCase):
         self.assertTrue(empty.battle_hp == 0)
         self.assertTrue(empty.battle_atk == 0)
 
-    def test_increase_xp(self):
-        empty = Empty()
-        empty.increase_xp(2)
-        self.assertTrue(empty.xp == 0)
-
-    def test_level(self):
-        empty = Empty()
-        self.assertTrue(empty.level == 0)
-        empty.increase_xp(40)
-        self.assertTrue(empty.level == 0)
-
     def test_reset_stats(self):
         empty = Empty()
         empty.temp_buff(3, 3)
@@ -164,9 +171,10 @@ class TestEmpty(TestCase):
         self.assertTrue(empty.battle_hp == 0)
         self.assertTrue(empty.battle_atk == 0)
 
-    def test_trigger(self):
+    def test_increase_xp(self):
         empty = Empty()
-        self.assertTrue(empty.trigger(30) == 0)
+        empty.increase_xp(2)
+        self.assertTrue(empty.xp == 0)
 
 
 class TestEquipment(TestCase):
@@ -179,6 +187,10 @@ class TestEquipment(TestCase):
         equip = Equipment()
         self.assertTrue(equip.trigger(30) == 0, "trigger should be no-op")
 
+    def test_query(self):
+        # TODO
+        self.fail()
+
 
 class TestUnarmed(TestCase):
     def test_instantiation(self):
@@ -186,3 +198,7 @@ class TestUnarmed(TestCase):
         self.assertTrue(nothing.cost == 0, "cost should be 0")
         self.assertTrue(nothing.id == 0, "id should be 0")
         self.assertTrue(nothing.trigger(30) == 0, "trigger should be no-op")
+
+    def test_query(self):
+        # TODO
+        self.fail()
