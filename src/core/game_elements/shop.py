@@ -108,7 +108,16 @@ class Shop:
 
         return self.roster[position]
 
-    def grow_shop(self, turn):
+    def upgrade_shop(self, turn):
+        """
+        handles upgrading animal slots, food slots, and current tier
+        uses state transition as basis for updates
+        Args:
+            turn: int - turn number
+
+        Returns:
+
+        """
         curr = Shop.shop_params(turn)
         prev = Shop.shop_params(turn - 1)
 
