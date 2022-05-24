@@ -35,7 +35,7 @@ class ShopSystem:
 
     def reroll(self):
         self.__agent.shop.reroll()
-        pass
+        return
 
     def buy(self, item_pos: int, target_pos: int):
         # differentiate between food/equipment and animals!
@@ -153,5 +153,6 @@ class ShopSystem:
         pass
 
     def end_turn(self):
+        # save backup effects are performed in start battle
         # complete end turn effects
         self.__agent.handle_event(END_TURN)
