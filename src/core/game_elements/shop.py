@@ -93,18 +93,22 @@ class Shop:
             if isinstance(shop_slot.item, Animal) and not isinstance(shop_slot.item, Empty):
                 animals += [shop_slot.item]
                 shop_slot.clear()
+                shop_slot.toggle_freeze()
             if isinstance(shop_slot.item, Equipment) and not isinstance(shop_slot.item, Unarmed):
                 items += [shop_slot.item]
                 shop_slot.clear()
+                shop_slot.toggle_freeze()
 
         j = 0
         while animals:
             self.roster[j].item = animals.pop()
+            self.roster[j].toggle_freeze()
             j += 1
 
         j = len(self.roster) - 1
         while items:
             self.roster[j].item = items.pop(-1)
+            self.roster[j].toggle_freeze()
             j -= 1
 
     def clear(self):
