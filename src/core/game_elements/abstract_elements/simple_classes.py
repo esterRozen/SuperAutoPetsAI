@@ -36,7 +36,7 @@ class Animal:
         return False
 
     def __repr__(self):
-        return f"({self.id}): " \
+        return f"({self.__class__.__name__}): " \
                f"perm.{self.atk}/{self.hp}, " \
                f"temp.{self.battle_atk}/{self.battle_hp}"
 
