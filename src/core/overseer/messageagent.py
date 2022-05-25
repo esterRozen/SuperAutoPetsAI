@@ -180,7 +180,7 @@ class MessageAgent(BaseAgent):
         elif message == BUY_FOOD:
             self.__EP.buy_food(self)
         elif message == BUY_T1_PET:
-            self.__EP.buy_T1_pet(self)
+            self.__EP.buy_t1_pet(self)
         elif message == EAT_FOOD:
             self.__EP.eat_food(self)
         elif message == ENEMY_ATTACKS:

@@ -38,7 +38,7 @@ class EventProcessor:
     # engine
     # apply to all units
     @staticmethod
-    def buy_T1_pet(agent: 'MessageAgent'):
+    def buy_t1_pet(agent: 'MessageAgent'):
         for animal in agent.sorted_team:
             operation = animal.trigger(BUY_T1_PET)
             agent.target = ("team", agent.team.animals.index(animal))
