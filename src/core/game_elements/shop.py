@@ -191,6 +191,9 @@ class ShopSlot:
         self.spawner = Spawner(mode)
         self.item: Union[Animal, Equipment] = Empty()
 
+    def __repr__(self):
+        return f"[{self.is_frozen}, {self.item.__repr__()}]"
+
     def clear(self):
         self.item = Unarmed()
         return
