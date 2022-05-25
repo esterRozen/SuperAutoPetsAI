@@ -4,7 +4,7 @@ from .abstract_elements import *
 
 
 class Shop:
-    def __init__(self, mode, turn):
+    def __init__(self, mode: str, turn: int):
         self._turn = turn
         self._mode = mode
 
@@ -16,6 +16,26 @@ class Shop:
         self.roster: List[ShopSlot] = [AnimalShopSlot(mode) for _ in range(self._animal_slots)]
         self.roster += [ShopSlot("food") for _ in range(self._item_slots)]
 
+        self.fill_shop()
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return self.roster[item]
+        else:
+            raise ValueError("Must be int as index of shop roster")
+
+    def __iter__(self):
+        for slot in self.roster:
+            yield slot
+
+    def __repr__(self):
+        rep = f"Shop[perm:({self._perm_buff[0]}, {self._perm_buff[1]}), roster: ("
+        slots: List[str] = [slot.__repr__() for slot in self]
+        rep += ", ".join(slots)
+
+        rep += ")]"
+        return rep
+
     def buff(self, atk, hp):
         # only for animals in current shop
         for shop_slot in self.roster:
@@ -23,7 +43,6 @@ class Shop:
                 shop_slot.item.permanent_buff(atk, hp)
 
     def start_turn(self):
-        # TODO start_turn flow
         # grow shop size
         self._turn += 1
         self.upgrade_shop(self._turn)
