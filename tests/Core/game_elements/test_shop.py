@@ -1,17 +1,41 @@
 from unittest import TestCase
 
-from core.game_elements import Shop
+from src.core.game_elements import Shop
 
 
 class TestShop(TestCase):
-    def new_shop(self, mode: str, tier: int) -> Shop:
-        pass
-
     def test_buff(self):
-        self.fail()
+        shop = Shop("base", 1)
+        atk1 = shop[0].item.atk
+        atk2 = shop[2].item.atk
+
+        hp1 = shop[0].item.hp
+        hp2 = shop[2].item.hp
+
+        shop.buff(2, 1)
+
+        self.assertTrue(atk1 + 2 == shop[0].item.atk)
+        self.assertTrue(atk2 + 2 == shop[2].item.atk)
+        self.assertTrue(hp1 + 1 == shop[0].item.hp)
+        self.assertTrue(hp2 + 1 == shop[2].item.hp)
 
     def test_start_turn(self):
-        self.fail()
+        shop = Shop("base", 6)
+
+        self.assertTrue(len(shop.roster) == 6)
+        shop.toggle_freeze(0)
+        shop.toggle_freeze(2)
+        shop.toggle_freeze(4)
+
+        anim1 = shop[0].item
+        anim2 = shop[2].item
+        item = shop[4].item
+        shop.start_turn()
+
+        self.assertTrue(shop[0].item == anim1)
+        self.assertTrue(shop[1].item == anim2)
+
+        self.assertTrue(shop[-1].item == item)
 
     def test_perm_buff(self):
         self.fail()
