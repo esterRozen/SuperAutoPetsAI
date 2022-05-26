@@ -22,20 +22,20 @@ class TestShop(TestCase):
     def test_start_turn(self):
         shop = Shop("base", 6)
 
-        self.assertTrue(len(shop.roster) == 6)
+        self.assertTrue(len(shop.roster) == 7)
         shop.toggle_freeze(0)
         shop.toggle_freeze(2)
-        shop.toggle_freeze(4)
+        shop.toggle_freeze(5)
 
         anim1 = shop[0].item
         anim2 = shop[2].item
-        item = shop[4].item
+        item = shop[5].item
         shop.start_turn()
 
         self.assertTrue(shop[0].item == anim1)
         self.assertTrue(shop[1].item == anim2)
 
-        self.assertTrue(shop[-1].item == item)
+        self.assertTrue(shop[5].item == item)
 
     def test_perm_buff(self):
         self.fail()
