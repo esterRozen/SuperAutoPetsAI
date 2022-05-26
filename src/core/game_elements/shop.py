@@ -157,12 +157,6 @@ class Shop:
             if isinstance(slot.item, Empty) or isinstance(slot.item, Unarmed):
                 slot.spawn(self.tier)
 
-    def item(self, position):
-        if position >= len(self.roster) or position < 0:
-            return Empty()
-
-        return self.roster[position]
-
     def upgrade_shop(self, turn):
         """
         handles upgrading animal slots, food slots, and current tier
