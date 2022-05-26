@@ -29,7 +29,7 @@ class Engine:
         pass
 
     def freeze(self, shop_pos):
-        self.shop_director.freeze(shop_pos)
+        self.shop_director.toggle_freeze(shop_pos)
 
     def reroll(self):
         self.shop_director.reroll()

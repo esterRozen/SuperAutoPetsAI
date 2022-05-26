@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 
-class Test_Tier1(TestCase):
+class TestTier1(TestCase):
     def test_instantiation(self):
         self.fail()
 
@@ -47,7 +47,7 @@ class TestMosquito(TestCase):
 
 
 class TestOtter(TestCase):
-    def __init__(self):
+    def test_instantiation(self):
         self.fail()
 
 

@@ -141,13 +141,13 @@ class MessageAgent(BaseAgent):
         sorted_team = self.sorted_team
         if self.event_raiser[0] == "team":
             out = []
-            for animal in range(sorted_team):
+            for animal in range(len(sorted_team)):
                 if self.team.animals.index(animal) < self.event_raiser[1]:
                     out += [animal]
             return out
         elif self.event_raiser[0] == "enemy":
             out = []
-            for animal in range(sorted_team):
+            for animal in range(len(sorted_team)):
                 if self.enemy.animals.index(animal) < self.event_raiser[1]:
                     out += [animal]
             return out

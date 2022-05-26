@@ -1,4 +1,6 @@
 from unittest import TestCase
+
+from core.eventnames import BUY
 from src.core.game_elements.abstract_elements import Animal, Empty, Equipment, Unarmed
 
 
@@ -24,7 +26,7 @@ class TestAnimal(TestCase):
 
     def test_trigger(self):
         animal = Animal(3, 4)
-        self.assertTrue(animal.trigger(30) == 0, "default trigger should be 0")
+        self.assertTrue(animal.trigger(BUY) == 0, "default trigger should be 0")
 
     def test_equipment_modifier(self):
         # TODO
@@ -140,7 +142,7 @@ class TestEmpty(TestCase):
 
     def test_trigger(self):
         empty = Empty()
-        self.assertTrue(empty.trigger(30) == 0)
+        self.assertTrue(empty.trigger(BUY) == 0)
 
     def test_equipment_modifier(self):
         # TODO

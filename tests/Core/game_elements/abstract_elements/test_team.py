@@ -2,7 +2,6 @@ from unittest import TestCase
 from src.core.game_elements.abstract_elements import (Team, Animal, Unarmed, Empty, Equipment, Spawner)
 
 
-
 class TestTeam(TestCase):
     spawner = Spawner("paid_1")
     team = Team()

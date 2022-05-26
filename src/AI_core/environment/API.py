@@ -2,10 +2,10 @@ from typing import Tuple, Optional, Union
 from src.core import Engine
 
 
-__all__ = ['Engine_API']
+__all__ = ['EngineAPI']
 
 
-class Engine_API:
+class EngineAPI:
     def __init__(self, mode):
         self.__engine = Engine(mode)
 

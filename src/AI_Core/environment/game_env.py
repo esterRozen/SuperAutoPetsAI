@@ -5,7 +5,7 @@ import gym
 from gym.spaces import MultiDiscrete, Discrete
 from gym.core import ObsType
 
-from .API import Engine_API
+from .API import EngineAPI
 
 
 _num_elements = 150
@@ -18,9 +18,9 @@ Observe: TypeAlias = gym.spaces.Dict[MultiDiscrete, Discrete]
 Action: TypeAlias = gym.spaces.Tuple[Discrete, MultiDiscrete]
 
 
-class SAP_Game(gym.Env):
+class SAPGame(gym.Env):
     def __init__(self, mode):
-        self.__engine = Engine_API(mode)
+        self.__engine = EngineAPI(mode)
         self.action_space = gym.spaces.Tuple(
             Discrete(7),                # represents action
             MultiDiscrete([5, 5, 7])    # represents targets TODO double check this

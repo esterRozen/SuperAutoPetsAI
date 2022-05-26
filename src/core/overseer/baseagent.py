@@ -32,7 +32,7 @@ class BaseAgent:
         # maintains synchronization between the two
         self.enemy = Team()
 
-        self.shop = Shop(mode, 3, 1)
+        self.shop = Shop(mode, 1)
 
         # animal that triggered the event is the event_raiser
         # animal that responded to event is the acting animal

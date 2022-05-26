@@ -34,13 +34,3 @@ class Spawner:
 
         subpopulation = self._population[idx]
         return type(random.choice(subpopulation))()
-
-
-if __name__ == "__main__":
-    spawner = Spawner("base")
-
-    a = spawner.spawn(2)
-    b = spawner.spawn(3)
-    c = spawner.spawn_n(3,2)
-    d = spawner.spawn_tier(4)
-    print("end")

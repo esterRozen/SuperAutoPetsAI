@@ -32,4 +32,5 @@ class TestPaid1(TestCase):
         animals = [[animal.__class__.__name__ for animal in tier] for tier in paid.animals]
         for i, tier in enumerate(animals):
             for j, animal in enumerate(tier):
-                self.assertTrue(animal == self.paid1_animals[i][j], f"T{i+1}: {animal} should be {self.paid1_animals[i][j]}")
+                self.assertTrue(animal == self.paid1_animals[i][j],
+                                f"T{i+1}: {animal} should be {self.paid1_animals[i][j]}")

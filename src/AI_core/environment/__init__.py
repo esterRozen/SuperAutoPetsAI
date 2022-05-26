@@ -1,4 +1,4 @@
-from .game_env import SAP_Game
+from .game_env import SAPGame
 
 
-__all__ = ['SAP_Game']
+__all__ = ['SAPGame']

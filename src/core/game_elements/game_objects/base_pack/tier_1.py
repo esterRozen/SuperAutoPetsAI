@@ -57,6 +57,7 @@ class Cricket(_Tier1):
 
 class Duck(_Tier1):
     id = 6
+
     def __init__(self):
         super(Duck, self).__init__(1, 2)
 

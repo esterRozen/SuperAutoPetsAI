@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 
-class Test_Tier1(TestCase):
+class TestTier1(TestCase):
     def test_instantiation(self):
         self.fail()
 
