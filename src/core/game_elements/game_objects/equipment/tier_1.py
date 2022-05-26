@@ -15,12 +15,8 @@ class Apple(_Tier1):
         if name == "buy":
             return 80
 
-    pass
-
 
 class Honey(_Tier1):
     def trigger(self, name):
         if name == "buy":
             return 80
-
-    pass
