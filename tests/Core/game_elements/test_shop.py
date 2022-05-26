@@ -38,7 +38,37 @@ class TestShop(TestCase):
         self.assertTrue(shop[5].item == item)
 
     def test_perm_buff(self):
-        self.fail()
+        shop = Shop("base", 1)
+
+        atk1 = shop[0].item.atk
+        atk2 = shop[2].item.atk
+
+        hp1 = shop[0].item.hp
+        hp2 = shop[2].item.hp
+
+        shop.perm_buff(2, 1)
+
+        self.assertTrue(shop[0].item.atk == atk1 + 2)
+        self.assertTrue(shop[2].item.atk == atk2 + 2)
+
+        self.assertTrue(shop[0].item.hp == hp1 + 1)
+        self.assertTrue(shop[2].item.hp == hp2 + 1)
+
+        shop.reroll()
+
+        atk1 = shop[0].item.atk
+        atk2 = shop[2].item.atk
+
+        hp1 = shop[0].item.hp
+        hp2 = shop[2].item.hp
+
+        shop.perm_buff(2, 1)
+
+        self.assertTrue(shop[0].item.atk == atk1 + 2)
+        self.assertTrue(shop[2].item.atk == atk2 + 2)
+
+        self.assertTrue(shop[0].item.hp == hp1 + 1)
+        self.assertTrue(shop[2].item.hp == hp2 + 1)
 
     def test_summon_level_unit(self):
         self.fail()
