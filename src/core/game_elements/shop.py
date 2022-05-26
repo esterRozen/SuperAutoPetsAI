@@ -45,6 +45,14 @@ class Shop:
         rep += ")]"
         return rep
 
+    @property
+    def size(self):
+        j = 0
+        for slot in self.roster:
+            if not isinstance(slot.item, Empty) and not isinstance(slot.item, Unarmed):
+                j += 1
+        return j
+
     def buff(self, atk, hp):
         # only for animals in current shop
         for shop_slot in self.roster:
