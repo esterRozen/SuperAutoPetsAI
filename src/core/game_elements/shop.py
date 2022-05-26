@@ -14,7 +14,16 @@ class Shop:
         self._animal_slots, self._item_slots, self.tier = Shop.shop_params(turn)
 
         self.roster: List[ShopSlot] = [AnimalShopSlot(mode) for _ in range(self._animal_slots)]
+        for _ in range(5 - self._animal_slots):
+            slot = AnimalShopSlot(mode)
+            slot.is_enabled = False
+            self.roster.append(slot)
+
         self.roster += [ShopSlot("food") for _ in range(self._item_slots)]
+        for _ in range(2 - self._item_slots):
+            slot = ShopSlot("food")
+            slot.is_enabled = False
+            self.roster.append(slot)
 
         self.fill_shop()
 
