@@ -71,7 +71,21 @@ class TestShop(TestCase):
         self.assertTrue(shop[2].item.hp == hp2 + 1)
 
     def test_summon_level_unit(self):
-        self.fail()
+        shop = Shop("base", 1)
+        shop.summon_level_unit()
+
+        self.assertTrue(shop[3].item.tier == 2)
+
+        shop.start_turn()
+        self.assertTrue(shop.size == 4)
+
+        shop.clear()
+        self.assertTrue(shop.size == 0)
+
+        shop = Shop("base", 15)
+        result = shop.summon_level_unit()
+
+        self.assertFalse(result)
 
     def test_clear_unfrozen(self):
         self.fail()
