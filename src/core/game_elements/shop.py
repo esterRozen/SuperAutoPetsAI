@@ -61,20 +61,35 @@ class Shop:
             if isinstance(shop_slot, AnimalShopSlot):
                 shop_slot.perm_buff = self._perm_buff
 
-    def summon_level_unit(self):
-        # if size < 7, push food over
-        if len(self.roster) < 7:
+    def summon_level_unit(self) -> bool:
+        tier_summoned = min(6, self.tier + 1)
+
+        # if size < 7, push food over *if necessary*
+        if self.size < 7:
             i = 0
             idx_found = False
             while i < 7 and not idx_found:
-                if not isinstance(self.roster[i], AnimalShopSlot):
+                if isinstance(self.roster[i].item, Empty):
                     idx_found = True
+                elif not isinstance(self.roster[i], AnimalShopSlot):
+                    if isinstance(self.roster[i].item, Unarmed):
+                        idx_found = True
+                    else:
+                        i += 1
                 else:
                     i += 1
-            self.roster.insert(i, AnimalShopSlot(self._mode))
-            self.roster[i].spawn_tier(self.tier + 1)
+
+            if i == 7:
+                return False
+            if i <= 5:
+                self.roster[i].item = self.roster[0].spawner.spawn_tier(tier_summoned)
+                return True
+            if i == 6:
+                self.roster[i].item = self.roster[5].item
+                self.roster[5].item = self.roster[0].spawner.spawn_tier(tier_summoned)
+                return True
         else:
-            return -1
+            return False
 
     def clear_unfrozen(self):
         """
