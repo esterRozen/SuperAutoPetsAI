@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from src.core.game_elements.abstract_elements import Empty, Unarmed
 from src.core.game_elements import Shop
 
 
@@ -88,7 +89,24 @@ class TestShop(TestCase):
         self.assertFalse(result)
 
     def test_clear_unfrozen(self):
-        self.fail()
+        shop = Shop("base", 1)
+
+        anim1 = shop[0].item
+        anim2 = shop[2].item
+        item = shop[5].item
+
+        shop[0].toggle_freeze()
+        shop[2].toggle_freeze()
+        shop[5].toggle_freeze()
+
+        shop.clear_unfrozen()
+
+        self.assertTrue(anim1 == shop[0].item)
+        self.assertTrue(anim2 == shop[1].item)
+        self.assertTrue(item == shop[5].item)
+
+        self.assertIsInstance(shop[2].item, Empty)
+        self.assertIsInstance(shop[6].item, Unarmed)
 
     def test_clear(self):
         self.fail()
