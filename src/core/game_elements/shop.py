@@ -168,23 +168,17 @@ class Shop:
 
         """
         curr = Shop.shop_params(turn)
-        prev = Shop.shop_params(turn - 1)
 
         # add animal slot
-        if curr[0] - prev[0]:
-            new_animal_slot = AnimalShopSlot(self._mode)
-            new_animal_slot.perm_buff = self._perm_buff
-            self.roster.insert(prev[0], new_animal_slot)
+        animal_slot_idx = curr[0]-1
+        self.roster[animal_slot_idx].is_enabled = True
 
         # add item slot
-        if curr[1] - prev[1]:
-            new_item_slot = ShopSlot(self._mode)
-            self.roster.insert(len(self.roster)-prev[1])
-            pass
+        item_slot_idx = 4 + curr[1]
+        self.roster[item_slot_idx].is_enabled = True
 
         # raise tier
-        if curr[2] - prev[2]:
-            self.tier = curr[2]
+        self.tier = curr[2]
 
     def reroll(self):
         # populate shop based on current rank and animals frozen
