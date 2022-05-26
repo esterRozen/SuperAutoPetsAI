@@ -119,7 +119,17 @@ class TestShop(TestCase):
             self.assertIsInstance(shop[i].item, Unarmed)
 
     def test_fill_shop(self):
-        self.fail()
+        shop = Shop("base", 1)
+        shop.clear()
+
+        shop.fill_shop()
+        for i in range(0, 3):
+            self.assertFalse(isinstance(shop[i].item, Empty))
+        for i in range(3, 5):
+            self.assertIsInstance(shop[i].item, Empty)
+
+        self.assertFalse(isinstance(shop[5].item, Unarmed))
+        self.assertIsInstance(shop[6].item, Unarmed)
 
     def test_grow_shop(self):
         self.fail()
