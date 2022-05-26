@@ -82,9 +82,6 @@ class TestShop(TestCase):
     def test_fill_shop(self):
         self.fail()
 
-    def test_item(self):
-        self.fail()
-
     def test_grow_shop(self):
         self.fail()
 
