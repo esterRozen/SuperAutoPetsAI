@@ -209,6 +209,7 @@ class Shop:
 
 class ShopSlot:
     is_frozen = False
+    is_enabled = True
 
     def __init__(self, mode):
         self.mode = mode
@@ -223,6 +224,8 @@ class ShopSlot:
         return
 
     def toggle_freeze(self):
+        if not self.is_enabled:
+            return
         self.is_frozen = not self.is_frozen
 
     def buy(self) -> Union[Animal, Equipment]:
@@ -232,9 +235,13 @@ class ShopSlot:
         return item
 
     def spawn(self, max_tier):
+        if not self.is_enabled:
+            return
         self.item = self.spawner.spawn(max_tier)
 
     def spawn_tier(self, tier):
+        if not self.is_enabled:
+            return
         self.item = self.spawner.spawn_tier(tier)
 
 
@@ -249,9 +256,13 @@ class AnimalShopSlot(ShopSlot):
         return
 
     def spawn(self, max_tier):
+        if not self.is_enabled:
+            return
         self.item = self.spawner.spawn(max_tier)
         self.item.permanent_buff(self.perm_buff[0], self.perm_buff[1])
 
     def spawn_tier(self, tier):
+        if not self.is_enabled:
+            return
         self.item = self.spawner.spawn_tier(tier)
         self.item.permanent_buff(self.perm_buff[0], self.perm_buff[1])
