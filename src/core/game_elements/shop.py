@@ -111,7 +111,7 @@ class Shop:
     def clear_unfrozen(self):
         """
         clears all unfrozen items in shop
-        shifts animals left, foods right
+        shifts and food left
         Returns:
 
         """
@@ -123,25 +123,25 @@ class Shop:
         items = []
         for shop_slot in self.roster:
             if isinstance(shop_slot.item, Animal) and not isinstance(shop_slot.item, Empty):
-                animals += [shop_slot.item]
+                animals.append(shop_slot.item)
                 shop_slot.clear()
                 shop_slot.toggle_freeze()
             if isinstance(shop_slot.item, Equipment) and not isinstance(shop_slot.item, Unarmed):
-                items += [shop_slot.item]
+                items.append(shop_slot.item)
                 shop_slot.clear()
                 shop_slot.toggle_freeze()
 
         j = 0
         while animals:
-            self.roster[j].item = animals.pop()
+            self.roster[j].item = animals.pop(0)
             self.roster[j].toggle_freeze()
             j += 1
 
-        j = len(self.roster) - 1
+        j = 5
         while items:
-            self.roster[j].item = items.pop(-1)
+            self.roster[j].item = items.pop(0)
             self.roster[j].toggle_freeze()
-            j -= 1
+            j += 1
 
     def clear(self):
         for slot in self.roster:
