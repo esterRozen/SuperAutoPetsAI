@@ -49,6 +49,7 @@ class Dragon(_Tier6):
 
 
 class FlyFriend(_Tier6):
+    rollable = False
     id = 0
 
     def __init__(self):

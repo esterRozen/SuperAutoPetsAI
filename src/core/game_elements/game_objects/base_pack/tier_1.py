@@ -37,6 +37,7 @@ class Beaver(_Tier1):
 
 
 class Bee(_Tier1):
+    rollable = False
     id = 0
 
     def __init__(self):
@@ -128,6 +129,7 @@ class Pig(_Tier1):
 
 
 class Sloth(_Tier1):
+    rollable = False
     id = 0
 
     def __init__(self):
@@ -135,6 +137,7 @@ class Sloth(_Tier1):
 
 
 class ZombieCricket(_Tier1):
+    rollable = False
     id = 0
 
     def __init__(self):

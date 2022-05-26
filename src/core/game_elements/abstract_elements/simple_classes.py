@@ -1,9 +1,13 @@
 # noinspection PyUnusedLocal
 import copy
-from typing import Tuple
+from typing import Tuple, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ...overseer import MessageAgent
 
 
 class Animal:
+    rollable: bool = True
     xp: int = 0
     battle_hp: int = 0
     battle_atk: int = 0
@@ -47,8 +51,16 @@ class Animal:
     def trigger(self, name: str) -> int:
         return 0
 
-    def equipment_modifier(self, message):
-        return self.held.query(message)
+    def damage_modifier(self, agent: 'MessageAgent', amount: int, message: str):
+        """
+        calculates the damage to deal or be dealt by/to a unit based on held item
+        Args:
+            amount: attack power
+            message: incoming damage: "incoming"
+                     outgoing damage: "physical", "ability"
+        Returns: int damage
+        """
+        return self.held.query(self, agent, amount, message)
 
     def permanent_buff(self, atk: int, hp: int):
         # accounts for negative buffs
@@ -104,6 +116,7 @@ class Empty(Animal):
 
 # noinspection PyUnusedLocal,PyMethodMayBeStatic
 class Equipment:
+    rollable: bool = True
     cost = 3
     id = 0
     is_targeted = True
@@ -116,8 +129,8 @@ class Equipment:
     def trigger(self, name: int):
         return 0
 
-    def query(self, message: Tuple[str, int]):
-        return 0
+    def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str):
+        return damage
 
 
 class Unarmed(Equipment):

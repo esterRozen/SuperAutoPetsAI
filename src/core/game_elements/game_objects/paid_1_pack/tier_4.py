@@ -39,6 +39,7 @@ class Buffalo(_Tier4):
 
 
 class Bus(_Tier4):
+    rollable = False
     id = 0
 
     def __init__(self):
@@ -46,6 +47,7 @@ class Bus(_Tier4):
 
 
 class Chick(_Tier4):
+    rollable = False
     id = 0
 
     def __init__(self):

@@ -27,6 +27,7 @@ class Bat(_Tier2):
 
 
 class DirtyRat(_Tier2):
+    rollable = False
     id = 0
 
     def __init__(self):

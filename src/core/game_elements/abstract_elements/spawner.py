@@ -8,13 +8,34 @@ from . import Animal, Equipment
 # outputs a random animal given a range of tiers
 class Spawner:
     def __init__(self, mode):
+        self._mode = mode
         self._population = []
         if mode == "base":
-            self._population = Base().animals
+            animals = Base().animals
+            self._population = []
+            for tier in animals:
+                self._population.append([])
+                for animal in tier:
+                    if animal.rollable:
+                        self._population[-1].append(animal)
+
         elif mode == "paid_1":
-            self._population = Paid1().animals
+            animals = Paid1().animals
+            self._population = []
+            for tier in animals:
+                self._population.append([])
+                for animal in tier:
+                    if animal.rollable:
+                        self._population[-1].append(animal)
+
         elif mode == "food":
-            self._population = Items().items
+            items = Items().items
+            self._population = []
+            for tier in items:
+                self._population.append([])
+                for item in tier:
+                    if item.rollable:
+                        self._population[-1].append(item)
 
     def spawn(self, max_tier) -> type(Union[Animal, Equipment]):
         return type(self.spawn_n(1, max_tier)[0])()

@@ -109,6 +109,7 @@ class Rabbit(_Tier3):
 
 
 class Ram(_Tier3):
+    rollable = False
     id = 0
 
     def __init__(self):
