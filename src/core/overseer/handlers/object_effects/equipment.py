@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List
 
-from ....eventnames import ON_FAINT, EAT_FOOD, ON_LEVEL
+from ....eventnames import ON_FAINT, EAT_FOOD, ON_LEVEL, FRIEND_EATS_FOOD
 from ....game_elements.game_objects.equipment import *
 
 if TYPE_CHECKING:
@@ -8,58 +8,38 @@ if TYPE_CHECKING:
 
 
 # called when the item is given to a unit (specified in acting team member)
+# handles applying the effect/equipping the item.
 class Equipment:
     @staticmethod
     def apple(agent: 'MessageAgent'):
-        # raise eat food
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-        agent.team[actor].permanent_buff(1, 1)
+        agent.team[agent.event_raiser[1]].permanent_buff(1, 1)
 
     @staticmethod
     def honey(agent: 'MessageAgent'):
-        # raise eat food
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-        agent.team[actor].held = Honey()
+        agent.team[agent.event_raiser[1]].held = Honey()
 
     @staticmethod
     def cupcake(agent: 'MessageAgent'):
-        # raise eat food
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-        agent.team[actor].temp_buff(3, 3)
+        agent.team[agent.event_raiser[1]].temp_buff(3, 3)
 
     @staticmethod
     def meat_bone(agent: 'MessageAgent'):
-        # raise eat food
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-        agent.team[actor].held = MeatBone()
+        agent.team[agent.event_raiser[1]].held = MeatBone()
 
     @staticmethod
     def sleeping_pill(agent: 'MessageAgent'):
-        # raise eat food
         # raise faint, have variables set properly
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.event_raiser = ("team", actor)
+        actor = agent.event_raiser[1]
         agent.handle_event(ON_FAINT)
         agent.team.faint(actor)
 
     @staticmethod
-    def garlic(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
+    def weak(agent: 'MessageAgent'):
+        agent.team[agent.event_raiser[1]].held = Weak()
 
-        agent.team[actor].held = Garlic()
+    @staticmethod
+    def garlic(agent: 'MessageAgent'):
+        agent.team[agent.event_raiser[1]].held = Garlic()
 
     @staticmethod
     def salad_bowl(agent: 'MessageAgent'):
@@ -67,6 +47,9 @@ class Equipment:
         for unit in units:
             agent.event_raiser = ("team", unit)
             agent.handle_event(EAT_FOOD)
+
+            agent.event_raiser = ("team", unit)
+            agent.handle_event(FRIEND_EATS_FOOD)
 
             agent.team[unit].permanent_buff(2, 2)
 
@@ -76,64 +59,35 @@ class Equipment:
 
     @staticmethod
     def pear(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].permanent_buff(2, 2)
+        agent.team[agent.event_raiser[1]].permanent_buff(2, 2)
 
     @staticmethod
     def best_milk(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].permanent_buff(6, 3)
+        agent.team[agent.event_raiser[1]].permanent_buff(6, 3)
 
     @staticmethod
     def better_milk(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].permanent_buff(4, 2)
+        agent.team[agent.event_raiser[1]].permanent_buff(4, 2)
 
     @staticmethod
     def chili(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Chili()
+        agent.team[agent.event_raiser[1]].held = Chili()
 
     @staticmethod
     def chocolate(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
+        lvl = agent.team[agent.event_raiser[1]].level
+        agent.team[agent.event_raiser[1]].increase_xp(1)
 
-        lvl = agent.team[actor].level
-        agent.team[actor].increase_xp(1)
-
-        if agent.team[actor].level - lvl:
-            agent.event_raiser = ("team", actor)
+        if agent.team[agent.event_raiser[1]].level - lvl:
             agent.handle_event(ON_LEVEL)
 
     @staticmethod
     def milk(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].permanent_buff(2, 1)
+        agent.team[agent.event_raiser[1]].permanent_buff(2, 1)
 
     @staticmethod
     def peanut(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Peanut()
+        agent.team[agent.event_raiser[1]].held = Peanut()
 
     @staticmethod
     def sushi(agent: 'MessageAgent'):
@@ -142,31 +96,22 @@ class Equipment:
             agent.event_raiser = ("team", unit)
             agent.handle_event(EAT_FOOD)
 
+            agent.event_raiser = ("team", unit)
+            agent.handle_event(FRIEND_EATS_FOOD)
+
             agent.team[unit].permanent_buff(1, 1)
 
     @staticmethod
     def coconut(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Coconut()
+        agent.team[agent.event_raiser[1]].held = Coconut()
 
     @staticmethod
     def melon(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Melon()
+        agent.team[agent.event_raiser[1]].held = Melon()
 
     @staticmethod
     def mushroom(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Mushroom()
+        agent.team[agent.event_raiser[1]].held = Mushroom()
 
     @staticmethod
     def pizza(agent: 'MessageAgent'):
@@ -175,12 +120,11 @@ class Equipment:
             agent.event_raiser = ("team", unit)
             agent.handle_event(EAT_FOOD)
 
+            agent.event_raiser = ("team", unit)
+            agent.handle_event(FRIEND_EATS_FOOD)
+
             agent.team[unit].permanent_buff(2, 2)
 
     @staticmethod
     def steak(agent: 'MessageAgent'):
-        actor = agent.team.acting
-        agent.event_raiser = ("team", agent.team.acting)
-        agent.handle_event(EAT_FOOD)
-
-        agent.team[actor].held = Steak()
+        agent.team[agent.event_raiser[1]].held = Steak()
