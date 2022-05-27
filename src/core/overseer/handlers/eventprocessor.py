@@ -52,10 +52,8 @@ class EventProcessor:
     # apply to unit that acted (ate food)
     @staticmethod
     def eat_food(agent: 'MessageAgent'):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(EAT_FOOD)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        operation = agent.team.animals[agent.event_raiser[1]].trigger(EAT_FOOD)
+        agent.trigger_ability(operation)
 
     # shop
     # apply to all units
