@@ -27,11 +27,11 @@ class Shop:
 
         self.fill_shop()
 
-    def __getitem__(self, item):
-        if isinstance(item, int):
-            return self.roster[item]
-        else:
-            raise ValueError("Must be int as index of shop roster")
+    def __delitem__(self, key):
+        self.roster[key].clear()
+
+    def __getitem__(self, item: int):
+        return self.roster[item]
 
     def __iter__(self):
         for slot in self.roster:
@@ -44,6 +44,9 @@ class Shop:
 
         rep += ")]"
         return rep
+
+    def __setitem__(self, key: int, value: Union[Animal, Equipment]):
+        self.roster[key].item = value
 
     @property
     def size(self):
