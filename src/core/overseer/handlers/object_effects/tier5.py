@@ -1,5 +1,8 @@
 from typing import TYPE_CHECKING
 
+from core.game_elements.abstract_elements import Animal
+from core.game_elements.game_objects.equipment import Weak
+
 if TYPE_CHECKING:
     from ... import MessageAgent
 
@@ -28,8 +31,20 @@ class Tier5:
 
     @staticmethod
     def eagle(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit: Animal = agent.shop[0].spawner.spawn_tier(3)
+
+        # set stats with multiplier
+        unit.battle_atk *= agent.lvl
+        unit.battle_hp *= agent.lvl
+
+        if agent.event_raising_animal.level == 1:
+            unit.xp = 0
+        if agent.event_raising_animal.level == 2:
+            unit.xp = 2
+        if agent.event_raising_animal.level == 3:
+            unit.xp = 5
+
+        agent.summon(unit)
 
     # limited activation count stored in Goat object
     @staticmethod
@@ -38,8 +53,10 @@ class Tier5:
 
     @staticmethod
     def microbe(agent: 'MessageAgent'):
-        # TODO
-        pass
+        for unit in agent.team.units():
+            unit.held = Weak()
+        for unit in agent.enemy.units():
+            unit.held = Weak()
 
     @staticmethod
     def monkey(agent: 'MessageAgent'):

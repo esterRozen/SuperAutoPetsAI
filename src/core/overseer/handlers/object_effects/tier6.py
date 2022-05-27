@@ -7,8 +7,12 @@ if TYPE_CHECKING:
 class Tier6:
     @staticmethod
     def boar(agent: 'MessageAgent'):
-        # TODO
-        pass
+        if agent.lvl == 1:
+            agent.event_raising_animal.permanent_buff(2, 2)
+        elif agent.lvl == 2:
+            agent.event_raising_animal.permanent_buff(4, 4)
+        elif agent.lvl == 3:
+            agent.event_raising_animal.permanent_buff(6, 6)
 
     # not 100% sure how to implement cat.
     @staticmethod

@@ -1,4 +1,9 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
+
+from core.game_elements.abstract_elements import Animal
+from core.game_elements.game_objects.base_pack import Ram
+from core.game_elements.game_objects.equipment import Melon
+from core.game_elements.game_objects.paid_1_pack import Butterfly
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -33,8 +38,7 @@ class Tier3:
         elif agent.lvl == 2:
             agent.team.animals[agent.team.acting].xp += 1
         else:
-            # TODO caterpillar level 3
-            pass
+            agent.team[agent.team.acting] = Butterfly()
 
     @staticmethod
     def dog(agent: 'MessageAgent'):
@@ -83,8 +87,8 @@ class Tier3:
 
     @staticmethod
     def ox(agent: 'MessageAgent'):
-        # TODO
-        pass
+        agent.event_raising_animal.permanent_buff(agent.lvl, 0)
+        agent.event_raising_animal.held = Melon()
 
     @staticmethod
     def puppy(agent: 'MessageAgent'):
@@ -108,8 +112,12 @@ class Tier3:
 
     @staticmethod
     def sheep(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit = Ram()
+        unit.hp = 2 * agent.lvl
+        unit.atk = 2 * agent.lvl
+
+        agent.summon(unit.__copy__())
+        agent.summon(unit.__copy__())
 
     @staticmethod
     def snail(agent: 'MessageAgent'):
@@ -136,5 +144,6 @@ class Tier3:
 
     @staticmethod
     def turtle(agent: 'MessageAgent'):
-        # TODO
-        pass
+        units: List[Animal] = agent.team.friends_behind(agent.lvl)
+        for unit in units:
+            unit.held = Melon()

@@ -12,7 +12,7 @@ class Tier1:
 
     @staticmethod
     def ant(agent: 'MessageAgent'):
-        # permanently buff random animal on team.
+        #  buff random animal on team.
         friend = agent.team.random_friend()
         if not friend:
             return

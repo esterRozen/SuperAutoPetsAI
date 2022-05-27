@@ -1,5 +1,8 @@
 from typing import TYPE_CHECKING
 
+from core.game_elements.game_objects.base_pack import Bus, Chick
+from core.game_elements.game_objects.equipment import Chili
+
 if TYPE_CHECKING:
     from ... import MessageAgent
 
@@ -27,8 +30,12 @@ class Tier4:
 
     @staticmethod
     def deer(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit = Bus()
+        unit.hp = 5 * agent.lvl
+        unit.atk = 5 * agent.lvl
+        unit.held = Chili()
+
+        agent.summon(unit)
 
     @staticmethod
     def dolphin(agent: 'MessageAgent'):
@@ -96,13 +103,21 @@ class Tier4:
 
     @staticmethod
     def rooster(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit = Chick()
+        unit.hp = 1
+        unit.atk = agent.event_raising_animal.atk // 2
+
+        for _ in range(agent.lvl):
+            agent.summon(unit.__copy__())
 
     @staticmethod
     def skunk(agent: 'MessageAgent'):
-        # TODO
-        pass
+        if agent.event_raiser[0] == "team":
+            target = agent.enemy.highest_health_unit()
+            target.battle_hp = max(1, target.battle_hp * (agent.lvl / 3))
+        else:
+            target = agent.team.highest_health_unit()
+            target.battle_hp = max(1, target.battle_hp * (agent.lvl / 3))
 
     @staticmethod
     def squirrel(agent: 'MessageAgent'):

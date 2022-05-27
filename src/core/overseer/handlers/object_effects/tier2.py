@@ -1,15 +1,19 @@
 from typing import TYPE_CHECKING
 
+from core.game_elements.abstract_elements import Animal
+from core.game_elements.game_objects.base_pack import DirtyRat
+from core.game_elements.game_objects.equipment import Weak
+
 if TYPE_CHECKING:
     from ... import MessageAgent
 
 
 class Tier2:
-    # have to implement equipments
     @staticmethod
     def bat(agent: 'MessageAgent'):
-        # TODO
-        pass
+        units = agent.enemy.random_units(agent.team[agent.event_raiser[1]])
+        for unit in units:
+            unit.held = Weak()
 
     @staticmethod
     def crab(agent: 'MessageAgent'):
@@ -28,6 +32,7 @@ class Tier2:
 
     @staticmethod
     def dirty_rat(agent: 'MessageAgent'):
+        # TODO
         return NotImplemented
 
     @staticmethod
@@ -72,8 +77,11 @@ class Tier2:
     # summons, ugh
     @staticmethod
     def rat(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit = DirtyRat()
+        # TODO check the summon hp
+        unit.battle_atk = agent.lvl
+        unit.battle_hp = agent.lvl
+        agent.enemy.summon(unit, 0)
 
     @staticmethod
     def shrimp(agent: 'MessageAgent'):
@@ -87,8 +95,20 @@ class Tier2:
     # more summons!!
     @staticmethod
     def spider(agent: 'MessageAgent'):
-        # TODO
-        pass
+        unit: Animal = agent.shop[0].spawner.spawn_tier(3)
+
+        # stats fixed at 2, 2
+        unit.battle_atk = 2
+        unit.battle_hp = 2
+
+        if agent.event_raising_animal.level == 1:
+            unit.xp = 0
+        if agent.event_raising_animal.level == 2:
+            unit.xp = 2
+        if agent.event_raising_animal.level == 3:
+            unit.xp = 5
+
+        agent.summon(unit)
 
     @staticmethod
     def swan(agent: 'MessageAgent'):
