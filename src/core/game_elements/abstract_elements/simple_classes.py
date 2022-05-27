@@ -55,6 +55,7 @@ class Animal:
         """
         calculates the damage to deal or be dealt by/to a unit based on held item
         Args:
+            agent: message agent, used for some cases to affect other animals
             amount: attack power
             message: incoming damage: "incoming"
                      outgoing damage: "physical", "ability"

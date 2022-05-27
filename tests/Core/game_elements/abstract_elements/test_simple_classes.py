@@ -1,7 +1,9 @@
 from unittest import TestCase
 
-from core.eventnames import BUY
+from src.core.eventnames import BUY
 from src.core.game_elements.abstract_elements import Animal, Empty, Equipment, Unarmed
+
+from src.core.overseer import MessageAgent
 
 
 # testing generics and nulls
@@ -28,9 +30,11 @@ class TestAnimal(TestCase):
         animal = Animal(3, 4)
         self.assertTrue(animal.trigger(BUY) == 0, "default trigger should be 0")
 
-    def test_equipment_modifier(self):
-        # TODO
-        self.fail()
+    def test_damage_modifier(self):
+        agent = MessageAgent("base")
+        animal = Animal(1, 1)
+        damage = animal.damage_modifier(agent, 3, "incoming")
+        self.assertTrue(damage == 3, "should be unchanged")
 
     def test_permanent_buff(self):
         animal = Animal(5, 2)
@@ -144,10 +148,6 @@ class TestEmpty(TestCase):
         empty = Empty()
         self.assertTrue(empty.trigger(BUY) == 0)
 
-    def test_equipment_modifier(self):
-        # TODO
-        self.fail()
-
     def test_permanent_buff(self):
         empty = Empty()
         empty.permanent_buff(3, 3)
@@ -190,8 +190,10 @@ class TestEquipment(TestCase):
         self.assertTrue(equip.trigger(30) == 0, "trigger should be no-op")
 
     def test_query(self):
-        # TODO
-        self.fail()
+        agent = MessageAgent("base")
+        animal = Animal(1, 1)
+        damage = animal.damage_modifier(agent, 3, "incoming")
+        self.assertTrue(damage == 3, "should be unchanged")
 
 
 class TestUnarmed(TestCase):
@@ -200,7 +202,3 @@ class TestUnarmed(TestCase):
         self.assertTrue(nothing.cost == 0, "cost should be 0")
         self.assertTrue(nothing.id == 0, "id should be 0")
         self.assertTrue(nothing.trigger(30) == 0, "trigger should be no-op")
-
-    def test_query(self):
-        # TODO
-        self.fail()
