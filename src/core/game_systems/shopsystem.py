@@ -102,22 +102,38 @@ class ShopSystem:
         return
 
     def __buy_equipment_response(self, shop_slot, target_pos: int):
-        target_unit = self.__agent.team.animals[target_pos]
-
         item: Equipment = shop_slot.item
 
         self.__agent.gold -= item.cost
         shop_slot.buy()
 
         if item.is_targeted:
-            if item.is_consumable:
-                # handle consumable targeted food e.g. pear
-                return
-            # handle non-targeted food e.g. can, sushi
+            # handle consumable targeted food e.g. pear
+            # trigger buy food ability for all units, if ability exists
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.handle_event(BUY_FOOD)
+
+            # perform food effects
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.func[item.id](self.__agent)
+
+            # trigger "eat food" ability of animal that ate, if ability exists
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.handle_event(EAT_FOOD)
+
+            # trigger "friend eats food" ability of friends, if ability exists
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.handle_event(FRIEND_EATS_FOOD)
             return
-        # handle equipment e.g. meat bone
-        self.__agent.team.animals[target_pos].held = item
-        return
+        else:
+            # handle non targeted food e.g. sushi
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.handle_event(BUY_FOOD)
+
+            # perform food effects
+            self.__agent.event_raiser = ("team", target_pos)
+            self.__agent.func[item.id](self.__agent)
+            return
 
     def __buy_different_animal_response(self, shop_slot, target_pos: int):
         if not self.__agent.team.has_summon_space:
