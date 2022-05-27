@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.core.game_elements.abstract_elements import (Team, Animal, Unarmed, Empty, Equipment, Spawner)
+from src.core.game_elements.abstract_elements import (Team, Animal, Empty, Spawner)
 
 
 class TestTeam(TestCase):
@@ -118,16 +118,10 @@ class TestTeam(TestCase):
 
     #####################################
 
-    def test_ret_diff_tiers(self):
-        self.fail()
-
     def test_faint(self):
         self.fail()
 
-    def test_push_forward(self):
-        self.fail("function not implemented")
-
-    def test_summon(self):
+    def test_friends(self):
         self.fail()
 
     def test_friend_ahead(self):
@@ -152,9 +146,6 @@ class TestTeam(TestCase):
 
         self.team.acting = 0
         self.assertTrue(self.team.friend_ahead() is None)
-
-    def test_other_lvl2_or_3(self):
-        self.fail()
 
     def test_friends_ahead(self):
         self.fail()
@@ -185,10 +176,13 @@ class TestTeam(TestCase):
     def test_friends_behind(self):
         self.fail()
 
-    def test_random_friend(self):
+    def test_other_lvl2_or_3(self):
         self.fail()
 
-    def test_friends(self):
+    def test_push_forward(self):
+        self.fail("function not implemented")
+
+    def test_random_friend(self):
         self.fail()
 
     def test_random_friends(self):
@@ -203,3 +197,8 @@ class TestTeam(TestCase):
     def test_random_units_idx(self):
         self.fail()
 
+    def test_ret_diff_tiers(self):
+        self.fail()
+
+    def test_summon(self):
+        self.fail("function not implemented")
