@@ -33,11 +33,11 @@ animals = [
 
 equipment = [
     "Apple", "Honey",  # Tier 1
-    "Cupcake", "Meat Bone", "Sleeping Pill",  # Tier 2
-    "Garlic", "Salad Bowl",  # Tier 3
+    "Cupcake", "Meat Bone", "Sleeping Pill", "Weak"  # Tier 2
+                                             "Garlic", "Salad Bowl",  # Tier 3
     "Canned Food", "Pear",  # Tier 4
-    "Chili", "Chocolate", "Sushi",  # Tier 5
-    "Melon", "Mushroom", "Pizza", "Steak"  # Tier 6
+    "Best Milk", "Better Milk", "Chili", "Chocolate", "Milk", "Peanut", "Sushi",  # Tier 5
+    "Coconut", "Melon", "Mushroom", "Pizza", "Steak"  # Tier 6
 ]
 
 
@@ -90,10 +90,14 @@ class MessageAgent(BaseAgent):
                t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,
                t6.mammoth,
                t6.octopus, t6.sauropod, t6.snake, t6.tiger,
-               t6.tyrannosaurus
+               t6.tyrannosaurus,
 
-               # zombie_cricket, dirty_rat, butterfly, ram, honey,
-               # mushroom
+               eq.apple, eq.honey,
+               eq.cupcake, eq.meat_bone, eq.sleeping_pill, eq.weak,
+               eq.garlic, eq.salad_bowl,
+               eq.canned_food, eq.pear,
+               eq.best_milk, eq.better_milk, eq.chili, eq.chocolate, eq.milk, eq.peanut, eq.sushi,
+               eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
                ]
 
     @property
@@ -142,13 +146,13 @@ class MessageAgent(BaseAgent):
         if self.event_raiser[0] == "team":
             out = []
             for animal in range(len(sorted_team)):
-                if self.team.animals.index(animal) < self.event_raiser[1]:
+                if self.team.animals.index(animal) > self.event_raiser[1]:
                     out += [animal]
             return out
         elif self.event_raiser[0] == "enemy":
             out = []
             for animal in range(len(sorted_team)):
-                if self.enemy.animals.index(animal) < self.event_raiser[1]:
+                if self.enemy.animals.index(animal) > self.event_raiser[1]:
                     out += [animal]
             return out
         raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
