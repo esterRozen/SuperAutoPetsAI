@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from src.core.game_elements.abstract_elements import Animal
 from src.core.game_elements.abstract_elements import Empty, Unarmed
 from src.core.game_elements import Shop
 
@@ -132,10 +133,109 @@ class TestShop(TestCase):
         self.assertIsInstance(shop[6].item, Unarmed)
 
     def test_grow_shop(self):
-        self.fail()
+        turns = [
+            [3, 1, 1],
+            [3, 2, 2],
+            [4, 2, 3],
+            [4, 2, 4],
+            [5, 2, 5],
+            [5, 2, 6],
+            [5, 2, 6],
+            [5, 2, 6]
+        ]
+        shop = Shop("base", 0)
+        for turn_info in turns:
+            shop.start_turn()
+            for i in range(0, turn_info[0]):
+                self.assertTrue(shop.roster[i].is_enabled)
+            for i in range(turn_info[0], 5):
+                self.assertFalse(shop.roster[i].is_enabled)
+            for i in range(5, turn_info[1] + 5):
+                self.assertTrue(shop.roster[i].is_enabled)
+            for i in range(turn_info[1] + 5, 7):
+                self.assertFalse(shop.roster[i].is_enabled)
+            self.assertTrue(shop.tier == turn_info[2])
+
+            shop.start_turn()
+            for i in range(0, turn_info[0]):
+                self.assertTrue(shop.roster[i].is_enabled)
+            for i in range(turn_info[0], 5):
+                self.assertFalse(shop.roster[i].is_enabled)
+            for i in range(5, 5 + turn_info[1]):
+                self.assertTrue(shop.roster[i].is_enabled)
+            for i in range(5 + turn_info[1], 7):
+                self.assertFalse(shop.roster[i].is_enabled)
+            self.assertTrue(shop.tier == turn_info[2])
 
     def test_reroll(self):
-        self.fail()
+        shop = Shop("base", 5)
 
-    def test_freeze(self):
-        self.fail()
+        reroll_valid = False
+
+        # multiple tests avoid bad luck
+        for _ in range(10):
+            animals = []
+            shop.reroll()
+
+            # get all animals
+            for slot in shop.roster:
+                if isinstance(slot.item, Animal) and not isinstance(slot.item, Empty):
+                    animals.append(slot.item)
+
+            shop.reroll()
+            rolled_animals = []
+
+            # get all animals
+            for slot in shop.roster:
+                if isinstance(slot.item, Animal) and not isinstance(slot.item, Empty):
+                    rolled_animals.append(slot.item)
+
+            # there should definitely be one different!
+            for i, _ in enumerate(animals):
+                if animals[i] != rolled_animals[i]:
+                    reroll_valid = True
+
+            # next check freezing prevents rerolls
+            for slot in shop.roster:
+                slot.toggle_freeze()
+
+            shop.reroll()
+
+            # assert they are still the same units
+            for i, _ in enumerate(rolled_animals):
+                self.assertTrue(rolled_animals[i] == shop[i].item)
+
+            # unfreeze
+            for slot in shop.roster:
+                slot.toggle_freeze()
+
+        # this should almost certainly be true!!
+        self.assertTrue(reroll_valid)
+
+    def test_toggle_freeze(self):
+        shop = Shop("base", 1)
+
+        shop.toggle_freeze(0)
+        self.assertTrue(shop[0].is_frozen)
+
+        shop.toggle_freeze(0)
+        self.assertFalse(shop[0].is_frozen)
+        self.assertFalse(shop[1].is_frozen)
+
+        shop.toggle_freeze(0)
+        shop.toggle_freeze(1)
+        self.assertTrue(shop[0].is_frozen)
+        self.assertTrue(shop[1].is_frozen)
+        self.assertFalse(shop[2].is_frozen)
+
+        shop.toggle_freeze(0)
+        self.assertFalse(shop[0].is_frozen)
+        self.assertTrue(shop[1].is_frozen)
+
+        shop.toggle_freeze(1)
+        self.assertFalse(shop[0].is_frozen)
+        self.assertFalse(shop[1].is_frozen)
+        self.assertFalse(shop[2].is_frozen)
+
+        shop.toggle_freeze(4)
+        self.assertFalse(shop[4].is_frozen)
