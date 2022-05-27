@@ -9,6 +9,6 @@ __all__ = [
     'Cupcake', 'MeatBone', 'SleepingPill', 'Weak',
     'Garlic', 'SaladBowl',
     'CannedFood', 'Pear',
-    'Chili', 'Chocolate', 'Milk',
-    'Melon', 'Mushroom'
+    'BestMilk', 'BetterMilk', 'Chili', 'Chocolate', 'Milk', 'Peanut', 'Sushi',
+    'Coconut', 'Melon', 'Mushroom', 'Pizza', 'Steak'
 ]
