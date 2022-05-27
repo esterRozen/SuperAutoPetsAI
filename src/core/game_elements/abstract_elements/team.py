@@ -67,7 +67,7 @@ class Team:
             if not isinstance(self.animals[i], Empty):
                 j += 1
             i += 1
-        return self.animals[i-1]
+        return self.animals[i - 1]
 
     @property
     def size(self) -> int:
@@ -89,7 +89,7 @@ class Team:
     def friends(self) -> Optional[List[Animal]]:
         a = list(range(0, 5))
         a.remove(self.acting)
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
@@ -138,7 +138,7 @@ class Team:
     def other_lvl2_or_3(self) -> Optional[List[Animal]]:
         a = list(range(0, 5))
         a.remove(self.acting)
-        for i in a:
+        for i in a.copy():
             if self.animals[i].level == 1:
                 a.remove(i)
         if not a:
@@ -153,7 +153,7 @@ class Team:
     def random_friend(self) -> Optional[Animal]:
         a = list(range(0, 5))
         a.remove(self.acting)
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
@@ -163,7 +163,7 @@ class Team:
     def random_friends(self, n) -> Optional[List[Animal]]:
         a = list(range(0, 5))
         a.remove(self.acting)
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
@@ -178,7 +178,7 @@ class Team:
             return None
 
         a = list(range(0, 5))
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
 
@@ -189,7 +189,7 @@ class Team:
             return None
 
         a = list(range(0, 5))
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
@@ -201,7 +201,7 @@ class Team:
 
     def random_units_idx(self, n) -> Optional[List[int]]:
         a = list(range(0, 5))
-        for i in a:
+        for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
