@@ -26,20 +26,6 @@ class Bat(_Tier2):
         return 0
 
 
-class DirtyRat(_Tier2):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(DirtyRat, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == ENEMY_ATTACKS:
-            # TODO figure this out
-            return NotImplemented
-        return 0
-
-
 class Dromedary(_Tier2):
     id = 16
 
@@ -145,4 +131,18 @@ class TabbyCat(_Tier2):
     def trigger(self, name):
         if name == EAT_FOOD:
             return self.id
+        return 0
+
+
+class DirtyRat(_Tier2):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(DirtyRat, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == ENEMY_ATTACKS:
+            # TODO figure this out
+            return NotImplemented
         return 0

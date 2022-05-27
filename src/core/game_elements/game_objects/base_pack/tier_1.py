@@ -20,7 +20,7 @@ class Ant(_Tier1):
 
     def trigger(self, name):
         if name == ON_FAINT:
-            return 1
+            return self.id
         return 0
 
 
@@ -32,16 +32,8 @@ class Beaver(_Tier1):
 
     def trigger(self, name):
         if name == SELL:
-            return 2
+            return self.id
         return 0
-
-
-class Bee(_Tier1):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(Bee, self).__init__(1, 1)
 
 
 class Cricket(_Tier1):
@@ -52,7 +44,7 @@ class Cricket(_Tier1):
 
     def trigger(self, name):
         if name == SELL:
-            return 5
+            return self.id
         return 0
 
 
@@ -64,7 +56,7 @@ class Duck(_Tier1):
 
     def trigger(self, name):
         if name == SELL:
-            return 6
+            return self.id
         return 0
 
 
@@ -76,7 +68,7 @@ class Fish(_Tier1):
 
     def trigger(self, name):
         if name == ON_LEVEL:
-            return 7
+            return self.id
         return 0
 
 
@@ -88,7 +80,7 @@ class Horse(_Tier1):
 
     def trigger(self, name):
         if name == FRIEND_SUMMONED_BATTLE:
-            return 8
+            return self.id
         return 0
 
 
@@ -100,7 +92,7 @@ class Mosquito(_Tier1):
 
     def trigger(self, name):
         if name == START_BATTLE:
-            return 10
+            return self.id
         return 0
 
 
@@ -112,7 +104,7 @@ class Otter(_Tier1):
 
     def trigger(self, name):
         if name == BUY:
-            return 11
+            return self.id
         return 0
 
 
@@ -124,8 +116,16 @@ class Pig(_Tier1):
 
     def trigger(self, name):
         if name == SELL:
-            return 12
+            return self.id
         return 0
+
+
+class Bee(_Tier1):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(Bee, self).__init__(1, 1)
 
 
 class Sloth(_Tier1):

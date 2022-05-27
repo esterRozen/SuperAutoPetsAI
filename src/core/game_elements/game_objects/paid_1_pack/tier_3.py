@@ -26,19 +26,6 @@ class Blowfish(_Tier3):
         return 0
 
 
-class Butterfly(_Tier3):
-    rollable = False
-    id = 81
-
-    def __init__(self):
-        super(Butterfly, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == IS_SUMMONED:
-            return NotImplemented
-        return 0
-
-
 class Caterpillar(_Tier3):
     id = 29
 
@@ -113,14 +100,6 @@ class Rabbit(_Tier3):
         return 0
 
 
-class Ram(_Tier3):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(Ram, self).__init__(2, 2)
-
-
 class Sheep(_Tier3):
     id = 38
 
@@ -167,3 +146,24 @@ class Turtle(_Tier3):
         if name == ON_FAINT:
             return self.id
         return 0
+
+
+class Butterfly(_Tier3):
+    rollable = False
+    id = 81
+
+    def __init__(self):
+        super(Butterfly, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == IS_SUMMONED:
+            return NotImplemented
+        return 0
+
+
+class Ram(_Tier3):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(Ram, self).__init__(2, 2)

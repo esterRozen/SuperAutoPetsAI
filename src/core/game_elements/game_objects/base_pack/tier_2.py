@@ -24,19 +24,6 @@ class Crab(_Tier2):
         return 0
 
 
-class DirtyRat(_Tier2):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(DirtyRat, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == ENEMY_ATTACKS:
-            return NotImplemented
-        return 0
-
-
 class Dodo(_Tier2):
     id = 15
 
@@ -142,4 +129,17 @@ class Swan(_Tier2):
     def trigger(self, name):
         if name == START_TURN:
             return self.id
+        return 0
+
+
+class DirtyRat(_Tier2):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(DirtyRat, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == ENEMY_ATTACKS:
+            return NotImplemented
         return 0

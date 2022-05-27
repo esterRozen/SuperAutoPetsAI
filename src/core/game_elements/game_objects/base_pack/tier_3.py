@@ -108,14 +108,6 @@ class Rabbit(_Tier3):
         return 0
 
 
-class Ram(_Tier3):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(Ram, self).__init__(2, 2)
-
-
 class Sheep(_Tier3):
     id = 38
 
@@ -150,3 +142,11 @@ class Turtle(_Tier3):
         if name == ON_FAINT:
             return self.id
         return 0
+
+
+class Ram(_Tier3):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(Ram, self).__init__(2, 2)

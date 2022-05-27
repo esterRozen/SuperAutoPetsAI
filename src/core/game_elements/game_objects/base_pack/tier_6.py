@@ -48,14 +48,6 @@ class Dragon(_Tier6):
         return 0
 
 
-class FlyFriend(_Tier6):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(FlyFriend, self).__init__(2, 2)
-
-
 class Fly(_Tier6):
     id = 72
 
@@ -125,3 +117,11 @@ class Tiger(_Tier6):
     def trigger(self, name):
         # how to make it trigger animal in front's ability twice
         return self.id
+
+
+class FlyFriend(_Tier6):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(FlyFriend, self).__init__(2, 2)
