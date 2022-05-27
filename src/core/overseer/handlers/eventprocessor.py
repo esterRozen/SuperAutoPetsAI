@@ -14,19 +14,23 @@ def event_raiser_is_enemy(event_raiser: Tuple[str, int]) -> bool:
 
 
 class EventProcessor:
-    # acting should be the animal that is doing something
+    # distributes event calls out to all relevant units, in the desired order
+
+    # acting should be the animal that is doing something!!
     # event raiser should be the animal whose triggers are going off.
 
     ################################################################
 
-    # engine
-    # apply to unit that acted (was bought)
+    # TODO fix this not resetting the acting unit each time!!
+
+    # shop
+    # apply to unit that acted (w   as bought)
     @staticmethod
     def buy(agent: 'MessageAgent'):
         operation = agent.team.animals[agent.event_raiser[1]].trigger(BUY)
         agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units
     @staticmethod
     def buy_food(agent: 'MessageAgent'):
@@ -35,7 +39,7 @@ class EventProcessor:
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units
     @staticmethod
     def buy_t1_pet(agent: 'MessageAgent'):
@@ -53,7 +57,7 @@ class EventProcessor:
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units
     @staticmethod
     def end_turn(agent: 'MessageAgent'):
@@ -62,7 +66,7 @@ class EventProcessor:
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units except event raiser
     @staticmethod
     def friend_bought(agent: 'MessageAgent'):
@@ -71,7 +75,7 @@ class EventProcessor:
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units except event raiser
     @staticmethod
     def friend_eats_food(agent: 'MessageAgent'):
@@ -80,8 +84,8 @@ class EventProcessor:
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
-    # engine
-    # apply to all units
+    # shop
+    # apply to all units except event raiser
     @staticmethod
     def friend_sold(agent: 'MessageAgent'):
         for animal in agent.sorted_without_raiser:
@@ -89,7 +93,7 @@ class EventProcessor:
             agent.target = agent.team.animals.index(animal)
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to units except event raiser
     @staticmethod
     def friend_summoned_shop(agent: 'MessageAgent'):
@@ -98,14 +102,14 @@ class EventProcessor:
             agent.target = ("team", agent.team.animals.index(animal))
             agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to unit that raised event (got sold)
     @staticmethod
     def sell(agent: 'MessageAgent'):
         operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
         agent.trigger_ability(operation)
 
-    # engine
+    # shop
     # apply to all units
     @staticmethod
     def start_turn(agent: 'MessageAgent'):
@@ -116,8 +120,8 @@ class EventProcessor:
 
     ################################################################
 
-    # engine and battle system
-    # apply to friendly units left of event raiser
+    # shop and battle system
+    # apply to friendly units right of event raiser
     @staticmethod
     def friend_ahead_faints(agent: 'MessageAgent'):
         if event_raiser_is_team(agent.event_raiser):
@@ -131,7 +135,7 @@ class EventProcessor:
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
                 agent.trigger_ability(operation)
 
-    # engine and battle system
+    # shop and battle system
     # apply to all friendly units
     @staticmethod
     def friend_faints(agent: 'MessageAgent'):
@@ -146,7 +150,7 @@ class EventProcessor:
                 agent.target = ("enemy", agent.enemy.animals.index(animal))
                 agent.trigger_ability(operation)
 
-    # engine and battle system
+    # shop and battle system
     # apply to unit that raised event (got hurt)
     @staticmethod
     def hurt(agent: 'MessageAgent'):
@@ -168,7 +172,7 @@ class EventProcessor:
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(IS_SUMMONED)
             agent.trigger_ability(operation)
 
-    # engine and battle system
+    # shop and battle system
     # apply to unit that raised event (got knocked out)
     @staticmethod
     def on_faint(agent: 'MessageAgent'):
@@ -179,7 +183,7 @@ class EventProcessor:
             operation = agent.enemy.animals[agent.event_raiser[1]].trigger(ON_FAINT)
             agent.trigger_ability(operation)
 
-    # engine and battle system
+    # shop and battle system
     # apply to unit that raised event (went up a level)
     @staticmethod
     def on_level(agent: 'MessageAgent'):
