@@ -1,6 +1,6 @@
 import copy
 from abc import abstractmethod
-from typing import List, Union, Tuple, Optional, TypeAlias
+from typing import List, Union, Tuple, Optional
 
 from .state import State
 from ..game_elements.abstract_elements import Animal, Team, Spawner
@@ -64,6 +64,22 @@ class BaseAgent:
     def trigger_ability(self, message):
         pass
 
+    @property
+    def event_raising_animal(self) -> Animal:
+        if self.event_raiser[0] == "team":
+            return self.team.animals[self.event_raiser[1]]
+        elif self.event_raiser[0] == "enemy":
+            return self.enemy.animals[self.event_raiser[1]]
+        raise ValueError("event raiser tuple's string should be either team or enemy")
+
+    @property
+    def target_animal(self) -> Animal:
+        if self.target[0] == "team":
+            return self.team.animals[self.target[1]]
+        elif self.target[0] == "enemey":
+            return self.enemy.animals[self.target[1]]
+        raise ValueError("target tuple's string should be either team or enemy")
+
     def store_backup(self):
         self.team_backup = copy.deepcopy(self.team)
 
@@ -83,7 +99,7 @@ class BaseAgent:
             animal.reset_temp_stats()
 
     def _nop(self):
-        pass
+        return
 
     def buff(self, unit: Union[List[Animal], Animal], atk, hp):
         if self.in_shop:
