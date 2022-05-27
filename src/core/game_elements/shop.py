@@ -187,7 +187,6 @@ class Shop:
         # populate shop based on current rank and animals frozen
         self.clear_unfrozen()
         self.fill_shop()
-        pass
 
     @staticmethod
     def shop_params(turn: int) -> Tuple[int, int, int]:

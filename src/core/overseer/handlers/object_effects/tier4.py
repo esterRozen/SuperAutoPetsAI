@@ -33,7 +33,7 @@ class Tier4:
     @staticmethod
     def dolphin(agent: 'MessageAgent'):
         # TODO
-        animal = agent.enemy.lowest_health()
+        animal = agent.enemy.lowest_health_unit()
         if agent.lvl == 1:
             pass
         elif agent.lvl == 2:
