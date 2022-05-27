@@ -145,7 +145,6 @@ class Team:
             return None
         return [self.animals[i] for i in a]
 
-    # TODO fix these to have None-case in event of no valid outputs
     def push_forward(self):
         # TODO push_forward
         return self
@@ -222,6 +221,15 @@ class Team:
         return animals
 
     def summon(self, animal, position):
+        """
+        assume all units are pushed forward when called
+        Args:
+            animal:
+            position:
+
+        Returns:
+
+        """
         # TODO fix this
         if self.size == 5:
             return self
