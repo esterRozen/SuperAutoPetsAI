@@ -127,7 +127,7 @@ class Team:
     def friends_behind(self, n) -> Optional[List[Animal]]:
         ret = []
         i = 0
-        for j in range(self.acting+1, len(self.animals)):
+        for j in range(self.acting + 1, len(self.animals)):
             if not isinstance(self.animals[j], Empty):
                 if i < n:
                     ret += [self.animals[j]]
@@ -135,6 +135,9 @@ class Team:
         if not ret:
             return None
         return ret
+
+    def highest_health_unit(self):
+        return max(self.animals, key=lambda animal: animal.battle_hp)
 
     def lowest_health_unit(self):
         return min(self.animals, key=lambda animal: animal.battle_hp)
@@ -239,3 +242,13 @@ class Team:
             return self
         # insert unit to that position, if there would be too many units, insert and delete excess.
         self.animals.insert(animal, position)
+
+    def units(self) -> Optional[List[Animal]]:
+        out = []
+        for animal in self.animals:
+            if not isinstance(animal, Empty):
+                out.append(animal)
+
+        if not out:
+            return None
+        return out
