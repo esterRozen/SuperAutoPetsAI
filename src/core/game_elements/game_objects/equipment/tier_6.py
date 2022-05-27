@@ -16,6 +16,8 @@ class _Tier6(Equipment):
 
 
 class Coconut(_Tier6):
+    is_edible = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
             agent.target_animal.held = Unarmed()
@@ -24,6 +26,8 @@ class Coconut(_Tier6):
 
 
 class Melon(_Tier6):
+    is_edible = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
             damage = max(0, damage - 20)
@@ -33,14 +37,16 @@ class Melon(_Tier6):
 
 
 class Mushroom(_Tier6):
-    pass
+    is_edible = False
 
 
 class Pizza(_Tier6):
-    pass
+    is_targeted = False
 
 
 class Steak(_Tier6):
+    is_instant = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
             damage += 20

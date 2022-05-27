@@ -11,7 +11,7 @@ class _Tier4(Equipment):
 
 
 class CannedFood(_Tier4):
-    pass
+    is_targeted = False
 
 
 class Pear(_Tier4):

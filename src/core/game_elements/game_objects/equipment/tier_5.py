@@ -15,6 +15,8 @@ class _Tier5(Equipment):
 
 
 class Chili(_Tier5):
+    is_consumable = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
             #  TODO damage second member of enemy team
@@ -27,6 +29,7 @@ class Chocolate(_Tier5):
 
 
 class Peanut(_Tier5):
+    is_consumable = False
     rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
@@ -37,7 +40,7 @@ class Peanut(_Tier5):
 
 
 class Sushi(_Tier5):
-    pass
+    is_targeted = False
 
 
 class Milk(_Tier5):

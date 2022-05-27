@@ -19,6 +19,8 @@ class Cupcake(_Tier2):
 
 
 class MeatBone(_Tier2):
+    is_consumable = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
             return damage + 5
@@ -30,6 +32,7 @@ class SleepingPill(_Tier2):
 
 
 class Weak(_Tier2):
+    is_consumable = False
     rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:

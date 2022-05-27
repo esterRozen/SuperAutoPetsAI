@@ -15,6 +15,8 @@ class _Tier3(Equipment):
 
 
 class Garlic(_Tier3):
+    is_consumable = False
+
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
             return max(1, damage - 2)
@@ -22,4 +24,4 @@ class Garlic(_Tier3):
 
 
 class SaladBowl(_Tier3):
-    pass
+    is_targeted = False
