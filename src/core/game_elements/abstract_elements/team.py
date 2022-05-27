@@ -4,8 +4,12 @@ from typing import List, Optional, Dict
 from . import Animal, Empty
 
 
-# attacking animal is in position 0
 class Team:
+    """
+    handles interacting with a team, useful for getting unit lists to apply effects to
+    attacking (front and right) animal is in position 0
+    """
+
     def __init__(self):
         self.animals: List[Animal] = [Empty() for _ in range(5)]
         self.acting = 0
