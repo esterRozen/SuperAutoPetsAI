@@ -1,7 +1,7 @@
 import random
 from typing import List, Optional, Dict
 
-from . import Animal, Empty, Equipment, Unarmed
+from . import Animal, Empty
 
 
 # attacking animal is in position 0
@@ -77,8 +77,14 @@ class Team:
                 i += 1
         return i
 
-    def faint(self, target):
-        self.animals[target] = Empty()
+    def faint(self, event_raiser: int):
+        """
+        does not handle faint effects or held items that trigger on faint!
+        Args:
+            event_raiser:
+        Returns:
+        """
+        self.animals[event_raiser] = Empty()
 
     def friends(self) -> Optional[List[Animal]]:
         a = list(range(0, 5))
