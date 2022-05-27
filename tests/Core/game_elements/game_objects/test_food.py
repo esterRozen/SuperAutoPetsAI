@@ -13,9 +13,9 @@ class TestItems(TestCase):
         ], [
             'CannedFood', 'Pear'
         ], [
-            'BestMilk', 'BetterMilk', 'Chili', 'Chocolate', 'Milk', 'Sushi'
+            'BestMilk', 'BetterMilk', 'Chili', 'Chocolate', 'Milk', 'Peanut', 'Sushi'
         ], [
-            'Melon', 'Mushroom', 'Pizza', 'Steak'
+            'Coconut', 'Melon', 'Mushroom', 'Pizza', 'Steak'
         ]
     ]
 
