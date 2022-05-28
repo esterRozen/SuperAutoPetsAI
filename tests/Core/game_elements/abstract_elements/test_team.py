@@ -247,12 +247,24 @@ class TestTeam(TestCase):
         self.assertTrue(self.team.friends_behind(1) is None)
 
     def test_other_lvl2_or_3(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        self.team[1] = self.spawner.spawn(5)
+        self.team.acting = 1
+        self.assertTrue(self.team.other_lvl2_or_3() is None)
+
+        self.team[1].xp = 5
+        self.team[2] = self.spawner.spawn(3)
+        self.team.acting = 2
+        self.assertTrue(self.team.other_lvl2_or_3() == [self.team[1]])
+
+        self.team[0] = self.spawner.spawn(4)
+        self.team.acting = 0
+        self.team[2].xp = 2
+        self.assertTrue(self.team.other_lvl2_or_3() == [self.team[1], self.team[2]])
 
     def test_push_forward(self):
         # TODO
-        self.fail("function not implemented")
+        self.fail()
 
     def test_random_friend(self):
         # TODO
@@ -280,4 +292,4 @@ class TestTeam(TestCase):
 
     def test_summon(self):
         # TODO
-        self.fail("function not implemented")
+        self.fail()
