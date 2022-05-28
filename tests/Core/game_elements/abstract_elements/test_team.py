@@ -3,15 +3,15 @@ from src.core.game_elements.abstract_elements import (Team, Animal, Empty, Spawn
 
 
 class TestTeam(TestCase):
-    spawner = Spawner("paid_1")
+    spawner = Spawner("paid pack 1")
     team = Team()
 
-    def clean_start(self, mode: str = "base"):
+    def clean_start(self, mode: str = "base pack"):
         self.spawner = Spawner(mode)
         self.team = Team()
 
     def test_has_lvl3(self):
-        spawner = Spawner("paid_1")
+        spawner = Spawner("paid pack 1")
         team = Team()
         for i in range(5):
             team.animals[i] = spawner.spawn(1)
@@ -93,7 +93,7 @@ class TestTeam(TestCase):
         self.assertTrue(self.team.rightmost_unit is None, "should be none due as there are no units present")
 
     def test_size(self):
-        spawner = Spawner("paid_1")
+        spawner = Spawner("paid pack 1")
         team = Team()
         for i in range(5):
             team.animals[i]: Animal = spawner.spawn(1)
@@ -109,7 +109,7 @@ class TestTeam(TestCase):
         self.assertTrue(team.size == 3, "team should still have 3 units on it")
 
     def test_lowest_health(self):
-        self.clean_start("paid_1")
+        self.clean_start("paid pack 1")
         for i in range(5):
             self.team.animals[i] = self.spawner.spawn(4)
             if i != 3:

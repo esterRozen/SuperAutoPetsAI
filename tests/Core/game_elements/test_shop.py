@@ -7,7 +7,7 @@ from src.core.game_elements import Shop
 
 class TestShop(TestCase):
     def test_buff(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
         atk1 = shop[0].item.atk
         atk2 = shop[2].item.atk
 
@@ -22,7 +22,7 @@ class TestShop(TestCase):
         self.assertTrue(hp2 + 1 == shop[2].item.hp)
 
     def test_start_turn(self):
-        shop = Shop("base", 6)
+        shop = Shop("base pack", 6)
 
         self.assertTrue(len(shop.roster) == 7)
         shop.toggle_freeze(0)
@@ -40,7 +40,7 @@ class TestShop(TestCase):
         self.assertTrue(shop[5].item == item)
 
     def test_perm_buff(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
 
         atk1 = shop[0].item.atk
         atk2 = shop[2].item.atk
@@ -73,7 +73,7 @@ class TestShop(TestCase):
         self.assertTrue(shop[2].item.hp == hp2 + 1)
 
     def test_summon_level_unit(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
         shop.summon_level_unit()
 
         self.assertTrue(shop[3].item.tier == 2)
@@ -84,13 +84,13 @@ class TestShop(TestCase):
         shop.clear()
         self.assertTrue(shop.size == 0)
 
-        shop = Shop("base", 15)
+        shop = Shop("base pack", 15)
         result = shop.summon_level_unit()
 
         self.assertFalse(result)
 
     def test_clear_unfrozen(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
 
         anim1 = shop[0].item
         anim2 = shop[2].item
@@ -110,7 +110,7 @@ class TestShop(TestCase):
         self.assertIsInstance(shop[6].item, Unarmed)
 
     def test_clear(self):
-        shop = Shop("base", 15)
+        shop = Shop("base pack", 15)
 
         shop.clear()
         for i in range(0, 5):
@@ -120,7 +120,7 @@ class TestShop(TestCase):
             self.assertIsInstance(shop[i].item, Unarmed)
 
     def test_fill_shop(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
         shop.clear()
 
         shop.fill_shop()
@@ -143,7 +143,7 @@ class TestShop(TestCase):
             [5, 2, 6],
             [5, 2, 6]
         ]
-        shop = Shop("base", 0)
+        shop = Shop("base pack", 0)
         for turn_info in turns:
             shop.start_turn()
             for i in range(0, turn_info[0]):
@@ -168,7 +168,7 @@ class TestShop(TestCase):
             self.assertTrue(shop.tier == turn_info[2])
 
     def test_reroll(self):
-        shop = Shop("base", 5)
+        shop = Shop("base pack", 5)
 
         reroll_valid = False
 
@@ -213,7 +213,7 @@ class TestShop(TestCase):
         self.assertTrue(reroll_valid)
 
     def test_toggle_freeze(self):
-        shop = Shop("base", 1)
+        shop = Shop("base pack", 1)
 
         shop.toggle_freeze(0)
         self.assertTrue(shop[0].is_frozen)

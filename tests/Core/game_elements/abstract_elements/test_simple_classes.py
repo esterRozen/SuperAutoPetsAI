@@ -31,7 +31,7 @@ class TestAnimal(TestCase):
         self.assertTrue(animal.trigger(BUY) == 0, "default trigger should be 0")
 
     def test_damage_modifier(self):
-        agent = MessageAgent("base")
+        agent = MessageAgent("base pack")
         animal = Animal(1, 1)
         damage = animal.damage_modifier(agent, 3, "incoming")
         self.assertTrue(damage == 3, "should be unchanged")
@@ -190,7 +190,7 @@ class TestEquipment(TestCase):
         self.assertTrue(equip.trigger(30) == 0, "trigger should be no-op")
 
     def test_query(self):
-        agent = MessageAgent("base")
+        agent = MessageAgent("base pack")
         animal = Animal(1, 1)
         damage = animal.damage_modifier(agent, 3, "incoming")
         self.assertTrue(damage == 3, "should be unchanged")
