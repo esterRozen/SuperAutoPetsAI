@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from core.game_elements.abstract_elements import Animal
-from core.game_elements.game_objects.equipment import Weak, Milk, BetterMilk, BestMilk
+from ....game_elements.abstract_elements import Animal
+from ....game_elements.game_objects.equipment import Weak, Milk, BetterMilk, BestMilk
 
 if TYPE_CHECKING:
     from ... import MessageAgent

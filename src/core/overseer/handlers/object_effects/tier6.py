@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from core.game_elements.game_objects.equipment import Coconut
+from ....game_elements.game_objects.equipment import Coconut
 
 if TYPE_CHECKING:
     from ... import MessageAgent

@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, List
 
-from core.game_elements.abstract_elements import Animal
-from core.game_elements.game_objects.base_pack import Ram
-from core.game_elements.game_objects.equipment import Melon
-from core.game_elements.game_objects.paid_1_pack import Butterfly
+from ....game_elements.abstract_elements import Animal
+from ....game_elements.game_objects.base_pack import Ram
+from ....game_elements.game_objects.equipment import Melon
+from ....game_elements.game_objects.paid_1_pack import Butterfly
 
 if TYPE_CHECKING:
     from ... import MessageAgent

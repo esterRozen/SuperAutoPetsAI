@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from core.game_elements.game_objects.base_pack import Bus, Chick
-from core.game_elements.game_objects.equipment import Chili
+from ....game_elements.game_objects.base_pack import Bus, Chick
+from ....game_elements.game_objects.equipment import Chili
 
 if TYPE_CHECKING:
     from ... import MessageAgent
