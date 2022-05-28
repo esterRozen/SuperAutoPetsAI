@@ -247,28 +247,37 @@ class TestTeam(TestCase):
         self.assertTrue(self.team.friends_behind(1) is None)
 
     def test_other_lvl2_or_3(self):
+        # TODO
         self.fail()
 
     def test_push_forward(self):
+        # TODO
         self.fail("function not implemented")
 
     def test_random_friend(self):
+        # TODO
         self.fail()
 
     def test_random_friends(self):
+        # TODO
         self.fail()
 
     def test_random_unit(self):
+        # TODO
         self.fail()
 
     def test_random_units(self):
+        # TODO
         self.fail()
 
     def test_random_units_idx(self):
+        # TODO
         self.fail()
 
     def test_ret_diff_tiers(self):
+        # TODO
         self.fail()
 
     def test_summon(self):
+        # TODO
         self.fail("function not implemented")
