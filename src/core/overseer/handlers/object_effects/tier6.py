@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
 
+from core.game_elements.game_objects.equipment import Coconut
+
 if TYPE_CHECKING:
     from ... import MessageAgent
 
@@ -36,8 +38,7 @@ class Tier6:
 
     @staticmethod
     def gorilla(agent: 'MessageAgent'):
-        # TODO
-        pass
+        agent.team.animals[agent.team.acting].held = Coconut()
 
     @staticmethod
     def leopard(agent: 'MessageAgent'):

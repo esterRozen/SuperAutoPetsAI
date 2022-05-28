@@ -38,13 +38,18 @@ class Cat(_Tier6):
 
 class Dragon(_Tier6):
     id = 71
+    _triggers = 3
 
     def __init__(self):
         super(Dragon, self).__init__(6, 8)
 
     def trigger(self, name):
         if name == BUY_T1_PET:
-            return self.id
+            if self._triggers > 0:
+                self._triggers -= 1
+                return self.id
+        if name == START_BATTLE:
+            self._triggers = 3
         return 0
 
 
@@ -62,13 +67,20 @@ class Fly(_Tier6):
 
 class Gorilla(_Tier6):
     id = 73
+    _triggers = 1
 
     def __init__(self):
         super(Gorilla, self).__init__(6, 6)
 
     def trigger(self, name):
         if name == HURT:
-            return self.id
+            if self._triggers > 0:
+                self._triggers -= 1
+                return self.id
+            return 0
+
+        if name == START_BATTLE:
+            self._triggers = self.level
         return 0
 
 
