@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.base_pack import DirtyRat
+from ....game_elements.game_objects.units import DirtyRat
 from ....game_elements.game_objects.equipment import Weak
 
 if TYPE_CHECKING:

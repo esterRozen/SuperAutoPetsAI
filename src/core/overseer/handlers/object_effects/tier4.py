@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ....game_elements.game_objects.base_pack import Bus, Chick
+from ....game_elements.game_objects.units import Bus, Chick
 from ....game_elements.game_objects.equipment import Chili
 
 if TYPE_CHECKING:

@@ -1,9 +1,8 @@
 from typing import TYPE_CHECKING, List
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.base_pack import Ram
+from ....game_elements.game_objects.units import Butterfly, Ram
 from ....game_elements.game_objects.equipment import Melon
-from ....game_elements.game_objects.paid_1_pack import Butterfly
 
 if TYPE_CHECKING:
     from ... import MessageAgent
