@@ -173,7 +173,7 @@ class Team:
         a = list(range(0, 5))
         a.remove(self.acting)
         for i in a.copy():
-            if self.animals[i].level == 1:
+            if self.animals[i].level <= 1:
                 a.remove(i)
         if not a:
             return None
