@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Tuple
 
 from ...eventnames import *
 if TYPE_CHECKING:
-    from ... import MessageAgent
+    from .. import MessageAgent
 
 
 def event_raiser_is_team(event_raiser: Tuple[str, int]) -> bool:
@@ -13,6 +13,28 @@ def event_raiser_is_enemy(event_raiser: Tuple[str, int]) -> bool:
     return event_raiser[0] == "enemy"
 
 
+def for_sorted_team_trigger_non_target(agent: 'MessageAgent', event: str):
+    for animal in agent.sorted_team:
+        actor = agent.team.animals.index(animal)
+        agent.team.acting = actor
+        agent.event_raiser = ("team", actor)
+
+        operation = animal.trigger(event)
+        agent.trigger_ability(operation)
+
+
+def for_sorted_without_raiser_trigger_non_target(agent: 'MessageAgent', event: str):
+    animals = agent.sorted_without_raiser
+
+    for animal in animals:
+        actor = agent.team.animals.index(animal)
+        agent.team.acting = actor
+        agent.event_raiser = ("team", actor)
+
+        operation = animal.trigger(event)
+        agent.trigger_ability(operation)
+
+
 class EventProcessor:
     # distributes event calls out to all relevant units, in the desired order
 
@@ -21,100 +43,85 @@ class EventProcessor:
 
     ################################################################
 
-    # TODO fix this not resetting the acting unit each time!!
+    # TODO make sure each sets the actor and target properly
+    #  presume the event_raiser is correct, but it may change after ability trigger!!
 
     # shop
-    # apply to unit that acted (w   as bought)
+    # apply to unit that acted (was bought)
     @staticmethod
     def buy(agent: 'MessageAgent'):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(BUY)
+        actor = agent.event_raiser[1]
+        agent.team.acting = actor
+        operation = agent.team.animals[actor].trigger(BUY)
         agent.trigger_ability(operation)
 
     # shop
     # apply to all units
     @staticmethod
     def buy_food(agent: 'MessageAgent'):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(BUY_FOOD)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_team_trigger_non_target(agent, BUY_FOOD)
 
     # shop
     # apply to all units
     @staticmethod
     def buy_t1_pet(agent: 'MessageAgent'):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(BUY_T1_PET)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_team_trigger_non_target(agent, BUY_T1_PET)
 
     # engine
     # apply to unit that acted (ate food)
     @staticmethod
     def eat_food(agent: 'MessageAgent'):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(EAT_FOOD)
+        actor = agent.event_raiser[1]
+        agent.team.acting = actor
+
+        operation = agent.team.animals[actor].trigger(EAT_FOOD)
         agent.trigger_ability(operation)
 
     # shop
     # apply to all units
     @staticmethod
     def end_turn(agent: 'MessageAgent'):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(END_TURN)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_team_trigger_non_target(agent, END_TURN)
 
     # shop
     # apply to all units except event raiser
     @staticmethod
     def friend_bought(agent: 'MessageAgent'):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger(FRIEND_BOUGHT)
-            agent.target = agent.team.animals.index(animal)
-            agent.trigger_ability(operation)
+        for_sorted_without_raiser_trigger_non_target(agent, FRIEND_BOUGHT)
 
     # shop
     # apply to all units except event raiser
     @staticmethod
     def friend_eats_food(agent: 'MessageAgent'):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger(FRIEND_EATS_FOOD)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_without_raiser_trigger_non_target(agent, FRIEND_EATS_FOOD)
 
     # shop
     # apply to all units except event raiser
     @staticmethod
     def friend_sold(agent: 'MessageAgent'):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger(FRIEND_SOLD)
-            agent.target = agent.team.animals.index(animal)
-            agent.trigger_ability(operation)
+        for_sorted_without_raiser_trigger_non_target(agent, FRIEND_SOLD)
 
     # shop
     # apply to units except event raiser
     @staticmethod
     def friend_summoned_shop(agent: 'MessageAgent'):
-        for animal in agent.sorted_without_raiser:
-            operation = animal.trigger(FRIEND_SUMMONED_SHOP)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_without_raiser_trigger_non_target(agent, FRIEND_SUMMONED_SHOP)
 
     # shop
     # apply to unit that raised event (got sold)
     @staticmethod
     def sell(agent: 'MessageAgent'):
-        operation = agent.team.animals[agent.event_raiser[1]].trigger(SELL)
+        actor = agent.event_raiser[1]
+        agent.team.acting = actor
+
+        operation = agent.team.animals[actor].trigger(SELL)
         agent.trigger_ability(operation)
 
     # shop
     # apply to all units
     @staticmethod
     def start_turn(agent: 'MessageAgent'):
-        for animal in agent.sorted_team:
-            operation = animal.trigger(START_TURN)
-            agent.target = ("team", agent.team.animals.index(animal))
-            agent.trigger_ability(operation)
+        for_sorted_team_trigger_non_target(agent, START_TURN)
 
     ################################################################
 
