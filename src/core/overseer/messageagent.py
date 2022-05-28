@@ -171,7 +171,7 @@ class MessageAgent(BaseAgent):
 
     def handle_event(self, message, event_raiser=None, target=None):
         # set variables
-        if self.event_raiser is not None:
+        if event_raiser is not None:
             self.event_raiser = event_raiser
         if target is not None:
             self.target = target
