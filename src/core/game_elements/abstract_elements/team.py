@@ -4,6 +4,33 @@ from typing import List, Optional, Dict
 from . import Animal, Empty
 
 
+def send_to_front(idx, team: 'Team'):
+    if idx == 0:
+        return
+
+    if isinstance(team[idx], Empty):
+        return
+
+    if isinstance(team[idx - 1], Empty):
+        team[idx - 1] = team[idx]
+        team[idx] = Empty()
+        send_to_front(idx - 1, team)
+        return
+
+
+def send_unit_back_one_space(idx, team: 'Team'):
+    if idx == len(team.animals):
+        return
+
+    if idx - 1 < 0:
+        return
+
+    if isinstance(team[idx], Empty):
+        if not isinstance(team[idx - 1], Empty):
+            team[idx] = team[idx - 1]
+            team[idx - 1] = Empty()
+
+
 class Team:
     """
     handles interacting with a team, useful for getting unit lists to apply effects to
@@ -11,9 +38,9 @@ class Team:
     """
 
     def __init__(self):
-        self.animals: List[Animal] = [Empty() for _ in range(5)]
-        self.acting = 0
         self.__max_capacity = 5
+        self.animals: List[Animal] = [Empty() for _ in range(self.__max_capacity)]
+        self.acting = 0
         # random.seed(1)
 
     def __delitem__(self, key):
@@ -153,8 +180,13 @@ class Team:
         return [self.animals[i] for i in a]
 
     def push_forward(self):
-        # TODO push_forward
-        return self
+        for i, _ in enumerate(self.animals):
+            send_to_front(i, self)
+        return
+
+    def make_summon_room_at(self, idx: int):
+        for i in range(self.__max_capacity - 1, -1, idx - 1):
+            send_unit_back_one_space(i, self)
 
     def random_friend(self) -> Optional[Animal]:
         a = list(range(0, 5))
@@ -237,11 +269,12 @@ class Team:
         Returns:
 
         """
-        # TODO fix this
         if self.size == 5:
-            return self
-        # insert unit to that position, if there would be too many units, insert and delete excess.
-        self.animals.insert(animal, position)
+            return
+
+        self.make_summon_room_at(position)
+        if isinstance(self[position], Empty):
+            self[position] = animal
 
     def units(self) -> Optional[List[Animal]]:
         out = []
@@ -251,4 +284,5 @@ class Team:
 
         if not out:
             return None
+
         return out
