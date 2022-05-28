@@ -2,10 +2,7 @@ from ...abstract_elements import Animal
 from ....eventnames import *
 
 
-# paid_1 pack
-
-
-# each animal only needs to handle 
+# base pack
 class _Tier1(Animal):
     def __init__(self, atk, hp):
         super(_Tier1, self).__init__(atk, hp)
@@ -70,7 +67,19 @@ class Cricket(_Tier1):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == SELL:
+            return self.id
+        return 0
+
+
+class Duck(_Tier1):
+    id = 6
+
+    def __init__(self):
+        super(Duck, self).__init__(1, 2)
+
+    def trigger(self, name):
+        if name == SELL:
             return self.id
         return 0
 
@@ -83,6 +92,18 @@ class Fish(_Tier1):
 
     def trigger(self, name):
         if name == ON_LEVEL:
+            return self.id
+        return 0
+
+
+class Horse(_Tier1):
+    id = 8
+
+    def __init__(self):
+        super(Horse, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == FRIEND_SUMMONED_BATTLE:
             return self.id
         return 0
 
@@ -107,6 +128,18 @@ class Mosquito(_Tier1):
 
     def trigger(self, name):
         if name == START_BATTLE:
+            return self.id
+        return 0
+
+
+class Otter(_Tier1):
+    id = 11
+
+    def __init__(self):
+        super(Otter, self).__init__(1, 2)
+
+    def trigger(self, name):
+        if name == BUY:
             return self.id
         return 0
 

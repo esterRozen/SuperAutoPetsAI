@@ -1,8 +1,6 @@
 from ...abstract_elements import Animal
 from ....eventnames import *
-
-
-# paid_1 pack
+# base pack
 
 
 class _Tier2(Animal):
@@ -26,6 +24,18 @@ class Bat(_Tier2):
         return 0
 
 
+class Crab(_Tier2):
+    id = 14
+
+    def __init__(self):
+        super(Crab, self).__init__(3, 3)
+
+    def trigger(self, name):
+        if name == START_BATTLE:
+            return self.id
+        return 0
+
+
 class Dromedary(_Tier2):
     id = 16
 
@@ -34,6 +44,30 @@ class Dromedary(_Tier2):
 
     def trigger(self, name):
         if name == START_TURN:
+            return self.id
+        return 0
+
+
+class Dodo(_Tier2):
+    id = 15
+
+    def __init__(self):
+        super(Dodo, self).__init__(1, 3)
+
+    def trigger(self, name):
+        if name == START_BATTLE:
+            return self.id
+        return 0
+
+
+class Elephant(_Tier2):
+    id = 17
+
+    def __init__(self):
+        super(Elephant, self).__init__(3, 5)
+
+    def trigger(self, name):
+        if name == BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -143,6 +177,5 @@ class DirtyRat(_Tier2):
 
     def trigger(self, name):
         if name == ENEMY_ATTACKS:
-            # TODO figure this out
             return NotImplemented
         return 0

@@ -24,6 +24,18 @@ class Bison(_Tier4):
         return 0
 
 
+class Buffalo(_Tier4):
+    id = 43
+
+    def __init__(self):
+        super(Buffalo, self).__init__(5, 5)
+
+    def trigger(self, name):
+        if name == FRIEND_BOUGHT:
+            return self.id
+        return 0
+
+
 class Deer(_Tier4):
     id = 44
 
@@ -56,6 +68,42 @@ class Hippo(_Tier4):
 
     def trigger(self, name):
         if name == KNOCK_OUT:
+            return self.id
+        return 0
+
+
+class Llama(_Tier4):
+    id = 47
+
+    def __init__(self):
+        super(Llama, self).__init__(2, 5)
+
+    def trigger(self, name):
+        if name == END_TURN:
+            return self.id
+        return 0
+
+
+class Lobster(_Tier4):
+    id = 48
+
+    def __init__(self):
+        super(Lobster, self).__init__(3, 3)
+
+    def trigger(self, name):
+        if name == FRIEND_SUMMONED_SHOP:
+            return self.id
+        return 0
+
+
+class Microbe(_Tier4):
+    id = 49
+
+    def __init__(self):
+        super(Microbe, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == ON_FAINT:
             return self.id
         return 0
 
