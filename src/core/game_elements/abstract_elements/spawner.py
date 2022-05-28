@@ -1,7 +1,7 @@
 import random
 from typing import List, Union
 
-from ..game_objects import Base, Items, Paid1
+from ..game_objects import GameObjects
 from . import Animal, Equipment
 
 
@@ -10,8 +10,8 @@ class Spawner:
     def __init__(self, mode):
         self._mode = mode
         self._population = []
-        if mode == "base":
-            animals = Base().animals
+        if mode == "base pack" or mode == "paid pack 1":
+            animals = GameObjects(mode).objs
             self._population = []
             for tier in animals:
                 self._population.append([])
@@ -19,17 +19,8 @@ class Spawner:
                     if animal.rollable:
                         self._population[-1].append(animal)
 
-        elif mode == "paid_1":
-            animals = Paid1().animals
-            self._population = []
-            for tier in animals:
-                self._population.append([])
-                for animal in tier:
-                    if animal.rollable:
-                        self._population[-1].append(animal)
-
-        elif mode == "food":
-            items = Items().items
+        elif mode == "base pack items" or mode == "paid pack 1 items":
+            items = GameObjects(mode).objs
             self._population = []
             for tier in items:
                 self._population.append([])

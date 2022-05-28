@@ -247,5 +247,5 @@ class MessageAgent(BaseAgent):
 
 if __name__ == '__main__':
     while True:
-        a = MessageAgent("base")
+        a = MessageAgent("base pack")
         print(animals[int(input("\nAnimal number: "))])

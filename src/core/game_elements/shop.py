@@ -19,9 +19,9 @@ class Shop:
             slot.is_enabled = False
             self.roster.append(slot)
 
-        self.roster += [ShopSlot("food") for _ in range(self._item_slots)]
+        self.roster += [ShopSlot(mode + " items") for _ in range(self._item_slots)]
         for _ in range(2 - self._item_slots):
-            slot = ShopSlot("food")
+            slot = ShopSlot(mode + " items")
             slot.is_enabled = False
             self.roster.append(slot)
 
