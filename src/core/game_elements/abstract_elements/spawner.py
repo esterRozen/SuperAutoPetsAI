@@ -20,7 +20,7 @@ class Spawner:
         self._mode = mode
         self._population = []
         if mode == "base pack" or mode == "paid pack 1":
-            animals = GameObjects(mode).objs
+            animals = GameObjects().packs[mode]
             self._population = []
             for tier in animals:
                 self._population.append([])
@@ -29,7 +29,7 @@ class Spawner:
                         self._population[-1].append(animal)
 
         elif mode == "base pack items" or mode == "paid pack 1 items":
-            items = GameObjects(mode).objs
+            items = GameObjects().packs[mode]
             self._population = []
             for tier in items:
                 self._population.append([])

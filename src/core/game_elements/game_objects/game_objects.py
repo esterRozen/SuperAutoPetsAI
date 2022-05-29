@@ -1,5 +1,6 @@
 import inspect
 import sys
+from threading import Lock
 
 # noinspection PyUnresolvedReferences
 from typing import List, Union
@@ -77,6 +78,20 @@ paid_1_items = [
 ]
 
 
+class MetaSingleton(type):
+    _instances = {}
+
+    _lock: Lock = Lock()
+
+    def __call__(cls, *args, **kwargs):
+        with cls._lock:
+            if cls not in cls._instances:
+                instance = super().__call__(*args, **kwargs)
+                cls._instances[cls] = instance
+
+        return cls._instances[cls]
+
+
 def get_object_list(pack_type: str) -> List[List[str]]:
     if pack_type == "base pack":
         return base
@@ -97,11 +112,17 @@ def add_unit_if_present(collection, list_objs, unit, name, tier: int):
         list_objs[6].append(unit)
 
 
+pack_types = [
+    "base pack", "base pack items",
+    "paid pack 1", "paid pack 1 items"
+]
+
+
 # this will create a list of all different animal or equipment objects,
 # sorted into sub-lists according to their respective tiers
 # last list are the un-rollable objects
 class GameObjects:
-    def __init__(self, pack_type: str):
+    def __init__(self):
         """
         supports flags:
             "base pack"
@@ -109,38 +130,41 @@ class GameObjects:
             "paid pack 1"
             "paid pack 1 items"
         Args:
-            pack_type: flag
         """
-        self.objs = [[], [], [], [], [], [], []]
+        self.packs = {}
+        for pack in pack_types:
+            self.objs = [[], [], [], [], [], [], []]
 
-        for name, obj in inspect.getmembers(sys.modules[__name__]):
-            if inspect.ismodule(obj) and (name == 'units' or name == 'equipment'):
-                obj_collection = get_object_list(pack_type)
+            for name, obj in inspect.getmembers(sys.modules[__name__]):
+                if inspect.ismodule(obj) and (name == 'units' or name == 'equipment'):
+                    obj_collection = get_object_list(pack)
 
-                for anim_name, anim_obj in inspect.getmembers(obj):
-                    module = inspect.getmodule(anim_obj)
+                    for anim_name, anim_obj in inspect.getmembers(obj):
+                        module = inspect.getmodule(anim_obj)
 
-                    if module is not None and inspect.isclass(anim_obj):
-                        if module.__name__.endswith("tier_1"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 1)
+                        if module is not None and inspect.isclass(anim_obj):
+                            if module.__name__.endswith("tier_1"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 1)
 
-                        elif module.__name__.endswith("tier_2"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 2)
+                            elif module.__name__.endswith("tier_2"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 2)
 
-                        elif module.__name__.endswith("tier_3"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 3)
+                            elif module.__name__.endswith("tier_3"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 3)
 
-                        elif module.__name__.endswith("tier_4"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 4)
+                            elif module.__name__.endswith("tier_4"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 4)
 
-                        elif module.__name__.endswith("tier_5"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 5)
+                            elif module.__name__.endswith("tier_5"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 5)
 
-                        elif module.__name__.endswith("tier_6"):
-                            add_unit_if_present(obj_collection, self.objs,
-                                                anim_obj(), anim_name, 6)
+                            elif module.__name__.endswith("tier_6"):
+                                add_unit_if_present(obj_collection, self.objs,
+                                                    anim_obj(), anim_name, 6)
+
+            self.packs[pack] = self.objs
