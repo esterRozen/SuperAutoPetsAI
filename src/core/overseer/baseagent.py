@@ -40,23 +40,6 @@ class BaseAgent:
         self.event_raiser: Tuple[str, int] = ("team", 0)
         self.target: Tuple[str, int] = ("team", 0)
 
-    # re-enter shop from a given state
-    # used for simulation and replay
-    @staticmethod
-    @abstractmethod
-    def load(state: State) -> 'BaseAgent':
-        pass
-
-    def save(self, include_shop: bool) -> State:
-        state = State(
-                self.__mode, self.turn, self.life, self.battle_lost,
-                self.team, gold=self.gold
-        )
-
-        if include_shop:
-            state.shop = self.shop
-        return state
-
     @abstractmethod
     def handle_event(self, message, event_raiser=None, target=None):
         pass
@@ -64,6 +47,15 @@ class BaseAgent:
     @abstractmethod
     def trigger_ability(self, message):
         pass
+
+    @property
+    def acting_team(self):
+        if self.event_raiser[0] == "team":
+            return self.team
+        elif self.event_raiser[0] == "enemy":
+            return self.enemy
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
 
     @property
     def event_raising_animal(self) -> Animal:
@@ -81,6 +73,33 @@ class BaseAgent:
             return self.enemy.animals[self.target[1]]
         raise ValueError("target tuple's string should be either team or enemy")
 
+    @property
+    def team_opposing_event_raiser(self):
+        if self.event_raiser[0] == "team":
+            return self.enemy
+        elif self.event_raiser[0] == "enemy":
+            return self.team
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
+
+    # re-enter shop from a given state
+    # used for simulation and replay
+    @staticmethod
+    @abstractmethod
+    def load(state: State) -> 'BaseAgent':
+        pass
+
+    def save(self, include_shop: bool) -> State:
+        state = State(
+            self.__mode, self.turn, self.life, self.battle_lost,
+            self.team, gold=self.gold
+        )
+
+        if include_shop:
+            state.shop = self.shop
+        return state
+
+    # enables reset of team after a battle
     def store_backup(self):
         self.team_backup = copy.deepcopy(self.team)
 
