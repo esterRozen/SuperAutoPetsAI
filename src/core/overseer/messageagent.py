@@ -1,6 +1,7 @@
 import itertools
 from typing import List, Callable, Tuple
 
+from ..game_elements.abstract_elements import Animal
 from .state import State
 from .baseagent import BaseAgent
 from .handlers.object_effects import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
@@ -28,7 +29,7 @@ animals = [
     "Boar", "Cat", "Dragon", "Fly", "Gorilla", "Leopard", "Mammoth", "Octopus", "Sauropod", "Snake", "Tiger",
     "Tyrannosaurus"  # Tier 6
 
-    "Butterfly", "Bus", "DirtyRat", "FlyFriend", "Ram", "ZombieCricket"
+    "Butterfly", "Bus", "Dirty_Rat", "Fly_Friend", "Ram", "Zombie_Cricket"
 ]
 
 equipment = [
@@ -41,11 +42,19 @@ equipment = [
 ]
 
 
+def find_name_id(anims: List[List[Animal]], name: str) -> int:
+    for tier in anims:
+        for anim in tier:
+            anim_name: str = anim.__class__.__name__.lower()
+            if anim_name == name:
+                return anim.id
+    return -1
+
+
 # noinspection DuplicatedCode
 class MessageAgent(BaseAgent):
     def __init__(self, mode):
         super(MessageAgent, self).__init__(mode)
-
         # event handling matrix
         t1 = Tier1()
         t2 = Tier2()
@@ -54,6 +63,7 @@ class MessageAgent(BaseAgent):
         t5 = Tier5()
         t6 = Tier6()
         eq = Equipment()
+        # objs = [t1, t2, t3, t4, t5, t6, Equipment]
         self.__EP = EventProcessor()
 
         # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
