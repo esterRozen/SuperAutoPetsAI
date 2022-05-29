@@ -185,7 +185,12 @@ class MessageAgent(BaseAgent):
             self.target = target
 
         # handle event
-        if message == BEFORE_ATTACK:
+        if message == ABILITY:
+            pass
+        elif message == ATTACK:
+            self.attack()
+            self.damage(self.event_raising_animal.battle_atk)
+        elif message == BEFORE_ATTACK:
             self.__EP.before_attack(self, self.event_raiser)
         elif message == BUY:
             self.__EP.buy(self, self.event_raiser)

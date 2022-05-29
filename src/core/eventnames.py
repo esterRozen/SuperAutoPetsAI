@@ -1,4 +1,5 @@
 __all__ = [
+    'ABILITY', 'ATTACK',
     'BEFORE_ATTACK', 'BUY', 'BUY_FOOD', 'BUY_T1_PET', 'EAT_FOOD',
     'ENEMY_ATTACKS', 'END_TURN', 'FRIEND_AHEAD_ATTACKS',
     'FRIEND_AHEAD_FAINTS', 'FRIEND_BOUGHT', 'FRIEND_EATS_FOOD',
@@ -7,6 +8,8 @@ __all__ = [
     'ON_FAINT', 'ON_LEVEL', 'SELL', 'START_BATTLE', 'START_TURN'
 ]
 
+ABILITY = "ability"
+ATTACK = "attack"
 BEFORE_ATTACK = "before attack"
 BUY = "buy"
 BUY_FOOD = "buy food"
