@@ -41,8 +41,29 @@ class TestSpawner(TestCase):
     def test_spawn_tier(self):
         spawner = Spawner("base pack")
         for _ in range(20):
+            animal: type(Animal) = spawner.spawn_tier(1)
+            self.assertTrue(animal.tier == 1, "wrong tier")
+
+        for _ in range(20):
+            animal: type(Animal) = spawner.spawn_tier(2)
+            self.assertTrue(animal.tier == 2, "wrong tier")
+
+        for _ in range(20):
+            animal: type(Animal) = spawner.spawn_tier(3)
+            self.assertTrue(animal.tier == 3, "wrong tier")
+
+        for _ in range(20):
             animal: type(Animal) = spawner.spawn_tier(4)
             self.assertTrue(animal.tier == 4, "wrong tier")
-        for i in range(0, 8):
+
+        for _ in range(20):
+            animal: type(Animal) = spawner.spawn_tier(5)
+            self.assertTrue(animal.tier == 5, "wrong tier")
+
+        for _ in range(20):
+            animal: type(Animal) = spawner.spawn_tier(6)
+            self.assertTrue(animal.tier == 6, "wrong tier")
+
+        for i in range(8):
             animal: type(Animal) = spawner.spawn_tier(i)
             self.assertTrue(max(min(animal.tier, 6), 1) == max(min(i, 6), 1), "wrong tier")
