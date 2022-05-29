@@ -1,16 +1,15 @@
 from unittest import TestCase
 
-
-class TestTier1(TestCase):
-    def test_instantiation(self):
-        self.fail()
+from src.core.game_elements.game_objects.equipment.tier_1 import *
 
 
 class TestApple(TestCase):
     def test_instantiation(self):
-        self.fail()
+        obj = Apple()
+        self.assertTrue(obj.id == 400)
 
 
 class TestHoney(TestCase):
     def test_instantiation(self):
-        self.fail()
+        obj = Honey()
+        self.assertTrue(obj.id == 401)
