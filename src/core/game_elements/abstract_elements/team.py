@@ -19,16 +19,13 @@ def send_to_front(idx, team: 'Team'):
 
 
 def send_unit_back_one_space(idx, team: 'Team'):
-    if idx == len(team.animals):
+    if idx == len(team.animals) - 1:
         return
 
-    if idx - 1 < 0:
-        return
-
-    if isinstance(team[idx], Empty):
-        if not isinstance(team[idx - 1], Empty):
-            team[idx] = team[idx - 1]
-            team[idx - 1] = Empty()
+    if isinstance(team[idx + 1], Empty):
+        if not isinstance(team[idx], Empty):
+            team[idx + 1] = team[idx]
+            team[idx] = Empty()
 
 
 class Team:
@@ -48,6 +45,14 @@ class Team:
 
     def __getitem__(self, item: int) -> Animal:
         return self.animals[item]
+
+    def __repr__(self) -> str:
+        out = ""
+        anims: List[Animal] = self.animals.copy()
+        anims.reverse()
+        for anim in anims:
+            out += anim.__class__.__name__ + f" ({anim.tier})" + " "
+        return out
 
     def __setitem__(self, idx: int, value: Animal):
         self.animals[idx] = value
@@ -185,7 +190,11 @@ class Team:
         return
 
     def make_summon_room_at(self, idx: int):
-        for i in range(self.__max_capacity - 1, -1, idx - 1):
+        last_empty = 4
+        for i in range(self.__max_capacity - 1, idx - 1, -1):
+            if isinstance(self.animals[i], Empty):
+                last_empty = i
+        for i in range(last_empty - 1, idx - 1, -1):
             send_unit_back_one_space(i, self)
 
     def random_friend(self) -> Optional[Animal]:
@@ -252,7 +261,8 @@ class Team:
     def ret_diff_tiers(self) -> Optional[List[Animal]]:
         animals: Dict = {}
         for animal in self.animals:
-            animals[animal.tier] = animal
+            if not isinstance(animal, Empty):
+                animals[animal.tier] = animal
 
         animals: List[Animal] = list(animals.values())
         if not animals:
