@@ -22,6 +22,10 @@ class TestMessageAgent(TestCase):
         # TODO
         self.fail()
 
+    def test_save(self):
+        # TODO
+        self.fail()
+
     def test_handle_event(self):
         # TODO
         self.fail()

@@ -2,22 +2,6 @@ from unittest import TestCase
 
 
 class TestBaseAgent(TestCase):
-    def test_load(self):
-        # TODO
-        self.fail()
-
-    def test_save(self):
-        # TODO
-        self.fail()
-
-    def test_handle_event(self):
-        # TODO
-        self.fail()
-
-    def test_trigger_ability(self):
-        # TODO
-        self.fail()
-
     def test_store_backup(self):
         # TODO
         self.fail()
