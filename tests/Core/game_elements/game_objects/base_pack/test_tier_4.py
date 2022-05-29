@@ -8,13 +8,16 @@ class Test_Tier4(TestCase):
 
 class TestBison(TestCase):
     def test_instantiation(self):
+        self.fail()
 
+
+class TestBuffalo(TestCase):
+    def test_instantiation(self):
         self.fail()
 
 
 class TestBus(TestCase):
     def test_instantiation(self):
-
         self.fail()
 
 
@@ -38,12 +41,27 @@ class TestHippo(TestCase):
         self.fail()
 
 
+class TestLlama(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestLobster(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestMonkey(TestCase):
     def test_instantiation(self):
         self.fail()
 
 
 class TestPenguin(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestPoodle(TestCase):
     def test_instantiation(self):
         self.fail()
 

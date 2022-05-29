@@ -6,6 +6,16 @@ class Test_Tier5(TestCase):
         self.fail()
 
 
+class TestBestMilk(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestBetterMilk(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestChili(TestCase):
     def test_instantiation(self):
         self.fail()

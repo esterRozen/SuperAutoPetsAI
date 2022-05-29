@@ -21,6 +21,16 @@ class TestBee(TestCase):
         self.fail()
 
 
+class TestBeetle(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestBluebird(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestCricket(TestCase):
     def test_instantiation(self):
         self.fail()
@@ -37,6 +47,11 @@ class TestFish(TestCase):
 
 
 class TestHorse(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestLadybug(TestCase):
     def test_instantiation(self):
         self.fail()
 

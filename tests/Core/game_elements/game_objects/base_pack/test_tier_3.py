@@ -16,12 +16,27 @@ class TestBlowfish(TestCase):
         self.fail()
 
 
+class TestButterfly(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestCamel(TestCase):
     def test_instantiation(self):
         self.fail()
 
 
+class TestCaterpillar(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestGiraffe(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestHatchingChick(TestCase):
     def test_instantiation(self):
         self.fail()
 
@@ -32,6 +47,11 @@ class TestKangaroo(TestCase):
 
 
 class TestOx(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestPuppy(TestCase):
     def test_instantiation(self):
         self.fail()
 
@@ -52,6 +72,11 @@ class TestSheep(TestCase):
 
 
 class TestSnail(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestTropicalFish(TestCase):
     def test_instantiation(self):
         self.fail()
 

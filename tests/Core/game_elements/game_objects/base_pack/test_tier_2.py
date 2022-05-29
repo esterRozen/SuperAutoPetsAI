@@ -26,6 +26,11 @@ class TestDog(TestCase):
         self.fail()
 
 
+class TestDromedary(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestElephant(TestCase):
     def test_instantiation(self):
         self.fail()
@@ -62,5 +67,10 @@ class TestSpider(TestCase):
 
 
 class TestSwan(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestTabbyCat(TestCase):
     def test_instantiation(self):
         self.fail()

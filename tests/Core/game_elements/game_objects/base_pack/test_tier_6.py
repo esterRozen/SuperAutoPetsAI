@@ -6,6 +6,11 @@ class Test_Tier6(TestCase):
         self.fail()
 
 
+class TestBoar(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestCat(TestCase):
     def test_instantiation(self):
         self.fail()
@@ -41,11 +46,26 @@ class TestMammoth(TestCase):
         self.fail()
 
 
+class TestOctopus(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestSauropod(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestSnake(TestCase):
     def test_instantiation(self):
         self.fail()
 
 
 class TestTiger(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestTyrannosaurus(TestCase):
     def test_instantiation(self):
         self.fail()

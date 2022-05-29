@@ -6,12 +6,32 @@ class Test_Tier5(TestCase):
         self.fail()
 
 
+class TestChicken(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
 class TestCow(TestCase):
     def test_instantiation(self):
         self.fail()
 
 
 class TestCrocodile(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestEagle(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestGoat(TestCase):
+    def test_instantiation(self):
+        self.fail()
+
+
+class TestMicrobe(TestCase):
     def test_instantiation(self):
         self.fail()
 
