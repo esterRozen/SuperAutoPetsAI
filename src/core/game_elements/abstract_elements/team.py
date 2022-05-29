@@ -231,7 +231,7 @@ class Team:
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
         if not a:
-            return []
+            return None
         if len(a) <= n:
             return [self.animals[i] for i in a]
         else:
