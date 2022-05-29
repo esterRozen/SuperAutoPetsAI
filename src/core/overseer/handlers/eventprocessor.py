@@ -6,15 +6,6 @@ if TYPE_CHECKING:
     from .. import MessageAgent
 
 
-def actor_is_team(actor: Tuple[str, int]) -> bool:
-    if actor[0] == "team":
-        return True
-    elif actor[0] == "enemy":
-        return False
-    else:
-        raise ValueError(f"Invalid team type {actor[0]}")
-
-
 def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
     if actor[0] == "team":
         roster = agent.team
@@ -48,6 +39,8 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
         elif animal in agent.enemy.animals:
             agent.enemy.acting = agent.enemy.animals.index(animal)
             agent.event_raiser = ("enemy", agent.enemy.acting)
+        else:
+            raise ValueError(f"{animal} not present in either team")
         operation = animal.trigger(event)
         agent.trigger_ability(operation)
 
