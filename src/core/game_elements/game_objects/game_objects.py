@@ -6,6 +6,7 @@ from typing import List, Union
 # noinspection PyUnresolvedReferences
 from . import units, equipment
 
+
 base = [
     [
         'Ant', 'Beaver', 'Cricket', 'Duck', 'Fish',
@@ -101,6 +102,15 @@ def add_unit_if_present(collection, list_objs, unit, name, tier: int):
 # last list are the un-rollable objects
 class GameObjects:
     def __init__(self, pack_type: str):
+        """
+        supports flags:
+            "base pack"
+            "base pack items"
+            "paid pack 1"
+            "paid pack 1 items"
+        Args:
+            pack_type: flag
+        """
         self.objs = [[], [], [], [], [], [], []]
 
         for name, obj in inspect.getmembers(sys.modules[__name__]):
