@@ -15,7 +15,7 @@ class _Tier5(Equipment):
 
 
 class Chili(_Tier5):
-    is_consumable = False
+    id = 410
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
@@ -25,11 +25,11 @@ class Chili(_Tier5):
 
 
 class Chocolate(_Tier5):
-    pass
+    id = 411
 
 
 class Peanut(_Tier5):
-    is_consumable = False
+    id = 412
     rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
@@ -40,19 +40,23 @@ class Peanut(_Tier5):
 
 
 class Sushi(_Tier5):
+    id = 413
     is_targeted = False
 
 
 class Milk(_Tier5):
+    id = 414
     rollable = False
     cost = 0
 
 
-class BetterMilk(_Tier5):
+class Better_Milk(_Tier5):
+    id = 415
     rollable = False
     cost = 0
 
 
-class BestMilk(_Tier5):
+class Best_Milk(_Tier5):
+    id = 416
     rollable = False
     cost = 0

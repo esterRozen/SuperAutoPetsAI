@@ -16,7 +16,7 @@ class Boar(_Tier6):
     id = 69
 
     def __init__(self):
-        super(Boar, self).__init__(8, 6)
+        super(Boar, self).__init__(10, 6)
 
     def trigger(self, name):
         if name == BEFORE_ATTACK:
@@ -57,7 +57,7 @@ class Fly(_Tier6):
     id = 72
 
     def __init__(self):
-        super(Fly, self).__init__(2, 2)
+        super(Fly, self).__init__(5, 5)
 
     def trigger(self, name):
         if name == FRIEND_FAINTS:
@@ -70,7 +70,7 @@ class Gorilla(_Tier6):
     _triggers = 1
 
     def __init__(self):
-        super(Gorilla, self).__init__(6, 6)
+        super(Gorilla, self).__init__(6, 9)
 
     def trigger(self, name):
         if name == HURT:
@@ -88,7 +88,7 @@ class Leopard(_Tier6):
     id = 74
 
     def __init__(self):
-        super(Leopard, self).__init__(6, 4)
+        super(Leopard, self).__init__(10, 4)
 
     def trigger(self, name):
         if name == START_BATTLE:
@@ -100,7 +100,7 @@ class Mammoth(_Tier6):
     id = 75
 
     def __init__(self):
-        super(Mammoth, self).__init__(2, 6)
+        super(Mammoth, self).__init__(3, 10)
 
     def trigger(self, name):
         if name == ON_FAINT:
@@ -115,9 +115,7 @@ class Octopus(_Tier6):
         super(Octopus, self).__init__(8, 8)
 
     def trigger(self, name):
-        if name == BEFORE_ATTACK and self.level == 3:
-            return self.id
-        elif name == ON_LEVEL:
+        if name == BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -178,9 +176,9 @@ class Tyrannosaurus(_Tier6):
         return 0
 
 
-class FlyFriend(_Tier6):
+class Fly_Friend(_Tier6):
     rollable = False
     id = 0
 
     def __init__(self):
-        super(FlyFriend, self).__init__(2, 2)
+        super(Fly_Friend, self).__init__(2, 2)

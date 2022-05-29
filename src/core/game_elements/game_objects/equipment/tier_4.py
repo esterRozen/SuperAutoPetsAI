@@ -10,9 +10,10 @@ class _Tier4(Equipment):
         return 4
 
 
-class CannedFood(_Tier4):
+class Canned_Food(_Tier4):
+    id = 408
     is_targeted = False
 
 
 class Pear(_Tier4):
-    pass
+    id = 409

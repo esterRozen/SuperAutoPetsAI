@@ -15,11 +15,11 @@ class _Tier2(Equipment):
 
 
 class Cupcake(_Tier2):
-    pass
+    id = 402
 
 
-class MeatBone(_Tier2):
-    is_consumable = False
+class Meat_Bone(_Tier2):
+    id = 403
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
@@ -27,12 +27,13 @@ class MeatBone(_Tier2):
         return damage
 
 
-class SleepingPill(_Tier2):
+class Sleeping_Pill(_Tier2):
+    id = 404
     cost = 1
 
 
 class Weak(_Tier2):
-    is_consumable = False
+    id = 405
     rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:

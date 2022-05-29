@@ -11,14 +11,8 @@ class _Tier1(Equipment):
 
 
 class Apple(_Tier1):
-    def trigger(self, name):
-        if name == "buy":
-            return 80
+    id = 400
 
 
 class Honey(_Tier1):
-    is_consumable = False
-
-    def trigger(self, name):
-        if name == "buy":
-            return 80
+    id = 401

@@ -16,7 +16,7 @@ class _Tier6(Equipment):
 
 
 class Coconut(_Tier6):
-    is_edible = False
+    id = 417
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
@@ -26,7 +26,7 @@ class Coconut(_Tier6):
 
 
 class Melon(_Tier6):
-    is_edible = False
+    id = 418
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
@@ -37,15 +37,16 @@ class Melon(_Tier6):
 
 
 class Mushroom(_Tier6):
-    is_edible = False
+    id = 419
 
 
 class Pizza(_Tier6):
+    id = 420
     is_targeted = False
 
 
 class Steak(_Tier6):
-    is_instant = False
+    id = 421
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":

@@ -6,9 +6,9 @@ from .tier_5 import *
 from .tier_6 import *
 __all__ = [
     'Apple', 'Honey',
-    'Cupcake', 'MeatBone', 'SleepingPill', 'Weak',
-    'Garlic', 'SaladBowl',
-    'CannedFood', 'Pear',
-    'BestMilk', 'BetterMilk', 'Chili', 'Chocolate', 'Milk', 'Peanut', 'Sushi',
+    'Cupcake', 'Meat_Bone', 'Sleeping_Pill', 'Weak',
+    'Garlic', 'Salad_Bowl',
+    'Canned_Food', 'Pear',
+    'Best_Milk', 'Better_Milk', 'Chili', 'Chocolate', 'Milk', 'Peanut', 'Sushi',
     'Coconut', 'Melon', 'Mushroom', 'Pizza', 'Steak'
 ]

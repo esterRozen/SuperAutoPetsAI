@@ -24,7 +24,7 @@ class Equipment:
 
     @staticmethod
     def meat_bone(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = MeatBone()
+        agent.team[agent.event_raiser[1]].held = Meat_Bone()
 
     @staticmethod
     def sleeping_pill(agent: 'MessageAgent'):

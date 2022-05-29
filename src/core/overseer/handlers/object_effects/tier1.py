@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ....game_elements.game_objects.units import ZombieCricket
+from ....game_elements.game_objects.animals import Zombie_Cricket
 if TYPE_CHECKING:
     from ... import MessageAgent
 
@@ -58,7 +58,7 @@ class Tier1:
     # how to handle summons???
     @staticmethod
     def cricket(agent: 'MessageAgent'):
-        unit = ZombieCricket()
+        unit = Zombie_Cricket()
         unit.battle_atk = agent.lvl
         unit.battle_hp = agent.lvl
         agent.team.summon(unit, agent.team.acting)

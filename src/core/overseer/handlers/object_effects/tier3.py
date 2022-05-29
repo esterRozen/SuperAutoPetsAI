@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.units import Butterfly, Ram
+from ....game_elements.game_objects.animals import Butterfly, Ram
 from ....game_elements.game_objects.equipment import Melon
 
 if TYPE_CHECKING:

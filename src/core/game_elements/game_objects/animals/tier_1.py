@@ -12,6 +12,19 @@ class _Tier1(Animal):
         return 1
 
 
+class Nop(_Tier1):
+    def __init__(self):
+        super().__init__(0, 0)
+        return
+
+    @property
+    def tier(self):
+        return 0
+
+    def trigger(self, name: str) -> int:
+        return 0
+
+
 class Ant(_Tier1):
     id = 1
 
@@ -28,12 +41,20 @@ class Beaver(_Tier1):
     id = 2
 
     def __init__(self):
-        super(Beaver, self).__init__(2, 2)
+        super(Beaver, self).__init__(3, 2)
 
     def trigger(self, name):
         if name == SELL:
             return self.id
         return 0
+
+
+class Bee(_Tier1):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(Bee, self).__init__(1, 1)
 
 
 class Beetle(_Tier1):
@@ -67,7 +88,7 @@ class Cricket(_Tier1):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == SELL:
+        if name == ON_FAINT:
             return self.id
         return 0
 
@@ -76,7 +97,7 @@ class Duck(_Tier1):
     id = 6
 
     def __init__(self):
-        super(Duck, self).__init__(1, 2)
+        super(Duck, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == SELL:
@@ -88,7 +109,7 @@ class Fish(_Tier1):
     id = 7
 
     def __init__(self):
-        super(Fish, self).__init__(2, 3)
+        super(Fish, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == ON_LEVEL:
@@ -100,7 +121,7 @@ class Horse(_Tier1):
     id = 8
 
     def __init__(self):
-        super(Horse, self).__init__(1, 1)
+        super(Horse, self).__init__(2, 1)
 
     def trigger(self, name):
         if name == FRIEND_SUMMONED_BATTLE:
@@ -156,14 +177,6 @@ class Pig(_Tier1):
         return 0
 
 
-class Bee(_Tier1):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(Bee, self).__init__(1, 1)
-
-
 class Sloth(_Tier1):
     rollable = False
     id = 0
@@ -172,9 +185,9 @@ class Sloth(_Tier1):
         super(Sloth, self).__init__(1, 1)
 
 
-class ZombieCricket(_Tier1):
+class Zombie_Cricket(_Tier1):
     rollable = False
     id = 0
 
     def __init__(self):
-        super(ZombieCricket, self).__init__(1, 1)
+        super(Zombie_Cricket, self).__init__(1, 1)

@@ -28,7 +28,7 @@ class Crab(_Tier2):
     id = 14
 
     def __init__(self):
-        super(Crab, self).__init__(3, 3)
+        super(Crab, self).__init__(3, 1)
 
     def trigger(self, name):
         if name == START_BATTLE:
@@ -52,7 +52,7 @@ class Dodo(_Tier2):
     id = 15
 
     def __init__(self):
-        super(Dodo, self).__init__(1, 3)
+        super(Dodo, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == START_BATTLE:
@@ -76,7 +76,7 @@ class Flamingo(_Tier2):
     id = 18
 
     def __init__(self):
-        super(Flamingo, self).__init__(3, 1)
+        super(Flamingo, self).__init__(4, 2)
 
     def trigger(self, name):
         if name == ON_FAINT:
@@ -100,7 +100,7 @@ class Peacock(_Tier2):
     id = 20
 
     def __init__(self):
-        super(Peacock, self).__init__(1, 5)
+        super(Peacock, self).__init__(2, 5)
 
     def trigger(self, name):
         if name == HURT:
@@ -124,7 +124,7 @@ class Shrimp(_Tier2):
     id = 22
 
     def __init__(self):
-        super(Shrimp, self).__init__(2, 1)
+        super(Shrimp, self).__init__(2, 3)
 
     def trigger(self, name):
         if name == FRIEND_SOLD:
@@ -148,7 +148,7 @@ class Swan(_Tier2):
     id = 24
 
     def __init__(self):
-        super(Swan, self).__init__(3, 4)
+        super(Swan, self).__init__(1, 3)
 
     def trigger(self, name):
         if name == START_TURN:
@@ -156,11 +156,11 @@ class Swan(_Tier2):
         return 0
 
 
-class TabbyCat(_Tier2):
+class Tabby_Cat(_Tier2):
     id = 25
 
     def __init__(self):
-        super(TabbyCat, self).__init__(4, 3)
+        super(Tabby_Cat, self).__init__(5, 3)
 
     def trigger(self, name):
         if name == EAT_FOOD:
@@ -168,12 +168,12 @@ class TabbyCat(_Tier2):
         return 0
 
 
-class DirtyRat(_Tier2):
+class Dirty_Rat(_Tier2):
     rollable = False
     id = 0
 
     def __init__(self):
-        super(DirtyRat, self).__init__(1, 1)
+        super(Dirty_Rat, self).__init__(1, 1)
 
     def trigger(self, name):
         if name == ENEMY_ATTACKS:

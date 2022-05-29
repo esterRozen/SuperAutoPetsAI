@@ -15,13 +15,16 @@ class _Tier3(Equipment):
 
 
 class Garlic(_Tier3):
-    is_consumable = False
+    id = 406
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
+            if damage == 0:
+                return 0
             return max(1, damage - 2)
         return damage
 
 
-class SaladBowl(_Tier3):
+class Salad_Bowl(_Tier3):
+    id = 407
     is_targeted = False

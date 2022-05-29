@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.units import DirtyRat
+from ....game_elements.game_objects.animals import Dirty_Rat
 from ....game_elements.game_objects.equipment import Weak
 
 if TYPE_CHECKING:
@@ -17,18 +17,18 @@ class Tier2:
 
     @staticmethod
     def crab(agent: 'MessageAgent'):
-        battle_hp = agent.team.friend_ahead().battle_hp
-        agent.team.animals[agent.team.acting].battle_hp = battle_hp
+        battle_hp = agent.acting_team.friend_ahead().battle_hp
+        agent.event_raising_animal.battle_hp = battle_hp
 
     @staticmethod
     def dodo(agent: 'MessageAgent'):
-        battle_atk = agent.team.animals[agent.team.acting].battle_atk
+        battle_atk = agent.event_raising_animal.battle_atk
         if agent.lvl == 1:
-            agent.team.friend_ahead().battle_atk += battle_atk
+            agent.acting_team.friend_ahead().battle_atk += battle_atk
         elif agent.lvl == 2:
-            agent.team.friend_ahead().battle_atk += 2 * battle_atk
+            agent.acting_team.friend_ahead().battle_atk += 2 * battle_atk
         else:
-            agent.team.friend_ahead().battle_atk += 3 * battle_atk
+            agent.acting_team.friend_ahead().battle_atk += 3 * battle_atk
 
     @staticmethod
     def dirty_rat(agent: 'MessageAgent'):
@@ -51,7 +51,7 @@ class Tier2:
 
     @staticmethod
     def flamingo(agent: 'MessageAgent'):
-        friends = agent.team.friends_behind(2)
+        friends = agent.acting_team.friends_behind(2)
         if agent.lvl == 1:
             agent.buff(friends, 1, 1)
         elif agent.lvl == 2:
@@ -68,16 +68,16 @@ class Tier2:
     @staticmethod
     def peacock(agent: 'MessageAgent'):
         if agent.lvl == 1:
-            agent.team.animals[agent.team.acting].temp_buff(2, 0)
+            agent.event_raising_animal.temp_buff(2, 0)
         elif agent.lvl == 2:
-            agent.team.animals[agent.team.acting].temp_buff(4, 0)
+            agent.event_raising_animal.temp_buff(4, 0)
         else:
-            agent.team.animals[agent.team.acting].temp_buff(6, 0)
+            agent.event_raising_animal.temp_buff(6, 0)
 
     # summons, ugh
     @staticmethod
     def rat(agent: 'MessageAgent'):
-        unit = DirtyRat()
+        unit = Dirty_Rat()
         # TODO check the summon hp
         unit.battle_atk = agent.lvl
         unit.battle_hp = agent.lvl

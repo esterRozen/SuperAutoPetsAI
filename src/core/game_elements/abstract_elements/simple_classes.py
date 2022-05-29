@@ -126,7 +126,6 @@ class Equipment:
     cost = 3
     id = 0
     is_targeted = True
-    is_instant = True
 
     @property
     def tier(self):

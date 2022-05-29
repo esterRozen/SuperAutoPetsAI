@@ -16,7 +16,7 @@ class Chicken(_Tier5):
     id = 57
 
     def __init__(self):
-        super(Chicken, self).__init__(3, 4)
+        super(Chicken, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == BUY_T1_PET:
@@ -40,7 +40,7 @@ class Crocodile(_Tier5):
     id = 59
 
     def __init__(self):
-        super(Crocodile, self).__init__(6, 3)
+        super(Crocodile, self).__init__(8, 4)
 
     def trigger(self, name):
         if name == START_BATTLE:
@@ -64,7 +64,7 @@ class Goat(_Tier5):
     id = 61
 
     def __init__(self):
-        super(Goat, self).__init__(4, 5)
+        super(Goat, self).__init__(4, 6)
         self.limit = 1
 
     def trigger(self, name):
@@ -86,7 +86,7 @@ class Monkey(_Tier5):
     id = 62
 
     def __init__(self):
-        super(Monkey, self).__init__(3, 3)
+        super(Monkey, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -98,7 +98,7 @@ class Poodle(_Tier5):
     id = 63
 
     def __init__(self):
-        super(Poodle, self).__init__(4, 2)
+        super(Poodle, self).__init__(2, 2)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -110,7 +110,7 @@ class Rhino(_Tier5):
     id = 64
 
     def __init__(self):
-        super(Rhino, self).__init__(5, 6)
+        super(Rhino, self).__init__(5, 8)
 
     def trigger(self, name):
         if name == KNOCK_OUT:
@@ -125,6 +125,8 @@ class Scorpion(_Tier5):
         super(Scorpion, self).__init__(1, 1)
 
     def trigger(self, name):
+        if name == IS_SUMMONED:
+            return self.id
         return 0
 
 
@@ -132,7 +134,7 @@ class Seal(_Tier5):
     id = 66
 
     def __init__(self):
-        super(Seal, self).__init__(3, 6)
+        super(Seal, self).__init__(3, 8)
 
     def trigger(self, name):
         if name == EAT_FOOD:

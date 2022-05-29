@@ -16,7 +16,7 @@ class Bison(_Tier4):
     id = 42
 
     def __init__(self):
-        super(Bison, self).__init__(6, 6)
+        super(Bison, self).__init__(4, 4)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -28,10 +28,24 @@ class Buffalo(_Tier4):
     id = 43
 
     def __init__(self):
-        super(Buffalo, self).__init__(5, 5)
+        super(Buffalo, self).__init__(4, 4)
 
     def trigger(self, name):
         if name == FRIEND_BOUGHT:
+            return self.id
+        return 0
+
+
+class Caterpillar(_Tier4):
+    id = 29
+
+    def __init__(self):
+        super(Caterpillar, self).__init__(2, 2)
+
+    def trigger(self, name):
+        if name == START_TURN and self.level != 3:
+            return self.id
+        elif name == START_BATTLE and self.level == 3:
             return self.id
         return 0
 
@@ -76,7 +90,7 @@ class Llama(_Tier4):
     id = 47
 
     def __init__(self):
-        super(Llama, self).__init__(2, 5)
+        super(Llama, self).__init__(3, 6)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -88,7 +102,7 @@ class Lobster(_Tier4):
     id = 48
 
     def __init__(self):
-        super(Lobster, self).__init__(3, 3)
+        super(Lobster, self).__init__(4, 5)
 
     def trigger(self, name):
         if name == FRIEND_SUMMONED_SHOP:
@@ -112,7 +126,7 @@ class Parrot(_Tier4):
     id = 50
 
     def __init__(self):
-        super(Parrot, self).__init__(3, 2)
+        super(Parrot, self).__init__(4, 2)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -136,7 +150,7 @@ class Rooster(_Tier4):
     id = 52
 
     def __init__(self):
-        super(Rooster, self).__init__(3, 3)
+        super(Rooster, self).__init__(5, 3)
 
     def trigger(self, name):
         if name == ON_FAINT:
@@ -160,7 +174,7 @@ class Squirrel(_Tier4):
     id = 54
 
     def __init__(self):
-        super(Squirrel, self).__init__(2, 2)
+        super(Squirrel, self).__init__(2, 5)
 
     def trigger(self, name):
         if name == START_TURN:
@@ -172,7 +186,7 @@ class Whale(_Tier4):
     id = 55
 
     def __init__(self):
-        super(Whale, self).__init__(2, 6)
+        super(Whale, self).__init__(3, 8)
 
     def trigger(self, name):
         if name == START_BATTLE:
@@ -184,7 +198,7 @@ class Worm(_Tier4):
     id = 56
 
     def __init__(self):
-        super(Worm, self).__init__(1, 1)
+        super(Worm, self).__init__(3, 3)
 
     def trigger(self, name):
         if name == EAT_FOOD:
@@ -198,6 +212,19 @@ class Bus(_Tier4):
 
     def __init__(self):
         super(Bus, self).__init__(5, 5)
+
+
+class Butterfly(_Tier4):
+    rollable = False
+    id = 81
+
+    def __init__(self):
+        super(Butterfly, self).__init__(1, 1)
+
+    def trigger(self, name):
+        if name == IS_SUMMONED:
+            return self.id
+        return 0
 
 
 class Chick(_Tier4):

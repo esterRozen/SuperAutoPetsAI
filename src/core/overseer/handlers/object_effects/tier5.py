@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.equipment import Weak, Milk, BetterMilk, BestMilk
+from ....game_elements.game_objects.equipment import Weak, Milk, Better_Milk, Best_Milk
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -28,9 +28,9 @@ class Tier5:
             elif agent.event_raising_animal.level == 1:
                 slot.item = Milk()
             elif agent.event_raising_animal.level == 2:
-                slot.item = BetterMilk()
+                slot.item = Better_Milk()
             elif agent.event_raising_animal.level == 3:
-                slot.item = BestMilk()
+                slot.item = Best_Milk()
 
     # deal 7/14/21 damage to last enemy
     @staticmethod

@@ -16,7 +16,7 @@ class Badger(_Tier3):
     id = 26
 
     def __init__(self):
-        super(Badger, self).__init__(5, 4)
+        super(Badger, self).__init__(5, 3)
 
     def trigger(self, name):
         if name == ON_FAINT:
@@ -40,22 +40,10 @@ class Camel(_Tier3):
     id = 28
 
     def __init__(self):
-        super(Camel, self).__init__(2, 5)
+        super(Camel, self).__init__(2, 6)
 
     def trigger(self, name):
         if name == HURT:
-            return self.id
-        return 0
-
-
-class Caterpillar(_Tier3):
-    id = 29
-
-    def __init__(self):
-        super(Caterpillar, self).__init__(1, 4)
-
-    def trigger(self, name):
-        if name == START_TURN:
             return self.id
         return 0
 
@@ -64,7 +52,7 @@ class Dog(_Tier3):
     id = 30
 
     def __init__(self):
-        super(Dog, self).__init__(2, 2)
+        super(Dog, self).__init__(3, 3)
 
     def trigger(self, name):
         if name == FRIEND_SUMMONED_BATTLE or FRIEND_SUMMONED_SHOP:
@@ -76,7 +64,7 @@ class Giraffe(_Tier3):
     id = 31
 
     def __init__(self):
-        super(Giraffe, self).__init__(1, 3)
+        super(Giraffe, self).__init__(2, 4)
 
     def trigger(self, name):
         if name == END_TURN:
@@ -84,11 +72,11 @@ class Giraffe(_Tier3):
         return 0
 
 
-class HatchingChick(_Tier3):
+class Hatching_Chick(_Tier3):
     id = 32
 
     def __init__(self):
-        super(HatchingChick, self).__init__(1, 1)
+        super(Hatching_Chick, self).__init__(1, 1)
 
     def trigger(self, name):
         if name == END_TURN and self.level < 3:
@@ -102,7 +90,7 @@ class Kangaroo(_Tier3):
     id = 33
 
     def __init__(self):
-        super(Kangaroo, self).__init__(2, 3)
+        super(Kangaroo, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == FRIEND_AHEAD_ATTACKS:
@@ -126,7 +114,7 @@ class Ox(_Tier3):
     id = 35
 
     def __init__(self):
-        super(Ox, self).__init__(1, 4)
+        super(Ox, self).__init__(1, 3)
 
     def trigger(self, name):
         if name == FRIEND_AHEAD_FAINTS:
@@ -150,9 +138,11 @@ class Rabbit(_Tier3):
     id = 37
 
     def __init__(self):
-        super(Rabbit, self).__init__(3, 2)
+        super(Rabbit, self).__init__(1, 2)
 
     def trigger(self, name):
+        if name == EAT_FOOD:
+            return self.id
         if name == FRIEND_EATS_FOOD:
             return self.id
         return 0
@@ -182,11 +172,11 @@ class Snail(_Tier3):
         return 0
 
 
-class TropicalFish(_Tier3):
+class Tropical_Fish(_Tier3):
     id = 40
 
     def __init__(self):
-        super(TropicalFish, self).__init__(2, 4)
+        super(Tropical_Fish, self).__init__(2, 4)
 
     def trigger(self, name):
         if name == "end turn":
@@ -198,24 +188,11 @@ class Turtle(_Tier3):
     id = 41
 
     def __init__(self):
-        super(Turtle, self).__init__(2, 4)
+        super(Turtle, self).__init__(1, 2)
 
     def trigger(self, name):
         if name == ON_FAINT:
             return self.id
-        return 0
-
-
-class Butterfly(_Tier3):
-    rollable = False
-    id = 81
-
-    def __init__(self):
-        super(Butterfly, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == IS_SUMMONED:
-            return NotImplemented
         return 0
 
 

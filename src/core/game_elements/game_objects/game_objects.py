@@ -5,7 +5,7 @@ from threading import Lock
 # noinspection PyUnresolvedReferences
 from typing import List, Union
 # noinspection PyUnresolvedReferences
-from . import units, equipment
+from . import animals, equipment
 
 
 base = [
@@ -28,7 +28,7 @@ base = [
         'Boar', 'Cat', 'Dragon', 'Fly', 'Gorilla',
         'Leopard', 'Mammoth', 'Snake', 'Tiger'
     ],
-    ['Bee', 'Bus', 'Chick', 'DirtyRat', 'FlyFriend', 'Ram', 'ZombieCricket']
+    ['Bee', 'Bus', 'Chick', 'Dirty_Rat', 'Fly_Friend', 'Ram', 'Zombie_Cricket']
 ]
 
 paid_1 = [
@@ -37,13 +37,13 @@ paid_1 = [
         'Ladybug', 'Mosquito', 'Pig', 'Sloth',
     ], [
         'Bat', 'Dromedary', 'Flamingo', 'Hedgehog', 'Peacock',
-        'Rat', 'Shrimp', 'Spider', 'Swan', 'TabbyCat'
+        'Rat', 'Shrimp', 'Spider', 'Swan', 'Tabby_Cat'
     ], [
-        'Blowfish', 'Caterpillar', 'Dog', 'HatchingChick',
-        'Owl', 'Puppy', 'Rabbit', 'Sheep', 'Snail', 'TropicalFish',
+        'Blowfish', 'Dog', 'Hatching_Chick',
+        'Owl', 'Puppy', 'Rabbit', 'Sheep', 'Snail', 'Tropical_Fish',
         'Turtle'
     ], [
-        'Bison', 'Buffalo', 'Deer', 'Dolphin', 'Llama',
+        'Bison', 'Buffalo', 'Caterpillar', 'Deer', 'Dolphin', 'Llama',
         'Lobster', 'Microbe', 'Rooster', 'Skunk', 'Squirrel', 'Worm'
     ], [
         'Chicken', 'Cow', 'Eagle', 'Goat', 'Poodle', 'Rhino', 'Scorpion',
@@ -52,29 +52,29 @@ paid_1 = [
         'Boar', 'Dragon', 'Gorilla', 'Leopard', 'Mammoth', 'Octopus',
         'Sauropod', 'Tiger', 'Tyrannosaurus'
     ], [
-        'Bee', 'Bus', 'Butterfly', 'Chick', 'DirtyRat', 'FlyFriend',
-        'Ram', 'ZombieCricket'
+        'Bee', 'Bus', 'Butterfly', 'Chick', 'Dirty_Rat', 'Fly_Friend',
+        'Ram', 'Zombie_Cricket'
     ]
 ]
 
 base_items = [
     ['Apple', 'Honey'],
-    ['Cupcake', 'MeatBone', 'SleepingPill'],
-    ['Garlic', 'SaladBowl'],
-    ['CannedFood', 'Pear'],
+    ['Cupcake', 'Meat_Bone', 'Sleeping_Pill'],
+    ['Garlic', 'Salad_Bowl'],
+    ['Canned_Food', 'Pear'],
     ['Chili', 'Chocolate', 'Sushi'],
     ['Melon', 'Mushroom', 'Pizza', 'Steak'],
-    ['BestMilk', 'BetterMilk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
+    ['Best_Milk', 'Better_Milk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
 ]
 
 paid_1_items = [
     ['Apple', 'Honey'],
-    ['Cupcake', 'MeatBone', 'SleepingPill'],
-    ['Garlic', 'SaladBowl'],
-    ['CannedFood', 'Pear'],
+    ['Cupcake', 'Meat_Bone', 'Sleeping_Pill'],
+    ['Garlic', 'Salad_Bowl'],
+    ['Canned_Food', 'Pear'],
     ['Chili', 'Chocolate', 'Sushi'],
     ['Melon', 'Mushroom', 'Pizza', 'Steak'],
-    ['BestMilk', 'BetterMilk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
+    ['Best_Milk', 'Better_Milk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
 ]
 
 
@@ -136,7 +136,7 @@ class GameObjects:
             self.objs = [[], [], [], [], [], [], []]
 
             for name, obj in inspect.getmembers(sys.modules[__name__]):
-                if inspect.ismodule(obj) and (name == 'units' or name == 'equipment'):
+                if inspect.ismodule(obj) and (name == 'animals' or name == 'equipment'):
                     obj_collection = get_object_list(pack)
 
                     for anim_name, anim_obj in inspect.getmembers(obj):
