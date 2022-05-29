@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 from ..eventnames import *
 from ..game_elements.abstract_elements import Empty, Unarmed, Equipment, Animal
@@ -149,6 +149,9 @@ class ShopSystem:
         if animal.tier == 1:
             self.__agent.handle_event(BUY_T1_PET)
         return
+
+    def summon(self, unit: Animal):
+        pass
 
     def sell(self, pos: int):
         if isinstance(self.__agent.team.animals[pos], Empty):

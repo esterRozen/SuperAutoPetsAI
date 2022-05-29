@@ -186,22 +186,7 @@ class BaseAgent:
             self.handle_event(KNOCK_OUT)
 
     def summon(self, unit: Animal):
-        self.__battler.summon(unit)
-
-    @property
-    def acting_team(self):
-        if self.event_raiser[0] == "team":
-            return self.team
-        elif self.event_raiser[0] == "enemy":
-            return self.enemy
+        if self.in_shop:
+            self.__shopper.summon(unit)
         else:
-            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
-
-    @property
-    def team_opposing_event_raiser(self):
-        if self.event_raiser[0] == "team":
-            return self.enemy
-        elif self.event_raiser[0] == "enemy":
-            return self.team
-        else:
-            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
+            self.__battler.summon(unit)
