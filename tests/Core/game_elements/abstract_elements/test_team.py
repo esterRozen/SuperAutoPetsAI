@@ -263,20 +263,89 @@ class TestTeam(TestCase):
         self.assertTrue(self.team.other_lvl2_or_3() == [self.team[1], self.team[2]])
 
     def test_push_forward(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        self.team[0] = self.spawner.spawn(3)
+        self.team[2] = self.spawner.spawn(4)
+        animals = [self.team[0], self.team[2], Empty(), Empty(), Empty()]
+        self.team.push_forward()
+
+        for i in range(5):
+            self.assertTrue(self.team[i] == animals[i], f"{self.team[i]} should be {animals[i]}")
+
+        self.clean_start()
+        self.team[1] = self.spawner.spawn(5)
+        self.team[2] = self.spawner.spawn(3)
+        self.team[3] = self.spawner.spawn(4)
+        self.team[4] = self.spawner.spawn(5)
+        animals = [self.team[1], self.team[2], self.team[3], self.team[4], Empty()]
+        self.team.push_forward()
+
+        for i in range(5):
+            self.assertTrue(self.team[i] == animals[i], f"{self.team[i]} should be {animals[i]}")
+
+        self.clean_start()
+        self.team[4] = self.spawner.spawn(4)
+        animals = [self.team[4], Empty(), Empty(), Empty(), Empty()]
+        self.team.push_forward()
+
+        for i in range(5):
+            self.assertTrue(self.team[i] == animals[i], f"{self.team[i]} should be {animals[i]}")
 
     def test_random_friend(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        self.team[2] = self.spawner.spawn(4)
+        self.team.acting = 2
+        friend = self.team.random_friend()
+        self.assertTrue(friend is None, "shoud be no friends")
+
+        self.team[3] = self.spawner.spawn(6)
+        friend = self.team.random_friend()
+        self.assertTrue(friend == self.team[3])
+
+        self.team[0] = self.spawner.spawn(2)
+        for _ in range(20):
+            friend = self.team.random_friend()
+            self.assertTrue(friend is not None)
+
+        self.team.acting = 0
+        for _ in range(20):
+            friend = self.team.random_friend()
+            self.assertTrue(friend == self.team[2] or friend == self.team[3])
 
     def test_random_friends(self):
         # TODO
         self.fail()
 
     def test_random_unit(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        unit = self.team.random_unit()
+        self.assertTrue(unit is None)
+
+        self.team[2] = self.spawner.spawn(4)
+        self.team.acting = 2
+        unit = self.team.random_unit()
+        self.assertTrue(unit == self.team[2], f"guaranteed to be {self.team[2]}")
+
+        self.team[3] = self.spawner.spawn(6)
+        unit = self.team.random_unit()
+        self.assertTrue(unit == self.team[3] or unit == self.team[2])
+
+        self.team[0] = self.spawner.spawn(2)
+        for _ in range(20):
+            unit = self.team.random_unit()
+            self.assertTrue(unit is not None)
+
+        self.team.acting = 0
+        for _ in range(20):
+            unit = self.team.random_unit()
+            self.assertTrue(unit == self.team[2] or unit == self.team[3] or unit == self.team[0])
+
+        self.team[1] = self.spawner.spawn(3)
+        self.team[4] = self.spawner.spawn(2)
+
+        for _ in range(20):
+            unit = self.team.random_unit()
+            self.assertTrue(unit in self.team.animals)
 
     def test_random_units(self):
         # TODO
