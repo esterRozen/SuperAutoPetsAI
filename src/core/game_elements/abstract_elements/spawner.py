@@ -7,7 +7,16 @@ from . import Animal, Equipment
 
 # outputs a random animal given a range of tiers
 class Spawner:
-    def __init__(self, mode):
+    def __init__(self, mode: str):
+        """
+        supports flags:
+            "base pack"
+            "base pack items"
+            "paid pack 1"
+            "paid pack 1 items"
+        Args:
+            mode: flag
+        """
         self._mode = mode
         self._population = []
         if mode == "base pack" or mode == "paid pack 1":
