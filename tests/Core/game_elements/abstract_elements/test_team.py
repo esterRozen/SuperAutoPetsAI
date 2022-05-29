@@ -313,8 +313,34 @@ class TestTeam(TestCase):
             self.assertTrue(friend == self.team[2] or friend == self.team[3])
 
     def test_random_friends(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        self.team[2] = self.spawner.spawn(5)
+        self.team.acting = 2
+        friends = self.team.random_friends(1)
+        self.assertTrue(friends is None)
+
+        self.team[3] = self.spawner.spawn(1)
+        friends = self.team.random_friends(1)
+        self.assertTrue(self.team[3] == friends[0])
+
+        self.team[4] = self.spawner.spawn(3)
+        self.team[0] = self.spawner.spawn(4)
+        for _ in range(10):
+            friends = self.team.random_friends(2)
+
+            for friend in friends:
+                self.assertTrue(friend != self.team[2])
+                self.assertTrue(friend in self.team.animals)
+                self.assertTrue(not isinstance(friend, Empty))
+
+        self.team.acting = 0
+        for _ in range(10):
+            friends = self.team.random_friends(2)
+
+            for friend in friends:
+                self.assertTrue(friend != self.team[0])
+                self.assertTrue(friend in self.team.animals)
+                self.assertTrue(not isinstance(friend, Empty))
 
     def test_random_unit(self):
         self.clean_start()
@@ -348,17 +374,190 @@ class TestTeam(TestCase):
             self.assertTrue(unit in self.team.animals)
 
     def test_random_units(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        units = self.team.random_units(2)
+        self.assertTrue(units is None)
+
+        self.team[3] = self.spawner.spawn(3)
+        self.team[2] = self.spawner.spawn(5)
+        units = self.team.random_units(2)
+
+        self.assertTrue(self.team[2] in units)
+        self.assertTrue(self.team[3] in units)
+        self.assertTrue(len(units) == 2)
+
+        self.team[0] = self.spawner.spawn(4)
+        units = self.team.random_units(2)
+        animals = [self.team[0], self.team[2], self.team[3]]
+        for unit in units:
+            self.assertTrue(unit in animals)
+            self.assertTrue(unit is not None)
+
+        self.team[1] = self.spawner.spawn(6)
+        self.team[4] = self.spawner.spawn(4)
+
+        units = self.team.random_units(4)
+        for unit in units:
+            self.assertTrue(unit in self.team.animals)
+            self.assertTrue(unit is not None)
+
+        units = self.team.random_units(5)
+        for unit in units:
+            self.assertTrue(unit in self.team.animals)
+            self.assertTrue(unit is not None)
 
     def test_random_units_idx(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        units = self.team.random_units_idx(2)
+        self.assertTrue(units is None)
+
+        self.team[3] = self.spawner.spawn(3)
+        self.team[2] = self.spawner.spawn(5)
+        units = self.team.random_units_idx(2)
+
+        self.assertTrue(2 in units, "guaranteed present by picking 2 of 2")
+        self.assertTrue(3 in units, "guaranteed present")
+        self.assertTrue(len(units) == 2)
+
+        self.team[0] = self.spawner.spawn(4)
+        units = self.team.random_units_idx(2)
+        animals = [0, 2, 3]
+        for unit in units:
+            self.assertTrue(unit in animals)
+            self.assertTrue(unit is not None)
+
+        self.team[1] = self.spawner.spawn(6)
+        self.team[4] = self.spawner.spawn(4)
+
+        units = self.team.random_units_idx(4)
+        units_seen = []
+        for unit in units:
+            self.assertTrue(unit not in units_seen)
+            units_seen.append(unit)
+            self.assertTrue(unit in list(range(5)))
+            self.assertTrue(unit is not None)
+
+        units = self.team.random_units_idx(5)
+        units_seen = []
+        for unit in units:
+            self.assertTrue(unit not in units_seen)
+            units_seen.append(unit)
+            self.assertTrue(unit in list(range(5)))
+            self.assertTrue(unit is not None)
 
     def test_ret_diff_tiers(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+        self.team[4] = self.spawner.spawn_tier(3)
+        self.team[2] = self.spawner.spawn_tier(3)
+        self.team[3] = self.spawner.spawn_tier(5)
+        self.team[1] = self.spawner.spawn_tier(1)
+        self.team[0] = self.spawner.spawn_tier(5)
+
+        units = self.team.ret_diff_tiers()
+        animals = [self.team[4], self.team[3], self.team[1]]
+        for unit in units:
+            self.assertTrue(unit in animals)
+            self.assertTrue(unit is not None)
+        self.assertTrue(len(units) == 3)
+
+        self.team[2] = self.spawner.spawn_tier(4)
+
+        units = self.team.ret_diff_tiers()
+        animals = [self.team[4], self.team[3], self.team[2], self.team[1]]
+        for unit in units:
+            self.assertTrue(unit in animals)
+            self.assertTrue(unit is not None)
+        self.assertTrue(len(units) == 4)
+
+        self.clean_start()
+
+        units = self.team.ret_diff_tiers()
+        self.assertTrue(units is None)
+
+        self.team[4] = self.spawner.spawn_tier(4)
+        units = self.team.ret_diff_tiers()
+        self.assertTrue(units[0] == self.team[4])
 
     def test_summon(self):
-        # TODO
-        self.fail()
+        self.clean_start()
+
+        first = self.spawner.spawn(4)
+        self.team[0] = first
+
+        second = self.spawner.spawn(5)
+        self.team.summon(second, 0)
+        self.assertTrue(self.team[0] == second)
+        self.assertTrue(self.team[1] == first)
+        self.assertTrue(isinstance(self.team[2], Empty))
+        self.assertTrue(isinstance(self.team[3], Empty))
+        self.assertTrue(isinstance(self.team[4], Empty))
+
+        third = self.spawner.spawn(6)
+        self.team.summon(third, 3)
+        self.assertTrue(self.team[0] == second)
+        self.assertTrue(self.team[1] == first)
+        self.assertTrue(isinstance(self.team[2], Empty))
+        self.assertTrue(self.team[3] == third)
+        self.assertTrue(isinstance(self.team[4], Empty))
+
+        fourth = self.spawner.spawn(3)
+        self.team.summon(fourth, 0)
+        self.assertTrue(self.team[0] == fourth)
+        self.assertTrue(self.team[1] == second)
+        self.assertTrue(self.team[2] == first)
+        self.assertTrue(self.team[3] == third)
+        self.assertTrue(isinstance(self.team[4], Empty))
+
+        fifth = self.spawner.spawn(2)
+        self.team.summon(fifth, 3)
+        self.assertTrue(self.team[0] == fourth)
+        self.assertTrue(self.team[1] == second)
+        self.assertTrue(self.team[2] == first)
+        self.assertTrue(self.team[3] == fifth)
+        self.assertTrue(self.team[4] == third)
+
+        sixth = self.spawner.spawn(1)
+        self.team.summon(sixth, 1)
+        self.assertTrue(self.team[0] == fourth)
+        self.assertTrue(self.team[1] == second)
+        self.assertTrue(self.team[2] == first)
+        self.assertTrue(self.team[3] == fifth)
+        self.assertTrue(self.team[4] == third)
+
+    def test_units(self):
+        self.clean_start()
+        units = self.team.units()
+        self.assertTrue(units is None)
+
+        self.team[3] = self.spawner.spawn(4)
+        units = self.team.units()
+        self.assertTrue(units[0] == self.team[3])
+        self.assertTrue(units[0] is not None)
+
+        self.team[4] = self.spawner.spawn(5)
+        units = self.team.units()
+        animals = [3, 4]
+        for i, unit in enumerate(units):
+            self.assertTrue(unit == self.team[animals[i]])
+            self.assertTrue(unit is not None)
+
+        self.team[1] = self.spawner.spawn(2)
+        animals = [1, 3, 4]
+        units = self.team.units()
+        for i, unit in enumerate(units):
+            self.assertTrue(unit == self.team[animals[i]])
+            self.assertTrue(unit is not None)
+
+        self.team[2] = self.spawner.spawn(4)
+        animals = [1, 2, 3, 4]
+        units = self.team.units()
+        for i, unit in enumerate(units):
+            self.assertTrue(unit == self.team[animals[i]])
+            self.assertTrue(unit is not None)
+
+        self.team[0] = self.spawner.spawn(6)
+        animals = list(range(5))
+        units = self.team.units()
+        for i, unit in enumerate(units):
+            self.assertTrue(unit == self.team[animals[i]])
+            self.assertTrue(unit is not None)
