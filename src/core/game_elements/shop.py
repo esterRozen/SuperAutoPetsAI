@@ -5,6 +5,15 @@ from .abstract_elements import *
 
 class Shop:
     def __init__(self, mode: str, turn: int):
+        """
+        supports flags:
+            "base pack"
+            "paid pack 1"
+        Args:
+            mode: flag
+            turn: turn number to initialize at
+        """
+
         self._turn = turn
         self._mode = mode
 
