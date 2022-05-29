@@ -100,6 +100,26 @@ class MessageAgent(BaseAgent):
                eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
                ]
 
+        # self.functions = {}
+        #
+        # for group in objs:
+        #     members = inspect.getmembers(group)
+        #     for member in members:
+        #         if isinstance(member[1], FunctionType):
+        #             # have to get member id!!
+        #             anim_id = find_name_id(_animals, member[0])
+        #             if anim_id != -1:
+        #                 self.functions[anim_id] = member[1]
+
+    @property
+    def acting_team(self):
+        if self.event_raiser[0] == "team":
+            return self.team
+        elif self.event_raiser[0] == "enemy":
+            return self.enemy
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
+
     def sorted_team(self, team=None):
         # for unit in roster sorted by descending attack, then decreasing index
         if team == "team" or team is None:
@@ -143,6 +163,15 @@ class MessageAgent(BaseAgent):
                     out += [animal]
             return out
         raise ValueError(f"self.event_raiser should not contain {actor[0]}")
+
+    @property
+    def team_opposing_event_raiser(self):
+        if self.event_raiser[0] == "team":
+            return self.enemy
+        elif self.event_raiser[0] == "enemy":
+            return self.team
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
 
     @staticmethod
     def load(state: State) -> 'BaseAgent':
