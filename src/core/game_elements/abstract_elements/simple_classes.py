@@ -1,6 +1,5 @@
-# noinspection PyUnusedLocal
 import copy
-from typing import Tuple, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ...overseer import MessageAgent
@@ -92,8 +91,14 @@ class Animal:
 
 
 class Empty(Animal):
+    rollable = False
+    cost = 0
+
     def __init__(self):
         super(Empty, self).__init__(0, 0)
+
+    def __eq__(self, other):
+        return isinstance(other, Empty)
 
     def permanent_buff(self, atk: int, hp: int):
         return self
