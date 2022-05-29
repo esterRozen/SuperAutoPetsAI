@@ -1,5 +1,5 @@
 import itertools
-from typing import List, Callable
+from typing import List, Callable, Tuple
 
 from .state import State
 from .baseagent import BaseAgent
@@ -100,62 +100,49 @@ class MessageAgent(BaseAgent):
                eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
                ]
 
-    @property
     def sorted_team(self, team=None):
-        # for unit in roster sorted by descending attack, then increasing index
-        if team == "team" or self.event_raiser[0] == "team":
+        # for unit in roster sorted by descending attack, then decreasing index
+        if team == "team" or team is None:
             roster = self.team.animals
-        elif team == "enemy" or self.event_raiser[0] == "enemy":
+        elif team == "enemy":
             roster = self.enemy.animals
         elif team == "both":
             # interleaved units to maintain left/right ordering for enemies and friendlies
             roster = list(itertools.chain(*zip(self.team.animals, self.enemy.animals)))
         else:
             raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
+
         units_sorted = sorted(
-                roster,
-                key=lambda animal: (-1 * animal.atk, roster.index(animal)),
-                reverse=False)
+            roster,
+            key=lambda animal: (animal.atk, roster.index(animal)),
+            reverse=True)
         return units_sorted
 
-    @property
-    def sorted_without_raiser(self):
-        sorted_team = self.sorted_team
-        if self.event_raiser[0] == "team":
-            sorted_team.remove(self.team.animals[self.event_raiser[1]])
+    def sorted_without_(self, actor: Tuple[str, int]):
+        sorted_team = self.sorted_team(actor[0])
+        if actor[0] == "team":
+            sorted_team.remove(self.team.animals[actor[1]])
             return sorted_team
-        elif self.event_raiser[0] == "enemy":
-            sorted_team.remove(self.enemy.animals[self.event_raiser[1]])
+        elif actor[0] == "enemy":
+            sorted_team.remove(self.enemy.animals[actor[1]])
             return sorted_team
-        raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
+        raise ValueError(f"self.event_raiser should not contain {actor[0]}")
 
-    @property
-    def sorted_without_target(self):
-        sorted_team = self.sorted_team
-        if self.target[0] == "team":
-            sorted_team.remove(self.team.animals[self.target[1]])
-            return sorted_team
-        elif self.target[0] == "enemy":
-            sorted_team.remove(self.enemy.animals[self.target[1]])
-            return sorted_team
-        raise ValueError(f"self.target should not contain {self.target[0]}")
-
-    @property
-    def sorted_units_behind_raiser(self):
-        sorted_team = self.sorted_team
-        if self.event_raiser[0] == "team":
+    def sorted_units_behind_(self, actor: Tuple[str, int]):
+        sorted_team = self.sorted_team(actor[0])
+        if actor[0] == "team":
             out = []
             for animal in range(len(sorted_team)):
-                if self.team.animals.index(animal) > self.event_raiser[1]:
+                if self.team.animals.index(animal) > actor[1]:
                     out += [animal]
             return out
-        elif self.event_raiser[0] == "enemy":
+        elif actor[0] == "enemy":
             out = []
             for animal in range(len(sorted_team)):
-                if self.enemy.animals.index(animal) > self.event_raiser[1]:
+                if self.enemy.animals.index(animal) > actor[1]:
                     out += [animal]
             return out
-        raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
+        raise ValueError(f"self.event_raiser should not contain {actor[0]}")
 
     @staticmethod
     def load(state: State) -> 'BaseAgent':
@@ -178,53 +165,53 @@ class MessageAgent(BaseAgent):
 
         # handle event
         if message == BEFORE_ATTACK:
-            self.__EP.before_attack(self)
+            self.__EP.before_attack(self, self.event_raiser)
         elif message == BUY:
-            self.__EP.buy(self)
+            self.__EP.buy(self, self.event_raiser)
         elif message == BUY_FOOD:
             self.__EP.buy_food(self)
         elif message == BUY_T1_PET:
             self.__EP.buy_t1_pet(self)
         elif message == EAT_FOOD:
-            self.__EP.eat_food(self)
+            self.__EP.eat_food(self, self.event_raiser)
         elif message == ENEMY_ATTACKS:
-            self.__EP.enemy_attacks(self)
+            self.__EP.enemy_attacks(self, self.event_raiser)
         elif message == END_TURN:
             self.__EP.end_turn(self)
         elif message == FRIEND_AHEAD_ATTACKS:
-            self.__EP.friend_ahead_attacks(self)
+            self.__EP.friend_ahead_attacks(self, self.event_raiser)
         elif message == FRIEND_AHEAD_FAINTS:
-            self.__EP.friend_ahead_faints(self)
+            self.__EP.friend_ahead_faints(self, self.event_raiser)
         elif message == FRIEND_BOUGHT:
-            self.__EP.friend_bought(self)
+            self.__EP.friend_bought(self, self.event_raiser)
         elif message == FRIEND_EATS_FOOD:
-            self.__EP.friend_eats_food(self)
+            self.__EP.friend_eats_food(self, self.event_raiser)
         elif message == FRIEND_FAINTS:
-            self.__EP.friend_faints(self)
+            self.__EP.friend_faints(self, self.event_raiser)
         elif message == FRIEND_SOLD:
-            self.__EP.friend_sold(self)
+            self.__EP.friend_sold(self, self.event_raiser)
         elif message == FRIEND_SUMMONED_BATTLE:
-            self.__EP.friend_summoned_battle(self)
+            self.__EP.friend_summoned_battle(self, self.event_raiser)
         elif message == FRIEND_SUMMONED_SHOP:
-            self.__EP.friend_summoned_shop(self)
+            self.__EP.friend_summoned_shop(self, self.event_raiser)
         elif message == HURT:
-            self.__EP.hurt(self)
+            self.__EP.hurt(self, self.event_raiser)
         elif message == IS_SUMMONED:
-            self.__EP.is_summoned(self)
+            self.__EP.is_summoned(self, self.event_raiser)
         elif message == KNOCK_OUT:
-            self.__EP.knock_out(self)
+            self.__EP.knock_out(self, self.event_raiser)
         elif message == ON_FAINT:
-            self.__EP.on_faint(self)
+            self.__EP.on_faint(self, self.event_raiser)
         elif message == ON_LEVEL:
-            self.__EP.on_level(self)
+            self.__EP.on_level(self, self.event_raiser)
         elif message == SELL:
-            self.__EP.sell(self)
+            self.__EP.sell(self, self.event_raiser)
         elif message == START_BATTLE:
             self.__EP.start_battle(self)
         elif message == START_TURN:
             self.__EP.start_turn(self)
 
-            # sending messages like buy, sell, move, combine, start turn, end turn,
+        # sending messages like buy, sell, move, combine, start turn, end turn,
 
         # route to trigger processor, it will figure out which units to have
         # handle messages.
