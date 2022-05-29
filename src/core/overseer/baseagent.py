@@ -28,8 +28,9 @@ class BaseAgent:
         self.in_shop = True
 
         self.team_backup = None
-        # another message agent has the enemy as their own team
-        # maintains synchronization between the two
+
+        ################################################
+
         self.enemy = Team()
 
         self.shop = Shop(mode, 1)
@@ -101,6 +102,37 @@ class BaseAgent:
     def _nop(self):
         return
 
+    def ability(self, damage: int):
+        pass
+
+    def attack(self):
+        team_actor = self.event_raiser
+        enemy_actor = self.target
+
+        team_damage_taken = self.team_opposing_event_raiser.rightmost_unit.battle_atk
+        self.damage(team_damage_taken)
+
+        # need to swap to have other unit do damage to us
+        self.event_raiser = enemy_actor
+        self.target = team_actor
+
+        team_damage_taken = self.team_opposing_event_raiser.rightmost_unit.battle_atk
+        self.damage(team_damage_taken)
+        self._check_faint()
+
+        # swap back to check our faints. also fixes possible
+        # changes to the event raisers and targets
+        self.event_raiser = team_actor
+        self.target = team_actor
+        self._check_faint()
+
+    def _check_faint(self):
+        # check raising team's faints. may trigger knockout event
+        if self.acting_team[self.event_raiser[1]].battle_hp < 1:
+            self.faint()
+        else:
+            self.handle_event(HURT)
+
     def buff(self, unit: Union[List[Animal], Animal], atk, hp):
         if self.in_shop:
             if isinstance(unit, Animal):
@@ -117,39 +149,40 @@ class BaseAgent:
         return
 
     def damage(self, damage: int):
-        if self.event_raiser[0] == "team":
-            self.team.animals[self.event_raiser[1]].battle_hp -= damage
-            if self.team.animals[self.event_raiser[1]].battle_hp < 1:
-                self.faint()
-            else:
-                self.handle_event(HURT)
-        elif self.event_raiser[0] == "enemy":
-            self.team.animals[self.event_raiser[1]].battle_hp -= damage
-            if self.enemy.animals[self.event_raiser[1]].battle_hp < 1:
-                self.faint()
-            else:
-                self.handle_event(HURT)
+        self.acting_team[self.event_raiser[1]].battle_hp -= damage
 
     def faint(self):
-        # assume current event raiser is the one to faint!
-        # assume *target* is current unit to have attacked!
-        if self.event_raiser[0] == "team":
-            self.handle_event(ON_FAINT)
+        # faint the event raiser!
+        # target dealt the killing blow!
 
-            self.handle_event(FRIEND_AHEAD_FAINTS)
+        target = self.target
+        event_raiser = self.event_raiser
+        self.handle_event(ON_FAINT)
 
-            self.event_raiser = ("enemy", self.target[1])
-            self.handle_event(KNOCK_OUT)
-        elif self.event_raiser[0] == "enemy":
-            self.handle_event(ON_FAINT)
+        self.event_raiser = event_raiser
+        self.handle_event(FRIEND_AHEAD_FAINTS)
 
-            self.handle_event(FRIEND_AHEAD_FAINTS)
-
-            self.event_raiser = ("team", self.target[1])
+        if not self.in_shop:
+            self.event_raiser = target
             self.handle_event(KNOCK_OUT)
 
     def summon(self, unit: Animal):
         self.__battler.summon(unit)
 
+    @property
+    def acting_team(self):
+        if self.event_raiser[0] == "team":
+            return self.team
+        elif self.event_raiser[0] == "enemy":
+            return self.enemy
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
 
-Agent = BaseAgent
+    @property
+    def team_opposing_event_raiser(self):
+        if self.event_raiser[0] == "team":
+            return self.enemy
+        elif self.event_raiser[0] == "enemy":
+            return self.team
+        else:
+            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
