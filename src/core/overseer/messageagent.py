@@ -184,11 +184,8 @@ class MessageAgent(BaseAgent):
             self.target = target
 
         # handle event
-        if message == ABILITY:
-            pass
-        elif message == ATTACK:
+        if message == ATTACK:
             self.attack()
-            self.damage(self.event_raising_animal.battle_atk)
         elif message == BEFORE_ATTACK:
             self.__EP.before_attack(self, self.event_raiser)
         elif message == BUY:
@@ -255,6 +252,96 @@ class MessageAgent(BaseAgent):
     # incremented already
     # also assume that self.lvl is the level of the unit whose ability triggered
     # done for convenience, otherwise it's a pain...
+
+    def _check_faint(self) -> bool:
+        # check raising team's faints. may trigger knockout event
+        if self.acting_team[self.event_raiser[1]].battle_hp < 1:
+            self.faint()
+            return False
+        else:
+            return True
+
+    def attack(self):
+        team_actor = self.event_raiser
+        enemy_actor = self.target
+
+        enemy_damage_taken = self.acting_team.rightmost_unit.battle_atk
+        team_damage_taken = self.target_team.rightmost_unit.battle_atk
+
+        self.deal_attack_damage(enemy_damage_taken, "outgoing")
+
+        # need to swap to have other unit do damage to us
+        self.event_raiser = enemy_actor
+        self.target = team_actor
+        self.deal_attack_damage(team_damage_taken, "outgoing")
+        enemy_hurt = self._check_faint()
+
+        # swap back to check our faints. also fixes possible
+        # changes to the event raisers and targets
+        self.event_raiser = team_actor
+        self.target = enemy_actor
+        team_hurt = self._check_faint()
+
+        if team_hurt:
+            self.handle_event(HURT)
+        if enemy_hurt:
+            self.event_raiser = enemy_actor
+            self.target = team_actor
+            self.handle_event(HURT)
+            self.event_raiser = team_actor
+            self.target = enemy_actor
+
+    def deal_ability_damage_handle_hurt(self, damage: int):
+        damage = self.event_raising_animal.damage_modifier(self, damage, "ability")
+        damage = self.target_animal.damage_modifier(self, damage, "incoming")
+        self.target_animal.battle_hp -= damage
+
+        team_actor = self.event_raiser
+        enemy_actor = self.target
+        self.event_raiser = enemy_actor
+        self.target = team_actor
+        enemy_is_hurt = self._check_faint()
+        if enemy_is_hurt:
+            self.handle_event(HURT)
+        self.event_raiser = team_actor
+        self.target = enemy_actor
+
+    def deal_attack_damage(self, damage: int, damage_type: str):
+        """
+        accounts for held items of attacker (event raiser) and attackee (target)
+        you must set attacker and attackee beforehand
+        does not call any events
+        Args:
+            damage_type: flag for kind of damage being dealt, used to check
+                        if damage changes with attacker's held item
+                            - "outgoing"
+                            - "ability"
+            damage: int
+        """
+        attacker = self.acting_team[self.event_raiser[1]]
+        damage = attacker.damage_modifier(self, damage, damage_type)
+        target = self.target_team[self.target[1]]
+        damage = target.damage_modifier(self, damage, "incoming")
+        target.battle_hp -= damage
+
+    def faint(self):
+        # faint the event raiser!
+        # target dealt the killing blow!
+
+        target = self.target
+        event_raiser = self.event_raiser
+        self.handle_event(ON_FAINT)
+
+        self.handle_event(FRIEND_AHEAD_FAINTS)
+
+        if not self.in_shop:
+            # handle from perspective of unit which knocked unit out.
+            self.event_raiser = target
+            self.target = event_raiser
+            self.handle_event(KNOCK_OUT)
+
+        self.target = target
+        self.event_raiser = event_raiser
 
 
 if __name__ == '__main__':
