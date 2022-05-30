@@ -36,6 +36,17 @@ class Shop:
 
         self.fill_shop()
 
+    def __eq__(self, other: 'Shop') -> bool:
+        if type(other) != type(self):
+            return False
+        for key in other.__dict__:
+            if key in self.__dict__:
+                if self.__dict__[key] != other.__dict__[key]:
+                    return False
+            else:
+                return False
+        return True
+
     def __delitem__(self, key):
         self.roster[key].clear()
 
@@ -226,6 +237,17 @@ class ShopSlot:
         self.mode = mode
         self.spawner = Spawner(mode)
         self.item: Union[Animal, Equipment] = Empty()
+
+    def __eq__(self, other: 'ShopSlot') -> bool:
+        if type(other) != type(self):
+            return False
+        for key in other.__dict__:
+            if key in self.__dict__:
+                if self.__dict__[key] != other.__dict__[key]:
+                    return False
+            else:
+                return False
+        return True
 
     def __repr__(self):
         return f"[{self.is_frozen}, {self.item.__repr__()}]"

@@ -40,6 +40,17 @@ class Team:
         self.acting = 0
         # random.seed(1)
 
+    def __eq__(self, other: 'Team') -> bool:
+        if type(other) != type(self):
+            return False
+        for key in other.__dict__:
+            if key in self.__dict__:
+                if self.__dict__[key] != other.__dict__[key]:
+                    return False
+            else:
+                return False
+        return True
+
     def __delitem__(self, key):
         self.animals[key] = Empty()
 

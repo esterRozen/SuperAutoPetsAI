@@ -37,6 +37,9 @@ class Spawner:
                     if item.rollable:
                         self._population[-1].append(item)
 
+    def __eq__(self, other: 'Spawner') -> bool:
+        return self._mode == other._mode
+
     def spawn(self, max_tier) -> type(Union[Animal, Equipment]):
         return type(self.spawn_n(1, max_tier)[0])()
 
