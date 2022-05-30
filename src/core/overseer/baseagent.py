@@ -57,6 +57,15 @@ class BaseAgent:
             raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
 
     @property
+    def target_team(self):
+        if self.target[0] == "team":
+            return self.team
+        elif self.event_raiser[0] == "enemy":
+            return self.enemy
+        else:
+            raise ValueError(f"{self.target[0]} is not a valid team type")
+
+    @property
     def event_raising_animal(self) -> Animal:
         if self.event_raiser[0] == "team":
             return self.team.animals[self.event_raiser[1]]
