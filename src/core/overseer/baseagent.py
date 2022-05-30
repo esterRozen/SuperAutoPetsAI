@@ -5,7 +5,6 @@ from typing import List, Union, Tuple, Optional
 from .state import State
 from ..game_elements.abstract_elements import Animal, Team, Spawner
 from ..game_elements import Shop
-from ..eventnames import *
 from ..game_systems import BattleSystem, ShopSystem
 
 
@@ -131,37 +130,6 @@ class BaseAgent:
     def _nop(self):
         return
 
-    def ability(self, damage: int):
-        pass
-
-    def attack(self):
-        team_actor = self.event_raiser
-        enemy_actor = self.target
-
-        team_damage_taken = self.team_opposing_event_raiser.rightmost_unit.battle_atk
-        self.damage(team_damage_taken)
-
-        # need to swap to have other unit do damage to us
-        self.event_raiser = enemy_actor
-        self.target = team_actor
-
-        team_damage_taken = self.team_opposing_event_raiser.rightmost_unit.battle_atk
-        self.damage(team_damage_taken)
-        self._check_faint()
-
-        # swap back to check our faints. also fixes possible
-        # changes to the event raisers and targets
-        self.event_raiser = team_actor
-        self.target = team_actor
-        self._check_faint()
-
-    def _check_faint(self):
-        # check raising team's faints. may trigger knockout event
-        if self.acting_team[self.event_raiser[1]].battle_hp < 1:
-            self.faint()
-        else:
-            self.handle_event(HURT)
-
     def buff(self, unit: Union[List[Animal], Animal], atk, hp):
         if self.in_shop:
             if isinstance(unit, Animal):
@@ -176,24 +144,6 @@ class BaseAgent:
                 for animal in unit:
                     animal.temp_buff(atk, hp)
         return
-
-    def damage(self, damage: int):
-        self.acting_team[self.event_raiser[1]].battle_hp -= damage
-
-    def faint(self):
-        # faint the event raiser!
-        # target dealt the killing blow!
-
-        target = self.target
-        event_raiser = self.event_raiser
-        self.handle_event(ON_FAINT)
-
-        self.event_raiser = event_raiser
-        self.handle_event(FRIEND_AHEAD_FAINTS)
-
-        if not self.in_shop:
-            self.event_raiser = target
-            self.handle_event(KNOCK_OUT)
 
     def summon(self, unit: Animal):
         if self.in_shop:
