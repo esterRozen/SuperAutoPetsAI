@@ -103,12 +103,12 @@ class BaseAgent:
 
     # enables reset of team after a battle
     def store_backup(self):
-        self.team_backup = copy.deepcopy(self.team)
+        self._team_backup = copy.deepcopy(self.team)
 
     def load_backup(self):
-        if self.team_backup is not None:
-            self.team = copy.deepcopy(self.team_backup)
-            self.team_backup = None
+        if self._team_backup is not None:
+            self.team = self._team_backup
+            self._team_backup = None
 
     def set_battler(self, battle_system: BattleSystem):
         self.__battler = battle_system
