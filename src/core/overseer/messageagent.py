@@ -168,13 +168,12 @@ class MessageAgent(BaseAgent):
     @staticmethod
     def load(state: State) -> 'BaseAgent':
         agent = MessageAgent(state.mode)
-        agent.team = state.team
         agent.turn = state.turn
-        agent.gold = state.gold
         agent.life = state.life
+        agent.gold = state.gold
         agent.battle_lost = state.battle_lost
-        if state.shop is not None:
-            agent.shop = state.shop
+        agent.team = state.team
+        agent.shop = state.shop
         return agent
 
     def handle_event(self, message, event_raiser=None, target=None):
