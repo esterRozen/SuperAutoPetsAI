@@ -27,7 +27,7 @@ class BaseAgent:
         self.battle_lost = False
         self.in_shop = True
 
-        self.team_backup = None
+        self._team_backup = None
 
         ################################################
 
@@ -90,13 +90,15 @@ class BaseAgent:
         pass
 
     def save(self, include_shop: bool) -> State:
-        state = State(
-            self.__mode, self.turn, self.life, self.battle_lost,
-            self.team, gold=self.gold
-        )
-
         if include_shop:
-            state.shop = self.shop
+            state = State(
+                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team, self.shop
+            )
+        else:
+            state = State(
+                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team
+            )
+
         return state
 
     # enables reset of team after a battle
