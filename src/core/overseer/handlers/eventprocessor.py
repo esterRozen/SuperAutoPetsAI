@@ -6,6 +6,17 @@ if TYPE_CHECKING:
     from .. import MessageAgent
 
 
+def maintain_actors(func):
+    def wrapped_func(*args, **kwargs):
+        actor_init = args[0].event_raiser
+        target_init = args[0].target
+        func(*args, **kwargs)
+        args[0].event_raiser = actor_init
+        args[0].target = target_init
+
+    return wrapped_func
+
+
 def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
     if actor[0] == "team":
         roster = agent.team
@@ -16,6 +27,7 @@ def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
     return roster
 
 
+@maintain_actors
 def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
     roster = get_roster(agent, (team, 0))
     animals = agent.sorted_team(team)
@@ -29,6 +41,7 @@ def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
         agent.trigger_ability(operation)
 
 
+@maintain_actors
 def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
     animals = agent.sorted_team("both")
 
@@ -45,6 +58,7 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
         agent.trigger_ability(operation)
 
 
+@maintain_actors
 def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
     roster = get_roster(agent, actor)
     animals = agent.sorted_without_(actor)
@@ -59,6 +73,7 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, i
         agent.trigger_ability(operation)
 
 
+@maintain_actors
 def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
     roster = get_roster(agent, actor)
     animals = agent.sorted_units_behind_(actor)
@@ -73,6 +88,7 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
         agent.trigger_ability(operation)
 
 
+@maintain_actors
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
     team = get_roster(agent, actor)
     team.acting = actor[1]
