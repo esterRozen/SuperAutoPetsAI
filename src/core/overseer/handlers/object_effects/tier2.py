@@ -23,9 +23,9 @@ class Tier2:
     @staticmethod
     def dodo(agent: 'MessageAgent'):
         battle_atk = agent.event_raising_animal.battle_atk
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.acting_team.friend_ahead().battle_atk += battle_atk
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.acting_team.friend_ahead().battle_atk += 2 * battle_atk
         else:
             agent.acting_team.friend_ahead().battle_atk += 3 * battle_atk
@@ -37,9 +37,9 @@ class Tier2:
 
     @staticmethod
     def dromedary(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.shop.buff(1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.shop.buff(2, 2)
         else:
             agent.shop.buff(3, 3)
@@ -52,9 +52,9 @@ class Tier2:
     @staticmethod
     def flamingo(agent: 'MessageAgent'):
         friends = agent.acting_team.friends_behind(2)
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(friends, 1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(friends, 2, 2)
         else:
             agent.buff(friends, 3, 3)
@@ -67,9 +67,9 @@ class Tier2:
 
     @staticmethod
     def peacock(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.event_raising_animal.temp_buff(2, 0)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.event_raising_animal.temp_buff(4, 0)
         else:
             agent.event_raising_animal.temp_buff(6, 0)
@@ -79,15 +79,15 @@ class Tier2:
     def rat(agent: 'MessageAgent'):
         unit = Dirty_Rat()
         # TODO check the summon hp
-        unit.battle_atk = agent.lvl
-        unit.battle_hp = agent.lvl
+        unit.battle_atk = agent.event_raising_animal.level
+        unit.battle_hp = agent.event_raising_animal.level
         agent.enemy.summon(unit, 0)
 
     @staticmethod
     def shrimp(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.team.random_friend().temp_buff(0, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.team.random_friend().temp_buff(0, 2)
         else:
             agent.team.random_friend().temp_buff(0, 3)
@@ -112,18 +112,18 @@ class Tier2:
 
     @staticmethod
     def swan(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.gold += 1
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.gold += 2
         else:
             agent.gold += 3
 
     @staticmethod
     def tabby_cat(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             [friend.temp_buff(1, 0) for friend in agent.team.friends()]
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             [friend.temp_buff(2, 0) for friend in agent.team.friends()]
         else:
             [friend.temp_buff(3, 0) for friend in agent.team.friends()]

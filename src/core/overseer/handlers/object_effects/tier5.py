@@ -10,9 +10,9 @@ if TYPE_CHECKING:
 class Tier5:
     @staticmethod
     def chicken(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.shop.perm_buff(1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.shop.perm_buff(2, 2)
         else:
             agent.shop.perm_buff(3, 3)
@@ -43,8 +43,8 @@ class Tier5:
         unit: Animal = agent.shop[0].spawner.spawn_tier(3)
 
         # set stats with multiplier
-        unit.battle_atk *= agent.lvl
-        unit.battle_hp *= agent.lvl
+        unit.battle_atk *= agent.event_raising_animal.level
+        unit.battle_hp *= agent.event_raising_animal.level
 
         if agent.event_raising_animal.level == 1:
             unit.xp = 0
@@ -70,9 +70,9 @@ class Tier5:
     @staticmethod
     def monkey(agent: 'MessageAgent'):
         animal_to_buff = agent.team.rightmost_unit()
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(animal_to_buff, 2, 2)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(animal_to_buff, 4, 4)
         else:
             agent.buff(animal_to_buff, 6, 6)
@@ -95,27 +95,27 @@ class Tier5:
     @staticmethod
     def seal(agent: 'MessageAgent'):
         friends = agent.team.random_friends(2)
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(friends, 1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(friends, 2, 2)
         else:
             agent.buff(friends, 3, 3)
 
     @staticmethod
     def shark(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(agent.team.animals[agent.team.acting], 2, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(agent.team.animals[agent.team.acting], 4, 2)
         else:
             agent.buff(agent.team.animals[agent.team.acting], 6, 3)
 
     @staticmethod
     def turkey(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(agent.team.animals[agent.event_raiser], 3, 3)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(agent.team.animals[agent.event_raiser], 6, 6)
         else:
             agent.buff(agent.team.animals[agent.event_raiser], 9, 9)

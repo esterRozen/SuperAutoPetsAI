@@ -16,9 +16,9 @@ class Tier1:
         friend = agent.team.random_friend()
         if not friend:
             return
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.buff(friend, 2, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.buff(friend, 4, 2)
         else:
             agent.buff(friend, 6, 3)
@@ -29,18 +29,18 @@ class Tier1:
         friends = agent.team.random_friends(2)
         if not friends:
             return
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             [friend.permanent_buff(1, 0) for friend in friends]
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             [friend.permanent_buff(2, 0) for friend in friends]
         else:
             [friend.permanent_buff(3, 0) for friend in friends]
 
     @staticmethod
     def beetle(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.shop.buff(0, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.shop.buff(0, 2)
         else:
             agent.shop.buff(0, 3)
@@ -48,9 +48,9 @@ class Tier1:
     # give leftmost friend 1, 2, 3 atk
     @staticmethod
     def bluebird(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.team.leftmost_unit().permanent_buff(1, 0)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.team.leftmost_unit().permanent_buff(2, 0)
         else:
             agent.team.leftmost_unit().permanent_buff(3, 0)
@@ -59,15 +59,15 @@ class Tier1:
     @staticmethod
     def cricket(agent: 'MessageAgent'):
         unit = Zombie_Cricket()
-        unit.battle_atk = agent.lvl
-        unit.battle_hp = agent.lvl
+        unit.battle_atk = agent.event_raising_animal.level
+        unit.battle_hp = agent.event_raising_animal.level
         agent.team.summon(unit, agent.team.acting)
 
     @staticmethod
     def duck(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.shop.buff(1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.shop.buff(2, 2)
         else:
             agent.shop.buff(3, 3)
@@ -75,20 +75,20 @@ class Tier1:
     # on level give all friends +1/1, +2/2, X
     @staticmethod
     def fish(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             print("this shouldn't happen! fish lvl 1 trigger")
             return
-        if agent.lvl == 2:
+        if agent.event_raising_animal.level == 2:
             agent.buff(agent.team.friends(), 1, 1)
-        elif agent.lvl == 3:
+        elif agent.event_raising_animal.level == 3:
             agent.buff(agent.team.friends(), 2, 2)
 
     # friend summoned, give +1/2/3 atk until end of battle
     @staticmethod
     def horse(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.team.animals[agent.event_raiser].temp_buff(1, 0)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.team.animals[agent.event_raiser].temp_buff(2, 0)
         else:
             agent.team.animals[agent.event_raiser].temp_buff(3, 0)
@@ -96,9 +96,9 @@ class Tier1:
     # buy food, gain x/x until end of battle
     @staticmethod
     def ladybug(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.team.animals[agent.team.acting].temp_buff(1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.team.animals[agent.team.acting].temp_buff(2, 2)
         else:
             agent.team.animals[agent.team.acting].temp_buff(3, 3)
@@ -112,9 +112,9 @@ class Tier1:
     # buy, give a random friend +1/1, 2/2, 3/3
     @staticmethod
     def otter(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.team.random_friend().permanent_buff(1, 1)
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.team.random_friend().permanent_buff(2, 2)
         else:
             agent.team.random_friend().permanent_buff(3, 3)
@@ -122,9 +122,9 @@ class Tier1:
     # gain extra +1/2/3 gold on sell
     @staticmethod
     def pig(agent: 'MessageAgent'):
-        if agent.lvl == 1:
+        if agent.event_raising_animal.level == 1:
             agent.gold += 1
-        elif agent.lvl == 2:
+        elif agent.event_raising_animal.level == 2:
             agent.gold += 2
         else:
             agent.gold += 3
