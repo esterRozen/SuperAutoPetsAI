@@ -15,6 +15,7 @@ class BattleSystem:
             agent (MessageAgent):
         """
         self.__agent = agent
+        self.__agent.set_battler(self)
         self.__er: Tuple[str, int] = self.__agent.event_raiser
 
     def _set_er(self, event_raiser: Tuple[str, int]):

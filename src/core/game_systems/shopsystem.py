@@ -15,6 +15,7 @@ class ShopSystem:
 
         """
         self.__agent = agent
+        self.__agent.set_shopper(self)
 
     def start_turn(self):
         # load backup team into normal team
