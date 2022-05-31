@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ..eventnames import *
+from .. import eventnames
 from ..game_elements.abstract_elements import Empty, Unarmed, Equipment, Animal
 
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ class ShopSystem:
 
         # events
         # start turn
-        self.__agent.handle_event(START_TURN)
+        self.__agent.handle_event(eventnames.START_TURN)
 
         # shop flows
         self.__agent.shop.start_turn()
@@ -79,11 +79,11 @@ class ShopSystem:
 
         self.__agent.team.animals[target_pos] = item
 
-        self.__agent.handle_event(FRIEND_SUMMONED_SHOP)
-        self.__agent.handle_event(FRIEND_BOUGHT)
-        self.__agent.handle_event(BUY)
+        self.__agent.handle_event(eventnames.FRIEND_SUMMONED_SHOP)
+        self.__agent.handle_event(eventnames.FRIEND_BOUGHT)
+        self.__agent.handle_event(eventnames.BUY)
         if item.tier == 1:
-            self.__agent.handle_event(BUY_T1_PET)
+            self.__agent.handle_event(eventnames.BUY_T1_PET)
         return
 
     def __buy_to_same_response(self, shop_slot, target_pos: int):
@@ -96,10 +96,10 @@ class ShopSystem:
 
         target_unit.increase_xp(1)
 
-        self.__agent.handle_event(FRIEND_BOUGHT)
-        self.__agent.handle_event(BUY)
+        self.__agent.handle_event(eventnames.FRIEND_BOUGHT)
+        self.__agent.handle_event(eventnames.BUY)
         if item.tier == 1:
-            self.__agent.handle_event(BUY_T1_PET)
+            self.__agent.handle_event(eventnames.BUY_T1_PET)
         return
 
     def __buy_equipment_response(self, shop_slot, target_pos: int):
@@ -112,7 +112,7 @@ class ShopSystem:
             # handle consumable targeted food e.g. pear
             # trigger buy food ability for all units, if ability exists
             self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_event(BUY_FOOD)
+            self.__agent.handle_event(eventnames.BUY_FOOD)
 
             # perform food effects
             self.__agent.event_raiser = ("team", target_pos)
@@ -120,16 +120,16 @@ class ShopSystem:
 
             # trigger "eat food" ability of animal that ate, if ability exists
             self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_event(EAT_FOOD)
+            self.__agent.handle_event(eventnames.EAT_FOOD)
 
             # trigger "friend eats food" ability of friends, if ability exists
             self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_event(FRIEND_EATS_FOOD)
+            self.__agent.handle_event(eventnames.FRIEND_EATS_FOOD)
             return
         else:
             # handle non targeted food e.g. sushi
             self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_event(BUY_FOOD)
+            self.__agent.handle_event(eventnames.BUY_FOOD)
 
             # perform food effects
             self.__agent.event_raiser = ("team", target_pos)
@@ -144,11 +144,11 @@ class ShopSystem:
         self.__agent.gold -= animal.cost
         self.__agent.team.summon(animal, target_pos)
 
-        self.__agent.handle_event(FRIEND_SUMMONED_SHOP)
-        self.__agent.handle_event(FRIEND_BOUGHT)
-        self.__agent.handle_event(BUY)
+        self.__agent.handle_event(eventnames.FRIEND_SUMMONED_SHOP)
+        self.__agent.handle_event(eventnames.FRIEND_BOUGHT)
+        self.__agent.handle_event(eventnames.BUY)
         if animal.tier == 1:
-            self.__agent.handle_event(BUY_T1_PET)
+            self.__agent.handle_event(eventnames.BUY_T1_PET)
         return
 
     def summon(self, unit: Animal):
@@ -164,8 +164,8 @@ class ShopSystem:
         # set event raiser
         # handle sell event and friend sold event
         self.__agent.event_raiser = pos
-        self.__agent.handle_event(SELL)
-        self.__agent.handle_event(FRIEND_SOLD)
+        self.__agent.handle_event(eventnames.SELL)
+        self.__agent.handle_event(eventnames.FRIEND_SOLD)
 
         self.__agent.gold += 1
 
@@ -210,11 +210,11 @@ class ShopSystem:
             anim2.increase_xp(1)
             new_level = anim2.level
             if new_level - level == 1:
-                self.__agent.handle_event(ON_LEVEL)
+                self.__agent.handle_event(eventnames.ON_LEVEL)
             level = new_level
         team[roster_init] = Empty()
 
     def end_turn(self):
         # save backup effects are performed in start battle
         # complete end turn effects
-        self.__agent.handle_event(END_TURN)
+        self.__agent.handle_event(eventnames.END_TURN)

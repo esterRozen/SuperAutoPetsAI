@@ -1,7 +1,7 @@
 from typing import Tuple, TYPE_CHECKING
 
 from ..game_elements.abstract_elements import Team, Animal
-from ..eventnames import *
+from .. import eventnames
 
 if TYPE_CHECKING:
     from ..overseer import MessageAgent
@@ -38,25 +38,25 @@ class BattleSystem:
 
         # start battle trigger
         # handles start of battle for both teams
-        self._event(START_BATTLE)
+        self._event(eventnames.START_BATTLE)
 
         # loop: (interleave team and enemy events)
 
         # before attack (team)
         # before attack (enemy)
 
-        self._event(BEFORE_ATTACK, event_raiser=("team", 0))
-        self._event(BEFORE_ATTACK, event_raiser=("enemy", 0))
+        self._event(eventnames.BEFORE_ATTACK, event_raiser=("team", 0))
+        self._event(eventnames.BEFORE_ATTACK, event_raiser=("enemy", 0))
 
         # attack (team)
         # attack (enemy)
-        self._event(ATTACK, event_raiser=("team", 0), target=("enemy", 0))
-        self._event(ATTACK, event_raiser=("enemy", 0), target=("team", 0))
+        self._event(eventnames.ATTACK, event_raiser=("team", 0), target=("enemy", 0))
+        self._event(eventnames.ATTACK, event_raiser=("enemy", 0), target=("team", 0))
         # friend ahead attacks (team)
         # friend ahead attacks (enemy)
 
-        self._event(FRIEND_AHEAD_ATTACKS, event_raiser=("team", 0))
-        self._event(FRIEND_AHEAD_ATTACKS, event_raiser=("enemy", 0))
+        self._event(eventnames.FRIEND_AHEAD_ATTACKS, event_raiser=("team", 0))
+        self._event(eventnames.FRIEND_AHEAD_ATTACKS, event_raiser=("enemy", 0))
 
         # if team unit still above 0 hp:
         # hurt
@@ -65,14 +65,14 @@ class BattleSystem:
         # hurt (enemy)
 
         self.__er = ("team", 0)
-        self.__agent.handle_event(FRIEND_AHEAD_ATTACKS)
+        self.__agent.handle_event(eventnames.FRIEND_AHEAD_ATTACKS)
         self.__er = ("enemy", 0)
-        self.__agent.handle_event(FRIEND_AHEAD_ATTACKS)
+        self.__agent.handle_event(eventnames.FRIEND_AHEAD_ATTACKS)
 
         self.__er = ("enemy", 0)
-        self.__agent.handle_event(ENEMY_ATTACKS)
+        self.__agent.handle_event(eventnames.ENEMY_ATTACKS)
         self.__er = ("team", 0)
-        self.__agent.handle_event(ENEMY_ATTACKS)
+        self.__agent.handle_event(eventnames.ENEMY_ATTACKS)
 
         # if team unit not above 0 hp:
         # on faint (team)

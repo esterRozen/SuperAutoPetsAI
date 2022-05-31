@@ -1,6 +1,6 @@
 from typing import Union, Tuple, List
 
-from .abstract_elements import *
+from . import abstract_elements as ae
 
 
 class Shop:
@@ -65,21 +65,22 @@ class Shop:
         rep += ")]"
         return rep
 
-    def __setitem__(self, key: int, value: Union[Animal, Equipment]):
+    def __setitem__(self, key: int, value: Union[ae.Animal, ae.Equipment]):
         self.roster[key].item = value
 
     @property
     def size(self):
         j = 0
         for slot in self.roster:
-            if not isinstance(slot.item, Empty) and not isinstance(slot.item, Unarmed):
+            if not isinstance(slot.item, ae.Empty) \
+                    and not isinstance(slot.item, ae.Unarmed):
                 j += 1
         return j
 
     def buff(self, atk, hp):
         # only for animals in current shop
         for shop_slot in self.roster:
-            if isinstance(shop_slot.item, Animal):
+            if isinstance(shop_slot.item, ae.Animal):
                 shop_slot.item.permanent_buff(atk, hp)
 
     def start_turn(self):
@@ -109,10 +110,10 @@ class Shop:
             i = 0
             idx_found = False
             while i < 7 and not idx_found:
-                if isinstance(self.roster[i].item, Empty):
+                if isinstance(self.roster[i].item, ae.Empty):
                     idx_found = True
                 elif not isinstance(self.roster[i], AnimalShopSlot):
-                    if isinstance(self.roster[i].item, Unarmed):
+                    if isinstance(self.roster[i].item, ae.Unarmed):
                         idx_found = True
                     else:
                         i += 1
@@ -145,11 +146,11 @@ class Shop:
         animals = []
         items = []
         for shop_slot in self.roster:
-            if isinstance(shop_slot.item, Animal) and not isinstance(shop_slot.item, Empty):
+            if isinstance(shop_slot.item, ae.Animal) and not isinstance(shop_slot.item, ae.Empty):
                 animals.append(shop_slot.item)
                 shop_slot.clear()
                 shop_slot.toggle_freeze()
-            if isinstance(shop_slot.item, Equipment) and not isinstance(shop_slot.item, Unarmed):
+            if isinstance(shop_slot.item, ae.Equipment) and not isinstance(shop_slot.item, ae.Unarmed):
                 items.append(shop_slot.item)
                 shop_slot.clear()
                 shop_slot.toggle_freeze()
@@ -177,7 +178,7 @@ class Shop:
         :return:
         """
         for slot in self.roster:
-            if isinstance(slot.item, Empty) or isinstance(slot.item, Unarmed):
+            if isinstance(slot.item, ae.Empty) or isinstance(slot.item, ae.Unarmed):
                 slot.spawn(self.tier)
 
     def upgrade_shop(self, turn):
@@ -235,8 +236,8 @@ class ShopSlot:
 
     def __init__(self, mode):
         self.mode = mode
-        self.spawner = Spawner(mode)
-        self.item: Union[Animal, Equipment] = Empty()
+        self.spawner = ae.Spawner(mode)
+        self.item: Union[ae.Animal, ae.Equipment] = ae.Empty()
 
     def __eq__(self, other: 'ShopSlot') -> bool:
         if type(other) != type(self):
@@ -253,7 +254,7 @@ class ShopSlot:
         return f"[{self.is_frozen}, {self.item.__repr__()}]"
 
     def clear(self):
-        self.item = Unarmed()
+        self.item = ae.Unarmed()
         return
 
     def toggle_freeze(self):
@@ -261,9 +262,9 @@ class ShopSlot:
             return
         self.is_frozen = not self.is_frozen
 
-    def buy(self) -> Union[Animal, Equipment]:
+    def buy(self) -> Union[ae.Animal, ae.Equipment]:
         item = self.item
-        self.item = Empty()
+        self.item = ae.Empty()
         self.is_frozen = False
         return item
 
@@ -285,7 +286,7 @@ class AnimalShopSlot(ShopSlot):
         super(AnimalShopSlot, self).__init__(mode)
 
     def clear(self):
-        self.item = Empty()
+        self.item = ae.Empty()
         return
 
     def spawn(self, max_tier):
