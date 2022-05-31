@@ -1,7 +1,6 @@
 from typing import Tuple, Optional, Union
 from src.core import Engine
 
-
 __all__ = ['EngineAPI']
 
 
@@ -11,4 +10,3 @@ class EngineAPI:
 
     def process_commands(self, command):
         pass
-
