@@ -189,7 +189,29 @@ class ShopSystem:
         pass
 
     def combine(self, roster_init, roster_final):
-        pass
+        # final unit keeps held item
+        # choose max of each of both units stats, increase final unit xp by init unit xp
+
+        # guard clause should be same animal type
+        team = self.__agent.team
+        if not isinstance(team[roster_init], type(team[roster_final])):
+            return
+
+        anim1 = team[roster_init]
+        anim2 = team[roster_final]
+        anim1.atk = max(anim1.atk, anim2.atk)
+        anim1.battle_atk = max(anim1.battle_atk, anim2.battle_atk)
+        anim1.hp = max(anim1.hp, anim2.hp)
+        anim1.battle_hp = max(anim1.battle_hp, anim2.battle_hp)
+
+        level = anim2.level
+        for _ in anim1.xp:
+            anim2.increase_xp(1)
+            new_level = anim2.level
+            if new_level - level == 1:
+                self.__agent.handle_event(ON_LEVEL)
+            level = new_level
+        team[roster_init] = Empty()
 
     def end_turn(self):
         # save backup effects are performed in start battle
