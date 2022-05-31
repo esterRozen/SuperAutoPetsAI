@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-import src.core.game_elements.game_objects.animals.tier_4 as tier_4
+from src.core.game_elements.game_objects.animals import tier_4
+from src.core import eventnames
 
 
 class TestBison(TestCase):
@@ -8,7 +9,7 @@ class TestBison(TestCase):
         anim = tier_4.Bison()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 4)
-        self.assertTrue(anim.id == anim.trigger(tier_4.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestBuffalo(TestCase):
@@ -16,7 +17,7 @@ class TestBuffalo(TestCase):
         anim = tier_4.Buffalo()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 4)
-        self.assertTrue(anim.id == anim.trigger(tier_4.FRIEND_BOUGHT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_BOUGHT))
 
 
 class TestButterfly(TestCase):
@@ -24,7 +25,7 @@ class TestButterfly(TestCase):
         anim = tier_4.Butterfly()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_4.IS_SUMMONED))
+        self.assertTrue(anim.id == anim.trigger(eventnames.IS_SUMMONED))
 
 
 class TestCaterpillar(TestCase):
@@ -32,10 +33,10 @@ class TestCaterpillar(TestCase):
         anim = tier_4.Caterpillar()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_TURN))
-        self.assertFalse(anim.id == anim.trigger(tier_4.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_TURN))
+        self.assertFalse(anim.id == anim.trigger(eventnames.START_BATTLE))
         anim.xp = 5
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestDeer(TestCase):
@@ -43,7 +44,7 @@ class TestDeer(TestCase):
         anim = tier_4.Deer()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_4.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestDolphin(TestCase):
@@ -51,7 +52,7 @@ class TestDolphin(TestCase):
         anim = tier_4.Dolphin()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 6)
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestHippo(TestCase):
@@ -59,7 +60,7 @@ class TestHippo(TestCase):
         anim = tier_4.Hippo()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 7)
-        self.assertTrue(anim.id == anim.trigger(tier_4.KNOCK_OUT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.KNOCK_OUT))
 
 
 class TestLlama(TestCase):
@@ -67,7 +68,7 @@ class TestLlama(TestCase):
         anim = tier_4.Llama()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 6)
-        self.assertTrue(anim.id == anim.trigger(tier_4.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestLobster(TestCase):
@@ -75,8 +76,8 @@ class TestLobster(TestCase):
         anim = tier_4.Lobster()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 5)
-        self.assertTrue(anim.id == anim.trigger(tier_4.FRIEND_SUMMONED_SHOP))
-        self.assertFalse(anim.id == anim.trigger(tier_4.FRIEND_SUMMONED_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_SUMMONED_SHOP))
+        self.assertFalse(anim.id == anim.trigger(eventnames.FRIEND_SUMMONED_BATTLE))
 
 
 class TestMicrobe(TestCase):
@@ -84,7 +85,7 @@ class TestMicrobe(TestCase):
         anim = tier_4.Microbe()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_4.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestParrot(TestCase):
@@ -92,7 +93,7 @@ class TestParrot(TestCase):
         anim = tier_4.Parrot()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_4.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestPenguin(TestCase):
@@ -100,7 +101,7 @@ class TestPenguin(TestCase):
         anim = tier_4.Penguin()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_4.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestRooster(TestCase):
@@ -108,7 +109,7 @@ class TestRooster(TestCase):
         anim = tier_4.Rooster()
         self.assertTrue(anim.atk == 5)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(tier_4.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestSkunk(TestCase):
@@ -116,7 +117,7 @@ class TestSkunk(TestCase):
         anim = tier_4.Skunk()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 5)
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestSquirrel(TestCase):
@@ -124,7 +125,7 @@ class TestSquirrel(TestCase):
         anim = tier_4.Squirrel()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 5)
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_TURN))
 
 
 class TestWhale(TestCase):
@@ -132,7 +133,7 @@ class TestWhale(TestCase):
         anim = tier_4.Whale()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 8)
-        self.assertTrue(anim.id == anim.trigger(tier_4.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestWorm(TestCase):
@@ -140,4 +141,4 @@ class TestWorm(TestCase):
         anim = tier_4.Worm()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(tier_4.EAT_FOOD))
+        self.assertTrue(anim.id == anim.trigger(eventnames.EAT_FOOD))

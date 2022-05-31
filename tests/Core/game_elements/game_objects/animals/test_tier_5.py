@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-import src.core.game_elements.game_objects.animals.tier_5 as tier_5
+from src.core.game_elements.game_objects.animals import tier_5
+from src.core import eventnames
 
 
 class TestChicken(TestCase):
@@ -8,7 +9,7 @@ class TestChicken(TestCase):
         anim = tier_5.Chicken()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_5.BUY_T1_PET))
+        self.assertTrue(anim.id == anim.trigger(eventnames.BUY_T1_PET))
 
 
 class TestCow(TestCase):
@@ -16,7 +17,7 @@ class TestCow(TestCase):
         anim = tier_5.Cow()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 6)
-        self.assertTrue(anim.id == anim.trigger(tier_5.BUY))
+        self.assertTrue(anim.id == anim.trigger(eventnames.BUY))
 
 
 class TestCrocodile(TestCase):
@@ -24,7 +25,7 @@ class TestCrocodile(TestCase):
         anim = tier_5.Crocodile()
         self.assertTrue(anim.atk == 8)
         self.assertTrue(anim.hp == 4)
-        self.assertTrue(anim.id == anim.trigger(tier_5.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestEagle(TestCase):
@@ -32,7 +33,7 @@ class TestEagle(TestCase):
         anim = tier_5.Eagle()
         self.assertTrue(anim.atk == 6)
         self.assertTrue(anim.hp == 5)
-        self.assertTrue(anim.id == anim.trigger(tier_5.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestGoat(TestCase):
@@ -40,7 +41,7 @@ class TestGoat(TestCase):
         anim = tier_5.Goat()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 6)
-        self.assertTrue(anim.id == anim.trigger(tier_5.FRIEND_BOUGHT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_BOUGHT))
 
 
 class TestMonkey(TestCase):
@@ -48,7 +49,7 @@ class TestMonkey(TestCase):
         anim = tier_5.Monkey()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_5.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestPoodle(TestCase):
@@ -56,7 +57,7 @@ class TestPoodle(TestCase):
         anim = tier_5.Poodle()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_5.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestRhino(TestCase):
@@ -64,7 +65,7 @@ class TestRhino(TestCase):
         anim = tier_5.Rhino()
         self.assertTrue(anim.atk == 5)
         self.assertTrue(anim.hp == 8)
-        self.assertTrue(anim.id == anim.trigger(tier_5.KNOCK_OUT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.KNOCK_OUT))
 
 
 class TestScorpion(TestCase):
@@ -72,7 +73,7 @@ class TestScorpion(TestCase):
         anim = tier_5.Scorpion()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_5.IS_SUMMONED))
+        self.assertTrue(anim.id == anim.trigger(eventnames.IS_SUMMONED))
 
 
 class TestSeal(TestCase):
@@ -80,7 +81,7 @@ class TestSeal(TestCase):
         anim = tier_5.Seal()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 8)
-        self.assertTrue(anim.id == anim.trigger(tier_5.EAT_FOOD))
+        self.assertTrue(anim.id == anim.trigger(eventnames.EAT_FOOD))
 
 
 class TestShark(TestCase):
@@ -88,7 +89,7 @@ class TestShark(TestCase):
         anim = tier_5.Shark()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 4)
-        self.assertTrue(anim.id == anim.trigger(tier_5.FRIEND_FAINTS))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_FAINTS))
 
 
 class TestTurkey(TestCase):
@@ -96,5 +97,5 @@ class TestTurkey(TestCase):
         anim = tier_5.Turkey()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 4)
-        self.assertTrue(anim.id == anim.trigger(tier_5.FRIEND_SUMMONED_BATTLE))
-        self.assertTrue(anim.id == anim.trigger(tier_5.FRIEND_SUMMONED_SHOP))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_SUMMONED_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_SUMMONED_SHOP))

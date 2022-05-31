@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-import src.core.game_elements.game_objects.animals.tier_1 as tier_1
+from src.core.game_elements.game_objects.animals import tier_1
+from src.core import eventnames
 
 
 class TestAnt(TestCase):
@@ -8,7 +9,7 @@ class TestAnt(TestCase):
         anim = tier_1.Ant()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_1.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestBeaver(TestCase):
@@ -16,7 +17,7 @@ class TestBeaver(TestCase):
         anim = tier_1.Beaver()
         self.assertTrue(anim.atk == 3)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_1.SELL))
+        self.assertTrue(anim.id == anim.trigger(eventnames.SELL))
 
 
 class TestBee(TestCase):
@@ -31,7 +32,7 @@ class TestBeetle(TestCase):
         anim = tier_1.Beetle()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(tier_1.EAT_FOOD))
+        self.assertTrue(anim.id == anim.trigger(eventnames.EAT_FOOD))
 
 
 class TestBluebird(TestCase):
@@ -39,7 +40,7 @@ class TestBluebird(TestCase):
         anim = tier_1.Bluebird()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_1.END_TURN))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestCricket(TestCase):
@@ -47,7 +48,7 @@ class TestCricket(TestCase):
         anim = tier_1.Cricket()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_1.ON_FAINT))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_FAINT))
 
 
 class TestDuck(TestCase):
@@ -55,7 +56,7 @@ class TestDuck(TestCase):
         anim = tier_1.Duck()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(tier_1.SELL))
+        self.assertTrue(anim.id == anim.trigger(eventnames.SELL))
 
 
 class TestFish(TestCase):
@@ -63,7 +64,7 @@ class TestFish(TestCase):
         anim = tier_1.Fish()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_1.ON_LEVEL))
+        self.assertTrue(anim.id == anim.trigger(eventnames.ON_LEVEL))
 
 
 class TestHorse(TestCase):
@@ -71,7 +72,7 @@ class TestHorse(TestCase):
         anim = tier_1.Horse()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 1)
-        self.assertTrue(anim.id == anim.trigger(tier_1.FRIEND_SUMMONED_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_SUMMONED_BATTLE))
 
 
 class TestLadybug(TestCase):
@@ -79,7 +80,7 @@ class TestLadybug(TestCase):
         anim = tier_1.Ladybug()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(tier_1.FRIEND_EATS_FOOD))
+        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_EATS_FOOD))
 
 
 class TestMosquito(TestCase):
@@ -87,7 +88,7 @@ class TestMosquito(TestCase):
         anim = tier_1.Mosquito()
         self.assertTrue(anim.atk == 2)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_1.START_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestOtter(TestCase):
@@ -95,4 +96,4 @@ class TestOtter(TestCase):
         anim = tier_1.Otter()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(tier_1.BUY))
+        self.assertTrue(anim.id == anim.trigger(eventnames.BUY))
