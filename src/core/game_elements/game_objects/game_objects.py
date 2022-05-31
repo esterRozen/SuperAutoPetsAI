@@ -2,9 +2,7 @@ import inspect
 import sys
 from threading import Lock
 
-# noinspection PyUnresolvedReferences
-from typing import List, Union
-# noinspection PyUnresolvedReferences
+from typing import List, Dict, Union
 from . import animals, equipment
 
 
@@ -131,7 +129,7 @@ class GameObjects:
             "paid pack 1 items"
         Args:
         """
-        self.packs = {}
+        self.packs: Dict[str, List[List[Union[type(animals.Animal), type(equipment.Equipment)]]]] = {}
         for pack in pack_types:
             self.objs = [[], [], [], [], [], [], []]
 
