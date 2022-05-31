@@ -169,6 +169,23 @@ class ShopSystem:
         self.__agent.gold += 1
 
     def move(self, roster_init, roster_final):
+        # attacking unit in roster position 0
+        if roster_init - roster_final == 0:
+            return
+
+        moved_animal = self.__agent.team[roster_init]
+        self.__agent.team[roster_init] = Empty()
+        # if moving right, push final unit left
+        if roster_init - roster_final > 0:
+            # push final unit left
+            self.__agent.team.make_summon_room_with_left_shift_at(roster_final)
+            self.__agent.team[roster_final] = moved_animal
+
+        # if moving left, push final unit right
+        if roster_init - roster_final < 0:
+            # push final unit right
+            self.__agent.team.make_summon_room_with_right_shift_at(roster_final)
+            self.__agent.team[roster_final] = moved_animal
         pass
 
     def combine(self, roster_init, roster_final):
