@@ -151,7 +151,10 @@ class ShopSystem:
         return
 
     def summon(self, unit: Animal):
-        pass
+        if self.__agent.target[0] == "enemy":
+            return
+
+        self.__agent.team.summon(unit, self.__agent.target[1])
 
     def sell(self, pos: int):
         if isinstance(self.__agent.team.animals[pos], Empty):

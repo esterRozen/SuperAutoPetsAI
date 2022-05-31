@@ -87,4 +87,4 @@ class BattleSystem:
         pass
 
     def summon(self, unit: Animal):
-        pass
+        self.__agent.target_team.summon(unit, self.__agent.target[1])
