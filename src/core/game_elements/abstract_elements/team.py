@@ -47,7 +47,7 @@ class Team:
     def __init__(self):
         self.__max_capacity = 5
         self.animals: List[Animal] = [Empty() for _ in range(self.__max_capacity)]
-        self.acting = 0
+        # self.acting = 0
         # random.seed(1)
 
     def __eq__(self, other: 'Team') -> bool:
@@ -99,10 +99,9 @@ class Team:
             i -= 1
         return self.animals[i]
 
-    @property
-    def level_of_actor(self) -> int:
+    def level_of_actor(self, acting: int) -> int:
         # level of currently acting team member
-        return self.animals[self.acting].level
+        return self.animals[acting].level
 
     @property
     def rightmost_unit(self) -> Optional[Animal]:
@@ -143,9 +142,9 @@ class Team:
         """
         self.animals[event_raiser] = Empty()
 
-    def friends(self) -> Optional[List[Animal]]:
+    def friends(self, acting: int) -> Optional[List[Animal]]:
         a = list(range(0, 5))
-        a.remove(self.acting)
+        a.remove(acting)
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
@@ -153,16 +152,16 @@ class Team:
             return None
         return [self.animals[i] for i in a]
 
-    def friend_ahead(self) -> Optional[Animal]:
-        for j in range(self.acting-1, -1, -1):
+    def friend_ahead(self, acting: int) -> Optional[Animal]:
+        for j in range(acting - 1, -1, -1):
             if not isinstance(self.animals[j], Empty):
                 return self.animals[j]
         return None
 
-    def friends_ahead(self, n) -> Optional[List[Animal]]:
+    def friends_ahead(self, acting: int, n: int) -> Optional[List[Animal]]:
         ret = []
         i = 0
-        for j in range(self.acting-1, -1, -1):
+        for j in range(acting - 1, -1, -1):
             if not isinstance(self.animals[j], Empty):
                 if i < n:
                     ret += [self.animals[j]]
@@ -171,16 +170,16 @@ class Team:
             return None
         return ret
 
-    def friend_behind(self) -> Optional[Animal]:
-        for j in range(self.acting+1, len(self.animals)):
+    def friend_behind(self, acting: int) -> Optional[Animal]:
+        for j in range(acting + 1, len(self.animals)):
             if not isinstance(self.animals[j], Empty):
                 return self.animals[j]
         return None
 
-    def friends_behind(self, n) -> Optional[List[Animal]]:
+    def friends_behind(self, acting: int, n: int) -> Optional[List[Animal]]:
         ret = []
         i = 0
-        for j in range(self.acting + 1, len(self.animals)):
+        for j in range(acting + 1, len(self.animals)):
             if not isinstance(self.animals[j], Empty):
                 if i < n:
                     ret += [self.animals[j]]
@@ -213,9 +212,9 @@ class Team:
         for i in range(last_empty + 1, idx + 1):
             push_unit_forward_one_space(self, i)
 
-    def other_lvl2_or_3(self) -> Optional[List[Animal]]:
+    def other_lvl2_or_3(self, acting: int) -> Optional[List[Animal]]:
         a = list(range(0, 5))
-        a.remove(self.acting)
+        a.remove(acting)
         for i in a.copy():
             if self.animals[i].level <= 1:
                 a.remove(i)
@@ -228,9 +227,9 @@ class Team:
             send_to_front(i, self)
         return
 
-    def random_friend(self) -> Optional[Animal]:
+    def random_friend(self, acting: int) -> Optional[Animal]:
         a = list(range(0, 5))
-        a.remove(self.acting)
+        a.remove(acting)
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
@@ -238,9 +237,9 @@ class Team:
             return None
         return self.animals[random.choice(a)]
 
-    def random_friends(self, n) -> Optional[List[Animal]]:
+    def random_friends(self, acting: int, n: int) -> Optional[List[Animal]]:
         a = list(range(0, 5))
-        a.remove(self.acting)
+        a.remove(acting)
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)

@@ -44,13 +44,12 @@ class TestTeam(TestCase):
         self.clean_start()
         for i in range(5):
             self.team.animals[i] = self.spawner.spawn(3)
-            self.team.animals[i].increase_xp(i+1)
-            self.assertTrue(self.team.level_of_actor == 1, "actor shouldn't change")
+            self.team.animals[i].increase_xp(i + 1)
+            self.assertTrue(self.team.level_of_actor(0) == 1, "actor shouldn't change")
 
         levels = [1, 2, 2, 2, 3]
         for i in range(5):
-            self.team.acting = i
-            self.assertTrue(self.team.level_of_actor == levels[i], f"actor should be lvl {1+(i+2)//3}")
+            self.assertTrue(self.team.level_of_actor(i) == levels[i], f"actor should be lvl {1 + (i + 2) // 3}")
 
     def test_rightmost_unit(self):
         self.clean_start()
@@ -124,30 +123,26 @@ class TestTeam(TestCase):
         self.team[3] = self.spawner.spawn(6)
         self.team[0] = self.spawner.spawn(5)
         self.team[2] = self.spawner.spawn(4)
-        self.team.acting = 2
-        self.assertTrue(self.team.friends() == [self.team[0], self.team[1], self.team[3]])
+        self.assertTrue(self.team.friends(2) == [self.team[0], self.team[1], self.team[3]])
 
         self.clean_start()
         self.team[0] = self.spawner.spawn(4)
         self.team[4] = self.spawner.spawn(3)
-        self.team.acting = 4
-        self.assertTrue(self.team.friends() == [self.team[0]])
+        self.assertTrue(self.team.friends(4) == [self.team[0]])
 
         self.clean_start()
         self.team[3] = self.spawner.spawn(5)
-        self.team.acting = 3
-        self.assertTrue(self.team.friends() is None)
+        self.assertTrue(self.team.friends(3) is None)
 
         self.clean_start()
-        self.assertTrue(self.team.friends() is None, "should be none due as there are no units present")
+        self.assertTrue(self.team.friends(0) is None, "should be none due as there are no units present")
 
     def test_friend_ahead(self):
         self.clean_start()
         self.team[0] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(4)
 
-        self.team.acting = 2
-        self.assertTrue(self.team.friend_ahead() == self.team[0], "only unit ahead of position 2 is in position 0")
+        self.assertTrue(self.team.friend_ahead(2) == self.team[0], "only unit ahead of position 2 is in position 0")
 
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
@@ -155,24 +150,22 @@ class TestTeam(TestCase):
         self.team[3] = self.spawner.spawn(4)
         self.team[4] = self.spawner.spawn(5)
 
-        self.team.acting = 3
-        self.assertTrue(self.team.friend_ahead() == self.team[2])
+        self.assertTrue(self.team.friend_ahead(3) == self.team[2])
 
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.team.acting = 0
-        self.assertTrue(self.team.friend_ahead() is None)
+        self.assertTrue(self.team.friend_ahead(0) is None)
 
     def test_friends_ahead(self):
         self.clean_start()
         self.team[0] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(4)
 
-        self.team.acting = 2
-        self.assertTrue(self.team.friends_ahead(4) == [self.team[0]], "only unit ahead of position 2 is in position 0")
-        self.team.acting = 0
-        self.assertTrue(self.team.friends_ahead(4) is None, "front unit, no friend ahead of it")
+        self.assertTrue(self.team.friends_ahead(2, 4) == [self.team[0]],
+                        "only unit ahead of position 2 is in position 0")
+        self.assertTrue(self.team.friends_ahead(0, 4) is None,
+                        "front unit, no friend ahead of it")
 
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
@@ -180,26 +173,22 @@ class TestTeam(TestCase):
         self.team[3] = self.spawner.spawn(4)
         self.team[4] = self.spawner.spawn(5)
 
-        self.team.acting = 3
-        self.assertTrue(self.team.friends_ahead(2) == [self.team[2], self.team[1]])
-        self.assertTrue(self.team.friends_ahead(4) == [self.team[2], self.team[1]])
+        self.assertTrue(self.team.friends_ahead(3, 2) == [self.team[2], self.team[1]])
+        self.assertTrue(self.team.friends_ahead(3, 4) == [self.team[2], self.team[1]])
 
-        self.team.acting = 4
-        self.assertTrue(self.team.friends_ahead(4) == [self.team[3], self.team[2], self.team[1]])
+        self.assertTrue(self.team.friends_ahead(4, 4) == [self.team[3], self.team[2], self.team[1]])
 
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.team.acting = 0
-        self.assertTrue(self.team.friends_ahead(1) is None)
+        self.assertTrue(self.team.friends_ahead(0, 1) is None)
 
     def test_friend_behind(self):
         self.clean_start()
         self.team[0] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(4)
 
-        self.team.acting = 0
-        self.assertTrue(self.team.friend_behind() == self.team[2], "only unit ahead of position 2 is in position 0")
+        self.assertTrue(self.team.friend_behind(0) == self.team[2], "only unit ahead of position 2 is in position 0")
 
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
@@ -207,24 +196,20 @@ class TestTeam(TestCase):
         self.team[3] = self.spawner.spawn(4)
         self.team[4] = self.spawner.spawn(5)
 
-        self.team.acting = 3
-        self.assertTrue(self.team.friend_behind() == self.team[4])
+        self.assertTrue(self.team.friend_behind(3) == self.team[4])
 
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.team.acting = 0
-        self.assertTrue(self.team.friend_behind() is None)
+        self.assertTrue(self.team.friend_behind(0) is None)
 
     def test_friends_behind(self):
         self.clean_start()
         self.team[0] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(4)
 
-        self.team.acting = 2
-        self.assertTrue(self.team.friends_behind(4) is None, "no units behind position 2")
-        self.team.acting = 0
-        self.assertTrue(self.team.friends_behind(4) == [self.team[2]], "1 unit behind position 0")
+        self.assertTrue(self.team.friends_behind(2, 4) is None, "no units behind position 2")
+        self.assertTrue(self.team.friends_behind(0, 4) == [self.team[2]], "1 unit behind position 0")
 
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
@@ -232,19 +217,16 @@ class TestTeam(TestCase):
         self.team[3] = self.spawner.spawn(4)
         self.team[4] = self.spawner.spawn(5)
 
-        self.team.acting = 2
-        self.assertTrue(self.team.friends_behind(4) == [self.team[3], self.team[4]])
-        self.assertTrue(self.team.friends_behind(1) == [self.team[3]])
+        self.assertTrue(self.team.friends_behind(2, 4) == [self.team[3], self.team[4]])
+        self.assertTrue(self.team.friends_behind(2, 1) == [self.team[3]])
 
-        self.team.acting = 1
-        self.assertTrue(self.team.friends_behind(4) == [self.team[2], self.team[3], self.team[4]])
-        self.assertTrue(self.team.friends_behind(1) == [self.team[2]])
+        self.assertTrue(self.team.friends_behind(1, 4) == [self.team[2], self.team[3], self.team[4]])
+        self.assertTrue(self.team.friends_behind(1, 1) == [self.team[2]])
 
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.team.acting = 0
-        self.assertTrue(self.team.friends_behind(1) is None)
+        self.assertTrue(self.team.friends_behind(0, 1) is None)
 
     def test_make_summon_room_with_left_shift_at(self):
         self.clean_start()
@@ -308,18 +290,15 @@ class TestTeam(TestCase):
     def test_other_lvl2_or_3(self):
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
-        self.team.acting = 1
-        self.assertTrue(self.team.other_lvl2_or_3() is None)
+        self.assertTrue(self.team.other_lvl2_or_3(1) is None)
 
         self.team[1].xp = 5
         self.team[2] = self.spawner.spawn(3)
-        self.team.acting = 2
-        self.assertTrue(self.team.other_lvl2_or_3() == [self.team[1]])
+        self.assertTrue(self.team.other_lvl2_or_3(2) == [self.team[1]])
 
         self.team[0] = self.spawner.spawn(4)
-        self.team.acting = 0
         self.team[2].xp = 2
-        self.assertTrue(self.team.other_lvl2_or_3() == [self.team[1], self.team[2]])
+        self.assertTrue(self.team.other_lvl2_or_3(0) == [self.team[1], self.team[2]])
 
     def test_push_forward(self):
         self.clean_start()
@@ -353,48 +332,44 @@ class TestTeam(TestCase):
     def test_random_friend(self):
         self.clean_start()
         self.team[2] = self.spawner.spawn(4)
-        self.team.acting = 2
-        friend = self.team.random_friend()
+        friend = self.team.random_friend(2)
         self.assertTrue(friend is None, "shoud be no friends")
 
         self.team[3] = self.spawner.spawn(6)
-        friend = self.team.random_friend()
+        friend = self.team.random_friend(2)
         self.assertTrue(friend == self.team[3])
 
         self.team[0] = self.spawner.spawn(2)
         for _ in range(20):
-            friend = self.team.random_friend()
+            friend = self.team.random_friend(2)
             self.assertTrue(friend is not None)
 
-        self.team.acting = 0
         for _ in range(20):
-            friend = self.team.random_friend()
+            friend = self.team.random_friend(0)
             self.assertTrue(friend == self.team[2] or friend == self.team[3])
 
     def test_random_friends(self):
         self.clean_start()
         self.team[2] = self.spawner.spawn(5)
-        self.team.acting = 2
-        friends = self.team.random_friends(1)
+        friends = self.team.random_friends(2, 1)
         self.assertTrue(friends is None)
 
         self.team[3] = self.spawner.spawn(1)
-        friends = self.team.random_friends(1)
+        friends = self.team.random_friends(2, 1)
         self.assertTrue(self.team[3] == friends[0])
 
         self.team[4] = self.spawner.spawn(3)
         self.team[0] = self.spawner.spawn(4)
         for _ in range(10):
-            friends = self.team.random_friends(2)
+            friends = self.team.random_friends(2, 2)
 
             for friend in friends:
                 self.assertTrue(friend != self.team[2])
                 self.assertTrue(friend in self.team.animals)
                 self.assertTrue(not isinstance(friend, Empty))
 
-        self.team.acting = 0
         for _ in range(10):
-            friends = self.team.random_friends(2)
+            friends = self.team.random_friends(0, 2)
 
             for friend in friends:
                 self.assertTrue(friend != self.team[0])
@@ -407,7 +382,6 @@ class TestTeam(TestCase):
         self.assertTrue(unit is None)
 
         self.team[2] = self.spawner.spawn(4)
-        self.team.acting = 2
         unit = self.team.random_unit()
         self.assertTrue(unit == self.team[2], f"guaranteed to be {self.team[2]}")
 
@@ -420,7 +394,6 @@ class TestTeam(TestCase):
             unit = self.team.random_unit()
             self.assertTrue(unit is not None)
 
-        self.team.acting = 0
         for _ in range(20):
             unit = self.team.random_unit()
             self.assertTrue(unit == self.team[2] or unit == self.team[3] or unit == self.team[0])
