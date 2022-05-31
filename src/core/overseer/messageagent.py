@@ -6,7 +6,7 @@ from .state import State
 from .baseagent import BaseAgent
 from .handlers.object_effects import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
 from .handlers.eventprocessor import EventProcessor
-from ..eventnames import *
+from .. import eventnames
 
 animals = [
     "Nop",  # No action
@@ -184,53 +184,53 @@ class MessageAgent(BaseAgent):
             self.target = target
 
         # handle event
-        if message == ATTACK:
+        if message == eventnames.ATTACK:
             self.attack()
-        elif message == BEFORE_ATTACK:
+        elif message == eventnames.BEFORE_ATTACK:
             self.__EP.before_attack(self, self.event_raiser)
-        elif message == BUY:
+        elif message == eventnames.BUY:
             self.__EP.buy(self, self.event_raiser)
-        elif message == BUY_FOOD:
+        elif message == eventnames.BUY_FOOD:
             self.__EP.buy_food(self)
-        elif message == BUY_T1_PET:
+        elif message == eventnames.BUY_T1_PET:
             self.__EP.buy_t1_pet(self)
-        elif message == EAT_FOOD:
+        elif message == eventnames.EAT_FOOD:
             self.__EP.eat_food(self, self.event_raiser)
-        elif message == ENEMY_ATTACKS:
+        elif message == eventnames.ENEMY_ATTACKS:
             self.__EP.enemy_attacks(self, self.event_raiser)
-        elif message == END_TURN:
+        elif message == eventnames.END_TURN:
             self.__EP.end_turn(self)
-        elif message == FRIEND_AHEAD_ATTACKS:
+        elif message == eventnames.FRIEND_AHEAD_ATTACKS:
             self.__EP.friend_ahead_attacks(self, self.event_raiser)
-        elif message == FRIEND_AHEAD_FAINTS:
+        elif message == eventnames.FRIEND_AHEAD_FAINTS:
             self.__EP.friend_ahead_faints(self, self.event_raiser)
-        elif message == FRIEND_BOUGHT:
+        elif message == eventnames.FRIEND_BOUGHT:
             self.__EP.friend_bought(self, self.event_raiser)
-        elif message == FRIEND_EATS_FOOD:
+        elif message == eventnames.FRIEND_EATS_FOOD:
             self.__EP.friend_eats_food(self, self.event_raiser)
-        elif message == FRIEND_FAINTS:
+        elif message == eventnames.FRIEND_FAINTS:
             self.__EP.friend_faints(self, self.event_raiser)
-        elif message == FRIEND_SOLD:
+        elif message == eventnames.FRIEND_SOLD:
             self.__EP.friend_sold(self, self.event_raiser)
-        elif message == FRIEND_SUMMONED_BATTLE:
+        elif message == eventnames.FRIEND_SUMMONED_BATTLE:
             self.__EP.friend_summoned_battle(self, self.event_raiser)
-        elif message == FRIEND_SUMMONED_SHOP:
+        elif message == eventnames.FRIEND_SUMMONED_SHOP:
             self.__EP.friend_summoned_shop(self, self.event_raiser)
-        elif message == HURT:
+        elif message == eventnames.HURT:
             self.__EP.hurt(self, self.event_raiser)
-        elif message == IS_SUMMONED:
+        elif message == eventnames.IS_SUMMONED:
             self.__EP.is_summoned(self, self.event_raiser)
-        elif message == KNOCK_OUT:
+        elif message == eventnames.KNOCK_OUT:
             self.__EP.knock_out(self, self.event_raiser)
-        elif message == ON_FAINT:
+        elif message == eventnames.ON_FAINT:
             self.__EP.on_faint(self, self.event_raiser)
-        elif message == ON_LEVEL:
+        elif message == eventnames.ON_LEVEL:
             self.__EP.on_level(self, self.event_raiser)
-        elif message == SELL:
+        elif message == eventnames.SELL:
             self.__EP.sell(self, self.event_raiser)
-        elif message == START_BATTLE:
+        elif message == eventnames.START_BATTLE:
             self.__EP.start_battle(self)
-        elif message == START_TURN:
+        elif message == eventnames.START_TURN:
             self.__EP.start_turn(self)
 
         # sending messages like buy, sell, move, combine, start turn, end turn,
@@ -283,11 +283,11 @@ class MessageAgent(BaseAgent):
         team_hurt = self._check_faint()
 
         if team_hurt:
-            self.handle_event(HURT)
+            self.handle_event(eventnames.HURT)
         if enemy_hurt:
             self.event_raiser = enemy_actor
             self.target = team_actor
-            self.handle_event(HURT)
+            self.handle_event(eventnames.HURT)
             self.event_raiser = team_actor
             self.target = enemy_actor
 
@@ -302,7 +302,7 @@ class MessageAgent(BaseAgent):
         self.target = team_actor
         enemy_is_hurt = self._check_faint()
         if enemy_is_hurt:
-            self.handle_event(HURT)
+            self.handle_event(eventnames.HURT)
         self.event_raiser = team_actor
         self.target = enemy_actor
 
@@ -330,15 +330,15 @@ class MessageAgent(BaseAgent):
 
         target = self.target
         event_raiser = self.event_raiser
-        self.handle_event(ON_FAINT)
+        self.handle_event(eventnames.ON_FAINT)
 
-        self.handle_event(FRIEND_AHEAD_FAINTS)
+        self.handle_event(eventnames.FRIEND_AHEAD_FAINTS)
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
             self.event_raiser = target
             self.target = event_raiser
-            self.handle_event(KNOCK_OUT)
+            self.handle_event(eventnames.KNOCK_OUT)
 
         self.target = target
         self.event_raiser = event_raiser

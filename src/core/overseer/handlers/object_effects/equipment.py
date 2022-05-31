@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List
 
 from ....eventnames import ON_FAINT, EAT_FOOD, ON_LEVEL, FRIEND_EATS_FOOD
-from ....game_elements.game_objects.equipment import *
+from ....game_elements.game_objects import equipment
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -16,7 +16,7 @@ class Equipment:
 
     @staticmethod
     def honey(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Honey()
+        agent.team[agent.event_raiser[1]].held = equipment.Honey()
 
     @staticmethod
     def cupcake(agent: 'MessageAgent'):
@@ -24,7 +24,7 @@ class Equipment:
 
     @staticmethod
     def meat_bone(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Meat_Bone()
+        agent.team[agent.event_raiser[1]].held = equipment.Meat_Bone()
 
     @staticmethod
     def sleeping_pill(agent: 'MessageAgent'):
@@ -35,11 +35,11 @@ class Equipment:
 
     @staticmethod
     def weak(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Weak()
+        agent.team[agent.event_raiser[1]].held = equipment.Weak()
 
     @staticmethod
     def garlic(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Garlic()
+        agent.team[agent.event_raiser[1]].held = equipment.Garlic()
 
     @staticmethod
     def salad_bowl(agent: 'MessageAgent'):
@@ -71,7 +71,7 @@ class Equipment:
 
     @staticmethod
     def chili(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Chili()
+        agent.team[agent.event_raiser[1]].held = equipment.Chili()
 
     @staticmethod
     def chocolate(agent: 'MessageAgent'):
@@ -87,7 +87,7 @@ class Equipment:
 
     @staticmethod
     def peanut(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Peanut()
+        agent.team[agent.event_raiser[1]].held = equipment.Peanut()
 
     @staticmethod
     def sushi(agent: 'MessageAgent'):
@@ -103,15 +103,15 @@ class Equipment:
 
     @staticmethod
     def coconut(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Coconut()
+        agent.team[agent.event_raiser[1]].held = equipment.Coconut()
 
     @staticmethod
     def melon(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Melon()
+        agent.team[agent.event_raiser[1]].held = equipment.Melon()
 
     @staticmethod
     def mushroom(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Mushroom()
+        agent.team[agent.event_raiser[1]].held = equipment.Mushroom()
 
     @staticmethod
     def pizza(agent: 'MessageAgent'):
@@ -127,4 +127,4 @@ class Equipment:
 
     @staticmethod
     def steak(agent: 'MessageAgent'):
-        agent.team[agent.event_raiser[1]].held = Steak()
+        agent.team[agent.event_raiser[1]].held = equipment.Steak()
