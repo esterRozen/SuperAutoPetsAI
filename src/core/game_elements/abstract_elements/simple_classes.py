@@ -24,17 +24,6 @@ class Animal:
         self.battle_hp = hp
         self.battle_atk = atk
 
-    def __eq__(self, other: 'Animal') -> bool:
-        if type(other) != type(self):
-            return False
-        for key in other.__dict__:
-            if key in self.__dict__:
-                if self.__dict__[key] != other.__dict__[key]:
-                    return False
-            else:
-                return False
-        return True
-
     def __copy__(self):
         return copy.deepcopy(self)
 
@@ -53,6 +42,17 @@ class Animal:
         return f"({self.__class__.__name__}): " \
                f"perm.{self.atk}/{self.hp}, " \
                f"temp.{self.battle_atk}/{self.battle_hp}"
+
+    def is_identical(self, other: 'Animal') -> bool:
+        if type(other) != type(self):
+            return False
+        for key in other.__dict__:
+            if key in self.__dict__:
+                if self.__dict__[key] != other.__dict__[key]:
+                    return False
+            else:
+                return False
+        return True
 
     @property
     def level(self) -> int:
