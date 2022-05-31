@@ -1,7 +1,7 @@
 import itertools
 from typing import List, Callable, Tuple
 
-from ..game_elements.abstract_elements import Animal
+from ..game_elements.abstract_elements import Animal, Empty
 from .state import State
 from .baseagent import BaseAgent
 from .handlers.object_effects import Tier1, Tier2, Tier3, Tier4, Tier5, Tier6, Equipment
@@ -120,7 +120,7 @@ class MessageAgent(BaseAgent):
         #             if anim_id != -1:
         #                 self.functions[anim_id] = member[1]
 
-    def sorted_team(self, team=None):
+    def sorted_team(self, team: str = None):
         # for unit in roster sorted by descending attack, then decreasing index
         if team == "team" or team is None:
             roster = self.team.animals
@@ -136,6 +136,11 @@ class MessageAgent(BaseAgent):
             roster,
             key=lambda animal: (animal.atk, roster.index(animal)),
             reverse=True)
+
+        # remove all empty spaces!
+        while Empty() in units_sorted:
+            units_sorted.remove(Empty())
+
         return units_sorted
 
     def sorted_without_(self, actor: Tuple[str, int]):
@@ -152,13 +157,13 @@ class MessageAgent(BaseAgent):
         sorted_team = self.sorted_team(actor[0])
         if actor[0] == "team":
             out = []
-            for animal in range(len(sorted_team)):
+            for animal in sorted_team:
                 if self.team.animals.index(animal) > actor[1]:
                     out += [animal]
             return out
         elif actor[0] == "enemy":
             out = []
-            for animal in range(len(sorted_team)):
+            for animal in sorted_team:
                 if self.enemy.animals.index(animal) > actor[1]:
                     out += [animal]
             return out
