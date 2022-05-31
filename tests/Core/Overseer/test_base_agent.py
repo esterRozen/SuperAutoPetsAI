@@ -1,11 +1,27 @@
 from unittest import TestCase
 
-from src.core.game_elements.abstract_elements import Empty
-from src.core.game_elements.game_objects.animals.tier_1 import Ant, Fish, Cricket
+from src.core.game_elements.abstract_elements import Empty, Team
+from src.core.game_elements.game_objects.animals.tier_1 import Ant, Fish, Cricket, Duck, Otter
+from src.core.game_systems import ShopSystem, BattleSystem
 from src.core.overseer.baseagent import BaseAgent
 
 
+# mostly checking the basics. messages are not handled so don't expect them to be
 class TestBaseAgent(TestCase):
+    def test_instantiation(self):
+        agent = BaseAgent("base pack")
+        self.assertTrue(agent.in_shop)
+        self.assertTrue(agent.team.size == 0)
+        self.assertTrue(agent.turn == 1)
+        self.assertTrue(agent.gold == 10)
+        self.assertTrue(not agent.battle_lost)
+        agent = BaseAgent("paid pack 1")
+        self.assertTrue(agent.in_shop)
+        self.assertTrue(agent.team.size == 0)
+        self.assertTrue(agent.turn == 1)
+        self.assertTrue(agent.gold == 10)
+        self.assertTrue(not agent.battle_lost)
+
     def test_backup(self):
         agent = BaseAgent("base pack")
         agent.team[0] = Fish()
@@ -86,14 +102,6 @@ class TestBaseAgent(TestCase):
         self.assertTrue(agent.team[4].atk == 2)
         self.assertTrue(agent.team[4].hp == 1)
 
-    def test_ability(self):
-        # TODO
-        self.fail()
-
-    def test_attack(self):
-        # TODO
-        self.fail()
-
     def test_buff(self):
         agent = BaseAgent("base pack")
         agent.in_shop = True
@@ -140,15 +148,71 @@ class TestBaseAgent(TestCase):
         self.assertTrue(agent.team[1].battle_atk == 9)
         self.assertTrue(agent.team[1].battle_hp == 8)
 
-    def test_damage(self):
-        # TODO
-        self.fail()
-
-    def test_faint(self):
-        agent = BaseAgent("base pack")
-
-        self.fail()
-
     def test_summon(self):
-        # TODO
-        self.fail()
+        agent = BaseAgent("base pack")
+        team = agent.team
+        ShopSystem(agent)
+        BattleSystem(agent)
+
+        agent.in_shop = True
+
+        agent.summon(Fish())
+        self.assertTrue(team[0] == Fish())
+        self.assertTrue(isinstance(team[1], Empty))
+        self.assertTrue(isinstance(team[2], Empty))
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(isinstance(team[4], Empty))
+
+        agent.target = ("team", 2)
+        agent.summon(Ant())
+        self.assertTrue(team[0] == Fish())
+        self.assertTrue(isinstance(team[1], Empty))
+        self.assertTrue(team[2] == Ant())
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(isinstance(team[4], Empty))
+
+        agent.target = ("team", 0)
+        agent.summon(Cricket())
+        self.assertTrue(team[0] == Cricket())
+        self.assertTrue(team[1] == Fish())
+        self.assertTrue(team[2] == Ant())
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(isinstance(team[4], Empty))
+
+        agent.target = ("team", 4)
+        agent.summon(Duck())
+        self.assertTrue(team[0] == Cricket())
+        self.assertTrue(team[1] == Fish())
+        self.assertTrue(team[2] == Ant())
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(team[4] == Duck())
+
+        agent.target = ("team", 2)
+        agent.summon(Otter())
+        self.assertTrue(team[0] == Cricket())
+        self.assertTrue(team[1] == Fish())
+        self.assertTrue(team[2] == Otter())
+        self.assertTrue(team[3] == Ant())
+        self.assertTrue(team[4] == Duck())
+
+        agent.summon(Duck())
+        self.assertTrue(team[0] == Cricket())
+        self.assertTrue(team[1] == Fish())
+        self.assertTrue(team[2] == Otter())
+        self.assertTrue(team[3] == Ant())
+        self.assertTrue(team[4] == Duck())
+
+        agent.team = Team()
+        team = agent.team
+        agent.target = ("team", 0)
+        agent.summon(Fish())
+        agent.target = ("team", 2)
+        agent.summon(Ant())
+        agent.target = ("team", 1)
+        agent.summon(Otter())
+
+        self.assertTrue(team[0] == Fish())
+        self.assertTrue(team[1] == Otter())
+        self.assertTrue(team[2] == Ant())
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(isinstance(team[4], Empty))
