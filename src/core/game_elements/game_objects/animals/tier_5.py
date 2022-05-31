@@ -1,5 +1,5 @@
 from ...abstract_elements import Animal
-from ....eventnames import *
+from .... import eventnames
 # base pack
 
 
@@ -19,7 +19,7 @@ class Chicken(_Tier5):
         super(Chicken, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == BUY_T1_PET:
+        if name == eventnames.BUY_T1_PET:
             return self.id
         return 0
 
@@ -31,7 +31,7 @@ class Cow(_Tier5):
         super(Cow, self).__init__(4, 6)
 
     def trigger(self, name):
-        if name == BUY:
+        if name == eventnames.BUY:
             return self.id
         return 0
 
@@ -43,7 +43,7 @@ class Crocodile(_Tier5):
         super(Crocodile, self).__init__(8, 4)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -55,7 +55,7 @@ class Eagle(_Tier5):
         super(Eagle, self).__init__(6, 5)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -68,15 +68,15 @@ class Goat(_Tier5):
         self.limit = 1
 
     def trigger(self, name):
-        if name == FRIEND_BOUGHT:
+        if name == eventnames.FRIEND_BOUGHT:
             self.limit -= 1
             if self.limit < 0:
                 return 0
             return self.id
-        elif name == START_TURN:
+        elif name == eventnames.START_TURN:
             self.limit = self.level
             return 0
-        elif name == ON_LEVEL:
+        elif name == eventnames.ON_LEVEL:
             self.limit += 1
             return 0
         return 0
@@ -89,7 +89,7 @@ class Monkey(_Tier5):
         super(Monkey, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == END_TURN:
+        if name == eventnames.END_TURN:
             return self.id
         return 0
 
@@ -101,7 +101,7 @@ class Poodle(_Tier5):
         super(Poodle, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == END_TURN:
+        if name == eventnames.END_TURN:
             return self.id
         return 0
 
@@ -113,7 +113,7 @@ class Rhino(_Tier5):
         super(Rhino, self).__init__(5, 8)
 
     def trigger(self, name):
-        if name == KNOCK_OUT:
+        if name == eventnames.KNOCK_OUT:
             return self.id
         return 0
 
@@ -125,7 +125,7 @@ class Scorpion(_Tier5):
         super(Scorpion, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == IS_SUMMONED:
+        if name == eventnames.IS_SUMMONED:
             return self.id
         return 0
 
@@ -137,7 +137,7 @@ class Seal(_Tier5):
         super(Seal, self).__init__(3, 8)
 
     def trigger(self, name):
-        if name == EAT_FOOD:
+        if name == eventnames.EAT_FOOD:
             return self.id
         return 0
 
@@ -149,7 +149,7 @@ class Shark(_Tier5):
         super(Shark, self).__init__(4, 4)
 
     def trigger(self, name):
-        if name == FRIEND_FAINTS:
+        if name == eventnames.FRIEND_FAINTS:
             return self.id
         return 0
 
@@ -161,6 +161,6 @@ class Turkey(_Tier5):
         super(Turkey, self).__init__(3, 4)
 
     def trigger(self, name):
-        if name == FRIEND_SUMMONED_BATTLE or FRIEND_SUMMONED_SHOP:
+        if name == eventnames.FRIEND_SUMMONED_BATTLE or eventnames.FRIEND_SUMMONED_SHOP:
             return self.id
         return 0

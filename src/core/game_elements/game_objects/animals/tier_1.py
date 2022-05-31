@@ -1,5 +1,5 @@
 from ...abstract_elements import Animal
-from ....eventnames import *
+from .... import eventnames
 
 
 # base pack
@@ -32,7 +32,7 @@ class Ant(_Tier1):
         super(Ant, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -44,7 +44,7 @@ class Beaver(_Tier1):
         super(Beaver, self).__init__(3, 2)
 
     def trigger(self, name):
-        if name == SELL:
+        if name == eventnames.SELL:
             return self.id
         return 0
 
@@ -64,7 +64,7 @@ class Beetle(_Tier1):
         super(Beetle, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == EAT_FOOD:
+        if name == eventnames.EAT_FOOD:
             return self.id
         return 0
 
@@ -76,7 +76,7 @@ class Bluebird(_Tier1):
         super(Bluebird, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == END_TURN:
+        if name == eventnames.END_TURN:
             return self.id
         return 0
 
@@ -88,7 +88,7 @@ class Cricket(_Tier1):
         super(Cricket, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -100,7 +100,7 @@ class Duck(_Tier1):
         super(Duck, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == SELL:
+        if name == eventnames.SELL:
             return self.id
         return 0
 
@@ -112,7 +112,7 @@ class Fish(_Tier1):
         super(Fish, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == ON_LEVEL:
+        if name == eventnames.ON_LEVEL:
             return self.id
         return 0
 
@@ -124,7 +124,7 @@ class Horse(_Tier1):
         super(Horse, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == FRIEND_SUMMONED_BATTLE:
+        if name == eventnames.FRIEND_SUMMONED_BATTLE:
             return self.id
         return 0
 
@@ -136,7 +136,7 @@ class Ladybug(_Tier1):
         super(Ladybug, self).__init__(1, 3)
 
     def trigger(self, name):
-        if name == FRIEND_EATS_FOOD:
+        if name == eventnames.FRIEND_EATS_FOOD:
             return self.id
         return 0
 
@@ -148,7 +148,7 @@ class Mosquito(_Tier1):
         super(Mosquito, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -160,7 +160,7 @@ class Otter(_Tier1):
         super(Otter, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == BUY:
+        if name == eventnames.BUY:
             return self.id
         return 0
 
@@ -172,7 +172,7 @@ class Pig(_Tier1):
         super(Pig, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == SELL:
+        if name == eventnames.SELL:
             return self.id
         return 0
 

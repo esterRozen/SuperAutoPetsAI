@@ -1,5 +1,5 @@
 from ...abstract_elements import Animal
-from ....eventnames import *
+from .... import eventnames
 # base pack
 
 
@@ -19,7 +19,7 @@ class Boar(_Tier6):
         super(Boar, self).__init__(10, 6)
 
     def trigger(self, name):
-        if name == BEFORE_ATTACK:
+        if name == eventnames.BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -31,7 +31,7 @@ class Cat(_Tier6):
         super(Cat, self).__init__(4, 5)
 
     def trigger(self, name):
-        if name == BUY_FOOD:
+        if name == eventnames.BUY_FOOD:
             return self.id
         return 0
 
@@ -44,11 +44,11 @@ class Dragon(_Tier6):
         super(Dragon, self).__init__(6, 8)
 
     def trigger(self, name):
-        if name == BUY_T1_PET:
+        if name == eventnames.BUY_T1_PET:
             if self._triggers > 0:
                 self._triggers -= 1
                 return self.id
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             self._triggers = 3
         return 0
 
@@ -60,7 +60,7 @@ class Fly(_Tier6):
         super(Fly, self).__init__(5, 5)
 
     def trigger(self, name):
-        if name == FRIEND_FAINTS:
+        if name == eventnames.FRIEND_FAINTS:
             return self.id
         return 0
 
@@ -73,13 +73,13 @@ class Gorilla(_Tier6):
         super(Gorilla, self).__init__(6, 9)
 
     def trigger(self, name):
-        if name == HURT:
+        if name == eventnames.HURT:
             if self._triggers > 0:
                 self._triggers -= 1
                 return self.id
             return 0
 
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             self._triggers = self.level
         return 0
 
@@ -91,7 +91,7 @@ class Leopard(_Tier6):
         super(Leopard, self).__init__(10, 4)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -103,7 +103,7 @@ class Mammoth(_Tier6):
         super(Mammoth, self).__init__(3, 10)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -115,7 +115,7 @@ class Octopus(_Tier6):
         super(Octopus, self).__init__(8, 8)
 
     def trigger(self, name):
-        if name == BEFORE_ATTACK:
+        if name == eventnames.BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -128,14 +128,14 @@ class Sauropod(_Tier6):
         self.limit = 1
 
     def trigger(self, name):
-        if name == BUY_FOOD:
+        if name == eventnames.BUY_FOOD:
             if self.limit < 0:
                 return 0
             return self.id
-        elif name == START_TURN:
+        elif name == eventnames.START_TURN:
             self.limit = self.level
             return 0
-        elif name == ON_LEVEL:
+        elif name == eventnames.ON_LEVEL:
             self.limit += 1
             return 0
         return 0
@@ -148,7 +148,7 @@ class Snake(_Tier6):
         super(Snake, self).__init__(6, 6)
 
     def trigger(self, name):
-        if name == FRIEND_AHEAD_ATTACKS:
+        if name == eventnames.FRIEND_AHEAD_ATTACKS:
             return self.id
         return 0
 
@@ -171,7 +171,7 @@ class Tyrannosaurus(_Tier6):
         super(Tyrannosaurus, self).__init__(9, 4)
 
     def trigger(self, name):
-        if name == END_TURN:
+        if name == eventnames.END_TURN:
             return self.id
         return 0
 

@@ -1,5 +1,5 @@
 from ...abstract_elements import Animal
-from ....eventnames import *
+from .... import eventnames
 # base pack
 
 
@@ -19,7 +19,7 @@ class Bat(_Tier2):
         super(Bat, self).__init__(1, 2)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -31,7 +31,7 @@ class Crab(_Tier2):
         super(Crab, self).__init__(3, 1)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -43,7 +43,7 @@ class Dromedary(_Tier2):
         super(Dromedary, self).__init__(2, 4)
 
     def trigger(self, name):
-        if name == START_TURN:
+        if name == eventnames.START_TURN:
             return self.id
         return 0
 
@@ -55,7 +55,7 @@ class Dodo(_Tier2):
         super(Dodo, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == START_BATTLE:
+        if name == eventnames.START_BATTLE:
             return self.id
         return 0
 
@@ -67,7 +67,7 @@ class Elephant(_Tier2):
         super(Elephant, self).__init__(3, 5)
 
     def trigger(self, name):
-        if name == BEFORE_ATTACK:
+        if name == eventnames.BEFORE_ATTACK:
             return self.id
         return 0
 
@@ -79,7 +79,7 @@ class Flamingo(_Tier2):
         super(Flamingo, self).__init__(4, 2)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -91,7 +91,7 @@ class Hedgehog(_Tier2):
         super(Hedgehog, self).__init__(3, 2)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -103,7 +103,7 @@ class Peacock(_Tier2):
         super(Peacock, self).__init__(2, 5)
 
     def trigger(self, name):
-        if name == HURT:
+        if name == eventnames.HURT:
             return self.id
         return 0
 
@@ -115,7 +115,7 @@ class Rat(_Tier2):
         super(Rat, self).__init__(4, 5)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -127,7 +127,7 @@ class Shrimp(_Tier2):
         super(Shrimp, self).__init__(2, 3)
 
     def trigger(self, name):
-        if name == FRIEND_SOLD:
+        if name == eventnames.FRIEND_SOLD:
             return self.id
         return 0
 
@@ -139,7 +139,7 @@ class Spider(_Tier2):
         super(Spider, self).__init__(2, 2)
 
     def trigger(self, name):
-        if name == ON_FAINT:
+        if name == eventnames.ON_FAINT:
             return self.id
         return 0
 
@@ -151,7 +151,7 @@ class Swan(_Tier2):
         super(Swan, self).__init__(1, 3)
 
     def trigger(self, name):
-        if name == START_TURN:
+        if name == eventnames.START_TURN:
             return self.id
         return 0
 
@@ -163,7 +163,7 @@ class Tabby_Cat(_Tier2):
         super(Tabby_Cat, self).__init__(5, 3)
 
     def trigger(self, name):
-        if name == EAT_FOOD:
+        if name == eventnames.EAT_FOOD:
             return self.id
         return 0
 
@@ -176,6 +176,6 @@ class Dirty_Rat(_Tier2):
         super(Dirty_Rat, self).__init__(1, 1)
 
     def trigger(self, name):
-        if name == ENEMY_ATTACKS:
+        if name == eventnames.ENEMY_ATTACKS:
             return NotImplemented
         return 0
