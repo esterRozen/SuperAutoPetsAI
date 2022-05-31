@@ -18,13 +18,23 @@ def send_to_front(idx, team: 'Team'):
         return
 
 
-def send_unit_back_one_space(idx, team: 'Team'):
+def push_unit_back_one_space(team: 'Team', idx: int):
     if idx == len(team.animals) - 1:
         return
 
     if isinstance(team[idx + 1], Empty):
         if not isinstance(team[idx], Empty):
             team[idx + 1] = team[idx]
+            team[idx] = Empty()
+
+
+def push_unit_forward_one_space(team: 'Team', idx: int):
+    if idx == 0:
+        return
+
+    if isinstance(team[idx - 1], Empty):
+        if not isinstance(team[idx], Empty):
+            team[idx - 1] = team[idx]
             team[idx] = Empty()
 
 
@@ -185,6 +195,24 @@ class Team:
     def lowest_health_unit(self):
         return min(self.animals, key=lambda animal: animal.battle_hp)
 
+    def make_summon_room_with_left_shift_at(self, idx: int):
+        last_empty = 4
+        for i in range(self.__max_capacity - 1, idx - 1, -1):
+            if isinstance(self.animals[i], Empty):
+                last_empty = i
+
+        for i in range(last_empty - 1, idx - 1, -1):
+            push_unit_back_one_space(self, i)
+
+    def make_summon_room_with_right_shift_at(self, idx: int):
+        last_empty = 0
+        for i in range(0, idx + 1):
+            if isinstance(self.animals[i], Empty):
+                last_empty = i
+
+        for i in range(last_empty + 1, idx + 1):
+            push_unit_forward_one_space(self, i)
+
     def other_lvl2_or_3(self) -> Optional[List[Animal]]:
         a = list(range(0, 5))
         a.remove(self.acting)
@@ -199,14 +227,6 @@ class Team:
         for i, _ in enumerate(self.animals):
             send_to_front(i, self)
         return
-
-    def make_summon_room_at(self, idx: int):
-        last_empty = 4
-        for i in range(self.__max_capacity - 1, idx - 1, -1):
-            if isinstance(self.animals[i], Empty):
-                last_empty = i
-        for i in range(last_empty - 1, idx - 1, -1):
-            send_unit_back_one_space(i, self)
 
     def random_friend(self) -> Optional[Animal]:
         a = list(range(0, 5))
@@ -280,7 +300,7 @@ class Team:
             return None
         return animals
 
-    def summon(self, animal, position):
+    def summon(self, animal, position) -> bool:
         """
         assume all units are pushed forward when called
         Args:
@@ -291,11 +311,13 @@ class Team:
 
         """
         if self.size == 5:
-            return
+            return False
 
-        self.make_summon_room_at(position)
+        self.make_summon_room_with_left_shift_at(position)
         if isinstance(self[position], Empty):
             self[position] = animal
+            return True
+        return False
 
     def units(self) -> Optional[List[Animal]]:
         out = []
