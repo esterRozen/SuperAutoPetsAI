@@ -364,7 +364,7 @@ class TestTeam(TestCase):
             friends = self.team.random_friends(2, 2)
 
             for friend in friends:
-                self.assertTrue(friend != self.team[2])
+                self.assertTrue(id(friend) != id(self.team[2]))
                 self.assertTrue(friend in self.team.animals)
                 self.assertTrue(not isinstance(friend, Empty))
 
@@ -372,7 +372,7 @@ class TestTeam(TestCase):
             friends = self.team.random_friends(0, 2)
 
             for friend in friends:
-                self.assertTrue(friend != self.team[0])
+                self.assertTrue(id(friend) != id(self.team[0]))
                 self.assertTrue(friend in self.team.animals)
                 self.assertTrue(not isinstance(friend, Empty))
 
