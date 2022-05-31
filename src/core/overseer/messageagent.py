@@ -51,7 +51,6 @@ def find_name_id(anims: List[List[Animal]], name: str) -> int:
     return -1
 
 
-# noinspection DuplicatedCode
 class MessageAgent(BaseAgent):
     def __init__(self, mode):
         super(MessageAgent, self).__init__(mode)
@@ -66,49 +65,49 @@ class MessageAgent(BaseAgent):
         # objs = [t1, t2, t3, t4, t5, t6, Equipment]
         self.__EP = EventProcessor()
 
-        # THIS DICTATES UNIT IDS. DO NOT MESS WITH ORDER
-        self.func: List[
-            Callable[['MessageAgent'], None]] \
-            = [t1.nop,
+        # THIS IS DICTATED BY UNIT IDS. DO NOT MESS WITH ORDER
+        self.func: List[Callable[['MessageAgent'], None]] = [
+            t1.nop,
 
-               t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket,
-               t1.duck, t1.fish,
-               t1.horse, t1.ladybug, t1.mosquito, t1.otter, t1.pig,
+            t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket,
+            t1.duck, t1.fish, t1.horse, t1.ladybug, t1.mosquito,
+            t1.otter, t1.pig,
 
-               t2.bat, t2.crab, t2.dodo, t2.dromedary, t2.elephant,
-               t2.flamingo,
-               t2.hedgehog, t2.peacock, t2.rat, t2.shrimp, t2.spider,
-               t2.swan, t2.tabby_cat,
+            t2.bat, t2.crab, t2.dodo, t2.dromedary, t2.elephant,
+            t2.flamingo, t2.hedgehog, t2.peacock, t2.rat, t2.shrimp,
+            t2.spider, t2.swan, t2.tabby_cat,
 
-               t3.badger, t3.blowfish, t3.camel, t3.caterpillar, t3.dog,
-               t3.giraffe,
-               t3.hatching_chick, t3.kangaroo, t3.owl, t3.ox, t3.puppy,
-               t3.rabbit,
-               t3.sheep, t3.snail, t3.tropical_fish, t3.turtle,
+            t3.badger, t3.blowfish, t3.camel, t3.caterpillar, t3.dog,
+            t3.giraffe, t3.hatching_chick, t3.kangaroo, t3.owl, t3.ox,
+            t3.puppy, t3.rabbit, t3.sheep, t3.snail, t3.tropical_fish,
+            t3.turtle,
 
-               t4.bison, t4.buffalo, t4.deer, t4.dolphin, t4.hippo,
-               t4.llama, t4.lobster,
-               t4.penguin, t4.poodle, t4.rooster, t4.skunk, t4.squirrel,
-               t4.whale,
-               t4.worm,
+            t4.bison, t4.buffalo, t4.deer, t4.dolphin, t4.hippo,
+            t4.llama, t4.lobster, t4.penguin, t4.poodle, t4.rooster,
+            t4.skunk, t4.squirrel, t4.whale, t4.worm,
 
-               t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
-               t5.microbe, t5.monkey,
-               t5.parrot, t5.rhino, t5.scorpion, t5.seal, t5.shark,
-               t5.turkey,
+            t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
+            t5.microbe, t5.monkey, t5.parrot, t5.rhino, t5.scorpion,
+            t5.seal, t5.shark, t5.turkey,
 
-               t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,
-               t6.mammoth,
-               t6.octopus, t6.sauropod, t6.snake, t6.tiger,
-               t6.tyrannosaurus,
+            t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,
+            t6.mammoth, t6.octopus, t6.sauropod, t6.snake, t6.tiger,
+            t6.tyrannosaurus
+        ]
 
-               eq.apple, eq.honey,
-               eq.cupcake, eq.meat_bone, eq.sleeping_pill, eq.weak,
-               eq.garlic, eq.salad_bowl,
-               eq.canned_food, eq.pear,
-               eq.best_milk, eq.better_milk, eq.chili, eq.chocolate, eq.milk, eq.peanut, eq.sushi,
-               eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
-               ]
+        # room for new units, just have ids be after t-rex
+
+        num_nops = 400 - len(self.func)
+        self.func += [t1.nop for _ in range(num_nops)]
+
+        self.func += [
+            eq.apple, eq.honey,
+            eq.cupcake, eq.meat_bone, eq.sleeping_pill, eq.weak,
+            eq.garlic, eq.salad_bowl,
+            eq.canned_food, eq.pear,
+            eq.best_milk, eq.better_milk, eq.chili, eq.chocolate, eq.milk, eq.peanut, eq.sushi,
+            eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
+        ]
 
         # self.functions = {}
         #
