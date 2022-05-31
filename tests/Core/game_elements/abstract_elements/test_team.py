@@ -246,6 +246,65 @@ class TestTeam(TestCase):
         self.team.acting = 0
         self.assertTrue(self.team.friends_behind(1) is None)
 
+    def test_make_summon_room_with_left_shift_at(self):
+        self.clean_start()
+        self.team[0] = self.spawner.spawn(3)
+        self.team[1] = self.spawner.spawn(4)
+
+        anims = [self.team[0], self.team[1]]
+        self.team.make_summon_room_with_left_shift_at(0)
+        self.assertTrue(self.team[2] == anims[1])
+        self.assertTrue(self.team[1] == anims[0])
+        self.assertTrue(isinstance(self.team[0], Empty))
+
+        self.team[4] = self.spawner.spawn(5)
+        anims.append(self.team[4])
+        self.team.make_summon_room_with_left_shift_at(1)
+        self.assertTrue(isinstance(self.team[0], Empty))
+        self.assertTrue(isinstance(self.team[1], Empty))
+        self.assertTrue(self.team[2] == anims[0])
+        self.assertTrue(self.team[3] == anims[1])
+        self.assertTrue(self.team[4] == anims[2])
+
+        self.clean_start()
+        self.team[1] = self.spawner.spawn(4)
+        anims = self.team[1]
+        self.team.make_summon_room_with_left_shift_at(0)
+        self.assertTrue(isinstance(self.team[0], Empty))
+        self.assertTrue(self.team[1] == anims)
+        self.assertTrue(isinstance(self.team[2], Empty))
+
+    def test_make_summon_room_with_right_shift_at(self):
+        self.clean_start()
+        self.team[1] = self.spawner.spawn(4)
+        self.team[2] = self.spawner.spawn(5)
+        anims = [self.team[1], self.team[2]]
+
+        self.team.make_summon_room_with_right_shift_at(2)
+        self.assertTrue(isinstance(self.team[2], Empty))
+        self.assertTrue(self.team[1] == anims[1])
+        self.assertTrue(self.team[0] == anims[0])
+
+        self.team[3] = self.spawner.spawn(4)
+        self.team[4] = self.spawner.spawn(6)
+        anims.append(self.team[3])
+        anims.append(self.team[4])
+
+        self.team.make_summon_room_with_right_shift_at(4)
+        self.assertTrue(self.team[0] == anims[0])
+        self.assertTrue(self.team[1] == anims[1])
+        self.assertTrue(self.team[2] == anims[2])
+        self.assertTrue(self.team[3] == anims[3])
+        self.assertTrue(isinstance(self.team[4], Empty))
+
+        self.clean_start()
+        self.team[1] = self.spawner.spawn(4)
+        anims = self.team[1]
+        self.team.make_summon_room_with_right_shift_at(2)
+        self.assertTrue(isinstance(self.team[0], Empty))
+        self.assertTrue(self.team[1] == anims)
+        self.assertTrue(isinstance(self.team[2], Empty))
+
     def test_other_lvl2_or_3(self):
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
