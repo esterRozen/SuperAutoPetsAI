@@ -109,6 +109,8 @@ class MessageAgent(BaseAgent):
             eq.coconut, eq.melon, eq.mushroom, eq.pizza, eq.steak
         ]
 
+        self._event_queue = []
+        self._root_event = True
         # self.functions = {}
         #
         # for group in objs:
@@ -180,14 +182,21 @@ class MessageAgent(BaseAgent):
         agent.shop = state.shop
         return agent
 
-    def handle_event(self, message, event_raiser=None, target=None):
-        # set variables
+    def _raise_event(self):
+        (message, event_raiser, target) = self._event_queue.pop(0)
         if event_raiser is not None:
             self.event_raiser = event_raiser
         if target is not None:
             self.target = target
 
-        # handle event
+        # sending messages like buy, sell, move, combine, start turn, end turn,
+
+        # route to trigger processor, it will figure out which units to have
+        # handle messages.
+        # start turn, reroll, freeze/unfreeze, hurt, faint, knock out, attacks,
+        # before attack, unit ahead attacks, unit ahead faints, friend summoned
+
+        # raise event
         if message == eventnames.ATTACK:
             self.attack()
         elif message == eventnames.BEFORE_ATTACK:
@@ -237,12 +246,15 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.START_TURN:
             self.__EP.start_turn(self)
 
-        # sending messages like buy, sell, move, combine, start turn, end turn,
+    def enqueue_event(self, message, event_raiser: Tuple[str, int] = None, target: Tuple[str, int] = None):
+        self._event_queue.append((message, event_raiser, target))
 
-        # route to trigger processor, it will figure out which units to have
-        # handle messages.
-        # start turn, reroll, freeze/unfreeze, hurt, faint, knock out, attacks,
-        # before attack, unit ahead attacks, unit ahead faints, friend summoned
+    def handle_events(self):
+        if not self._event_queue:
+            return
+
+        self._raise_event()
+        self.handle_events()
         return
 
     # message contains unit_id which sent it
@@ -287,11 +299,11 @@ class MessageAgent(BaseAgent):
         team_hurt = self._check_faint()
 
         if team_hurt:
-            self.handle_event(eventnames.HURT)
+            self.handle_events()
         if enemy_hurt:
             self.event_raiser = enemy_actor
             self.target = team_actor
-            self.handle_event(eventnames.HURT)
+            self.handle_events()
             self.event_raiser = team_actor
             self.target = enemy_actor
 
@@ -306,7 +318,7 @@ class MessageAgent(BaseAgent):
         self.target = team_actor
         enemy_is_hurt = self._check_faint()
         if enemy_is_hurt:
-            self.handle_event(eventnames.HURT)
+            self.handle_events()
         self.event_raiser = team_actor
         self.target = enemy_actor
 
@@ -334,15 +346,15 @@ class MessageAgent(BaseAgent):
 
         target = self.target
         event_raiser = self.event_raiser
-        self.handle_event(eventnames.ON_FAINT)
+        self.handle_events()
 
-        self.handle_event(eventnames.FRIEND_AHEAD_FAINTS)
+        self.handle_events()
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
             self.event_raiser = target
             self.target = event_raiser
-            self.handle_event(eventnames.KNOCK_OUT)
+            self.handle_events()
 
         self.target = target
         self.event_raiser = event_raiser

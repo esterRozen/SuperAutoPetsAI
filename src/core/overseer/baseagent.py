@@ -31,15 +31,13 @@ class BaseAgent:
 
         self.enemy = Team()
 
-        self.shop = Shop(mode, 1)
-
         # animal that triggered the event is the event_raiser
         # animal that responded to event is the acting animal
         self.event_raiser: Tuple[str, int] = ("team", 0)
         self.target: Tuple[str, int] = ("team", 0)
 
     @abstractmethod
-    def handle_event(self, message, event_raiser=None, target=None):
+    def handle_events(self):
         pass
 
     @abstractmethod
