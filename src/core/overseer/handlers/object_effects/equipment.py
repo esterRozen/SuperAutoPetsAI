@@ -30,7 +30,7 @@ class Equipment:
     def sleeping_pill(agent: 'MessageAgent'):
         # raise faint, have variables set properly
         actor = agent.event_raiser[1]
-        agent.handle_event(ON_FAINT)
+        agent.handle_events()
         agent.team.faint(actor)
 
     @staticmethod
@@ -46,10 +46,10 @@ class Equipment:
         units: List[int] = agent.team.random_units_idx(2)
         for unit in units:
             agent.event_raiser = ("team", unit)
-            agent.handle_event(EAT_FOOD)
+            agent.handle_events()
 
             agent.event_raiser = ("team", unit)
-            agent.handle_event(FRIEND_EATS_FOOD)
+            agent.handle_events()
 
             agent.team[unit].permanent_buff(2, 2)
 
@@ -79,7 +79,7 @@ class Equipment:
         agent.team[agent.event_raiser[1]].increase_xp(1)
 
         if agent.team[agent.event_raiser[1]].level - lvl:
-            agent.handle_event(ON_LEVEL)
+            agent.handle_events()
 
     @staticmethod
     def milk(agent: 'MessageAgent'):
@@ -94,10 +94,10 @@ class Equipment:
         units: List[int] = agent.team.random_units_idx(3)
         for unit in units:
             agent.event_raiser = ("team", unit)
-            agent.handle_event(EAT_FOOD)
+            agent.handle_events()
 
             agent.event_raiser = ("team", unit)
-            agent.handle_event(FRIEND_EATS_FOOD)
+            agent.handle_events()
 
             agent.team[unit].permanent_buff(1, 1)
 
@@ -118,10 +118,10 @@ class Equipment:
         units: List[int] = agent.team.random_units_idx(2)
         for unit in units:
             agent.event_raiser = ("team", unit)
-            agent.handle_event(EAT_FOOD)
+            agent.handle_events()
 
             agent.event_raiser = ("team", unit)
-            agent.handle_event(FRIEND_EATS_FOOD)
+            agent.handle_events()
 
             agent.team[unit].permanent_buff(2, 2)
 
