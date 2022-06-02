@@ -183,9 +183,9 @@ class MessageAgent(BaseAgent):
         return agent
 
     def _raise_event(self):
-        (message, event_raiser, target) = self._event_queue.pop(0)
-        if event_raiser is not None:
-            self.event_raiser = event_raiser
+        (message, actor, target) = self._event_queue.pop(0)
+        if actor is not None:
+            self.event_raiser = actor
         if target is not None:
             self.target = target
 
@@ -198,49 +198,50 @@ class MessageAgent(BaseAgent):
 
         # raise event
         if message == eventnames.ATTACK:
-            self.attack(event_raiser, target)
+            self.attack(actor, target)
+
         elif message == eventnames.BEFORE_ATTACK:
-            self.__EP.before_attack(self, self.event_raiser)
+            self.__EP.before_attack(self, actor)
         elif message == eventnames.BUY:
-            self.__EP.buy(self, self.event_raiser)
+            self.__EP.buy(self, actor)
         elif message == eventnames.BUY_FOOD:
             self.__EP.buy_food(self)
         elif message == eventnames.BUY_T1_PET:
             self.__EP.buy_t1_pet(self)
         elif message == eventnames.EAT_FOOD:
-            self.__EP.eat_food(self, self.event_raiser)
+            self.__EP.eat_food(self, actor)
         elif message == eventnames.ENEMY_ATTACKS:
-            self.__EP.enemy_attacks(self, self.event_raiser)
+            self.__EP.enemy_attacks(self, actor)
         elif message == eventnames.END_TURN:
             self.__EP.end_turn(self)
         elif message == eventnames.FRIEND_AHEAD_ATTACKS:
-            self.__EP.friend_ahead_attacks(self, self.event_raiser)
+            self.__EP.friend_ahead_attacks(self, actor)
         elif message == eventnames.FRIEND_AHEAD_FAINTS:
-            self.__EP.friend_ahead_faints(self, self.event_raiser)
+            self.__EP.friend_ahead_faints(self, actor)
         elif message == eventnames.FRIEND_BOUGHT:
-            self.__EP.friend_bought(self, self.event_raiser)
+            self.__EP.friend_bought(self, actor)
         elif message == eventnames.FRIEND_EATS_FOOD:
-            self.__EP.friend_eats_food(self, self.event_raiser)
+            self.__EP.friend_eats_food(self, actor)
         elif message == eventnames.FRIEND_FAINTS:
-            self.__EP.friend_faints(self, self.event_raiser)
+            self.__EP.friend_faints(self, actor)
         elif message == eventnames.FRIEND_SOLD:
-            self.__EP.friend_sold(self, self.event_raiser)
+            self.__EP.friend_sold(self, actor)
         elif message == eventnames.FRIEND_SUMMONED_BATTLE:
-            self.__EP.friend_summoned_battle(self, self.event_raiser)
+            self.__EP.friend_summoned_battle(self, actor)
         elif message == eventnames.FRIEND_SUMMONED_SHOP:
-            self.__EP.friend_summoned_shop(self, self.event_raiser)
+            self.__EP.friend_summoned_shop(self, actor)
         elif message == eventnames.HURT:
-            self.__EP.hurt(self, self.event_raiser)
+            self.__EP.hurt(self, actor)
         elif message == eventnames.IS_SUMMONED:
-            self.__EP.is_summoned(self, self.event_raiser)
+            self.__EP.is_summoned(self, actor)
         elif message == eventnames.KNOCK_OUT:
-            self.__EP.knock_out(self, self.event_raiser)
+            self.__EP.knock_out(self, actor)
         elif message == eventnames.ON_FAINT:
-            self.__EP.on_faint(self, self.event_raiser)
+            self.__EP.on_faint(self, actor)
         elif message == eventnames.ON_LEVEL:
-            self.__EP.on_level(self, self.event_raiser)
+            self.__EP.on_level(self, actor)
         elif message == eventnames.SELL:
-            self.__EP.sell(self, self.event_raiser)
+            self.__EP.sell(self, actor)
         elif message == eventnames.START_BATTLE:
             self.__EP.start_battle(self)
         elif message == eventnames.START_TURN:
