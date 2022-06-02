@@ -34,7 +34,6 @@ def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
 
     for animal in animals:
         actor = roster.animals.index(animal)
-        roster.acting = actor
         agent.event_raiser = (team, actor)
 
         operation = animal.trigger(event)
@@ -47,10 +46,8 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
 
     for animal in animals:
         if animal in agent.team.animals:
-            agent.team.acting = agent.team.animals.index(animal)
             agent.event_raiser = ("team", agent.team.acting)
         elif animal in agent.enemy.animals:
-            agent.enemy.acting = agent.enemy.animals.index(animal)
             agent.event_raiser = ("enemy", agent.enemy.acting)
         else:
             raise ValueError(f"{animal} not present in either team")
@@ -66,7 +63,6 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, i
 
     for animal in animals:
         actor = roster.animals.index(animal)
-        roster.acting = actor
         agent.event_raiser = (team, actor)
 
         operation = animal.trigger(event)
@@ -81,7 +77,6 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
 
     for animal in animals:
         actor = roster.animals.index(animal)
-        roster.acting = actor
         agent.event_raiser = (team, actor)
 
         operation = animal.trigger(event)
@@ -91,8 +86,8 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
 @maintain_actors
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
     team = get_roster(agent, actor)
-    team.acting = actor[1]
     agent.event_raiser = actor
+
     operation = team.animals[actor[1]].trigger(event)
     agent.trigger_ability(operation)
 
