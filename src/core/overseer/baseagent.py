@@ -62,6 +62,15 @@ class BaseAgent:
         else:
             raise ValueError(f"{self.target[0]} is not a valid team type")
 
+    def actor(self, actor: Tuple[str, int]) -> Animal:
+        if actor[0] == "team":
+            return self.team.animals[actor[1]]
+        elif actor[0] == "enemy":
+            return self.enemy.animals[actor[1]]
+        else:
+            raise ValueError("actor should be either team or enemy")
+
+    # deprecated
     @property
     def event_raising_animal(self) -> Animal:
         if self.event_raiser[0] == "team":
@@ -70,6 +79,7 @@ class BaseAgent:
             return self.enemy.animals[self.event_raiser[1]]
         raise ValueError("event raiser tuple's string should be either team or enemy")
 
+    # deprecated
     @property
     def target_animal(self) -> Animal:
         if self.target[0] == "team":
