@@ -133,14 +133,14 @@ class Team:
                 i += 1
         return i
 
-    def faint(self, event_raiser: int):
+    def faint(self, acting: int):
         """
         does not handle faint effects or held items that trigger on faint!
         Args:
-            event_raiser:
+            acting:
         Returns:
         """
-        self.animals[event_raiser] = Empty()
+        self.animals[acting] = Empty()
 
     def friends(self, acting: int) -> Optional[List[Animal]]:
         a = list(range(0, 5))
