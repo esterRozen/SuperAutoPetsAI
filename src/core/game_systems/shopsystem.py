@@ -12,7 +12,6 @@ class ShopSystem:
         """
         Args:
             agent (MessageAgent):
-
         """
         self.__agent = agent
         self.__agent.set_shopper(self)
@@ -23,12 +22,12 @@ class ShopSystem:
         self.__agent.load_backup()
         self.__agent.reset_temp_stats()
 
+        # shop flows
+        self.__agent.shop.start_turn()
+
         # events
         # start turn
         self.__agent.enqueue_event(eventnames.START_TURN)
-
-        # shop flows
-        self.__agent.shop.start_turn()
 
     def toggle_freeze(self, pos: int):
         self.__agent.shop.toggle_freeze(pos)
@@ -51,20 +50,16 @@ class ShopSystem:
             return
 
         if isinstance(self.__agent.team.animals[target_pos], Empty):
-            self.__agent.event_raiser = target_pos
             self.__buy_to_empty_response(shop_slot, target_pos)
             return
 
         if isinstance(shop_slot.item, self.__agent.team.animals[target_pos].__class__):
-            self.__agent.event_raiser = target_pos
             self.__buy_to_same_response(shop_slot, target_pos)
             return
 
         if isinstance(shop_slot.item, Equipment):
-            self.__agent.event_raiser = target_pos
             self.__buy_equipment_response(shop_slot, target_pos)
 
-        self.__agent.event_raiser = target_pos
         self.__buy_different_animal_response(shop_slot, target_pos)
         return
 
@@ -72,6 +67,7 @@ class ShopSystem:
         if isinstance(shop_slot.item, Equipment):
             return
 
+        target = ("team", target_pos)
         item: Animal = shop_slot.item
 
         self.__agent.gold -= item.cost
@@ -79,59 +75,68 @@ class ShopSystem:
 
         self.__agent.team.animals[target_pos] = item
 
-        self.__agent.handle_events()
-        self.__agent.handle_events()
-        self.__agent.handle_events()
+        self.__agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
+                                   event_raiser=target)
+
+        self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
+                                   event_raiser=target)
+
+        self.__agent.enqueue_event(eventnames.BUY,
+                                   event_raiser=target)
         if item.tier == 1:
-            self.__agent.handle_events()
+            self.__agent.enqueue_event(eventnames.BUY_T1_PET)
         return
 
     def __buy_to_same_response(self, shop_slot, target_pos: int):
         target_unit = self.__agent.team.animals[target_pos]
+        target = ("team", target_pos)
 
-        item: Animal = shop_slot.item
-
+        item: Animal = shop_slot.buy()
         self.__agent.gold -= item.cost
-        shop_slot.buy()
 
         target_unit.increase_xp(1)
 
-        self.__agent.handle_events()
-        self.__agent.handle_events()
+        self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
+                                   event_raiser=target)
+
+        self.__agent.enqueue_event(eventnames.BUY,
+                                   event_raiser=target)
+
         if item.tier == 1:
-            self.__agent.handle_events()
+            self.__agent.enqueue_event(eventnames.BUY_T1_PET,
+                                       event_raiser=("team", target_pos))
         return
 
     def __buy_equipment_response(self, shop_slot, target_pos: int):
         item: Equipment = shop_slot.item
 
+        actor = ("team", target_pos)
         self.__agent.gold -= item.cost
         shop_slot.buy()
 
         if item.is_targeted:
             # handle consumable targeted food e.g. pear
-            # trigger buy food ability for all units, if ability exists
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_events()
+            # enqueue buy food ability for all units, if ability exists
+            self.__agent.enqueue_event(eventnames.BUY_FOOD)
 
             # perform food effects
             self.__agent.event_raiser = ("team", target_pos)
             self.__agent.func[item.id](self.__agent)
 
-            # trigger "eat food" ability of animal that ate, if ability exists
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_events()
+            # enqueue "eat food" ability of animal that ate, if ability exists
+            self.__agent.enqueue_event(eventnames.EAT_FOOD,
+                                       event_raiser=actor)
 
-            # trigger "friend eats food" ability of friends, if ability exists
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_events()
+            # enqueue "friend eats food" ability of friends, if ability exists
+            self.__agent.enqueue_event(eventnames.FRIEND_EATS_FOOD,
+                                       event_raiser=actor)
             return
         else:
             # handle non targeted food e.g. sushi
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.handle_events()
+            self.__agent.enqueue_event(eventnames.BUY_FOOD)
 
             # perform food effects
+            # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
             self.__agent.event_raiser = ("team", target_pos)
             self.__agent.func[item.id](self.__agent)
             return
@@ -140,15 +145,22 @@ class ShopSystem:
         if not self.__agent.team.has_summon_space:
             return
 
+        actor = ("team", target_pos)
         animal: Animal = shop_slot.item
         self.__agent.gold -= animal.cost
         self.__agent.team.summon(animal, target_pos)
 
-        self.__agent.handle_events()
-        self.__agent.handle_events()
-        self.__agent.handle_events()
+        self.__agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
+                                   event_raiser=actor)
+
+        self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
+                                   event_raiser=actor)
+
+        self.__agent.enqueue_event(eventnames.BUY,
+                                   event_raiser=actor)
         if animal.tier == 1:
-            self.__agent.handle_events()
+            self.__agent.enqueue_event(eventnames.BUY_T1_PET,
+                                       event_raiser=actor)
         return
 
     def summon(self, unit: Animal):
@@ -158,16 +170,21 @@ class ShopSystem:
         self.__agent.team.summon(unit, self.__agent.target[1])
 
     def sell(self, pos: int):
-        if isinstance(self.__agent.team.animals[pos], Empty):
+        actor = ("team", pos)
+        if isinstance(self.__agent.actor(actor), Empty):
             return
 
-        # set event raiser
-        # handle sell event and friend sold event
-        self.__agent.event_raiser = pos
-        self.__agent.handle_events()
-        self.__agent.handle_events()
+        animal = self.__agent.actor(actor)
 
-        self.__agent.gold += 1
+        # enqueue sell event and friend sold event
+        self.__agent.enqueue_event(eventnames.SELL,
+                                   event_raiser=actor)
+
+        self.__agent.enqueue_event(eventnames.FRIEND_SOLD,
+                                   event_raiser=actor)
+
+        self.__agent.gold += animal.level
+        self.__agent.team[actor[1]] = Empty()
 
     def move(self, roster_init, roster_final):
         # attacking unit in roster position 0
@@ -209,12 +226,14 @@ class ShopSystem:
         for _ in anim1.xp:
             anim2.increase_xp(1)
             new_level = anim2.level
+
             if new_level - level == 1:
-                self.__agent.handle_events()
+                self.__agent.enqueue_event(eventnames.ON_LEVEL,
+                                           event_raiser=("team", roster_final))
             level = new_level
         team[roster_init] = Empty()
 
     def end_turn(self):
         # save backup effects are performed in start battle
         # complete end turn effects
-        self.__agent.handle_events()
+        self.__agent.enqueue_event(eventnames.END_TURN)
