@@ -198,7 +198,7 @@ class MessageAgent(BaseAgent):
 
         # raise event
         if message == eventnames.ATTACK:
-            self.attack()
+            self.attack(event_raiser, target)
         elif message == eventnames.BEFORE_ATTACK:
             self.__EP.before_attack(self, self.event_raiser)
         elif message == eventnames.BUY:
@@ -288,87 +288,84 @@ class MessageAgent(BaseAgent):
         else:
             return True
 
-    def attack(self):
-        team_actor = self.event_raiser
-        enemy_actor = self.target
+    def attack(self, actor: Tuple[str, int], target: Tuple[str, int]):
+        """
+        handles one attack flow.
+        Args:
+            actor:
+            target:
+        Returns:
 
-        enemy_damage_taken = self.acting_team.rightmost_unit.battle_atk
-        team_damage_taken = self.target_team.rightmost_unit.battle_atk
+        """
+        self.deal_attack_damage(actor, target)
 
-        self.deal_attack_damage(enemy_damage_taken, "outgoing")
+        if self._query_faint(actor, target):
+            self.enqueue_event(eventnames.HURT,
+                               event_raiser=self.event_raiser,
+                               target=self.target)
 
-        # need to swap to have other unit do damage to us
-        self.event_raiser = enemy_actor
-        self.target = team_actor
-        self.deal_attack_damage(team_damage_taken, "outgoing")
-        enemy_hurt = self._check_faint()
+        if self._query_faint(target, actor):
+            self.enqueue_event(eventnames.HURT,
+                               event_raiser=self.target,
+                               target=self.event_raiser)
 
-        # swap back to check our faints. also fixes possible
-        # changes to the event raisers and targets
-        self.event_raiser = team_actor
-        self.target = enemy_actor
-        team_hurt = self._check_faint()
+    def deal_ability_damage_handle_hurt(self, damage: int, actor: Tuple[str, int], target: Tuple[str, int]):
+        """
+        actor deals damage
+        target receives damage
+        Args:
+            damage:
+            actor:
+            target:
+        Returns:
+        """
+        damage = self.actor(actor).damage_modifier(self, damage, "ability")
+        damage = self.actor(target).damage_modifier(self, damage, "incoming")
 
-        if team_hurt:
-            self.handle_events()
-        if enemy_hurt:
-            self.event_raiser = enemy_actor
-            self.target = team_actor
-            self.handle_events()
-            self.event_raiser = team_actor
-            self.target = enemy_actor
+        self.actor(target).battle_hp -= damage
+        if not self._query_faint(target, actor):
+            self.enqueue_event(eventnames.HURT,
+                               event_raiser=target,
+                               target=actor)
 
-    def deal_ability_damage_handle_hurt(self, damage: int):
-        damage = self.event_raising_animal.damage_modifier(self, damage, "ability")
-        damage = self.target_animal.damage_modifier(self, damage, "incoming")
-        self.target_animal.battle_hp -= damage
-
-        team_actor = self.event_raiser
-        enemy_actor = self.target
-        self.event_raiser = enemy_actor
-        self.target = team_actor
-        enemy_is_hurt = self._check_faint()
-        if enemy_is_hurt:
-            self.handle_events()
-        self.event_raiser = team_actor
-        self.target = enemy_actor
-
-    def deal_attack_damage(self, damage: int, damage_type: str):
+    def deal_attack_damage(self, actor: Tuple[str, int], target: Tuple[str, int]):
         """
         accounts for held items of attacker (event raiser) and attackee (target)
         you must set attacker and attackee beforehand
         does not call any events
         Args:
-            damage_type: flag for kind of damage being dealt, used to check
-                        if damage changes with attacker's held item
-                            - "outgoing"
-                            - "ability"
-            damage: int
+            actor:
+            target:
         """
-        attacker = self.acting_team[self.event_raiser[1]]
-        damage = attacker.damage_modifier(self, damage, damage_type)
-        target = self.target_team[self.target[1]]
-        damage = target.damage_modifier(self, damage, "incoming")
-        target.battle_hp -= damage
+        target_anim = self.actor(target)
+        actor_anim = self.actor(actor)
 
-    def faint(self):
+        actor_damage_taken = target_anim.damage_modifier(self, target_anim.battle_atk, "outgoing")
+        actor_damage_taken = actor_anim.damage_modifier(self, actor_damage_taken, "incoming")
+
+        target_damage_taken = actor_anim.damage_modifier(self, actor_anim.battle_atk, "outgoing")
+        target_damage_taken = target_anim.damage_modifier(self, target_damage_taken, "incoming")
+
+        target_anim.battle_hp -= target_damage_taken
+        actor_anim.battle_hp -= actor_damage_taken
+
+    def faint(self, actor: Tuple[str, int], target: Tuple[str, int]):
         # faint the event raiser!
         # target dealt the killing blow!
 
-        target = self.target
-        event_raiser = self.event_raiser
-        self.handle_events()
+        self.enqueue_event(eventnames.ON_FAINT,
+                           event_raiser=actor,
+                           target=target)
 
-        self.handle_events()
+        self.enqueue_event(eventnames.FRIEND_AHEAD_FAINTS,
+                           event_raiser=actor,
+                           target=target)
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
-            self.event_raiser = target
-            self.target = event_raiser
-            self.handle_events()
-
-        self.target = target
-        self.event_raiser = event_raiser
+            self.enqueue_event(eventnames.KNOCK_OUT,
+                               event_raiser=target,
+                               target=actor)
 
 
 if __name__ == '__main__':
