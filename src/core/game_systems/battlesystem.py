@@ -87,5 +87,5 @@ class BattleSystem:
         # knock out (on friendly team)
         pass
 
-    def summon(self, unit: Animal):
-        self.__agent.target_team.summon(unit, self.__agent.target[1])
+    def summon(self, unit: Animal, target: Tuple[str, int]):
+        self.__agent.team_of_(target).summon(unit, target[1])

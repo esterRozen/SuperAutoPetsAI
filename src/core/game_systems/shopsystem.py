@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 from .. import eventnames
 from ..game_elements.abstract_elements import Empty, Unarmed, Equipment, Animal
@@ -76,13 +76,13 @@ class ShopSystem:
         self.__agent.team.animals[target_pos] = item
 
         self.__agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
-                                   event_raiser=target)
+                                   actor=target)
 
         self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
-                                   event_raiser=target)
+                                   actor=target)
 
         self.__agent.enqueue_event(eventnames.BUY,
-                                   event_raiser=target)
+                                   actor=target)
         if item.tier == 1:
             self.__agent.enqueue_event(eventnames.BUY_T1_PET)
         return
@@ -97,14 +97,14 @@ class ShopSystem:
         target_unit.increase_xp(1)
 
         self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
-                                   event_raiser=target)
+                                   actor=target)
 
         self.__agent.enqueue_event(eventnames.BUY,
-                                   event_raiser=target)
+                                   actor=target)
 
         if item.tier == 1:
             self.__agent.enqueue_event(eventnames.BUY_T1_PET,
-                                       event_raiser=("team", target_pos))
+                                       actor=("team", target_pos))
         return
 
     def __buy_equipment_response(self, shop_slot, target_pos: int):
@@ -125,11 +125,11 @@ class ShopSystem:
 
             # enqueue "eat food" ability of animal that ate, if ability exists
             self.__agent.enqueue_event(eventnames.EAT_FOOD,
-                                       event_raiser=actor)
+                                       actor=actor)
 
             # enqueue "friend eats food" ability of friends, if ability exists
             self.__agent.enqueue_event(eventnames.FRIEND_EATS_FOOD,
-                                       event_raiser=actor)
+                                       actor=actor)
             return
         else:
             # handle non targeted food e.g. sushi
@@ -151,23 +151,23 @@ class ShopSystem:
         self.__agent.team.summon(animal, target_pos)
 
         self.__agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
-                                   event_raiser=actor)
+                                   actor=actor)
 
         self.__agent.enqueue_event(eventnames.FRIEND_BOUGHT,
-                                   event_raiser=actor)
+                                   actor=actor)
 
         self.__agent.enqueue_event(eventnames.BUY,
-                                   event_raiser=actor)
+                                   actor=actor)
         if animal.tier == 1:
             self.__agent.enqueue_event(eventnames.BUY_T1_PET,
-                                       event_raiser=actor)
+                                       actor=actor)
         return
 
-    def summon(self, unit: Animal):
-        if self.__agent.target[0] == "enemy":
+    def summon(self, unit: Animal, target: Tuple[str, int]):
+        if target[0] == "enemy":
             return
 
-        self.__agent.team.summon(unit, self.__agent.target[1])
+        self.__agent.team_of_(target).summon(unit, target[1])
 
     def sell(self, pos: int):
         actor = ("team", pos)
@@ -178,10 +178,10 @@ class ShopSystem:
 
         # enqueue sell event and friend sold event
         self.__agent.enqueue_event(eventnames.SELL,
-                                   event_raiser=actor)
+                                   actor=actor)
 
         self.__agent.enqueue_event(eventnames.FRIEND_SOLD,
-                                   event_raiser=actor)
+                                   actor=actor)
 
         self.__agent.gold += animal.level
         self.__agent.team[actor[1]] = Empty()
@@ -229,7 +229,7 @@ class ShopSystem:
 
             if new_level - level == 1:
                 self.__agent.enqueue_event(eventnames.ON_LEVEL,
-                                           event_raiser=("team", roster_final))
+                                           actor=("team", roster_final))
             level = new_level
         team[roster_init] = Empty()
 
