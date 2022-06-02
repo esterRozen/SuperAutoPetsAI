@@ -20,7 +20,7 @@ class Coconut(_Tier6):
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
-            agent.target_animal.held = Unarmed()
+            animal.held = Unarmed()
             return 0
         return damage
 
@@ -31,7 +31,7 @@ class Melon(_Tier6):
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
             damage = max(0, damage - 20)
-            agent.target_animal.held = Unarmed()
+            animal.held = Unarmed()
             return damage
         return damage
 
@@ -51,6 +51,6 @@ class Steak(_Tier6):
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
             damage += 20
-            agent.target_animal.held = Unarmed()
+            animal.held = Unarmed()
             return damage
         return damage

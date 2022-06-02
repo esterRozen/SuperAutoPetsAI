@@ -28,7 +28,7 @@ class Chili(_Tier5):
 
             second_unit = agent.team_opposing_(actor).second_unit
             if second_unit is not None:
-                target = (target[0], agent.target_team.animals.index(second_unit))
+                target = (target[0], agent.team_of_(target).animals.index(second_unit))
                 agent.deal_sneak_damage_handle_hurt(actor, target, 5)
             return damage
         return damage
