@@ -122,7 +122,7 @@ class Tier1:
     def otter(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
             agent.team_of_(actor).random_friend(actor[1]).permanent_buff(1, 1)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.team_of_(actor).random_friend(actor[1]).permanent_buff(2, 2)
         else:
             agent.team_of_(actor).random_friend(actor[1]).permanent_buff(3, 3)

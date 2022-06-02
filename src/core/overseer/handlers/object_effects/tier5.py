@@ -118,7 +118,7 @@ class Tier5:
     def shark(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
             agent.buff(agent.actor(actor), 2, 1)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.buff(agent.actor(actor), 4, 2)
         else:
             agent.buff(agent.actor(actor), 6, 3)

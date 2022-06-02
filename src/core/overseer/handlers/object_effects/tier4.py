@@ -75,7 +75,7 @@ class Tier4:
     def lobster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
             agent.shop.buff(2, 2)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.shop.buff(4, 4)
         else:
             agent.shop.buff(6, 6)

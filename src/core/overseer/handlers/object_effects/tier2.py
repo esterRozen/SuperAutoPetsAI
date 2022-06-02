@@ -25,10 +25,10 @@ class Tier2:
 
     @staticmethod
     def dodo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        battle_atk = agent.event_raising_animal.battle_atk
-        if agent.event_raising_animal.level == 1:
+        battle_atk = agent.actor(actor).battle_atk
+        if agent.actor(actor).level == 1:
             agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += floor(battle_atk / 2)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += battle_atk
         else:
             agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += floor(1.5 * battle_atk)

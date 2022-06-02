@@ -32,9 +32,9 @@ class Tier3:
 
     @staticmethod
     def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.event_raising_animal.level == 1:
+        if agent.actor(actor).level == 1:
             agent.actor(actor).xp += 1
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.actor(actor).xp += 1
         else:
             agent.team_of_(actor).animals[actor[1]] = Butterfly()
@@ -52,16 +52,16 @@ class Tier3:
     def giraffe(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
             agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 1), 1, 1)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 2), 1, 1)
         else:
             agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 3), 1, 1)
 
     @staticmethod
     def hatching_chick(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.event_raising_animal.level == 1:
+        if agent.actor(actor).level == 1:
             agent.team_of_(actor).friend_ahead(actor[1]).temp_buff(5, 5)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.team_of_(actor).friend_ahead(actor[1]).permanent_buff(2, 2)
         else:
             agent.team_of_(actor).friend_ahead(actor[1]).increase_xp(1)
