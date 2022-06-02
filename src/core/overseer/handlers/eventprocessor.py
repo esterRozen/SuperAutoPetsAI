@@ -33,11 +33,11 @@ def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
     animals = agent.sorted_team(team)
 
     for animal in animals:
-        actor = roster.animals.index(animal)
-        agent.event_raiser = (team, actor)
+        idx = roster.animals.index(animal)
+        actor = (team, idx)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation)
+        agent.trigger_ability(operation, actor, actor)
 
 
 @maintain_actors
@@ -46,13 +46,13 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
 
     for animal in animals:
         if animal in agent.team.animals:
-            agent.event_raiser = ("team", agent.team.acting)
+            actor = ("team", agent.team.acting)
         elif animal in agent.enemy.animals:
-            agent.event_raiser = ("enemy", agent.enemy.acting)
+            actor = ("enemy", agent.enemy.acting)
         else:
             raise ValueError(f"{animal} not present in either team")
         operation = animal.trigger(event)
-        agent.trigger_ability(operation)
+        agent.trigger_ability(operation, actor, actor)
 
 
 @maintain_actors
@@ -61,12 +61,14 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, i
     animals = agent.sorted_without_(actor)
     team = actor[0]
 
+    target = actor
+
     for animal in animals:
         actor = roster.animals.index(animal)
         agent.event_raiser = (team, actor)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation)
+        agent.trigger_ability(operation, (team, actor), target)
 
 
 @maintain_actors
@@ -74,22 +76,22 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
     roster = get_roster(agent, actor)
     animals = agent.sorted_units_behind_(actor)
     team = actor[0]
+    target = actor
 
     for animal in animals:
-        actor = roster.animals.index(animal)
-        agent.event_raiser = (team, actor)
+        idx = roster.animals.index(animal)
+        actor = (team, idx)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation)
+        agent.trigger_ability(operation, actor, target)
 
 
 @maintain_actors
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
     team = get_roster(agent, actor)
-    agent.event_raiser = actor
 
     operation = team.animals[actor[1]].trigger(event)
-    agent.trigger_ability(operation)
+    agent.trigger_ability(operation, actor, actor)
 
 
 class EventProcessor:
