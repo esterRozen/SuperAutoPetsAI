@@ -16,16 +16,9 @@ class BattleSystem:
         """
         self.__agent = agent
         self.__agent.set_battler(self)
-        self.__er: Tuple[str, int] = self.__agent.event_raiser
 
-    def _set_er(self, event_raiser: Tuple[str, int]):
-        self.__agent.event_raiser = event_raiser
-
-    def _set_target(self, target: Tuple[str, int]):
-        self.__agent.target = target
-
-    def _add_event(self, event: str, event_raiser=None, target=None):
-        self.__agent.enqueue_event(event, event_raiser, target)
+    def _add_event(self, event: str, actor=None, target=None):
+        self.__agent.enqueue_event(event, actor, target)
 
     def start_battle(self, enemy: Team):
         # make backup of team
