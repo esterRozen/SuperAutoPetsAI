@@ -40,19 +40,19 @@ class BattleSystem:
             # before attack (team)
             # before attack (enemy)
 
-            self._add_event(eventnames.BEFORE_ATTACK, event_raiser=("team", 0))
-            self._add_event(eventnames.BEFORE_ATTACK, event_raiser=("enemy", 0))
+            self._add_event(eventnames.BEFORE_ATTACK, actor=("team", 0))
+            self._add_event(eventnames.BEFORE_ATTACK, actor=("enemy", 0))
             self.__agent.handle_events()
 
             # attack (team)
             # attack (enemy)
-            self._add_event(eventnames.ATTACK, event_raiser=("team", 0), target=("enemy", 0))
-            self._add_event(eventnames.ATTACK, event_raiser=("enemy", 0), target=("team", 0))
+            self._add_event(eventnames.ATTACK, actor=("team", 0), target=("enemy", 0))
+            self._add_event(eventnames.ATTACK, actor=("enemy", 0), target=("team", 0))
             # friend ahead attacks (team)
             # friend ahead attacks (enemy)
 
-            self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, event_raiser=("team", 0))
-            self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, event_raiser=("enemy", 0))
+            self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, actor=("team", 0))
+            self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, actor=("enemy", 0))
             self.__agent.handle_events()
 
             # if team unit not above 0 hp:
