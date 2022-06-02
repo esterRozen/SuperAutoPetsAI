@@ -60,15 +60,6 @@ class BaseAgent:
         else:
             raise ValueError(f"{actor[0]} is not a valid team type")
 
-    @property
-    def target_team(self):
-        if self.target[0] == "team":
-            return self.team
-        elif self.event_raiser[0] == "enemy":
-            return self.enemy
-        else:
-            raise ValueError(f"{self.target[0]} is not a valid team type")
-
     def actor(self, actor: Tuple[str, int]) -> Animal:
         if actor[0] == "team":
             return self.team.animals[actor[1]]
@@ -76,33 +67,6 @@ class BaseAgent:
             return self.enemy.animals[actor[1]]
         else:
             raise ValueError("actor should be either team or enemy")
-
-    # deprecated
-    @property
-    def event_raising_animal(self) -> Animal:
-        if self.event_raiser[0] == "team":
-            return self.team.animals[self.event_raiser[1]]
-        elif self.event_raiser[0] == "enemy":
-            return self.enemy.animals[self.event_raiser[1]]
-        raise ValueError("event raiser tuple's string should be either team or enemy")
-
-    # deprecated
-    @property
-    def target_animal(self) -> Animal:
-        if self.target[0] == "team":
-            return self.team.animals[self.target[1]]
-        elif self.target[0] == "enemey":
-            return self.enemy.animals[self.target[1]]
-        raise ValueError("target tuple's string should be either team or enemy")
-
-    @property
-    def team_opposing_event_raiser(self):
-        if self.event_raiser[0] == "team":
-            return self.enemy
-        elif self.event_raiser[0] == "enemy":
-            return self.team
-        else:
-            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
 
     # re-enter shop from a given state
     # used for simulation and replay
