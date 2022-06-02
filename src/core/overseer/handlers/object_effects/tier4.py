@@ -1,6 +1,7 @@
 from math import ceil
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
+from ....game_elements.abstract_elements import Equipment
 from ....game_elements.game_objects.animals import Bus, Chick
 from ....game_elements.game_objects.equipment import Chili
 
@@ -10,92 +11,92 @@ if TYPE_CHECKING:
 
 class Tier4:
     @staticmethod
-    def bison(agent: 'MessageAgent'):
+    def bison(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if not agent.team.has_lvl3():
             return
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.team.acting].permanent_buff(4, 4)
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).permanent_buff(2, 2)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).permanent_buff(4, 4)
         else:
-            agent.team.animals[agent.team.acting].permanent_buff(6, 6)
+            agent.actor(actor).permanent_buff(6, 6)
 
     @staticmethod
-    def buffalo(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.team.acting].permanent_buff(1, 1)
-        elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
+    def buffalo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).permanent_buff(1, 1)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).permanent_buff(2, 2)
         else:
-            agent.team.animals[agent.team.acting].permanent_buff(3, 3)
+            agent.actor(actor).permanent_buff(3, 3)
 
     @staticmethod
-    def deer(agent: 'MessageAgent'):
+    def deer(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         unit = Bus()
-        unit.hp = 5 * agent.event_raising_animal.level
-        unit.atk = 5 * agent.event_raising_animal.level
+        unit.hp = 5 * agent.actor(actor).level
+        unit.atk = 5 * agent.actor(actor).level
         unit.held = Chili()
 
-        agent.summon(unit)
+        agent.summon(unit, actor)
 
     @staticmethod
-    def dolphin(agent: 'MessageAgent'):
+    def dolphin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
-        animal = agent.enemy.lowest_health_unit()
-        if agent.event_raising_animal.level == 1:
-            pass
-        elif agent.event_raising_animal.level == 2:
-            pass
+        animal = agent.team_opposing_(actor).lowest_health_unit()
+        if actor[0] == "team":
+            target = ("enemy", agent.enemy.animals.index(animal))
         else:
-            pass
+            target = ("team", agent.team.animals.index(animal))
+
+        agent.deal_ability_damage_handle_hurt(5 * agent.actor(actor).level,
+                                              actor, target)
 
     @staticmethod
-    def hippo(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.team.acting].temp_buff(2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.team.acting].temp_buff(4, 4)
+    def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).temp_buff(2, 2)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).temp_buff(4, 4)
         else:
-            agent.team.animals[agent.team.acting].temp_buff(6, 6)
+            agent.actor(actor).temp_buff(6, 6)
 
     @staticmethod
-    def llama(agent: 'MessageAgent'):
+    def llama(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.team.size() > 4:
             return
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.team.acting].permanent_buff(4, 4)
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).permanent_buff(2, 2)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).permanent_buff(4, 4)
         else:
-            agent.team.animals[agent.team.acting].permanent_buff(6, 6)
+            agent.actor(actor).permanent_buff(6, 6)
 
     @staticmethod
-    def lobster(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.event_raiser].permanent_buff(2, 2)
+    def lobster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.shop.buff(2, 2)
         elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.event_raiser].permanent_buff(4, 4)
+            agent.shop.buff(4, 4)
         else:
-            agent.team.animals[agent.event_raiser].permanent_buff(6, 6)
-        pass
+            agent.shop.buff(6, 6)
 
     @staticmethod
-    def penguin(agent: 'MessageAgent'):
-        animals_to_buff = agent.team.other_lvl2_or_3()
-        if agent.event_raising_animal.level == 1:
+    def penguin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        animals_to_buff = agent.team.other_lvl2_or_3(actor[1])
+        if agent.actor(actor).level == 1:
             agent.buff(animals_to_buff, 1, 1)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             agent.buff(animals_to_buff, 2, 2)
         else:
             agent.buff(animals_to_buff, 3, 3)
 
     @staticmethod
-    def poodle(agent: 'MessageAgent'):
+    def poodle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         animals_to_buff = agent.team.ret_diff_tiers()
-        if agent.event_raising_animal.level == 1:
+        if agent.actor(actor).level == 1:
             for animal in animals_to_buff:
                 animal.permanent_buff(1, 1)
-        elif agent.event_raising_animal.level == 2:
+        elif agent.actor(actor).level == 2:
             for animal in animals_to_buff:
                 animal.permanent_buff(2, 2)
         else:
@@ -103,39 +104,35 @@ class Tier4:
                 animal.permanent_buff(3, 3)
 
     @staticmethod
-    def rooster(agent: 'MessageAgent'):
+    def rooster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         unit = Chick()
         unit.hp = 1
-        unit.atk = agent.event_raising_animal.atk // 2
+        unit.atk = agent.actor(actor).atk // 2
 
-        for _ in range(agent.event_raising_animal.level):
-            agent.summon(unit.__copy__())
-
-    @staticmethod
-    def skunk(agent: 'MessageAgent'):
-        if agent.event_raiser[0] == "team":
-            target = agent.enemy.highest_health_unit()
-            target.battle_hp = max(1, ceil(target.battle_hp * (agent.event_raising_animal.level / 3)))
-        else:
-            target = agent.team.highest_health_unit()
-            target.battle_hp = max(1, ceil(target.battle_hp * (agent.event_raising_animal.level / 3)))
+        for _ in range(agent.actor(actor).level):
+            agent.summon(unit.__copy__(), actor)
 
     @staticmethod
-    def squirrel(agent: 'MessageAgent'):
-        food_slot = agent.shop.roster[-1]
+    def skunk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        target = agent.team_opposing_(actor).highest_health_unit()
+        target.battle_hp = max(1, ceil(target.battle_hp * (agent.actor(actor).level / 3)))
+
+    @staticmethod
+    def squirrel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         for slot in agent.shop.roster:
-            slot.item = food_slot.spawn(agent.shop.tier)
+            if isinstance(slot.item, Equipment):
+                slot.item.cost = max(0, slot.item.cost - agent.actor(actor).level)
 
     @staticmethod
-    def whale(agent: 'MessageAgent'):
+    def whale(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
         pass
 
     @staticmethod
-    def worm(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.team.animals[agent.team.acting].permanent_buff(1, 1)
-        elif agent.event_raising_animal.level == 2:
-            agent.team.animals[agent.team.acting].permanent_buff(2, 2)
+    def worm(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).permanent_buff(1, 1)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).permanent_buff(2, 2)
         else:
-            agent.team.animals[agent.team.acting].permanent_buff(3, 3)
+            agent.actor(actor).permanent_buff(3, 3)

@@ -32,14 +32,14 @@ class Equipment:
         agent.team.mark_fainted(actor[1])
 
         agent.enqueue_event(ON_FAINT,
-                            event_raiser=actor)
+                            actor=actor)
         agent.team.faint(actor[1])
 
         agent.enqueue_event(FRIEND_AHEAD_FAINTS,
-                            event_raiser=actor)
+                            actor=actor)
 
         agent.enqueue_event(FRIEND_FAINTS,
-                            event_raiser=actor)
+                            actor=actor)
 
     @staticmethod
     def weak(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -54,10 +54,10 @@ class Equipment:
         units: List[int] = agent.team.random_units_idx(2)
         for unit in units:
             agent.enqueue_event(EAT_FOOD,
-                                event_raiser=("team", unit))
+                                actor=("team", unit))
 
             agent.enqueue_event(FRIEND_EATS_FOOD,
-                                event_raiser=("team", unit))
+                                actor=("team", unit))
 
             agent.team[unit].permanent_buff(2, 2)
 
@@ -88,7 +88,7 @@ class Equipment:
 
         if agent.actor(actor).level - lvl:
             agent.enqueue_event(ON_LEVEL,
-                                event_raiser=actor)
+                                actor=actor)
 
     @staticmethod
     def milk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):

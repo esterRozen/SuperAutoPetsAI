@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 from ....game_elements.game_objects.equipment import Coconut
 
@@ -8,79 +8,85 @@ if TYPE_CHECKING:
 
 class Tier6:
     @staticmethod
-    def boar(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.event_raising_animal.permanent_buff(2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.event_raising_animal.permanent_buff(4, 4)
-        elif agent.event_raising_animal.level == 3:
-            agent.event_raising_animal.permanent_buff(6, 6)
+    def boar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).temp_buff(2, 2)
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).temp_buff(4, 4)
+        elif agent.actor(actor).level == 3:
+            agent.actor(actor).temp_buff(6, 6)
 
     # not 100% sure how to implement cat.
     @staticmethod
-    def cat(agent: 'MessageAgent'):
+    def cat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
         pass
 
     @staticmethod
-    def dragon(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.buff(agent.team.friends(), 1, 1)
-        elif agent.event_raising_animal.level == 2:
-            agent.buff(agent.team.friends(), 2, 2)
+    def dragon(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.buff(agent.team.friends(actor[1]), 1, 1)
+        elif agent.actor(actor).level == 2:
+            agent.buff(agent.team.friends(actor[1]), 2, 2)
         else:
-            agent.buff(agent.team.friends(), 2, 2)
+            agent.buff(agent.team.friends(actor[1]), 2, 2)
 
     @staticmethod
-    def fly(agent: 'MessageAgent'):
+    def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
         pass
 
     @staticmethod
-    def gorilla(agent: 'MessageAgent'):
-        agent.team.animals[agent.team.acting].held = Coconut()
+    def gorilla(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        agent.actor(actor).held = Coconut()
 
     @staticmethod
-    def leopard(agent: 'MessageAgent'):
+    def leopard(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
         pass
 
     @staticmethod
-    def mammoth(agent: 'MessageAgent'):
-        if agent.event_raising_animal.level == 1:
-            agent.buff(agent.team.friends(), 2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.buff(agent.team.friends(), 4, 4)
+    def mammoth(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.buff(agent.team.friends(actor[1]), 2, 2)
+        elif agent.actor(actor).level == 2:
+            agent.buff(agent.team.friends(actor[1]), 4, 4)
         else:
-            agent.buff(agent.team.friends(), 6, 6)
+            agent.buff(agent.team.friends(actor[1]), 6, 6)
 
     @staticmethod
-    def octopus(agent: 'MessageAgent'):
+    def octopus(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # TODO
         pass
 
     @staticmethod
-    def sauropod(agent: 'MessageAgent'):
+    def sauropod(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         agent.gold += 1
 
     @staticmethod
-    def snake(agent: 'MessageAgent'):
-        # TODO
-        pass
+    def snake(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        target = agent.team_opposing_(actor).random_units_idx(1)
+        if actor[0] == "team":
+            target_tup = ("enemy", target[0])
+        else:
+            target_tup = ("team", target[0])
+
+        agent.deal_ability_damage_handle_hurt(5 * agent.actor(actor).level,
+                                              actor, target_tup)
 
     # how to do this??
     @staticmethod
-    def tiger(agent: 'MessageAgent'):
-        # TODO
+    def tiger(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        # TODO use animal id to get ability and trigger it
         pass
 
     @staticmethod
-    def tyrannosaurus(agent: 'MessageAgent'):
+    def tyrannosaurus(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.gold < 3:
             return
-        if agent.event_raising_animal.level == 1:
-            agent.buff(agent.team.friends(), 2, 2)
-        elif agent.event_raising_animal.level == 2:
-            agent.buff(agent.team.friends(), 4, 4)
+        if agent.actor(actor).level == 1:
+            agent.buff(agent.team.units(), 2, 1)
+        elif agent.actor(actor).level == 2:
+            agent.buff(agent.team.units(), 4, 2)
         else:
-            agent.buff(agent.team.friends(), 6, 6)
+            agent.buff(agent.team.units(), 6, 3)
