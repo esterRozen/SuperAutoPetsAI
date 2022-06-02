@@ -247,6 +247,11 @@ class MessageAgent(BaseAgent):
             self.__EP.start_turn(self)
 
     def enqueue_event(self, message, event_raiser: Tuple[str, int] = None, target: Tuple[str, int] = None):
+        if event_raiser is None:
+            event_raiser = self.event_raiser
+        if target is None:
+            target = self.target
+        
         self._event_queue.append((message, event_raiser, target))
 
     def handle_events(self):
