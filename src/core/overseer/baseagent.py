@@ -31,7 +31,7 @@ class BaseAgent:
 
         self.enemy = Team()
 
-        # animal that triggered the event is the event_raiser
+        # animal that triggered the event is the actor
         # animal that responded to event is the acting animal
         self.event_raiser: Tuple[str, int] = ("team", 0)
         self.target: Tuple[str, int] = ("team", 0)
@@ -41,17 +41,24 @@ class BaseAgent:
         pass
 
     @abstractmethod
-    def trigger_ability(self, message):
+    def trigger_ability(self, message: int, actor: Tuple[str, int], target: Tuple[str, int]):
         pass
 
-    @property
-    def acting_team(self):
-        if self.event_raiser[0] == "team":
+    def team_of_(self, actor: Tuple[str, int]) -> Team:
+        if actor[0] == "team":
             return self.team
-        elif self.event_raiser[0] == "enemy":
+        elif actor[0] == "enemy":
             return self.enemy
         else:
-            raise ValueError(f"{self.event_raiser[0]} is not a valid team type")
+            raise ValueError(f"{actor[0]} is not a valid team type")
+
+    def team_opposing_(self, actor: Tuple[str, int]) -> Team:
+        if actor[0] == "team":
+            return self.enemy
+        elif actor[0] == "enemy":
+            return self.team
+        else:
+            raise ValueError(f"{actor[0]} is not a valid team type")
 
     @property
     def target_team(self):
@@ -153,8 +160,8 @@ class BaseAgent:
                     animal.temp_buff(atk, hp)
         return
 
-    def summon(self, unit: Animal):
+    def summon(self, unit: Animal, target: Tuple[str, int]):
         if self.in_shop:
-            self.__shopper.summon(unit)
+            self.__shopper.summon(unit, target)
         else:
-            self.__battler.summon(unit)
+            self.__battler.summon(unit, target)

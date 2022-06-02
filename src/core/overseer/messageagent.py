@@ -66,7 +66,7 @@ class MessageAgent(BaseAgent):
         self.__EP = EventProcessor()
 
         # THIS IS DICTATED BY UNIT IDS. DO NOT MESS WITH ORDER
-        self.func: List[Callable[['MessageAgent'], None]] = [
+        self.func: List[Callable[['MessageAgent', Tuple[str, int], Tuple[str, int]], None]] = [
             t1.nop,
 
             t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket,
@@ -247,13 +247,13 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.START_TURN:
             self.__EP.start_turn(self)
 
-    def enqueue_event(self, message, event_raiser: Tuple[str, int] = None, target: Tuple[str, int] = None):
-        if event_raiser is None:
-            event_raiser = self.event_raiser
+    def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None):
+        if actor is None:
+            actor = self.event_raiser
         if target is None:
             target = self.target
-        
-        self._event_queue.append((message, event_raiser, target))
+
+        self._event_queue.append((message, actor, target))
 
     def handle_events(self):
         if not self._event_queue:
@@ -264,10 +264,10 @@ class MessageAgent(BaseAgent):
         return
 
     # message contains unit_id which sent it
-    def trigger_ability(self, message):
+    def trigger_ability(self, message: int, actor: Tuple[str, int], target: Tuple[str, int]):
         # trigger function that manipulates roster
         # does not return anything
-        self.func[message](self)
+        self.func[message](self, actor, target)
 
     # assume event which triggered event handler has already resolved!!!
     # e.g. if animal sold, then it is no longer in the roster and gold
@@ -302,12 +302,12 @@ class MessageAgent(BaseAgent):
 
         if self._query_faint(actor, target):
             self.enqueue_event(eventnames.HURT,
-                               event_raiser=self.event_raiser,
+                               actor=self.event_raiser,
                                target=self.target)
 
         if self._query_faint(target, actor):
             self.enqueue_event(eventnames.HURT,
-                               event_raiser=self.target,
+                               actor=self.target,
                                target=self.event_raiser)
 
     def deal_ability_damage_handle_hurt(self, damage: int, actor: Tuple[str, int], target: Tuple[str, int]):
@@ -326,7 +326,7 @@ class MessageAgent(BaseAgent):
         self.actor(target).battle_hp -= damage
         if not self._query_faint(target, actor):
             self.enqueue_event(eventnames.HURT,
-                               event_raiser=target,
+                               actor=target,
                                target=actor)
 
     def deal_attack_damage(self, actor: Tuple[str, int], target: Tuple[str, int]):
@@ -355,17 +355,17 @@ class MessageAgent(BaseAgent):
         # target dealt the killing blow!
 
         self.enqueue_event(eventnames.ON_FAINT,
-                           event_raiser=actor,
+                           actor=actor,
                            target=target)
 
         self.enqueue_event(eventnames.FRIEND_AHEAD_FAINTS,
-                           event_raiser=actor,
+                           actor=actor,
                            target=target)
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
             self.enqueue_event(eventnames.KNOCK_OUT,
-                               event_raiser=target,
+                               actor=target,
                                target=actor)
 
 
