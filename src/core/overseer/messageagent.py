@@ -350,6 +350,16 @@ class MessageAgent(BaseAgent):
         target_anim.battle_hp -= target_damage_taken
         actor_anim.battle_hp -= actor_damage_taken
 
+    def deal_sneak_damage_handle_hurt(self, actor: Tuple[str, int], target: Tuple[str, int], damage):
+        target_anim = self.actor(target)
+        damage = target_anim.damage_modifier(self, damage, "incoming")
+
+        target_anim.battle_hp -= damage
+        if not self._query_faint(actor, target):
+            self.enqueue_event(eventnames.HURT,
+                               actor=target,
+                               target=actor)
+
     def faint(self, actor: Tuple[str, int], target: Tuple[str, int]):
         # faint the event raiser!
         # target dealt the killing blow!
