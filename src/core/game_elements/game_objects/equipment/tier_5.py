@@ -19,13 +19,17 @@ class Chili(_Tier5):
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
-            original_target = agent.target
-            target_team = agent.target_team
-            second_unit = target_team.second_unit
+            if animal in agent.team:
+                actor = ("team", 0)
+                target = ("enemy", 0)
+            else:
+                actor = ("enemy", 0)
+                target = ("team", 0)
+
+            second_unit = agent.team_opposing_(actor).second_unit
             if second_unit is not None:
-                agent.target = (agent.target[0], target_team.animals.index(second_unit))
-                agent.deal_attack_damage(5, "ability")
-                agent.target = original_target
+                target = (target[0], agent.target_team.animals.index(second_unit))
+                agent.deal_sneak_damage_handle_hurt(actor, target, 5)
             return damage
         return damage
 
