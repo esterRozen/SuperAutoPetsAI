@@ -120,8 +120,7 @@ class ShopSystem:
             self.__agent.enqueue_event(eventnames.BUY_FOOD)
 
             # perform food effects
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.func[item.id](self.__agent)
+            self.__agent.func[item.id](self.__agent, ("team", target_pos), ("team", target_pos))
 
             # enqueue "eat food" ability of animal that ate, if ability exists
             self.__agent.enqueue_event(eventnames.EAT_FOOD,
@@ -137,8 +136,7 @@ class ShopSystem:
 
             # perform food effects
             # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
-            self.__agent.event_raiser = ("team", target_pos)
-            self.__agent.func[item.id](self.__agent)
+            self.__agent.func[item.id](self.__agent, ("team", target_pos), ("team", target_pos))
             return
 
     def __buy_different_animal_response(self, shop_slot, target_pos: int):
