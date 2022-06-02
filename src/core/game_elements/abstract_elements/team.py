@@ -212,6 +212,9 @@ class Team:
         for i in range(last_empty + 1, idx + 1):
             push_unit_forward_one_space(self, i)
 
+    def mark_fainted(self, pos: int):
+        self.animals[pos].battle_hp = 0
+
     def other_lvl2_or_3(self, acting: int) -> Optional[List[Animal]]:
         a = list(range(0, 5))
         a.remove(acting)
