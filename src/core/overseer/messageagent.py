@@ -274,10 +274,16 @@ class MessageAgent(BaseAgent):
     # also assume that self.lvl is the level of the unit whose ability triggered
     # done for convenience, otherwise it's a pain...
 
-    def _check_faint(self) -> bool:
-        # check raising team's faints. may trigger knockout event
-        if self.acting_team[self.event_raiser[1]].battle_hp < 1:
-            self.faint()
+    def _query_faint(self, actor: Tuple[str, int], target: Tuple[str, int]) -> bool:
+        """
+        check if actor faints. may trigger knockout event
+        Args:
+            actor:
+            target:
+        Returns: TRUE
+        """
+        if self.actor(actor).battle_hp < 1:
+            self.faint(actor, target)
             return False
         else:
             return True
