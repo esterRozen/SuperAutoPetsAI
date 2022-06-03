@@ -14,16 +14,26 @@ class BattleSystem:
         Args:
             agent (MessageAgent):
         """
-        self.__agent = agent
-        self.__agent.set_battler(self)
+        self.agent = agent
+        self.agent.set_battler(self)
 
     def _add_event(self, event: str, actor=None, target=None):
-        self.__agent.enqueue_event(event, actor, target)
+        self.agent.enqueue_event(event, actor, target)
 
-    def start_battle(self, enemy: Team):
+    def start_battle(self, enemy: Team) -> int:
+        """
+        returns a result of the agent's team fighting the provided enemy
+
+        Args:
+            enemy: team to fight
+        Returns:    1 if result is a win
+                    0 if result is a draw
+                    -1 if result is a loss
+
+        """
         # make backup of team
-        self.__agent.store_backup()
-        self.__agent.enemy = enemy
+        self.agent.store_backup()
+        self.agent.enemy = enemy
 
         # the opponent needs no inter-turn backup as
         # opponent is randomized each turn and
@@ -32,17 +42,17 @@ class BattleSystem:
         # start battle trigger
         # handles start of battle for both teams
         self._add_event(eventnames.START_BATTLE)
-        self.__agent.handle_events()
+        self.agent.handle_events()
 
         # loop: (interleave team and enemy events)
 
-        while self.__agent.team.size > 0 and self.__agent.enemy.size > 0:
+        while self.agent.team.size > 0 and self.agent.enemy.size > 0:
             # before attack (team)
             # before attack (enemy)
 
             self._add_event(eventnames.BEFORE_ATTACK, actor=("team", 0))
             self._add_event(eventnames.BEFORE_ATTACK, actor=("enemy", 0))
-            self.__agent.handle_events()
+            self.agent.handle_events()
 
             # attack (team)
             # attack (enemy)
@@ -53,7 +63,7 @@ class BattleSystem:
 
             self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, actor=("team", 0))
             self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, actor=("enemy", 0))
-            self.__agent.handle_events()
+            self.agent.handle_events()
 
             # if team unit not above 0 hp:
             # on faint (team)
@@ -68,5 +78,7 @@ class BattleSystem:
             # knock out (on friendly team)
             pass
 
+        # handle win, loss, draw actions
+    
     def summon(self, unit: Animal, target: Tuple[str, int]):
-        self.__agent.team_of_(target).summon(unit, target[1])
+        self.agent.team_of_(target).summon(unit, target[1])
