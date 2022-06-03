@@ -151,7 +151,7 @@ class Equipment:
     def tier(self):
         return 0
 
-    def trigger(self, name: int):
+    def trigger(self, name: str):
         return 0
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str):
