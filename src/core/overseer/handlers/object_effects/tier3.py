@@ -11,15 +11,42 @@ if TYPE_CHECKING:
 class Tier3:
     # triggers hurt ugh
     @staticmethod
-    def badger(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+    def badger(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        damage = fainted.level * fainted.battle_atk // 2
+        if actor[0] == "team":
+            team = agent.team
+            target = "enemy"
+        else:
+            team = agent.enemy
+            target = "team"
+
+        behind = (actor[0], team.animals.index(team.friend_behind(actor[1])))
+        teammate_ahead = team.friend_ahead(actor[1])
+
+        # deal damage to unit behind
+        agent.deal_ability_damage_handle_hurt(damage, fainted, behind)
+
+        if teammate_ahead is None:
+            enemy_pos = agent.team_opposing_(actor).animals.index(agent.team_opposing_(actor).rightmost_unit)
+            target = (target, enemy_pos)
+        else:
+            target = (actor[0], team.animals.index(teammate_ahead))
+
+        # deal damage to unit ahead
+        agent.deal_ability_damage_handle_hurt(damage, fainted, target)
 
     # triggers hurt
     @staticmethod
     def blowfish(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+        if actor[0] == "enemy":
+            opponent = "team"
+        else:
+            opponent = "enemy"
+
+        target = (opponent, agent.team_opposing_(actor).random_units_idx(1)[0])
+        agent.deal_ability_damage_handle_hurt(
+            agent.actor(actor).level * 2,
+            actor, target)
 
     @staticmethod
     def camel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -85,7 +112,7 @@ class Tier3:
             agent.team_of_(actor).random_friend(actor[1]).permanent_buff(6, 6)
 
     @staticmethod
-    def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         agent.actor(actor).permanent_buff(agent.actor(actor).level, 0)
         agent.actor(actor).held = Melon()
 
@@ -110,10 +137,12 @@ class Tier3:
             agent.team_of_(actor).animals[target[1]].permanent_buff(0, 3)
 
     @staticmethod
-    def sheep(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def sheep(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Ram()
-        unit.hp = 2 * agent.actor(actor).level
-        unit.atk = 2 * agent.actor(actor).level
+        unit.hp = 2 * fainted.level
+        unit.battle_hp = 2 * fainted.level
+        unit.atk = 2 * fainted.level
+        unit.battle_atk = 2 * fainted.level
 
         agent.summon(unit.__copy__(), actor)
         agent.summon(unit.__copy__(), actor)
@@ -135,7 +164,7 @@ class Tier3:
         agent.team_of_(actor).friend_behind(actor[1]).permanent_buff(0, agent.actor(actor).level)
 
     @staticmethod
-    def turtle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        units: List[Animal] = agent.team_of_(actor).friends_behind(actor[1], agent.actor(actor).level)
+    def turtle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        units: List[Animal] = agent.team_of_(actor).friends_behind(actor[1], fainted.level)
         for unit in units:
             unit.held = Melon()
