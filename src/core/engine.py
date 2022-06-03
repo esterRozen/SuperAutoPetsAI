@@ -1,8 +1,12 @@
 # must have a way to save and load states
-from . import State
+from typing import TYPE_CHECKING
+
 from .game_systems import BattleSystem, ShopSystem
 from .game_elements.abstract_elements import Team
 from .overseer import *
+
+if TYPE_CHECKING:
+    from . import State
 
 
 class Engine:
@@ -15,10 +19,10 @@ class Engine:
         self.__messenger.set_shopper(self.__shop_director)
 
     @property
-    def save(self, include_shop: bool = True) -> State:
+    def save(self, include_shop: bool = True) -> 'State':
         return self.__messenger.save(include_shop)
 
-    def load(self, state: State):
+    def load(self, state: 'State'):
         self.__messenger.load(state)
 
     def move(self, roster_init: int, roster_final: int):
