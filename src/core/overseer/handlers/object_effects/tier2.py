@@ -65,9 +65,17 @@ class Tier2:
 
     # hedgehog has to trigger the hurt trigger!!
     @staticmethod
-    def hedgehog(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+    def hedgehog(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        damage = 2 * fainted.level
+
+        units = agent.sorted_team("both")
+        for unit in units:
+            if unit in agent.team:
+                target = ("team", agent.team.animals.index(unit))
+            else:
+                target = ("enemy", agent.enemy.animals.index(unit))
+
+            agent.deal_ability_damage_handle_hurt(damage, actor, target)
 
     @staticmethod
     def peacock(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
