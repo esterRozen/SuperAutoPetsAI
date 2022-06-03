@@ -17,7 +17,7 @@ class TestTeam(TestCase):
             team.animals[i] = spawner.spawn(1)
             self.assertFalse(team.has_lvl3, "team should not have any level 3 units")
 
-        team.animals[3].increase_xp(5)
+        team[3].increase_xp(5)
         self.assertTrue(team.has_lvl3, "team should have a level 3")
 
     def test_leftmost_unit(self):
@@ -44,7 +44,7 @@ class TestTeam(TestCase):
         self.clean_start()
         for i in range(5):
             self.team.animals[i] = self.spawner.spawn(3)
-            self.team.animals[i].increase_xp(i + 1)
+            self.team[i].increase_xp(i + 1)
             self.assertTrue(self.team.level_of_actor(0) == 1, "actor shouldn't change")
 
         levels = [1, 2, 2, 2, 3]
