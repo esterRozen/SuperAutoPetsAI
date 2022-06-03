@@ -124,8 +124,8 @@ class BaseAgent:
                     animal.temp_buff(atk, hp)
         return
 
-    def summon(self, unit: Animal, target: Tuple[str, int]):
+    def summon(self, unit: Animal, summon_position: Tuple[str, int]):
         if self.in_shop:
-            self.__shopper.summon(unit, target)
+            self.__shopper.summon(unit, summon_position)
         else:
-            self.__battler.summon(unit, target)
+            self.__battler.summon(unit, summon_position)
