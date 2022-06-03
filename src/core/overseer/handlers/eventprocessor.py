@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Tuple
 
 from ... import eventnames
+from ...game_elements.abstract_elements import Animal
 
 if TYPE_CHECKING:
     from .. import MessageAgent
@@ -16,7 +17,7 @@ def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
     return roster
 
 
-def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
+def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team", fainted: Animal = None):
     roster = get_roster(agent, (team, 0))
     animals = agent.sorted_team(team)
 
@@ -25,7 +26,7 @@ def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team"):
         actor = (team, idx)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation, actor, actor)
+        agent.trigger_ability(operation, actor, actor, fainted)
 
 
 def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
@@ -42,7 +43,8 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
         agent.trigger_ability(operation, actor, actor)
 
 
-def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
+def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, int], event: str,
+                                      fainted: Animal = None):
     roster = get_roster(agent, actor)
     animals = agent.sorted_without_(actor)
     team = actor[0]
@@ -53,10 +55,10 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, i
         actor = roster.animals.index(animal)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation, (team, actor), target)
+        agent.trigger_ability(operation, (team, actor), target, fainted)
 
 
-def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
+def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
     roster = get_roster(agent, actor)
     animals = agent.sorted_units_behind_(actor)
     team = actor[0]
@@ -67,14 +69,14 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
         actor = (team, idx)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation, actor, target)
+        agent.trigger_ability(operation, actor, target, fainted)
 
 
-def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str):
+def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
     team = get_roster(agent, actor)
 
     operation = team.animals[actor[1]].trigger(event)
-    agent.trigger_ability(operation, actor, actor)
+    agent.trigger_ability(operation, actor, actor, fainted)
 
 
 class EventProcessor:
@@ -156,14 +158,14 @@ class EventProcessor:
     # shop and battle system
     # apply to friendly units right of event raiser
     @staticmethod
-    def friend_ahead_faints(agent: 'MessageAgent', actor: Tuple[str, int]):
-        for_sorted_behind_(agent, actor, eventnames.FRIEND_AHEAD_FAINTS)
+    def friend_ahead_faints(agent: 'MessageAgent', actor: Tuple[str, int], fainted: Animal):
+        for_sorted_behind_(agent, actor, eventnames.FRIEND_AHEAD_FAINTS, fainted)
 
     # shop and battle system
     # apply to all friendly units
     @staticmethod
-    def friend_faints(agent: 'MessageAgent', actor: Tuple[str, int]):
-        for_sorted_trigger(agent, eventnames.FRIEND_FAINTS, actor[0])
+    def friend_faints(agent: 'MessageAgent', actor: Tuple[str, int], fainted: Animal):
+        for_sorted_trigger(agent, eventnames.FRIEND_FAINTS, actor[0], fainted)
 
     # shop and battle system
     # apply to unit that raised event (got hurt)
@@ -180,8 +182,8 @@ class EventProcessor:
     # shop and battle system
     # apply to unit that raised event (got knocked out)
     @staticmethod
-    def on_faint(agent: 'MessageAgent', actor: Tuple[str, int]):
-        trigger_actor_ability(agent, actor, eventnames.ON_FAINT)
+    def on_faint(agent: 'MessageAgent', actor: Tuple[str, int], fainted: Animal):
+        trigger_actor_ability(agent, actor, eventnames.ON_FAINT, fainted)
 
     # shop and battle system
     # apply to unit that raised event (went up a level)

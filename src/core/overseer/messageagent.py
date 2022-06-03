@@ -1,5 +1,5 @@
 import itertools
-from typing import List, Callable, Tuple
+from typing import List, Callable, Tuple, Union
 
 from ..game_elements.abstract_elements import Animal, Empty
 from .state import State
@@ -66,7 +66,10 @@ class MessageAgent(BaseAgent):
         self.__EP = EventProcessor()
 
         # THIS IS DICTATED BY UNIT IDS. DO NOT MESS WITH ORDER
-        self.func: List[Callable[['MessageAgent', Tuple[str, int], Tuple[str, int]], None]] = [
+        self.func: List[Union[
+            Callable[['MessageAgent', Tuple[str, int], Tuple[str, int]], None],
+            Callable[['MessageAgent', Tuple[str, int], Tuple[str, int], Animal], None]]
+        ] = [
             t1.nop,
 
             t1.ant, t1.beaver, t1.beetle, t1.bluebird, t1.cricket,
@@ -183,11 +186,12 @@ class MessageAgent(BaseAgent):
         return agent
 
     def _raise_event(self):
-        (message, actor, target) = self._event_queue.pop(0)
-        if actor is not None:
-            self.event_raiser = actor
-        if target is not None:
-            self.target = target
+        tup = self._event_queue.pop(0)
+        if len(tup) == 4:
+            (message, actor, target, fainted) = tup
+        else:
+            (message, actor, target) = tup
+            fainted = None
 
         # sending messages like buy, sell, move, combine, start turn, end turn,
 
@@ -217,13 +221,15 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.FRIEND_AHEAD_ATTACKS:
             self.__EP.friend_ahead_attacks(self, actor)
         elif message == eventnames.FRIEND_AHEAD_FAINTS:
-            self.__EP.friend_ahead_faints(self, actor)
+            # special faint function
+            self.__EP.friend_ahead_faints(self, actor, fainted)
         elif message == eventnames.FRIEND_BOUGHT:
             self.__EP.friend_bought(self, actor)
         elif message == eventnames.FRIEND_EATS_FOOD:
             self.__EP.friend_eats_food(self, actor)
         elif message == eventnames.FRIEND_FAINTS:
-            self.__EP.friend_faints(self, actor)
+            # special faint function
+            self.__EP.friend_faints(self, actor, fainted)
         elif message == eventnames.FRIEND_SOLD:
             self.__EP.friend_sold(self, actor)
         elif message == eventnames.FRIEND_SUMMONED_BATTLE:
@@ -237,7 +243,8 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.KNOCK_OUT:
             self.__EP.knock_out(self, actor)
         elif message == eventnames.ON_FAINT:
-            self.__EP.on_faint(self, actor)
+            # special faint function
+            self.__EP.on_faint(self, actor, fainted)
         elif message == eventnames.ON_LEVEL:
             self.__EP.on_level(self, actor)
         elif message == eventnames.SELL:
@@ -247,13 +254,12 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.START_TURN:
             self.__EP.start_turn(self)
 
-    def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None):
-        if actor is None:
-            actor = self.event_raiser
-        if target is None:
-            target = self.target
-
-        self._event_queue.append((message, actor, target))
+    def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None,
+                      fainted: Animal = None):
+        if fainted is None:
+            self._event_queue.append((message, actor, target, fainted))
+        else:
+            self._event_queue.append((message, actor, target))
 
     def handle_events(self):
         if not self._event_queue:
@@ -264,10 +270,13 @@ class MessageAgent(BaseAgent):
         return
 
     # message contains unit_id which sent it
-    def trigger_ability(self, message: int, actor: Tuple[str, int], target: Tuple[str, int]):
+    def trigger_ability(self, message: int, actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal = None):
         # trigger function that manipulates roster
         # does not return anything
-        self.func[message](self, actor, target)
+        if fainted is None:
+            self.func[message](self, actor, target)
+        else:
+            self.func[message](self, actor, target, fainted)
 
     # assume event which triggered event handler has already resolved!!!
     # e.g. if animal sold, then it is no longer in the roster and gold
