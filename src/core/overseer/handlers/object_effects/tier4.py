@@ -1,7 +1,7 @@
 from math import ceil
 from typing import TYPE_CHECKING, Tuple
 
-from ....game_elements.abstract_elements import Equipment
+from ....game_elements.abstract_elements import Equipment, Animal
 from ....game_elements.game_objects.animals import Bus, Chick
 from ....game_elements.game_objects.equipment import Chili
 
@@ -31,10 +31,14 @@ class Tier4:
             agent.actor(actor).permanent_buff(3, 3)
 
     @staticmethod
-    def deer(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def deer(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Bus()
-        unit.hp = 5 * agent.actor(actor).level
-        unit.atk = 5 * agent.actor(actor).level
+
+        unit.hp = 5 * fainted.level
+        unit.battle_hp = 5 * fainted.level
+        unit.atk = 5 * fainted.level
+        unit.battle_atk = 5 * fainted.level
+
         unit.held = Chili()
 
         agent.summon(unit, actor)
@@ -52,7 +56,7 @@ class Tier4:
                                               actor, target)
 
     @staticmethod
-    def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         if agent.actor(actor).level == 1:
             agent.actor(actor).temp_buff(2, 2)
         elif agent.actor(actor).level == 2:
@@ -104,12 +108,14 @@ class Tier4:
                 animal.permanent_buff(3, 3)
 
     @staticmethod
-    def rooster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def rooster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Chick()
         unit.hp = 1
-        unit.atk = agent.actor(actor).atk // 2
+        unit.battle_hp = 1
+        unit.atk = fainted.atk // 2
+        unit.battle_atk = fainted.atk // 2
 
-        for _ in range(agent.actor(actor).level):
+        for _ in range(fainted.level):
             agent.summon(unit.__copy__(), actor)
 
     @staticmethod

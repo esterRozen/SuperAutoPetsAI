@@ -46,10 +46,10 @@ class Tier6:
         pass
 
     @staticmethod
-    def mammoth(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
+    def mammoth(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        if fainted.level == 1:
             agent.buff(agent.team.friends(actor[1]), 2, 2)
-        elif agent.actor(actor).level == 2:
+        elif fainted.level == 2:
             agent.buff(agent.team.friends(actor[1]), 4, 4)
         else:
             agent.buff(agent.team.friends(actor[1]), 6, 6)

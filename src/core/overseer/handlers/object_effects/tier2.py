@@ -80,8 +80,8 @@ class Tier2:
 
     # summons, ugh
     @staticmethod
-    def rat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        for _ in range(agent.actor(actor).level):
+    def rat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        for _ in range(fainted.level):
             unit = Dirty_Rat()
             unit.battle_atk = 1
             unit.battle_hp = 1
@@ -98,21 +98,20 @@ class Tier2:
 
     # more summons!!
     @staticmethod
-    def spider(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def spider(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit: Animal = agent.shop[0].spawner.spawn_tier(3)
 
         # stats fixed at 2, 2
         unit.battle_atk = 2
         unit.battle_hp = 2
 
-        if agent.actor(actor).level == 1:
+        if fainted.level == 1:
             unit.xp = 0
-        if agent.actor(actor).level == 2:
+        elif fainted.level == 2:
             unit.xp = 2
-        if agent.actor(actor).level == 3:
+        else:
             unit.xp = 5
 
-        # TODO handle summon when spider is pseudo fainted
         agent.summon(unit, actor)
 
     @staticmethod

@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, Tuple
 
+from ....game_elements.abstract_elements import Animal
 from ....game_elements.game_objects.animals import Zombie_Cricket
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -11,14 +12,14 @@ class Tier1:
         return
 
     @staticmethod
-    def ant(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def ant(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         #  buff random animal on team.
         friend = agent.team_of_(actor).random_friend(actor[1])
         if not friend:
             return
-        if agent.actor(actor).level == 1:
+        if fainted.level == 1:
             agent.buff(friend, 2, 1)
-        elif agent.actor(actor).level == 2:
+        elif fainted.level == 2:
             agent.buff(friend, 4, 2)
         else:
             agent.buff(friend, 6, 3)
@@ -57,12 +58,14 @@ class Tier1:
 
     # how to handle summons???
     @staticmethod
-    def cricket(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def cricket(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Zombie_Cricket()
-        unit.battle_atk = agent.actor(actor).level
-        unit.battle_hp = agent.actor(actor).level
 
-        # TODO handle summoning when the cricket is pseudo fainted
+        unit.battle_atk = fainted.level
+        unit.atk = fainted.level
+        unit.battle_hp = fainted.level
+        unit.hp = fainted.level
+
         agent.summon(unit, actor)
 
     @staticmethod

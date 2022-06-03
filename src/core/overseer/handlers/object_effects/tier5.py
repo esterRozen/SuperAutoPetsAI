@@ -45,18 +45,20 @@ class Tier5:
                                               actor, target_tup)
 
     @staticmethod
-    def eagle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def eagle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit: Animal = agent.shop[0].spawner.spawn_tier(6)
 
         # set stats with multiplier
-        unit.battle_atk *= agent.actor(actor).level
-        unit.battle_hp *= agent.actor(actor).level
+        unit.atk *= fainted.level
+        unit.battle_atk *= fainted.level
+        unit.hp *= fainted.level
+        unit.battle_hp *= fainted.level
 
-        if agent.actor(actor).level == 1:
+        if fainted.level == 1:
             unit.xp = 0
-        if agent.actor(actor).level == 2:
+        elif agent.actor(actor).level == 2:
             unit.xp = 2
-        if agent.actor(actor).level == 3:
+        else:
             unit.xp = 5
 
         agent.summon(unit, actor)
@@ -67,7 +69,7 @@ class Tier5:
         agent.gold += 1
 
     @staticmethod
-    def microbe(agent: 'MessageAgent'):
+    def microbe(agent: 'MessageAgent', fainted: Animal):
         for unit in agent.team.units():
             unit.held = Weak()
         for unit in agent.enemy.units():
@@ -90,7 +92,7 @@ class Tier5:
         pass
 
     @staticmethod
-    def rhino(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def rhino(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         target = agent.team_opposing_(actor).leftmost_unit
         if actor[0] == "team":
             target_tup = ("enemy", agent.team_opposing_(actor).animals.index(target))
@@ -115,7 +117,7 @@ class Tier5:
             agent.buff(friends, 3, 3)
 
     @staticmethod
-    def shark(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def shark(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         if agent.actor(actor).level == 1:
             agent.buff(agent.actor(actor), 2, 1)
         elif agent.actor(actor).level == 2:
