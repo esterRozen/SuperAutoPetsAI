@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Tuple
 
+from ....game_elements.abstract_elements import Animal
+from ....game_elements.game_objects.animals import Fly_Friend
 from ....game_elements.game_objects.equipment import Coconut
 
 if TYPE_CHECKING:
@@ -32,9 +34,15 @@ class Tier6:
             agent.buff(agent.team.friends(actor[1]), 2, 2)
 
     @staticmethod
-    def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+    def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        fly_friend = Fly_Friend()
+
+        fly_friend.battle_hp = 4 * fainted.level
+        fly_friend.battle_atk = 4 * fainted.level
+        fly_friend.hp = 4 * fainted.level
+        fly_friend.atk = 4 * fainted.level
+
+        agent.summon(fly_friend, target)
 
     @staticmethod
     def gorilla(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
