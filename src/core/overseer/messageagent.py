@@ -319,7 +319,8 @@ class MessageAgent(BaseAgent):
                                actor=self.target,
                                target=self.event_raiser)
 
-    def deal_ability_damage_handle_hurt(self, damage: int, actor: Tuple[str, int], target: Tuple[str, int]):
+    def deal_ability_damage_handle_hurt(self, damage: int, actor: Union[Tuple[str, int], Animal],
+                                        target: Tuple[str, int]):
         """
         actor deals damage
         target receives damage
@@ -329,7 +330,12 @@ class MessageAgent(BaseAgent):
             target:
         Returns:
         """
-        damage = self.actor(actor).damage_modifier(self, damage, "ability")
+
+        if isinstance(actor, Animal):
+            damage = actor.damage_modifier(self, damage, "ability")
+        else:
+            damage = self.actor(actor).damage_modifier(self, damage, "ability")
+
         damage = self.actor(target).damage_modifier(self, damage, "incoming")
 
         self.actor(target).battle_hp -= damage
@@ -370,22 +376,32 @@ class MessageAgent(BaseAgent):
                                target=actor)
 
     def faint(self, actor: Tuple[str, int], target: Tuple[str, int]):
-        # faint the event raiser!
+        # faint the actor!
         # target dealt the killing blow!
+
+        animal = self.actor(actor)
 
         self.enqueue_event(eventnames.ON_FAINT,
                            actor=actor,
-                           target=target)
+                           target=target,
+                           fainted=animal)
 
         self.enqueue_event(eventnames.FRIEND_AHEAD_FAINTS,
                            actor=actor,
-                           target=target)
+                           target=target,
+                           fainted=animal)
+
+        self.enqueue_event(eventnames.FRIEND_FAINTS,
+                           actor=actor,
+                           target=target,
+                           fainted=animal)
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
             self.enqueue_event(eventnames.KNOCK_OUT,
                                actor=target,
-                               target=actor)
+                               target=actor,
+                               fainted=animal)
 
 
 if __name__ == '__main__':
