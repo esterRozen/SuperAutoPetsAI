@@ -62,9 +62,9 @@ class BaseAgent:
 
     def actor(self, actor: Tuple[str, int]) -> Animal:
         if actor[0] == "team":
-            return self.team.animals[actor[1]]
+            return self.team[actor[1]]
         elif actor[0] == "enemy":
-            return self.enemy.animals[actor[1]]
+            return self.enemy[actor[1]]
         else:
             raise ValueError("actor should be either team or enemy")
 

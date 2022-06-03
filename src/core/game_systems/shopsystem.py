@@ -53,7 +53,7 @@ class ShopSystem:
             self.__buy_to_empty_response(shop_slot, target_pos)
             return
 
-        if isinstance(shop_slot.item, self.agent.team.animals[target_pos].__class__):
+        if isinstance(shop_slot.item, self.agent.team[target_pos].__class__):
             self.__buy_to_same_response(shop_slot, target_pos)
             return
 
@@ -88,7 +88,7 @@ class ShopSystem:
         return
 
     def __buy_to_same_response(self, shop_slot, target_pos: int):
-        target_unit = self.agent.team.animals[target_pos]
+        target_unit = self.agent.team[target_pos]
         target = ("team", target_pos)
 
         item: Animal = shop_slot.buy()

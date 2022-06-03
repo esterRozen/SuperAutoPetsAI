@@ -130,11 +130,11 @@ class Tier3:
     @staticmethod
     def rabbit(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).animals[target[1]].permanent_buff(0, 1)
+            agent.team_of_(actor)[target[1]].permanent_buff(0, 1)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).animals[target[1]].permanent_buff(0, 2)
+            agent.team_of_(actor)[target[1]].permanent_buff(0, 2)
         else:
-            agent.team_of_(actor).animals[target[1]].permanent_buff(0, 3)
+            agent.team_of_(actor)[target[1]].permanent_buff(0, 3)
 
     @staticmethod
     def sheep(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
