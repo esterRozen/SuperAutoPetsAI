@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Tuple, List
 
 from ... import eventnames
 from ...game_elements.abstract_elements import Animal
@@ -17,18 +17,6 @@ def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
     return roster
 
 
-def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team", fainted: Animal = None):
-    roster = get_roster(agent, (team, 0))
-    animals = agent.sorted_team(team)
-
-    for animal in animals:
-        idx = roster.animals.index(animal)
-        actor = (team, idx)
-
-        operation = animal.trigger(event)
-        agent.trigger_ability(operation, actor, actor, fainted)
-
-
 def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
     animals = agent.sorted_team("both")
 
@@ -42,25 +30,46 @@ def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
         operation = animal.trigger(event)
         agent.trigger_ability(operation, actor, actor)
 
+        operation = animal.held.trigger(event)
+        agent.trigger_ability(operation, actor, actor)
 
-def for_sorted_without_actor_trigger_(agent: 'MessageAgent', actor: Tuple[str, int], event: str,
-                                      fainted: Animal = None):
-    roster = get_roster(agent, actor)
-    animals = agent.sorted_without_(actor)
-    team = actor[0]
 
-    target = actor
+def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team", fainted: Animal = None):
+    roster = get_roster(agent, (team, 0))
+    animals = agent.sorted_team(team)
 
     for animal in animals:
-        actor = roster.animals.index(animal)
+        idx = roster.animals.index(animal)
+        actor = (team, idx)
 
         operation = animal.trigger(event)
-        agent.trigger_ability(operation, (team, actor), target, fainted)
+        agent.trigger_ability(operation, actor, actor, fainted)
+
+        operation = animal.held.trigger(event)
+        agent.trigger_ability(operation, actor, actor, fainted)
+
+
+def for_sorted_without_actor_trigger_(agent: 'MessageAgent', position: Tuple[str, int], event: str,
+                                      fainted: Animal = None):
+    roster = get_roster(agent, position)
+    animals = agent.sorted_without_(position)
+    team = position[0]
+
+    target = position
+
+    for animal in animals:
+        position = roster.animals.index(animal)
+
+        operation = animal.trigger(event)
+        agent.trigger_ability(operation, (team, position), target, fainted)
+
+        operation = animal.held.trigger(event)
+        agent.trigger_ability(operation, (team, position), target, fainted)
 
 
 def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
     roster = get_roster(agent, actor)
-    animals = agent.sorted_units_behind_(actor)
+    animals: List[Animal] = agent.sorted_units_behind_(actor)
     team = actor[0]
     target = actor
 
@@ -71,11 +80,17 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
         operation = animal.trigger(event)
         agent.trigger_ability(operation, actor, target, fainted)
 
+        operation = animal.held.trigger(event)
+        agent.trigger_ability(operation, actor, target, fainted)
+
 
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
     team = get_roster(agent, actor)
 
-    operation = team.animals[actor[1]].trigger(event)
+    operation = team[actor[1]].trigger(event)
+    agent.trigger_ability(operation, actor, actor, fainted)
+
+    operation = team[actor[1]].held.trigger(event)
     agent.trigger_ability(operation, actor, actor, fainted)
 
 
