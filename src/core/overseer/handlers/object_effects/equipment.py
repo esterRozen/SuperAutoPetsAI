@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING, List, Tuple
 
 from ....eventnames import ON_FAINT, EAT_FOOD, ON_LEVEL, FRIEND_EATS_FOOD, FRIEND_AHEAD_FAINTS, FRIEND_FAINTS
-from ....game_elements.game_objects import equipment
+from ....game_elements.abstract_elements import Animal
+from ....game_elements.game_objects.animals import Bee
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -15,8 +16,11 @@ class Equipment:
         agent.actor(actor).permanent_buff(1, 1)
 
     @staticmethod
-    def honey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Honey()
+    def honey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        bee = Bee()
+        agent.summon(bee, actor)
+
+    ###################################################################
 
     @staticmethod
     def cupcake(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -24,30 +28,32 @@ class Equipment:
 
     @staticmethod
     def meat_bone(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Meat_Bone()
+        pass
 
     @staticmethod
     def sleeping_pill(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         # raise faint, have variables set properly
-        agent.team.mark_fainted(actor[1])
+        animal = agent.team[actor[1]]
 
         agent.enqueue_event(ON_FAINT,
-                            actor=actor)
+                            actor=actor, fainted=animal)
         agent.team.faint(actor[1])
 
         agent.enqueue_event(FRIEND_AHEAD_FAINTS,
-                            actor=actor)
+                            actor=actor, fainted=animal)
 
         agent.enqueue_event(FRIEND_FAINTS,
-                            actor=actor)
+                            actor=actor, fainted=animal)
+
+    ###################################################################
 
     @staticmethod
     def weak(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Weak()
+        pass
 
     @staticmethod
     def garlic(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Garlic()
+        pass
 
     @staticmethod
     def salad_bowl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -61,6 +67,8 @@ class Equipment:
 
             agent.team[unit].permanent_buff(2, 2)
 
+    ###################################################################
+
     @staticmethod
     def canned_food(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         agent.shop.perm_buff(2, 1)
@@ -68,6 +76,8 @@ class Equipment:
     @staticmethod
     def pear(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         agent.actor(actor).permanent_buff(2, 2)
+
+    ###################################################################
 
     @staticmethod
     def best_milk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -79,7 +89,7 @@ class Equipment:
 
     @staticmethod
     def chili(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Chili()
+        pass
 
     @staticmethod
     def chocolate(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -96,7 +106,9 @@ class Equipment:
 
     @staticmethod
     def peanut(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Peanut()
+        pass
+
+    ###################################################################
 
     @staticmethod
     def sushi(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -112,15 +124,21 @@ class Equipment:
 
     @staticmethod
     def coconut(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Coconut()
+        pass
 
     @staticmethod
     def melon(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Melon()
+        pass
 
     @staticmethod
-    def mushroom(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Mushroom()
+    def mushroom(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+        summoned_animal: Animal = fainted.__new__(type(fainted))
+        summoned_animal.hp = 1
+        summoned_animal.atk = 1
+        summoned_animal.battle_hp = 1
+        summoned_animal.battle_atk = 1
+
+        agent.summon(summoned_animal, actor)
 
     @staticmethod
     def pizza(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -136,4 +154,4 @@ class Equipment:
 
     @staticmethod
     def steak(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.actor(actor).held = equipment.Steak()
+        pass
