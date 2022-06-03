@@ -1,5 +1,5 @@
 # must have a way to save and load states
-
+from . import State
 from .game_systems import BattleSystem, ShopSystem
 from .game_elements.abstract_elements import Team
 from .overseer import *
@@ -7,41 +7,50 @@ from .overseer import *
 
 class Engine:
     def __init__(self, mode):
-        self.messenger = MessageAgent(mode)
-        self.battle_director = BattleSystem(self.messenger)
-        self.shop_director = ShopSystem(self.messenger)
+        self.__messenger = MessageAgent(mode)
+        self.__battle_director = BattleSystem(self.__messenger)
+        self.__shop_director = ShopSystem(self.__messenger)
 
-        self.messenger.set_battler(self.battle_director)
-        self.messenger.set_shopper(self.shop_director)
+        self.__messenger.set_battler(self.__battle_director)
+        self.__messenger.set_shopper(self.__shop_director)
 
-    def move(self, roster_init, roster_final):
+    @property
+    def save(self, include_shop: bool = True) -> State:
+        return self.__messenger.save(include_shop)
+
+    def load(self, state: State):
+        self.__messenger.load(state)
+
+    def move(self, roster_init: int, roster_final: int):
         # moves init unit to *left* side of final unit
-        pass
 
-    def combine(self, roster_init, roster_final):
+        self.__shop_director.move(roster_init, roster_final)
+
+    def combine(self, roster_init: int, roster_final: int):
         # place init unit *onto* final unit
-        pass
 
-    def sell(self, unit):
-        pass
+        self.__shop_director.combine(roster_init, roster_final)
+
+    def sell(self, unit: int):
+        self.__shop_director.sell(unit)
 
     def buy(self, shop_init, roster_final):
-        pass
+        self.__shop_director.buy(shop_init, roster_final)
 
     def freeze(self, shop_pos):
-        self.shop_director.toggle_freeze(shop_pos)
+        self.__shop_director.toggle_freeze(shop_pos)
 
     def reroll(self):
-        self.shop_director.reroll()
+        self.__shop_director.reroll()
 
     def end_turn(self):
-        self.shop_director.end_turn()
+        self.__shop_director.end_turn()
 
     def fight(self, team: Team):
-        outcome = self.battle_director.start_battle(team)
+        outcome = self.__battle_director.start_battle(team)
 
         # TODO using outcome of fight ->
         #  return info on state (team, wins, life, etc)
 
     def start_turn(self):
-        self.shop_director.start_turn()
+        self.__shop_director.start_turn()
