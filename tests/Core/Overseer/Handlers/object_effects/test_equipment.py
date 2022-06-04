@@ -1,32 +1,53 @@
 from unittest import TestCase
 
+from src.core.game_elements.game_objects.animals import Bee, Fish
+from src.core.game_systems import ShopSystem, BattleSystem
+from src.core.overseer import MessageAgent
+
+from src.core.overseer.handlers.object_effects.equipment import Equipment
+
 
 class TestEquipment(TestCase):
+    def setUp(self):
+        self.agent = MessageAgent("base pack")
+        ShopSystem(self.agent)
+        BattleSystem(self.agent)
+
     def test_apple(self):
-        # TODO
-        self.fail()
+        agent = MessageAgent("base pack")
+        ShopSystem(agent)
+        BattleSystem(agent)
+
+        agent.summon(Bee(), ("team", 0))
+
+        Equipment.apple(agent, ("team", 0), ("team", 1))
+
+        self.assertTrue(agent.team[0].atk == 2)
+        self.assertTrue(agent.team[0].hp == 2)
+        self.assertTrue(agent.team[0].battle_hp == 2)
+        self.assertTrue(agent.team[0].battle_atk == 2)
 
     def test_honey(self):
-        # TODO
-        self.fail()
+        Equipment.honey(self.agent, ("team", 0), ("team", 1), Fish())
+        self.assertTrue(isinstance(self.agent.team[0], Bee))
 
     def test_cupcake(self):
-        # TODO
-        self.fail()
+        self.agent.summon(Bee(), ("team", 0))
+        Equipment.cupcake(self.agent, ("team", 0), ("team", 1))
 
-    def test_meat_bone(self):
-        # TODO
-        self.fail()
+        self.assertTrue(self.agent.team[0].battle_hp == 4)
+        self.assertTrue(self.agent.team[0].battle_atk == 4)
+        self.assertTrue(self.agent.team[0].hp == 1)
+        self.assertTrue(self.agent.team[0].atk == 1)
+
+        self.agent.reset_temp_stats()
+
+        self.assertTrue(self.agent.team[0].battle_hp == 1)
+        self.assertTrue(self.agent.team[0].battle_atk == 1)
+        self.assertTrue(self.agent.team[0].hp == 1)
+        self.assertTrue(self.agent.team[0].atk == 1)
 
     def test_sleeping_pill(self):
-        # TODO
-        self.fail()
-
-    def test_weak(self):
-        # TODO
-        self.fail()
-
-    def test_garlic(self):
         # TODO
         self.fail()
 
@@ -50,10 +71,6 @@ class TestEquipment(TestCase):
         # TODO
         self.fail()
 
-    def test_chili(self):
-        # TODO
-        self.fail()
-
     def test_chocolate(self):
         # TODO
         self.fail()
@@ -62,19 +79,7 @@ class TestEquipment(TestCase):
         # TODO
         self.fail()
 
-    def test_peanut(self):
-        # TODO
-        self.fail()
-
     def test_sushi(self):
-        # TODO
-        self.fail()
-
-    def test_coconut(self):
-        # TODO
-        self.fail()
-
-    def test_melon(self):
         # TODO
         self.fail()
 
@@ -83,9 +88,5 @@ class TestEquipment(TestCase):
         self.fail()
 
     def test_pizza(self):
-        # TODO
-        self.fail()
-
-    def test_steak(self):
         # TODO
         self.fail()
