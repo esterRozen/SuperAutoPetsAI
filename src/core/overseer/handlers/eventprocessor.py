@@ -174,7 +174,10 @@ class EventProcessor:
     # apply to friendly units right of event raiser
     @staticmethod
     def friend_ahead_faints(agent: 'MessageAgent', actor: Tuple[str, int], fainted: Animal):
-        for_sorted_behind_(agent, actor, eventnames.FRIEND_AHEAD_FAINTS, fainted)
+        team = get_roster(agent, actor)
+        animal_behind = (actor[0], team.animals.index(team.friend_behind(actor[1])))
+
+        trigger_actor_ability(agent, animal_behind, eventnames.FRIEND_AHEAD_FAINTS, fainted)
 
     # shop and battle system
     # apply to all friendly units
@@ -224,7 +227,10 @@ class EventProcessor:
     # apply to all friendly units left of event raiser
     @staticmethod
     def friend_ahead_attacks(agent: 'MessageAgent', actor: Tuple[str, int]):
-        for_sorted_behind_(agent, actor, eventnames.FRIEND_AHEAD_ATTACKS)
+        team = get_roster(agent, actor)
+        animal_behind = (actor[0], team.animals.index(team.friend_behind(actor[1])))
+
+        trigger_actor_ability(agent, animal_behind, eventnames.FRIEND_AHEAD_ATTACKS)
 
     # battle system
     # apply to all friendly units except event raiser
