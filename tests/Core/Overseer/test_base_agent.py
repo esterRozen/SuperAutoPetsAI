@@ -156,46 +156,47 @@ class TestBaseAgent(TestCase):
 
         agent.in_shop = True
 
-        agent.summon(Fish())
+        target = ("team", 0)
+        agent.summon(Fish(), target)
         self.assertTrue(team[0].is_identical(Fish()))
         self.assertTrue(isinstance(team[1], Empty))
         self.assertTrue(isinstance(team[2], Empty))
         self.assertTrue(isinstance(team[3], Empty))
         self.assertTrue(isinstance(team[4], Empty))
 
-        agent.target = ("team", 2)
-        agent.summon(Ant())
+        target = ("team", 2)
+        agent.summon(Ant(), target)
         self.assertTrue(team[0].is_identical(Fish()))
         self.assertTrue(isinstance(team[1], Empty))
         self.assertTrue(team[2].is_identical(Ant()))
         self.assertTrue(isinstance(team[3], Empty))
         self.assertTrue(isinstance(team[4], Empty))
 
-        agent.target = ("team", 0)
-        agent.summon(Cricket())
+        target = ("team", 0)
+        agent.summon(Cricket(), target)
         self.assertTrue(team[0].is_identical(Cricket()))
         self.assertTrue(team[1].is_identical(Fish()))
         self.assertTrue(team[2].is_identical(Ant()))
         self.assertTrue(isinstance(team[3], Empty))
         self.assertTrue(isinstance(team[4], Empty))
 
-        agent.target = ("team", 4)
-        agent.summon(Duck())
+        target = ("team", 4)
+        agent.summon(Duck(), target)
         self.assertTrue(team[0].is_identical(Cricket()))
         self.assertTrue(team[1].is_identical(Fish()))
         self.assertTrue(team[2].is_identical(Ant()))
         self.assertTrue(isinstance(team[3], Empty))
         self.assertTrue(team[4].is_identical(Duck()))
 
-        agent.target = ("team", 2)
-        agent.summon(Otter())
+        target = ("team", 2)
+        agent.summon(Otter(), target)
         self.assertTrue(team[0].is_identical(Cricket()))
         self.assertTrue(team[1].is_identical(Fish()))
         self.assertTrue(team[2].is_identical(Otter()))
         self.assertTrue(team[3].is_identical(Ant()))
         self.assertTrue(team[4].is_identical(Duck()))
 
-        agent.summon(Duck())
+        agent.summon(Duck(), target)
         self.assertTrue(team[0].is_identical(Cricket()))
         self.assertTrue(team[1].is_identical(Fish()))
         self.assertTrue(team[2].is_identical(Otter()))
@@ -204,12 +205,15 @@ class TestBaseAgent(TestCase):
 
         agent.team = Team()
         team = agent.team
-        agent.target = ("team", 0)
-        agent.summon(Fish())
-        agent.target = ("team", 2)
-        agent.summon(Ant())
-        agent.target = ("team", 1)
-        agent.summon(Otter())
+
+        target = ("team", 0)
+        agent.summon(Fish(), target)
+
+        target = ("team", 2)
+        agent.summon(Ant(), target)
+
+        target = ("team", 1)
+        agent.summon(Otter(), target)
 
         self.assertTrue(team[0].is_identical(Fish()))
         self.assertTrue(team[1].is_identical(Otter()))
