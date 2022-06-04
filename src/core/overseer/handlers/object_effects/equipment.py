@@ -15,6 +15,7 @@ class Equipment:
     def apple(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         agent.actor(actor).permanent_buff(1, 1)
 
+    # on faint effects REQUIRE fainted in the declaration
     @staticmethod
     def honey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         bee = Bee()
