@@ -58,6 +58,7 @@ class BattleSystem:
             # attack (enemy)
             self._add_event(eventnames.ATTACK, actor=("team", 0), target=("enemy", 0))
             self._add_event(eventnames.ATTACK, actor=("enemy", 0), target=("team", 0))
+            self.agent.handle_events()
             # friend ahead attacks (team)
             # friend ahead attacks (enemy)
 
@@ -79,6 +80,7 @@ class BattleSystem:
             pass
 
         # handle win, loss, draw actions
+        return 0
     
     def summon(self, unit: Animal, target: Tuple[str, int]):
         self.agent.team_of_(target).summon(unit, target[1])
