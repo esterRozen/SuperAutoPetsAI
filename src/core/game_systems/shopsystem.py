@@ -114,16 +114,23 @@ class ShopSystem:
         item: Equipment = shop_slot.item
 
         actor = ("team", target_pos)
-        self.agent.gold -= item.cost
-        shop_slot.buy()
 
         if item.is_targeted:
             # handle consumable targeted food e.g. pear
             # enqueue buy food ability for all units, if ability exists
+            if isinstance(self.agent.team[target_pos], Empty):
+                return
+
+            self.agent.gold -= item.cost
+            shop_slot.buy()
+
             self.agent.enqueue_event(eventnames.BUY_FOOD)
 
-            # perform food effects
-            self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
+            if item.is_holdable:
+                self.agent.team[target_pos].held = item
+            else:
+                # perform food effects
+                self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
 
             # enqueue "eat food" ability of animal that ate, if ability exists
             self.agent.enqueue_event(eventnames.EAT_FOOD,
@@ -134,6 +141,12 @@ class ShopSystem:
                                      actor=actor)
             return
         else:
+            if self.agent.team.size < 1:
+                return
+
+            self.agent.gold -= item.cost
+            shop_slot.buy()
+
             # handle non targeted food e.g. sushi
             self.agent.enqueue_event(eventnames.BUY_FOOD)
 
