@@ -34,6 +34,9 @@ class ShopSystem:
         return
 
     def reroll(self):
+        if self.agent.gold < 1:
+            return
+        self.agent.gold -= 1
         self.agent.shop.reroll()
         return
 
