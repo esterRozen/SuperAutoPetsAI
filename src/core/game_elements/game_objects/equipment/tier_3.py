@@ -16,6 +16,7 @@ class _Tier3(Equipment):
 
 class Garlic(_Tier3):
     id = 406
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":

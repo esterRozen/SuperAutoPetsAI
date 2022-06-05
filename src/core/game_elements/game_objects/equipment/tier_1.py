@@ -16,3 +16,4 @@ class Apple(_Tier1):
 
 class Honey(_Tier1):
     id = 401
+    is_holdable = True

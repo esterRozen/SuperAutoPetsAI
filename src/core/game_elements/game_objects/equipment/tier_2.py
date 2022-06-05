@@ -20,6 +20,7 @@ class Cupcake(_Tier2):
 
 class Meat_Bone(_Tier2):
     id = 403
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
@@ -34,6 +35,7 @@ class Sleeping_Pill(_Tier2):
 
 class Weak(_Tier2):
     id = 405
+    is_holdable = True
     rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:

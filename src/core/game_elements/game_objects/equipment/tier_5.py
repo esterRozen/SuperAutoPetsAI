@@ -16,6 +16,7 @@ class _Tier5(Equipment):
 
 class Chili(_Tier5):
     id = 410
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
@@ -41,6 +42,7 @@ class Chocolate(_Tier5):
 class Peanut(_Tier5):
     id = 412
     rollable = False
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":

@@ -17,6 +17,8 @@ class _Tier6(Equipment):
 
 class Coconut(_Tier6):
     id = 417
+    is_holdable = True
+    rollable = False
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
@@ -27,6 +29,7 @@ class Coconut(_Tier6):
 
 class Melon(_Tier6):
     id = 418
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "incoming":
@@ -38,6 +41,7 @@ class Melon(_Tier6):
 
 class Mushroom(_Tier6):
     id = 419
+    is_holdable = True
 
 
 class Pizza(_Tier6):
@@ -47,6 +51,7 @@ class Pizza(_Tier6):
 
 class Steak(_Tier6):
     id = 421
+    is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
         if message == "outgoing":
