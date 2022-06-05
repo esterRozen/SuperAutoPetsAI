@@ -307,17 +307,19 @@ class MessageAgent(BaseAgent):
         Returns:
 
         """
-        self.deal_attack_damage(actor, target)
+        actor_damage_taken, target_damage_taken = self.deal_attack_damage(actor, target)
 
-        if self._query_faint(actor, target):
-            self.enqueue_event(eventnames.HURT,
-                               actor=self.event_raiser,
-                               target=self.target)
+        if actor_damage_taken != 0:
+            if self._query_faint(actor, target):
+                self.enqueue_event(eventnames.HURT,
+                                   actor=self.event_raiser,
+                                   target=self.target)
 
-        if self._query_faint(target, actor):
-            self.enqueue_event(eventnames.HURT,
-                               actor=self.target,
-                               target=self.event_raiser)
+        if target_damage_taken != 0:
+            if self._query_faint(target, actor):
+                self.enqueue_event(eventnames.HURT,
+                                   actor=self.target,
+                                   target=self.event_raiser)
 
     def deal_ability_damage_handle_hurt(self, damage: int, actor: Union[Tuple[str, int], Animal],
                                         target: Tuple[str, int]):
@@ -338,13 +340,16 @@ class MessageAgent(BaseAgent):
 
         damage = self.actor(target).damage_modifier(self, damage, "incoming")
 
+        if damage == 0:
+            return
+
         self.actor(target).battle_hp -= damage
         if not self._query_faint(target, actor):
             self.enqueue_event(eventnames.HURT,
                                actor=target,
                                target=actor)
 
-    def deal_attack_damage(self, actor: Tuple[str, int], target: Tuple[str, int]):
+    def deal_attack_damage(self, actor: Tuple[str, int], target: Tuple[str, int]) -> Tuple[int, int]:
         """
         accounts for held items of attacker (event raiser) and attackee (target)
         you must set attacker and attackee beforehand
@@ -364,10 +369,14 @@ class MessageAgent(BaseAgent):
 
         target_anim.battle_hp -= target_damage_taken
         actor_anim.battle_hp -= actor_damage_taken
+        return actor_damage_taken, target_damage_taken
 
     def deal_sneak_damage_handle_hurt(self, actor: Tuple[str, int], target: Tuple[str, int], damage):
         target_anim = self.actor(target)
         damage = target_anim.damage_modifier(self, damage, "incoming")
+
+        if damage == 0:
+            return
 
         target_anim.battle_hp -= damage
         if not self._query_faint(actor, target):
