@@ -37,14 +37,18 @@ class Equipment:
         animal = agent.team[actor[1]]
 
         agent.enqueue_event(ON_FAINT,
-                            actor=actor, fainted=animal)
+                            actor=actor,
+                            fainted=animal)
+
         agent.team.faint(actor[1])
 
         agent.enqueue_event(FRIEND_AHEAD_FAINTS,
-                            actor=actor, fainted=animal)
+                            actor=actor,
+                            fainted=animal)
 
         agent.enqueue_event(FRIEND_FAINTS,
-                            actor=actor, fainted=animal)
+                            actor=actor,
+                            fainted=animal)
 
     ###################################################################
 
@@ -58,6 +62,14 @@ class Equipment:
 
     @staticmethod
     def salad_bowl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        """
+        should never be called if there is no one to apply effects to
+        Args:
+            agent:
+            actor:
+            target:
+        Returns:
+        """
         units: List[int] = agent.team.random_units_idx(2)
         for unit in units:
             agent.enqueue_event(EAT_FOOD,
@@ -66,7 +78,7 @@ class Equipment:
             agent.enqueue_event(FRIEND_EATS_FOOD,
                                 actor=("team", unit))
 
-            agent.team[unit].permanent_buff(2, 2)
+            agent.team[unit].permanent_buff(1, 1)
 
     ###################################################################
 
@@ -115,11 +127,13 @@ class Equipment:
     def sushi(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         units: List[int] = agent.team.random_units_idx(3)
         for unit in units:
-            agent.event_raiser = ("team", unit)
-            agent.handle_events()
+            actor = ("team", unit)
+            agent.enqueue_event(EAT_FOOD,
+                                actor=actor)
 
             agent.event_raiser = ("team", unit)
-            agent.handle_events()
+            agent.enqueue_event(FRIEND_EATS_FOOD,
+                                actor=actor)
 
             agent.team[unit].permanent_buff(1, 1)
 
@@ -133,7 +147,8 @@ class Equipment:
 
     @staticmethod
     def mushroom(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
-        summoned_animal: Animal = fainted.__new__(type(fainted))
+        # noinspection PyArgumentList
+        summoned_animal: Animal = fainted.__class__()
         summoned_animal.hp = 1
         summoned_animal.atk = 1
         summoned_animal.battle_hp = 1
@@ -145,11 +160,12 @@ class Equipment:
     def pizza(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         units: List[int] = agent.team.random_units_idx(2)
         for unit in units:
-            agent.event_raiser = ("team", unit)
-            agent.handle_events()
+            actor = ("team", unit)
+            agent.enqueue_event(EAT_FOOD,
+                                actor=actor)
 
-            agent.event_raiser = ("team", unit)
-            agent.handle_events()
+            agent.enqueue_event(FRIEND_EATS_FOOD,
+                                actor=actor)
 
             agent.team[unit].permanent_buff(2, 2)
 
