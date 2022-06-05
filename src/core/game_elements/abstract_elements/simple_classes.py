@@ -137,6 +137,7 @@ class Equipment:
     cost = 3
     id = 0
     is_targeted = True
+    is_holdable = False
 
     def __eq__(self, other: 'Equipment') -> bool:
         for key in self.__dict__:
