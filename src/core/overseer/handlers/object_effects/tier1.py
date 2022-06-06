@@ -56,7 +56,7 @@ class Tier1:
         else:
             agent.team_of_(actor).leftmost_unit.permanent_buff(3, 0)
 
-    # how to handle summons???
+    # summons handled via fainted argument
     @staticmethod
     def cricket(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Zombie_Cricket()
@@ -71,18 +71,17 @@ class Tier1:
     @staticmethod
     def duck(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.shop.buff(1, 1)
+            agent.shop.buff(0, 1)
         elif agent.actor(actor).level == 2:
-            agent.shop.buff(2, 2)
+            agent.shop.buff(0, 2)
         else:
-            agent.shop.buff(3, 3)
+            agent.shop.buff(0, 3)
 
     # on level give all friends +1/1, +2/2, X
     @staticmethod
     def fish(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            print("this shouldn't happen! fish lvl 1 trigger")
-            return
+            raise ValueError("this shouldn't happen! fish lvl 1 trigger")
         if agent.actor(actor).level == 2:
             agent.buff(agent.team_of_(actor).friends(actor[1]), 1, 1)
         elif agent.actor(actor).level == 3:
