@@ -12,7 +12,6 @@ class TestCoconut(TestCase):
         animal.held = obj
         agent = MessageAgent("base pack")
         agent.team[0] = animal
-        agent.target = ("team", 0)
 
         self.assertTrue(obj.id == 417)
         self.assertTrue(obj.query(animal, agent, 40, "incoming") == 0)
@@ -26,7 +25,6 @@ class TestMelon(TestCase):
         animal.held = obj
         agent = MessageAgent("base pack")
         agent.team[0] = animal
-        agent.target = ("team", 0)
 
         self.assertTrue(obj.id == 418)
         self.assertTrue(obj.query(animal, agent, 30, "incoming") == 10)
@@ -53,8 +51,5 @@ class TestSteak(TestCase):
         animal = Fish()
         obj = tier_6.Steak()
         animal.held = obj
-        agent = MessageAgent("base pack")
-        agent.team[0] = animal
-        agent.event_raiser = ("team", 0)
 
         self.assertTrue(obj.id == 421)
