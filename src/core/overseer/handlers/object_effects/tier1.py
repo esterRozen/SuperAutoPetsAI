@@ -112,6 +112,9 @@ class Tier1:
     def mosquito(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         units = agent.team_opposing_(actor).random_units_idx(1)
 
+        if units is None:
+            return
+
         if actor[0] == "team":
             agent.deal_ability_damage_handle_hurt(agent.actor(actor).level,
                                                   actor, ("enemy", units[0]))
