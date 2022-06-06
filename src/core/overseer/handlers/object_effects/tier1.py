@@ -141,7 +141,6 @@ class Tier1:
             agent.gold += 2
         else:
             agent.gold += 3
-        pass
 
     # sloth automatically no ops
     @staticmethod
