@@ -1,4 +1,3 @@
-from math import floor
 from typing import TYPE_CHECKING, Tuple
 
 from ....game_elements.abstract_elements import Animal
@@ -12,26 +11,21 @@ if TYPE_CHECKING:
 class Tier2:
     @staticmethod
     def bat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        units = agent.team_opposing_(actor).random_units(agent.team[agent.event_raiser[1]].level)
+        units = agent.team_opposing_(actor).random_units(agent.actor(actor).level)
 
         for unit in units:
             unit.held = Weak()
 
-    # TODO update to current patch
     @staticmethod
     def crab(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        battle_hp = agent.team_of_(actor).friend_ahead(actor[1]).battle_hp
-        agent.actor(actor).battle_hp = battle_hp
+        battle_hp = agent.team_of_(actor).highest_health_unit().battle_hp * agent.actor(actor).level // 2
+        agent.actor(actor).battle_hp = max(1, battle_hp)
 
     @staticmethod
     def dodo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        battle_atk = agent.actor(actor).battle_atk
-        if agent.actor(actor).level == 1:
-            agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += floor(battle_atk / 2)
-        elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += battle_atk
-        else:
-            agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += floor(1.5 * battle_atk)
+        unit = agent.actor(actor)
+        battle_atk = unit.battle_atk * unit.level // 2
+        agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += battle_atk
 
     @staticmethod
     def dirty_rat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -86,7 +80,6 @@ class Tier2:
         else:
             agent.actor(actor).temp_buff(6, 0)
 
-    # summons, ugh
     @staticmethod
     def rat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         for _ in range(fainted.level):
@@ -104,7 +97,6 @@ class Tier2:
         else:
             agent.team_of_(actor).random_friend(actor[1]).temp_buff(0, 3)
 
-    # more summons!!
     @staticmethod
     def spider(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit: Animal = agent.shop[0].spawner.spawn_tier(3)
