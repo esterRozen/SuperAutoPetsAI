@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-from src.core import State
 from src.core.game_elements.game_objects.animals import Fish, Ant, Beaver, Duck, Cricket, Otter
 from src.core.overseer import MessageAgent
 
@@ -49,15 +48,15 @@ class TestMessageAgent(TestCase):
         agent.team[3] = Ant()
         agent.team[3].permanent_buff(4, 4)
 
-        agent.event_raiser = ("team", 2)
-        team_sort = agent.sorted_without_(agent.event_raiser)
+        actor = ("team", 2)
+        team_sort = agent.sorted_without_(actor)
         self.assertTrue(team_sort[0] == agent.team[0])
         self.assertTrue(team_sort[1] == agent.team[3])
         self.assertTrue(team_sort[2] == agent.team[1])
         self.assertTrue(len(team_sort) == 3)
 
-        agent.event_raiser = ("team", 1)
-        team_sort = agent.sorted_without_(agent.event_raiser)
+        actor = ("team", 1)
+        team_sort = agent.sorted_without_(actor)
         self.assertTrue(team_sort[0] == agent.team[0])
         self.assertTrue(team_sort[1] == agent.team[3])
         self.assertTrue(team_sort[2] == agent.team[2])
@@ -65,8 +64,8 @@ class TestMessageAgent(TestCase):
 
         agent.team[4] = Fish()
         agent.team[4].permanent_buff(5, 5)
-        agent.event_raiser = ("team", 0)
-        team_sort = agent.sorted_without_(agent.event_raiser)
+        actor = ("team", 0)
+        team_sort = agent.sorted_without_(actor)
 
         self.assertTrue(id(team_sort[0]) == id(agent.team[4]))
         self.assertTrue(team_sort[1] == agent.team[3])
@@ -74,8 +73,8 @@ class TestMessageAgent(TestCase):
         self.assertTrue(team_sort[3] == agent.team[2])
         self.assertTrue(len(team_sort) == 4)
 
-        agent.event_raiser = ("team", 4)
-        team_sort = agent.sorted_without_(agent.event_raiser)
+        actor = ("team", 4)
+        team_sort = agent.sorted_without_(actor)
 
         self.assertTrue(id(team_sort[0]) == id(agent.team[0]))
         self.assertTrue(team_sort[1] == agent.team[3])
@@ -94,14 +93,14 @@ class TestMessageAgent(TestCase):
         agent.team[3] = Ant()
         agent.team[3].permanent_buff(4, 4)
 
-        agent.event_raiser = ("team", 1)
-        team_sort = agent.sorted_units_behind_(agent.event_raiser)
+        actor = ("team", 1)
+        team_sort = agent.sorted_units_behind_(actor)
         self.assertTrue(team_sort[0] == agent.team[3])
         self.assertTrue(team_sort[1] == agent.team[2])
         self.assertTrue(len(team_sort) == 2)
 
-        agent.event_raiser = ("team", 0)
-        team_sort = agent.sorted_units_behind_(agent.event_raiser)
+        actor = ("team", 0)
+        team_sort = agent.sorted_units_behind_(actor)
         self.assertTrue(team_sort[0] == agent.team[3])
         self.assertTrue(team_sort[1] == agent.team[1])
         self.assertTrue(team_sort[2] == agent.team[2])
@@ -115,7 +114,7 @@ class TestMessageAgent(TestCase):
         # TODO
         self.fail()
 
-    def test_handle_event(self):
+    def test_handle_events(self):
         # TODO
         self.fail()
 

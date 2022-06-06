@@ -131,7 +131,6 @@ class Equipment:
             agent.enqueue_event(EAT_FOOD,
                                 actor=actor)
 
-            agent.event_raiser = ("team", unit)
             agent.enqueue_event(FRIEND_EATS_FOOD,
                                 actor=actor)
 

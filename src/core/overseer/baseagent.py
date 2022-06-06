@@ -31,11 +31,6 @@ class BaseAgent:
 
         self.enemy = Team()
 
-        # animal that triggered the event is the actor
-        # animal that responded to event is the acting animal
-        self.event_raiser: Tuple[str, int] = ("team", 0)
-        self.target: Tuple[str, int] = ("team", 0)
-
     @abstractmethod
     def handle_events(self):
         pass
