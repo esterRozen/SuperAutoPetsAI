@@ -45,24 +45,64 @@ class TestTier1(TestCase):
         self.assertTrue(self.agent.team[1].battle_hp == 2)
 
     def test__beetle(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Beetle(), ("team", 0))
+        Tier1.beetle(self.agent, ("team", 0), ("team", 1))
+
+        shop_anim = self.agent.shop[0].item
+        new_shop_anim = shop_anim.__class__()
+
+        self.assertTrue(shop_anim.hp == new_shop_anim.hp + 1)
+        self.assertTrue(shop_anim.battle_hp == new_shop_anim.battle_hp + 1)
+        self.assertTrue(shop_anim.atk == new_shop_anim.atk)
+        self.assertTrue(shop_anim.battle_atk)
 
     def test__bluebird(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Bluebird(), ("team", 0))
+        self.agent.summon(tier_1.Fish(), ("team", 3))
+        Tier1.bluebird(self.agent, ("team", 0), ("team", 2))
+
+        self.assertTrue(self.agent.team[3].atk == 3)
+        self.assertTrue(self.agent.team[3].battle_atk == 3)
 
     def test__cricket(self):
-        # TODO
-        self.fail()
+        cricket = tier_1.Cricket()
+        cricket.xp = 5
+
+        Tier1.cricket(self.agent, ("team", 0), ("team", 2), cricket)
+        self.assertTrue(self.agent.team[0].atk == 3)
+        self.assertTrue(self.agent.team[0].battle_atk == 3)
+        self.assertTrue(self.agent.team[0].hp == 3)
+        self.assertTrue(self.agent.team[0].battle_hp == 3)
 
     def test__duck(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Duck(), ("team", 0))
+        Tier1.duck(self.agent, ("team", 0), ("team", 4))
+
+        shop_anim = self.agent.shop[0].item
+        new_shop_anim = shop_anim.__class__()
+
+        self.assertTrue(shop_anim.hp == new_shop_anim.hp + 1)
+        self.assertTrue(shop_anim.battle_hp == new_shop_anim.battle_hp + 1)
+        self.assertTrue(shop_anim.atk == new_shop_anim.atk)
+        self.assertTrue(shop_anim.battle_atk)
 
     def test__fish(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Fish(), ("team", 0))
+        self.agent.summon(tier_1.Bee(), ("team", 1))
+
+        self.agent.team[0].xp = 2
+        Tier1.fish(self.agent, ("team", 0), ("team", 1))
+        self.assertTrue(self.agent.team[1].atk == 2)
+        self.assertTrue(self.agent.team[1].battle_atk == 2)
+        self.assertTrue(self.agent.team[1].hp == 2)
+        self.assertTrue(self.agent.team[1].battle_hp == 2)
+
+        self.agent.team[0].xp = 5
+        Tier1.fish(self.agent, ("team", 0), ("team", 3))
+        self.assertTrue(self.agent.team[1].atk == 4)
+        self.assertTrue(self.agent.team[1].battle_atk == 4)
+        self.assertTrue(self.agent.team[1].hp == 4)
+        self.assertTrue(self.agent.team[1].battle_hp == 4)
 
     def test__horse(self):
         # TODO
