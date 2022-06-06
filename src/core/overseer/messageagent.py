@@ -113,7 +113,6 @@ class MessageAgent(BaseAgent):
         ]
 
         self._event_queue = []
-        self._root_event = True
         # self.functions = {}
         #
         # for group in objs:
@@ -135,7 +134,7 @@ class MessageAgent(BaseAgent):
             # interleaved units to maintain left/right ordering for enemies and friendlies
             roster = list(itertools.chain(*zip(self.team.animals, self.enemy.animals)))
         else:
-            raise ValueError(f"self.event_raiser should not contain {self.event_raiser[0]}")
+            raise ValueError(f"team should not be {team}")
 
         units_sorted = sorted(
             roster,
@@ -156,7 +155,7 @@ class MessageAgent(BaseAgent):
         elif actor[0] == "enemy":
             sorted_team.remove(self.enemy.animals[actor[1]])
             return sorted_team
-        raise ValueError(f"self.event_raiser should not contain {actor[0]}")
+        raise ValueError(f"actor should not contain {actor[0]}")
 
     def sorted_units_behind_(self, actor: Tuple[str, int]):
         sorted_team = self.sorted_team(actor[0])
@@ -172,7 +171,7 @@ class MessageAgent(BaseAgent):
                 if self.enemy.animals.index(animal) > actor[1]:
                     out += [animal]
             return out
-        raise ValueError(f"self.event_raiser should not contain {actor[0]}")
+        raise ValueError(f"actor should not contain {actor[0]}")
 
     @staticmethod
     def load(state: State) -> 'BaseAgent':
@@ -312,14 +311,14 @@ class MessageAgent(BaseAgent):
         if actor_damage_taken != 0:
             if self._query_faint(actor, target):
                 self.enqueue_event(eventnames.HURT,
-                                   actor=self.event_raiser,
-                                   target=self.target)
+                                   actor=actor,
+                                   target=target)
 
         if target_damage_taken != 0:
             if self._query_faint(target, actor):
                 self.enqueue_event(eventnames.HURT,
-                                   actor=self.target,
-                                   target=self.event_raiser)
+                                   actor=target,
+                                   target=actor)
 
     def deal_ability_damage_handle_hurt(self, damage: int, actor: Union[Tuple[str, int], Animal],
                                         target: Tuple[str, int]):
