@@ -73,11 +73,11 @@ class Tier3:
     @staticmethod
     def hatching_chick(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).friend_ahead(actor[1]).temp_buff(5, 5)
+            agent.team.friend_ahead(actor[1]).temp_buff(5, 5)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).friend_ahead(actor[1]).permanent_buff(2, 2)
+            agent.team.friend_ahead(actor[1]).permanent_buff(2, 2)
         else:
-            agent.team_of_(actor).friend_ahead(actor[1]).increase_xp(1)
+            agent.team.friend_ahead(actor[1]).increase_xp(1)
 
     @staticmethod
     def kangaroo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -87,11 +87,11 @@ class Tier3:
     @staticmethod
     def owl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(2, 2)
+            agent.team.random_friend(actor[1]).permanent_buff(2, 2)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(4, 4)
+            agent.team.random_friend(actor[1]).permanent_buff(4, 4)
         else:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(6, 6)
+            agent.team.random_friend(actor[1]).permanent_buff(6, 6)
 
     @staticmethod
     def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
@@ -103,6 +103,7 @@ class Tier3:
     def puppy(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.gold < 2:
             return
+
         if agent.actor(actor).level == 1:
             agent.actor(actor).permanent_buff(2, 2)
         elif agent.actor(actor).level == 2:
@@ -134,6 +135,7 @@ class Tier3:
     def snail(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if not agent.battle_lost:
             return
+
         if agent.actor(actor).level == 1:
             agent.buff(agent.team_of_(actor).friends(actor[1]), 1, 1)
         elif agent.actor(actor).level == 2:
@@ -143,8 +145,8 @@ class Tier3:
 
     @staticmethod
     def tropical_fish(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.team_of_(actor).friend_ahead(actor[1]).permanent_buff(0, agent.actor(actor).level)
-        agent.team_of_(actor).friend_behind(actor[1]).permanent_buff(0, agent.actor(actor).level)
+        agent.team.friend_ahead(actor[1]).permanent_buff(0, agent.actor(actor).level)
+        agent.team.friend_behind(actor[1]).permanent_buff(0, agent.actor(actor).level)
 
     @staticmethod
     def turtle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
