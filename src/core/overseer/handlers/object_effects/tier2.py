@@ -74,11 +74,11 @@ class Tier2:
     @staticmethod
     def peacock(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.actor(actor).temp_buff(2, 0)
+            agent.buff(agent.actor(actor), 4, 0)
         elif agent.actor(actor).level == 2:
-            agent.actor(actor).temp_buff(4, 0)
+            agent.buff(agent.actor(actor), 8, 0)
         else:
-            agent.actor(actor).temp_buff(6, 0)
+            agent.buff(agent.actor(actor), 12, 0)
 
     @staticmethod
     def rat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
@@ -91,11 +91,11 @@ class Tier2:
     @staticmethod
     def shrimp(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).random_friend(actor[1]).temp_buff(0, 1)
+            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 1)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).random_friend(actor[1]).temp_buff(0, 2)
+            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 2)
         else:
-            agent.team_of_(actor).random_friend(actor[1]).temp_buff(0, 3)
+            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 3)
 
     @staticmethod
     def spider(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
@@ -116,12 +116,7 @@ class Tier2:
 
     @staticmethod
     def swan(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.gold += 1
-        elif agent.actor(actor).level == 2:
-            agent.gold += 2
-        else:
-            agent.gold += 3
+        agent.gold += agent.actor(actor).level
 
     @staticmethod
     def tabby_cat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
