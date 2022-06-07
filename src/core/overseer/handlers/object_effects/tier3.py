@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, List, Tuple
+from random import random
 
-from ....game_elements.abstract_elements import Animal
+from ....game_elements.abstract_elements import Animal, Empty
 from ....game_elements.game_objects.animals import Butterfly, Ram
 from ....game_elements.game_objects.equipment import Melon
 
@@ -26,7 +27,7 @@ class Tier3:
         # deal damage to unit behind
         agent.deal_ability_damage_handle_hurt(damage, fainted, behind)
 
-        if teammate_ahead is None:
+        if isinstance(teammate_ahead, Empty):
             enemy_pos = agent.team_opposing_(actor).animals.index(agent.team_opposing_(actor).rightmost_unit)
             target = (target, enemy_pos)
         else:
@@ -51,11 +52,11 @@ class Tier3:
     @staticmethod
     def camel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 1, 2)
+            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 2, 2)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 2, 4)
+            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 4, 4)
         else:
-            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 3, 6)
+            agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 6, 6)
 
     @staticmethod
     def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -68,21 +69,15 @@ class Tier3:
 
     @staticmethod
     def dog(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.actor(actor).permanent_buff(1, 1)
-        elif agent.actor(actor).level == 2:
-            agent.actor(actor).permanent_buff(2, 2)
+        if random() < 0.5:
+            agent.buff(agent.actor(actor), 0, agent.actor(actor).level)
         else:
-            agent.actor(actor).permanent_buff(3, 3)
+            agent.buff(agent.actor(actor), agent.actor(actor).level, 0)
 
     @staticmethod
     def giraffe(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 1), 1, 1)
-        elif agent.actor(actor).level == 2:
-            agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 2), 1, 1)
-        else:
-            agent.buff(agent.team_of_(actor).friends_ahead(actor[1], 3), 1, 1)
+        agent.buff(agent.team_of_(actor).friends_ahead(actor[1], agent.actor(actor).level),
+                   1, 1)
 
     @staticmethod
     def hatching_chick(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -95,12 +90,8 @@ class Tier3:
 
     @staticmethod
     def kangaroo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.actor(actor).temp_buff(2, 2)
-        elif agent.actor(actor).level == 2:
-            agent.actor(actor).temp_buff(4, 4)
-        else:
-            agent.actor(actor).temp_buff(6, 6)
+        buff_amt = 2 * agent.actor(actor).level
+        agent.actor(actor).temp_buff(buff_amt, buff_amt)
 
     @staticmethod
     def owl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -152,11 +143,11 @@ class Tier3:
         if not agent.battle_lost:
             return
         if agent.actor(actor).level == 1:
-            agent.buff(agent.team_of_(actor).friends(actor[1]), 2, 1)
+            agent.buff(agent.team_of_(actor).friends(actor[1]), 1, 1)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.team_of_(actor).friends(actor[1]), 4, 2)
+            agent.buff(agent.team_of_(actor).friends(actor[1]), 2, 2)
         else:
-            agent.buff(agent.team_of_(actor).friends(actor[1]), 6, 3)
+            agent.buff(agent.team_of_(actor).friends(actor[1]), 3, 3)
 
     @staticmethod
     def tropical_fish(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
