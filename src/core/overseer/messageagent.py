@@ -80,7 +80,7 @@ class MessageAgent(BaseAgent):
             t2.flamingo, t2.hedgehog, t2.peacock, t2.rat, t2.shrimp,
             t2.spider, t2.swan, t2.tabby_cat,
 
-            t3.badger, t3.blowfish, t3.camel, t3.caterpillar, t3.dog,
+            t3.badger, t3.blowfish, t3.camel, t4.caterpillar, t3.dog,
             t3.giraffe, t3.hatching_chick, t3.kangaroo, t3.owl, t3.ox,
             t3.puppy, t3.rabbit, t3.sheep, t3.snail, t3.tropical_fish,
             t3.turtle,
