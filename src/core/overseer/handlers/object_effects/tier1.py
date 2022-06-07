@@ -17,6 +17,7 @@ class Tier1:
         friend = agent.team_of_(actor).random_friend(actor[1])
         if not friend:
             return
+
         if fainted.level == 1:
             agent.buff(friend, 2, 1)
         elif fainted.level == 2:
@@ -27,9 +28,10 @@ class Tier1:
     # on sell give 2 +1/2/3 hp
     @staticmethod
     def beaver(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        friends = agent.team_of_(actor).random_friends(actor[1], 2)
+        friends = agent.team.random_friends(actor[1], 2)
         if not friends:
             return
+
         if agent.actor(actor).level == 1:
             [friend.permanent_buff(0, 1) for friend in friends]
         elif agent.actor(actor).level == 2:
@@ -50,11 +52,11 @@ class Tier1:
     @staticmethod
     def bluebird(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).leftmost_unit.permanent_buff(1, 0)
+            agent.team.leftmost_unit.permanent_buff(1, 0)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).leftmost_unit.permanent_buff(2, 0)
+            agent.team.leftmost_unit.permanent_buff(2, 0)
         else:
-            agent.team_of_(actor).leftmost_unit.permanent_buff(3, 0)
+            agent.team.leftmost_unit.permanent_buff(3, 0)
 
     # summons handled via fainted argument
     @staticmethod
@@ -83,9 +85,9 @@ class Tier1:
         if agent.actor(actor).level == 1:
             raise ValueError("this shouldn't happen! fish lvl 1 trigger")
         if agent.actor(actor).level == 2:
-            agent.buff(agent.team_of_(actor).friends(actor[1]), 1, 1)
+            agent.buff(agent.team.friends(actor[1]), 1, 1)
         elif agent.actor(actor).level == 3:
-            agent.buff(agent.team_of_(actor).friends(actor[1]), 2, 2)
+            agent.buff(agent.team.friends(actor[1]), 2, 2)
 
     # friend summoned, give +1/2/3 atk until end of battle
     @staticmethod
@@ -126,11 +128,11 @@ class Tier1:
     @staticmethod
     def otter(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(1, 1)
+            agent.team.random_friend(actor[1]).permanent_buff(1, 1)
         elif agent.actor(actor).level == 2:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(2, 2)
+            agent.team.random_friend(actor[1]).permanent_buff(2, 2)
         else:
-            agent.team_of_(actor).random_friend(actor[1]).permanent_buff(3, 3)
+            agent.team.random_friend(actor[1]).permanent_buff(3, 3)
 
     # gain extra +1/2/3 gold on sell
     @staticmethod
