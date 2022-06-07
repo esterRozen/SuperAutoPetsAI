@@ -105,21 +105,45 @@ class TestTier1(TestCase):
         self.assertTrue(self.agent.team[1].battle_hp == 4)
 
     def test__horse(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Horse(), ("team", 0))
+        self.agent.summon(tier_1.Bee(), ("team", 0))
+
+        Tier1.horse(self.agent, ("team", 1), ("team", 0))
+        self.assertTrue(self.agent.team[0].atk == 1)
+        self.assertTrue(self.agent.team[0].battle_atk == 2)
+        self.assertTrue(self.agent.team[0].hp == 1)
+        self.assertTrue(self.agent.team[0].battle_hp == 1)
 
     def test__ladybug(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Ladybug(), ("team", 0))
+
+        Tier1.ladybug(self.agent, ("team", 0), ("team", 2))
+        self.assertTrue(self.agent.team[0].battle_hp == 4)
+        self.assertTrue(self.agent.team[0].hp == 3)
+        self.assertTrue(self.agent.team[0].battle_atk == 2)
+        self.assertTrue(self.agent.team[0].atk == 1)
 
     def test__mosquito(self):
-        # TODO
-        self.fail()
+        self.agent.in_shop = False
+        self.agent.summon(tier_1.Fish(), ("enemy", 0))
+        self.agent.summon(tier_1.Mosquito(), ("team", 0))
+
+        Tier1.mosquito(self.agent, ("team", 0), ("team", 3))
+        self.assertTrue(self.agent.enemy[0].battle_hp == 1)
+        self.assertTrue(self.agent.enemy[0].hp == 2)
 
     def test__otter(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Otter(), ("team", 0))
+        self.agent.summon(tier_1.Fish(), ("team", 2))
+
+        Tier1.otter(self.agent, ("team", 0), ("team", 3))
+        self.assertTrue(self.agent.team[2].atk == 3)
+        self.assertTrue(self.agent.team[2].battle_atk == 3)
+        self.assertTrue(self.agent.team[2].hp == 3)
+        self.assertTrue(self.agent.team[2].battle_hp == 3)
 
     def test__pig(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Pig(), ("team", 0))
+
+        Tier1.pig(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.gold == 11)
