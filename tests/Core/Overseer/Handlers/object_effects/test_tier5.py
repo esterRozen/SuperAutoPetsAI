@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.core.game_elements.abstract_elements import Unarmed
+from src.core.game_elements.abstract_elements import Unarmed, Empty
 from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_5
 from src.core.game_elements.game_objects.equipment import Milk, Better_Milk, Best_Milk
 from src.core.overseer.handlers.object_effects.tier5 import Tier5
@@ -68,18 +68,52 @@ class TestTier5(TestCase):
         self.assertTrue(isinstance(self.agent.shop[6].item, Unarmed))
 
     def test__crocodile(self):
-        # TODO
-        self.fail()
+        self.agent.in_shop = False
+        self.agent.summon(tier_5.Crocodile(), ("team", 0))
+        Tier5.crocodile(self.agent, ("team", 0), ("team", 4))
+
+        self.agent.summon(tier_5.Rhino(), ("enemy", 0))
+
+        Tier5.crocodile(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.enemy[0].battle_hp == 1)
+
+        Tier5.crocodile(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+
+        self.agent.summon(tier_5.Crocodile(), ("enemy", 0))
+        Tier5.crocodile(self.agent, ("enemy", 0), ("enemy", 4))
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+
+        self.agent.summon(tier_5.Rhino(), ("team", 0))
+        self.agent.enemy[0].xp = 2
+
+        Tier5.crocodile(self.agent, ("enemy", 0), ("enemy", 4))
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
 
     def test__eagle(self):
-        # TODO
-        self.fail()
+        eagle = tier_5.Eagle()
+        Tier5.eagle(self.agent, ("team", 0), ("team", 4), fainted=eagle)
+        self.assertTrue(self.agent.team[0].level == 1)
+
+        eagle.xp = 2
+        Tier5.eagle(self.agent, ("team", 1), ("team", 4), fainted=eagle)
+        animal = self.agent.team[1]
+        orig_anim = animal.__class__()
+        self.assertTrue(self.agent.team[1].level == 2)
+        self.assertTrue(animal.atk == 2 * orig_anim.atk)
+        self.assertTrue(animal.battle_atk == 2 * orig_anim.battle_atk)
+        self.assertTrue(animal.hp == 2 * orig_anim.hp)
+        self.assertTrue(animal.battle_hp == 2 * orig_anim.battle_hp)
+
+        eagle.xp = 5
+        Tier5.eagle(self.agent, ("team", 2), ("team", 4), fainted=eagle)
+        self.assertTrue(self.agent.team[2].level == 3)
 
     def test__goat(self):
-        # TODO
-        self.fail()
+        Tier5.goat(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.gold == 11)
 
-    def test__microbe(self):
+    def test__monkey(self):
         # TODO
         self.fail()
 
