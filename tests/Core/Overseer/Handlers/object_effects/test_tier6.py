@@ -1,7 +1,17 @@
 from unittest import TestCase
 
+from src.core.game_elements.game_objects.animals import tier_6
+from src.core.overseer.handlers.object_effects.tier6 import Tier6
+from src.core.game_systems import ShopSystem, BattleSystem
+from src.core.overseer import MessageAgent
+
 
 class TestTier6(TestCase):
+    def setUp(self) -> None:
+        self.agent = MessageAgent("base pack")
+        BattleSystem(self.agent)
+        ShopSystem(self.agent)
+
     def test__cat(self):
         # TODO
         self.fail()
