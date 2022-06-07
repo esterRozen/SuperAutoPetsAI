@@ -237,7 +237,7 @@ class ShopSlot:
     def __init__(self, mode):
         self.mode = mode
         self.spawner = ae.Spawner(mode)
-        self.item: Union[ae.Animal, ae.Equipment] = ae.Empty()
+        self.item: Union[ae.Animal, ae.Equipment] = ae.Unarmed()
 
     def __eq__(self, other: 'ShopSlot') -> bool:
         if type(other) != type(self):
@@ -263,8 +263,11 @@ class ShopSlot:
         self.is_frozen = not self.is_frozen
 
     def buy(self) -> Union[ae.Animal, ae.Equipment]:
+        if not self.is_enabled:
+            return ae.Unarmed()
+
         item = self.item
-        self.item = ae.Empty()
+        self.item = ae.Unarmed()
         self.is_frozen = False
         return item
 
@@ -284,6 +287,16 @@ class AnimalShopSlot(ShopSlot):
 
     def __init__(self, mode: str):
         super(AnimalShopSlot, self).__init__(mode)
+        self.item = ae.Empty()
+
+    def buy(self) -> Union[ae.Animal, ae.Equipment]:
+        if not self.is_enabled:
+            return ae.Empty()
+
+        item = self.item
+        self.item = ae.Empty()
+        self.is_frozen = False
+        return item
 
     def clear(self):
         self.item = ae.Empty()
