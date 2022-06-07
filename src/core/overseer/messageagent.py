@@ -90,7 +90,7 @@ class MessageAgent(BaseAgent):
             t4.skunk, t4.squirrel, t4.whale, t4.worm,
 
             t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
-            t5.microbe, t5.monkey, t5.parrot, t5.rhino, t5.scorpion,
+            t4.microbe, t5.monkey, t5.parrot, t5.rhino, t5.scorpion,
             t5.seal, t5.shark, t5.turkey,
 
             t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,

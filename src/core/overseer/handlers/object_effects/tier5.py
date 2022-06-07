@@ -69,13 +69,6 @@ class Tier5:
         agent.gold += 1
 
     @staticmethod
-    def microbe(agent: 'MessageAgent', fainted: Animal):
-        for unit in agent.team.units():
-            unit.held = Weak()
-        for unit in agent.enemy.units():
-            unit.held = Weak()
-
-    @staticmethod
     def monkey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         animal_to_buff = agent.team.rightmost_unit()
         if agent.actor(actor).level == 1:

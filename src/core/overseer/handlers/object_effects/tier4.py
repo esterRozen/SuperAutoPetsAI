@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Tuple, Optional
 
 from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
 from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
-from ....game_elements.game_objects.equipment import Chili
+from ....game_elements.game_objects.equipment import Chili, Weak
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -96,6 +96,15 @@ class Tier4:
             agent.actor(target).permanent_buff(4, 6)
         else:
             agent.actor(target).permanent_buff(6, 9)
+
+    @staticmethod
+    def microbe(agent: 'MessageAgent',
+                actor: Tuple[str, int], target: Tuple[str, int],
+                fainted: Animal):
+        for unit in agent.team.units():
+            unit.held = Weak()
+        for unit in agent.enemy.units():
+            unit.held = Weak()
 
     @staticmethod
     def penguin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
