@@ -54,7 +54,6 @@ class Tier4:
 
     @staticmethod
     def dolphin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
         animal = agent.team_opposing_(actor).lowest_health_unit()
         if actor[0] == "team":
             target = ("enemy", agent.enemy.animals.index(animal))
@@ -67,11 +66,11 @@ class Tier4:
     @staticmethod
     def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         if agent.actor(actor).level == 1:
-            agent.actor(actor).temp_buff(2, 2)
+            agent.actor(actor).temp_buff(3, 3)
         elif agent.actor(actor).level == 2:
-            agent.actor(actor).temp_buff(4, 4)
-        else:
             agent.actor(actor).temp_buff(6, 6)
+        else:
+            agent.actor(actor).temp_buff(9, 9)
 
     @staticmethod
     def llama(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
