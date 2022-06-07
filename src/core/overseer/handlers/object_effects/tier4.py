@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
-from ....game_elements.abstract_elements import Animal, Equipment
+from ....game_elements.abstract_elements import Animal, Equipment, Empty
 from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
 from ....game_elements.game_objects.equipment import Chili
 
@@ -39,7 +39,9 @@ class Tier4:
             agent.team_of_(actor).animals[actor[1]] = Butterfly()
 
     @staticmethod
-    def deer(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def deer(agent: 'MessageAgent',
+             actor: Tuple[str, int], target: Tuple[str, int],
+             fainted: Animal):
         unit = Bus()
 
         unit.hp = 5 * fainted.level
@@ -63,7 +65,9 @@ class Tier4:
                                               actor, target)
 
     @staticmethod
-    def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def hippo(agent: 'MessageAgent',
+              actor: Tuple[str, int], target: Tuple[str, int],
+              fainted: Animal):
         if agent.actor(actor).level == 1:
             agent.actor(actor).temp_buff(3, 3)
         elif agent.actor(actor).level == 2:
@@ -102,7 +106,9 @@ class Tier4:
             agent.buff(animals_to_buff, 3, 3)
 
     @staticmethod
-    def rooster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def rooster(agent: 'MessageAgent',
+                actor: Tuple[str, int], target: Tuple[str, int],
+                fainted: Animal):
         unit = Chick()
         unit.hp = 1
         unit.battle_hp = 1
