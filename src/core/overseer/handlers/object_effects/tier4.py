@@ -1,5 +1,4 @@
-from math import ceil
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Tuple, Optional
 
 from ....game_elements.abstract_elements import Animal, Equipment
 from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
@@ -116,7 +115,7 @@ class Tier4:
     @staticmethod
     def skunk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         target = agent.team_opposing_(actor).highest_health_unit()
-        target.battle_hp = max(1, ceil(target.battle_hp * (agent.actor(actor).level / 3)))
+        target.battle_hp = max(1, target.battle_hp - ((target.battle_hp * agent.actor(actor).level) // 3))
 
     @staticmethod
     def squirrel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
