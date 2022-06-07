@@ -81,6 +81,17 @@ class BattleSystem:
 
         # handle win, loss, draw actions
         return 0
-    
+
     def summon(self, unit: Animal, target: Tuple[str, int]):
-        self.agent.team_of_(target).summon(unit, target[1])
+        success = self.agent.team_of_(target).summon(unit, target[1])
+
+        if not success:
+            return
+
+        self.agent.enqueue_event(eventnames.IS_SUMMONED,
+                                 actor=target,
+                                 target=target)
+
+        self.agent.enqueue_event(eventnames.FRIEND_SUMMONED_BATTLE,
+                                 actor=target,
+                                 target=target)

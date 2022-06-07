@@ -181,7 +181,18 @@ class ShopSystem:
         if target[0] == "enemy":
             return
 
-        self.agent.team_of_(target).summon(unit, target[1])
+        success = self.agent.team_of_(target).summon(unit, target[1])
+
+        if not success:
+            return
+
+        self.agent.enqueue_event(eventnames.IS_SUMMONED,
+                                 actor=target,
+                                 target=target)
+
+        self.agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
+                                 actor=target,
+                                 target=target)
 
     def sell(self, pos: int):
         actor = ("team", pos)
