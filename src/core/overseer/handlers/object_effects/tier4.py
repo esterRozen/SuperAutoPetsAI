@@ -13,6 +13,7 @@ class Tier4:
     def bison(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if not agent.team.has_lvl3:
             return
+
         if agent.actor(actor).level == 1:
             agent.actor(actor).permanent_buff(2, 2)
         elif agent.actor(actor).level == 2:
@@ -79,6 +80,7 @@ class Tier4:
     def llama(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.team.size > 4:
             return
+
         if agent.actor(actor).level == 1:
             agent.actor(actor).permanent_buff(2, 2)
         elif agent.actor(actor).level == 2:
