@@ -292,13 +292,47 @@ class TestTier4(TestCase):
         self.assertTrue(self.agent.enemy[0].battle_hp == 1)
 
     def test__squirrel(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_4.Squirrel(), ("team", 0))
+        Tier4.squirrel(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.shop[5].item.cost == 2)
+
+        self.agent.team[0].xp = 2
+        Tier4.squirrel(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.shop[5].item.cost == 0)
+
+        self.agent.shop.reroll()
+        self.agent.team[0].xp = 5
+        Tier4.squirrel(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.shop[5].item.cost == 0)
 
     def test__whale(self):
         # TODO
         self.fail()
 
     def test__worm(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_4.Worm(), ("team", 0))
+        Tier4.worm(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[0].atk == 4)
+        self.assertTrue(self.agent.team[0].battle_atk == 4)
+        self.assertTrue(self.agent.team[0].hp == 4)
+        self.assertTrue(self.agent.team[0].battle_hp == 4)
+
+        self.agent.team[0].xp = 2
+        Tier4.worm(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[0].atk == 6)
+        self.assertTrue(self.agent.team[0].battle_atk == 6)
+        self.assertTrue(self.agent.team[0].hp == 6)
+        self.assertTrue(self.agent.team[0].battle_hp == 6)
+
+        self.agent.team[0].xp = 5
+        Tier4.worm(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[0].atk == 9)
+        self.assertTrue(self.agent.team[0].battle_atk == 9)
+        self.assertTrue(self.agent.team[0].hp == 9)
+        self.assertTrue(self.agent.team[0].battle_hp == 9)
