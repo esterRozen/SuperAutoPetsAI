@@ -220,6 +220,34 @@ class TestTier4(TestCase):
         self.assertTrue(self.agent.team[0].hp == 2)
         self.assertTrue(self.agent.team[0].battle_hp == 2)
 
+        self.agent.team[0].xp = 5
+        Tier4.penguin(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[0].atk == 1)
+        self.assertTrue(self.agent.team[0].battle_atk == 1)
+        self.assertTrue(self.agent.team[0].hp == 2)
+        self.assertTrue(self.agent.team[0].battle_hp == 2)
+
+        self.assertTrue(self.agent.team[1].atk == 11)
+        self.assertTrue(self.agent.team[1].battle_atk == 11)
+        self.assertTrue(self.agent.team[1].hp == 11)
+        self.assertTrue(self.agent.team[1].battle_hp == 11)
+
+        self.assertTrue(self.agent.team[2].atk == 11)
+        self.assertTrue(self.agent.team[2].battle_atk == 11)
+        self.assertTrue(self.agent.team[2].hp == 11)
+        self.assertTrue(self.agent.team[2].battle_hp == 11)
+
+        self.assertTrue(self.agent.team[3].atk == 5)
+        self.assertTrue(self.agent.team[3].battle_atk == 5)
+        self.assertTrue(self.agent.team[3].hp == 5)
+        self.assertTrue(self.agent.team[3].battle_hp == 5)
+
+        self.assertTrue(self.agent.team[4].atk == 11)
+        self.assertTrue(self.agent.team[4].battle_atk == 11)
+        self.assertTrue(self.agent.team[4].hp == 11)
+        self.assertTrue(self.agent.team[4].battle_hp == 11)
+
     def test__rooster(self):
         rooster = tier_4.Rooster()
         Tier4.rooster(self.agent, ("team", 0), ("team", 4), fainted=rooster)
