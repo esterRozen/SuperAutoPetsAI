@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
-from ....game_elements.abstract_elements import Animal, Equipment, Empty
+from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
 from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
 from ....game_elements.game_objects.equipment import Chili
 
@@ -126,7 +126,7 @@ class Tier4:
     @staticmethod
     def squirrel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         for slot in agent.shop.roster:
-            if isinstance(slot.item, Equipment):
+            if isinstance(slot.item, Equipment) and not isinstance(slot.item, Unarmed):
                 slot.item.cost = max(0, slot.item.cost - agent.actor(actor).level)
 
     @staticmethod
