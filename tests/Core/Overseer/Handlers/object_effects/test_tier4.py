@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from src.core.game_elements.abstract_elements import Empty, Team
 from src.core.game_elements.game_objects.animals import tier_4
+from src.core.game_elements.game_objects.equipment import Weak
 from src.core.game_systems import ShopSystem, BattleSystem
 from src.core.overseer import MessageAgent
 from src.core.overseer.handlers.object_effects import Tier4
@@ -173,6 +174,21 @@ class TestTier4(TestCase):
         self.assertTrue(self.agent.team[1].battle_atk == 16)
         self.assertTrue(self.agent.team[1].hp == 22)
         self.assertTrue(self.agent.team[1].battle_hp == 22)
+
+    def test__microbe(self):
+        self.agent.in_shop = False
+        self.agent.summon(tier_4.Bus(), ("team", 1))
+        self.agent.summon(tier_4.Hippo(), ("team", 3))
+        self.agent.summon(tier_4.Bison(), ("enemy", 0))
+        self.agent.summon(tier_4.Rooster(), ("enemy", 4))
+
+        Tier4.microbe(self.agent, ("team", 0), ("enemy", 0), tier_4.Microbe())
+
+        for unit in self.agent.team.units():
+            self.assertTrue(isinstance(unit.held, Weak))
+
+        for unit in self.agent.enemy.units():
+            self.assertTrue(isinstance(unit.held, Weak))
 
     def test__penguin(self):
         self.agent.summon(tier_4.Penguin(), ("team", 0))
