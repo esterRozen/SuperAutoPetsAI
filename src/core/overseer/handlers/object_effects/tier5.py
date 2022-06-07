@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Tuple
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.equipment import Weak, Milk, Better_Milk, Best_Milk
+from ....game_elements.game_objects.equipment import Milk, Better_Milk, Best_Milk
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -56,7 +56,7 @@ class Tier5:
 
         if fainted.level == 1:
             unit.xp = 0
-        elif agent.actor(actor).level == 2:
+        elif fainted.level == 2:
             unit.xp = 2
         else:
             unit.xp = 5
