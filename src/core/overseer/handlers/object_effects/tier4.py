@@ -103,19 +103,6 @@ class Tier4:
             agent.buff(animals_to_buff, 3, 3)
 
     @staticmethod
-    def poodle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        animals_to_buff = agent.team.ret_diff_tiers()
-        if agent.actor(actor).level == 1:
-            for animal in animals_to_buff:
-                animal.permanent_buff(1, 1)
-        elif agent.actor(actor).level == 2:
-            for animal in animals_to_buff:
-                animal.permanent_buff(2, 2)
-        else:
-            for animal in animals_to_buff:
-                animal.permanent_buff(3, 3)
-
-    @staticmethod
     def rooster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         unit = Chick()
         unit.hp = 1

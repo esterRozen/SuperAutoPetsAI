@@ -92,6 +92,19 @@ class Tier5:
         pass
 
     @staticmethod
+    def poodle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        animals_to_buff = agent.team.ret_diff_tiers()
+        if agent.actor(actor).level == 1:
+            for animal in animals_to_buff:
+                animal.permanent_buff(1, 1)
+        elif agent.actor(actor).level == 2:
+            for animal in animals_to_buff:
+                animal.permanent_buff(2, 2)
+        else:
+            for animal in animals_to_buff:
+                animal.permanent_buff(3, 3)
+
+    @staticmethod
     def rhino(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         target = agent.team_opposing_(actor).leftmost_unit
         if actor[0] == "team":
