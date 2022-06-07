@@ -331,6 +331,8 @@ class MessageAgent(BaseAgent):
             target:
         Returns:
         """
+        if isinstance(self.actor(target), Empty):
+            return
 
         if isinstance(actor, Animal):
             damage = actor.damage_modifier(self, damage, "ability")
@@ -386,8 +388,16 @@ class MessageAgent(BaseAgent):
     def faint(self, actor: Tuple[str, int], target: Tuple[str, int]):
         # faint the actor!
         # target dealt the killing blow!
+        # add associated faint events to queue
 
         animal = self.actor(actor)
+
+        if actor[0] == "team":
+            self.team.faint(actor[1])
+        elif actor[0] == "enemy":
+            self.enemy.faint(actor[1])
+        else:
+            raise ValueError(f"actpr should not be {actor[0]}")
 
         self.enqueue_event(eventnames.ON_FAINT,
                            actor=actor,
