@@ -86,7 +86,7 @@ class MessageAgent(BaseAgent):
             t3.turtle,
 
             t4.bison, t4.buffalo, t4.deer, t4.dolphin, t4.hippo,
-            t4.llama, t4.lobster, t4.penguin, t4.poodle, t4.rooster,
+            t4.llama, t4.lobster, t4.penguin, t5.poodle, t4.rooster,
             t4.skunk, t4.squirrel, t4.whale, t4.worm,
 
             t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
@@ -283,7 +283,7 @@ class MessageAgent(BaseAgent):
     # also assume that self.lvl is the level of the unit whose ability triggered
     # done for convenience, otherwise it's a pain...
 
-    def _query_faint(self, actor: Tuple[str, int], target: Tuple[str, int]) -> bool:
+    def query_faint(self, actor: Tuple[str, int], target: Tuple[str, int]) -> bool:
         """
         check if actor faints. may trigger knockout event
         Args:
@@ -309,13 +309,13 @@ class MessageAgent(BaseAgent):
         actor_damage_taken, target_damage_taken = self.deal_attack_damage(actor, target)
 
         if actor_damage_taken != 0:
-            if self._query_faint(actor, target):
+            if self.query_faint(actor, target):
                 self.enqueue_event(eventnames.HURT,
                                    actor=actor,
                                    target=target)
 
         if target_damage_taken != 0:
-            if self._query_faint(target, actor):
+            if self.query_faint(target, actor):
                 self.enqueue_event(eventnames.HURT,
                                    actor=target,
                                    target=actor)
@@ -345,7 +345,7 @@ class MessageAgent(BaseAgent):
             return
 
         self.actor(target).battle_hp -= damage
-        if not self._query_faint(target, actor):
+        if not self.query_faint(target, actor):
             self.enqueue_event(eventnames.HURT,
                                actor=target,
                                target=actor)
@@ -380,7 +380,7 @@ class MessageAgent(BaseAgent):
             return
 
         target_anim.battle_hp -= damage
-        if not self._query_faint(actor, target):
+        if not self.query_faint(actor, target):
             self.enqueue_event(eventnames.HURT,
                                actor=target,
                                target=actor)
