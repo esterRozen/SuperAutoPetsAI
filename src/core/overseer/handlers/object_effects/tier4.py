@@ -86,11 +86,11 @@ class Tier4:
     @staticmethod
     def lobster(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.shop.buff(2, 2)
+            agent.actor(target).permanent_buff(2, 3)
         elif agent.actor(actor).level == 2:
-            agent.shop.buff(4, 4)
+            agent.actor(target).permanent_buff(4, 6)
         else:
-            agent.shop.buff(6, 6)
+            agent.actor(target).permanent_buff(6, 9)
 
     @staticmethod
     def penguin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
