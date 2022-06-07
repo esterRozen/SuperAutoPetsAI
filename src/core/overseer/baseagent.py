@@ -3,7 +3,7 @@ from abc import abstractmethod
 from typing import List, Union, Tuple, Optional
 
 from .state import State
-from ..game_elements.abstract_elements import Animal, Team, Spawner
+from ..game_elements.abstract_elements import Animal, Team, Spawner, Empty
 from ..game_elements import Shop
 from ..game_systems import BattleSystem, ShopSystem
 
@@ -105,6 +105,9 @@ class BaseAgent:
         return
 
     def buff(self, unit: Union[List[Animal], Animal], atk, hp):
+        if isinstance(unit, Empty):
+            return
+
         if self.in_shop:
             if isinstance(unit, Animal):
                 unit.permanent_buff(atk, hp)
@@ -120,6 +123,9 @@ class BaseAgent:
         return
 
     def summon(self, unit: Animal, summon_position: Tuple[str, int]):
+        if isinstance(unit, Empty):
+            return
+
         if self.in_shop:
             self.__shopper.summon(unit, summon_position)
         else:
