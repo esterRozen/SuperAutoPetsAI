@@ -130,9 +130,33 @@ class Tier4:
                 slot.item.cost = max(0, slot.item.cost - agent.actor(actor).level)
 
     @staticmethod
-    def whale(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+    def whale(agent: 'MessageAgent',
+              actor: Tuple[str, int], target: Tuple[str, int],
+              fainted: Optional[Animal] = None):
+        if fainted is None:
+            # faint unit ahead, "swallow" it for later.
+            acting_team = agent.team_of_(actor)
+            animal = acting_team.friend_ahead(actor[1])
+            animal_idx = acting_team.animals.index(animal)
+            agent.actor(actor).__setattr__("stored", animal)
+
+            animal.battle_hp = 0
+            agent.query_faint((actor[0], animal_idx), actor)
+        else:
+            # spit out animal.
+            stored = fainted.__getattribute__("stored")
+            if stored is None:
+                return
+
+            if isinstance(stored, Empty):
+                return
+
+            animal = fainted.__getattribute__("stored").__class__()
+            animal.xp = fainted.xp
+            animal.battle_hp *= fainted.level
+            animal.battle_atk *= fainted.level
+
+            agent.summon(animal, actor)
 
     @staticmethod
     def worm(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
