@@ -148,13 +148,17 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
+
         if not a:
             return Empty()
+
         return [self.animals[i] for i in a]
 
     def friend_ahead(self, acting: int) -> Optional[Animal]:
         for j in range(acting - 1, -1, -1):
-            if not isinstance(self.animals[j], Empty):
+            if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 return self.animals[j]
         return Empty()
 
@@ -162,7 +166,7 @@ class Team:
         ret = []
         i = 0
         for j in range(acting - 1, -1, -1):
-            if not isinstance(self.animals[j], Empty):
+            if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 if i < n:
                     ret += [self.animals[j]]
                     i += 1
@@ -172,20 +176,22 @@ class Team:
 
     def friend_behind(self, acting: int) -> Optional[Animal]:
         for j in range(acting + 1, len(self.animals)):
-            if not isinstance(self.animals[j], Empty):
+            if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 return self.animals[j]
+
         return Empty()
 
     def friends_behind(self, acting: int, n: int) -> Optional[List[Animal]]:
         ret = []
         i = 0
         for j in range(acting + 1, len(self.animals)):
-            if not isinstance(self.animals[j], Empty):
+            if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 if i < n:
                     ret += [self.animals[j]]
                     i += 1
         if not ret:
             return Empty()
+
         return ret
 
     def highest_health_unit(self):
@@ -195,8 +201,10 @@ class Team:
         animal_list = copy(self.animals)
         while Empty() in animal_list:
             animal_list.remove(Empty())
+
         if not animal_list:
             return Empty()
+
         return min(animal_list, key=lambda animal: animal.battle_hp)
 
     def make_summon_room_with_left_shift_at(self, idx: int):
@@ -226,6 +234,7 @@ class Team:
         for i in a.copy():
             if self.animals[i].level <= 1:
                 a.remove(i)
+
         if not a:
             return Empty()
         return [self.animals[i] for i in a]
@@ -241,8 +250,12 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
+
         if not a:
             return Empty()
+
         return self.animals[random.choice(a)]
 
     def random_friends(self, acting: int, n: int) -> Optional[List[Animal]]:
@@ -251,9 +264,12 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
 
         if not a:
             return Empty()
+
         if len(a) < n:
             return [self.animals[i] for i in a]
         else:
@@ -267,6 +283,8 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
 
         return self.animals[random.choice(a)]
 
@@ -278,8 +296,12 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
+
         if not a:
             return Empty()
+
         if len(a) <= n:
             return [self.animals[i] for i in a]
         else:
@@ -290,8 +312,12 @@ class Team:
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
                 a.remove(i)
+            elif self.animals[i].battle_hp < 1:
+                a.remove(i)
+
         if not a:
             return Empty()
+
         if len(a) <= n:
             return a
         else:
@@ -330,7 +356,7 @@ class Team:
     def units(self) -> Optional[List[Animal]]:
         out = []
         for animal in self.animals:
-            if not isinstance(animal, Empty):
+            if not isinstance(animal, Empty) and animal.battle_hp > 0:
                 out.append(animal)
 
         if not out:
