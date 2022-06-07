@@ -1,6 +1,9 @@
+[![Tests](https://github.com/CallThemHunter/SuperAutoPetsAI/actions/workflows/test-SAP-app.yml/badge.svg?event=push)](https://github.com/CallThemHunter/SuperAutoPetsAI/actions/workflows/test-SAP-app.yml)
+
 Super Auto Pets AI
 
 This project has 3 major components:
+
 - Game Engine
 - Reinforcement Learning AI
 - Selenium Webdriver
