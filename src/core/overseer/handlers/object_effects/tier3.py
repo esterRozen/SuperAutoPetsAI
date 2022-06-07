@@ -95,8 +95,9 @@ class Tier3:
 
     @staticmethod
     def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
-        agent.actor(actor).permanent_buff(agent.actor(actor).level, 0)
-        agent.actor(actor).held = Melon()
+        animal = agent.actor(actor)
+        agent.buff(animal, animal.level, 0)
+        animal.held = Melon()
 
     @staticmethod
     def puppy(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
