@@ -1,4 +1,5 @@
 import random
+from copy import copy
 from typing import List, Optional, Dict
 
 from . import Animal, Empty
@@ -109,7 +110,6 @@ class Team:
             return Empty()
         i = 0
         while isinstance(self.animals[i], Empty):
-            # TODO will probably have to make it check for battle hp?
             i += 1
         return self.animals[i]
 
@@ -192,7 +192,12 @@ class Team:
         return max(self.animals, key=lambda animal: animal.battle_hp)
 
     def lowest_health_unit(self):
-        return min(self.animals, key=lambda animal: animal.battle_hp)
+        animal_list = copy(self.animals)
+        while Empty() in animal_list:
+            animal_list.remove(Empty())
+        if not animal_list:
+            return Empty()
+        return min(animal_list, key=lambda animal: animal.battle_hp)
 
     def make_summon_room_with_left_shift_at(self, idx: int):
         last_empty = 4
