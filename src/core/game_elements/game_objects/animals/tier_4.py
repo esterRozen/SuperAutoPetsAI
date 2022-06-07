@@ -1,5 +1,9 @@
+from typing import Optional
+
 from ...abstract_elements import Animal
 from .... import eventnames
+
+
 # base pack
 
 
@@ -184,6 +188,7 @@ class Squirrel(_Tier4):
 
 class Whale(_Tier4):
     id = 55
+    stored: Optional[Animal] = None
 
     def __init__(self):
         super(Whale, self).__init__(3, 8)
