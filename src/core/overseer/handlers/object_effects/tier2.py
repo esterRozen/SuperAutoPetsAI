@@ -57,7 +57,7 @@ class Tier2:
         else:
             agent.buff(friends, 3, 3)
 
-    # hedgehog has to trigger the hurt trigger!!
+    # hedgehog has to trigger the hurt event!!
     @staticmethod
     def hedgehog(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         damage = 2 * fainted.level
@@ -91,11 +91,11 @@ class Tier2:
     @staticmethod
     def shrimp(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 1)
+            agent.buff(agent.team.random_friend(actor[1]), 0, 1)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 2)
+            agent.buff(agent.team.random_friend(actor[1]), 0, 2)
         else:
-            agent.buff(agent.team_of_(actor).random_friend(actor[1]), 0, 3)
+            agent.buff(agent.team.random_friend(actor[1]), 0, 3)
 
     @staticmethod
     def spider(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
@@ -121,8 +121,8 @@ class Tier2:
     @staticmethod
     def tabby_cat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            [friend.temp_buff(1, 0) for friend in agent.team_of_(actor).friends(actor[1])]
+            [friend.temp_buff(1, 0) for friend in agent.team.friends(actor[1])]
         elif agent.actor(actor).level == 2:
-            [friend.temp_buff(2, 0) for friend in agent.team_of_(actor).friends(actor[1])]
+            [friend.temp_buff(2, 0) for friend in agent.team.friends(actor[1])]
         else:
-            [friend.temp_buff(3, 0) for friend in agent.team_of_(actor).friends(actor[1])]
+            [friend.temp_buff(3, 0) for friend in agent.team.friends(actor[1])]
