@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, List, Tuple
 from random import random
 
 from ....game_elements.abstract_elements import Animal, Empty
-from ....game_elements.game_objects.animals import Butterfly, Ram
+from ....game_elements.game_objects.animals import Ram
 from ....game_elements.game_objects.equipment import Melon
 
 if TYPE_CHECKING:
@@ -57,15 +57,6 @@ class Tier3:
             agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 4, 4)
         else:
             agent.buff(agent.team_of_(actor).friend_behind(actor[1]), 6, 6)
-
-    @staticmethod
-    def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.actor(actor).xp += 1
-        elif agent.actor(actor).level == 2:
-            agent.actor(actor).xp += 1
-        else:
-            agent.team_of_(actor).animals[actor[1]] = Butterfly()
 
     @staticmethod
     def dog(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):

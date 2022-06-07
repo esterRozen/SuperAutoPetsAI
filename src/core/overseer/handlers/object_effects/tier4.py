@@ -1,8 +1,8 @@
 from math import ceil
 from typing import TYPE_CHECKING, Tuple
 
-from ....game_elements.abstract_elements import Equipment, Animal
-from ....game_elements.game_objects.animals import Bus, Chick
+from ....game_elements.abstract_elements import Animal, Equipment
+from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
 from ....game_elements.game_objects.equipment import Chili
 
 if TYPE_CHECKING:
@@ -29,6 +29,15 @@ class Tier4:
             agent.actor(actor).permanent_buff(2, 2)
         else:
             agent.actor(actor).permanent_buff(3, 3)
+
+    @staticmethod
+    def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        if agent.actor(actor).level == 1:
+            agent.actor(actor).xp += 1
+        elif agent.actor(actor).level == 2:
+            agent.actor(actor).xp += 1
+        else:
+            agent.team_of_(actor).animals[actor[1]] = Butterfly()
 
     @staticmethod
     def deer(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
