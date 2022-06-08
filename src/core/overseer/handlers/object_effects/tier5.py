@@ -70,13 +70,13 @@ class Tier5:
 
     @staticmethod
     def monkey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        animal_to_buff = agent.team.rightmost_unit()
+        animal_to_buff = agent.team.rightmost_unit
         if agent.actor(actor).level == 1:
-            agent.buff(animal_to_buff, 2, 2)
+            agent.buff(animal_to_buff, 2, 3)
         elif agent.actor(actor).level == 2:
-            agent.buff(animal_to_buff, 4, 4)
+            agent.buff(animal_to_buff, 4, 6)
         else:
-            agent.buff(animal_to_buff, 6, 6)
+            agent.buff(animal_to_buff, 6, 9)
 
     # copy ability should be stored in the parrot object
     @staticmethod
@@ -87,15 +87,10 @@ class Tier5:
     @staticmethod
     def poodle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         animals_to_buff = agent.team.ret_diff_tiers()
-        if agent.actor(actor).level == 1:
-            for animal in animals_to_buff:
-                animal.permanent_buff(1, 1)
-        elif agent.actor(actor).level == 2:
-            for animal in animals_to_buff:
-                animal.permanent_buff(2, 2)
-        else:
-            for animal in animals_to_buff:
-                animal.permanent_buff(3, 3)
+        buff_amount = agent.actor(actor).level
+
+        for animal in animals_to_buff:
+            animal.permanent_buff(buff_amount, buff_amount)
 
     @staticmethod
     def rhino(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
