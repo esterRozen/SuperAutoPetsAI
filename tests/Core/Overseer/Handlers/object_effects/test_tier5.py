@@ -114,12 +114,31 @@ class TestTier5(TestCase):
         self.assertTrue(self.agent.gold == 11)
 
     def test__monkey(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_5.Rhino(), ("team", 0))
+        self.agent.summon(tier_5.Eagle(), ("team", 2))
+        self.agent.summon(tier_5.Monkey(), ("team", 4))
 
-    def test__parrot(self):
-        # TODO
-        self.fail()
+        Tier5.monkey(self.agent, ("team", 4), ("team", 4))
+        self.assertTrue(self.agent.team[0].atk == 7)
+        self.assertTrue(self.agent.team[0].battle_atk == 7)
+        self.assertTrue(self.agent.team[0].hp == 11)
+        self.assertTrue(self.agent.team[0].battle_hp == 11)
+
+        self.agent.team[4].xp = 2
+
+        Tier5.monkey(self.agent, ("team", 4), ("team", 4))
+        self.assertTrue(self.agent.team[0].atk == 11)
+        self.assertTrue(self.agent.team[0].battle_atk == 11)
+        self.assertTrue(self.agent.team[0].hp == 17)
+        self.assertTrue(self.agent.team[0].battle_hp == 17)
+
+        self.agent.team[4].xp = 5
+
+        Tier5.monkey(self.agent, ("team", 4), ("team", 4))
+        self.assertTrue(self.agent.team[0].atk == 17)
+        self.assertTrue(self.agent.team[0].battle_atk == 17)
+        self.assertTrue(self.agent.team[0].hp == 26)
+        self.assertTrue(self.agent.team[0].battle_hp == 26)
 
     def test__poodle(self):
         self.agent.summon(tier_1.Fish(), ("team", 4))
@@ -127,24 +146,177 @@ class TestTier5(TestCase):
         self.agent.summon(tier_1.Fish(), ("team", 2))
         self.agent.summon(tier_5.Poodle(), ("team", 1))
         self.agent.summon(tier_5.Cow(), ("team", 0))
-        self.fail()
+
+        Tier5.poodle(self.agent, ("team", 1), ("team", 4))
+        self.assertTrue(self.agent.team[4].atk == 3)
+        self.assertTrue(self.agent.team[4].battle_atk == 3)
+        self.assertTrue(self.agent.team[4].hp == 3)
+        self.assertTrue(self.agent.team[4].battle_hp == 3)
+
+        self.assertTrue(self.agent.team[3].atk == 3)
+        self.assertTrue(self.agent.team[3].battle_atk == 3)
+        self.assertTrue(self.agent.team[3].hp == 4)
+        self.assertTrue(self.agent.team[3].battle_hp == 4)
+
+        self.assertTrue(self.agent.team[2].atk == 2)
+        self.assertTrue(self.agent.team[2].battle_atk == 2)
+        self.assertTrue(self.agent.team[2].hp == 2)
+        self.assertTrue(self.agent.team[2].battle_hp == 2)
+
+        self.assertTrue(self.agent.team[1].atk == 3)
+        self.assertTrue(self.agent.team[1].battle_atk == 3)
+        self.assertTrue(self.agent.team[1].hp == 3)
+        self.assertTrue(self.agent.team[1].battle_hp == 3)
+
+        self.assertTrue(self.agent.team[0].atk == 4)
+        self.assertTrue(self.agent.team[0].battle_atk == 4)
+        self.assertTrue(self.agent.team[0].hp == 6)
+        self.assertTrue(self.agent.team[0].battle_hp == 6)
+
+        self.agent.team[1].xp = 2
+        Tier5.poodle(self.agent, ("team", 1), ("team", 4))
+        self.assertTrue(self.agent.team[4].atk == 5)
+        self.assertTrue(self.agent.team[4].battle_atk == 5)
+        self.assertTrue(self.agent.team[4].hp == 5)
+        self.assertTrue(self.agent.team[4].battle_hp == 5)
+
+        self.assertTrue(self.agent.team[3].atk == 5)
+        self.assertTrue(self.agent.team[3].battle_atk == 5)
+        self.assertTrue(self.agent.team[3].hp == 6)
+        self.assertTrue(self.agent.team[3].battle_hp == 6)
+
+        self.assertTrue(self.agent.team[2].atk == 2)
+        self.assertTrue(self.agent.team[2].battle_atk == 2)
+        self.assertTrue(self.agent.team[2].hp == 2)
+        self.assertTrue(self.agent.team[2].battle_hp == 2)
+
+        self.assertTrue(self.agent.team[1].atk == 5)
+        self.assertTrue(self.agent.team[1].battle_atk == 5)
+        self.assertTrue(self.agent.team[1].hp == 5)
+        self.assertTrue(self.agent.team[1].battle_hp == 5)
+
+        self.assertTrue(self.agent.team[0].atk == 4)
+        self.assertTrue(self.agent.team[0].battle_atk == 4)
+        self.assertTrue(self.agent.team[0].hp == 6)
+        self.assertTrue(self.agent.team[0].battle_hp == 6)
 
     def test__rhino(self):
-        # TODO
-        self.fail()
+        self.agent.in_shop = False
+        self.agent.summon(tier_5.Rhino(), ("team", 0))
+        self.agent.summon(tier_5.Rhino(), ("enemy", 0))
+        self.agent.summon(tier_1.Fish(), ("enemy", 1))
+
+        Tier5.rhino(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.enemy[0].battle_hp == 4)
+
+        Tier5.rhino(self.agent, ("enemy", 0), ("enemy", 4))
+        self.assertTrue(self.agent.team[0].battle_hp == 4)
+
+        self.agent.summon(tier_5.Rhino(), ("enemy", 0))
+        self.agent.team[0].xp = 2
+
+        Tier5.rhino(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
     def test__scorpion(self):
-        # TODO
-        self.fail()
+        Tier5.scorpion(self.agent, ("team", 0), ("team", 4))
 
     def test__seal(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_5.Seal(), ("team", 0))
+        Tier5.seal(self.agent, ("team", 0), ("team", 4))
+
+        self.agent.summon(tier_5.Cow(), ("team", 1))
+        Tier5.seal(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[1].atk == 5)
+        self.assertTrue(self.agent.team[1].battle_atk == 5)
+        self.assertTrue(self.agent.team[1].hp == 7)
+        self.assertTrue(self.agent.team[1].battle_hp == 7)
+
+        self.agent.summon(tier_5.Poodle(), ("team", 2))
+        Tier5.seal(self.agent, ("team", 0), ("team", 4))
+
+        self.assertTrue(self.agent.team[1].atk == 6)
+        self.assertTrue(self.agent.team[1].battle_atk == 6)
+        self.assertTrue(self.agent.team[1].hp == 8)
+        self.assertTrue(self.agent.team[1].battle_hp == 8)
+
+        self.assertTrue(self.agent.team[2].atk == 3)
+        self.assertTrue(self.agent.team[2].battle_atk == 3)
+        self.assertTrue(self.agent.team[2].hp == 3)
+        self.assertTrue(self.agent.team[2].battle_hp == 3)
+
+        self.agent.team[0].xp = 2
+        Tier5.seal(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.team[1].atk == 8)
+        self.assertTrue(self.agent.team[1].battle_atk == 8)
+        self.assertTrue(self.agent.team[1].hp == 10)
+        self.assertTrue(self.agent.team[1].battle_hp == 10)
+
+        self.assertTrue(self.agent.team[2].atk == 5)
+        self.assertTrue(self.agent.team[2].battle_atk == 5)
+        self.assertTrue(self.agent.team[2].hp == 5)
+        self.assertTrue(self.agent.team[2].battle_hp == 5)
+
+        self.agent.team[0].xp = 5
+        Tier5.seal(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.team[1].atk == 11)
+        self.assertTrue(self.agent.team[1].battle_atk == 11)
+        self.assertTrue(self.agent.team[1].hp == 13)
+        self.assertTrue(self.agent.team[1].battle_hp == 13)
+
+        self.assertTrue(self.agent.team[2].atk == 8)
+        self.assertTrue(self.agent.team[2].battle_atk == 8)
+        self.assertTrue(self.agent.team[2].hp == 8)
+        self.assertTrue(self.agent.team[2].battle_hp == 8)
 
     def test__shark(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_5.Shark(), ("team", 0))
+        Tier5.shark(self.agent, ("team", 0), ("team", 4), fainted=tier_5.Cow())
+
+        self.assertTrue(self.agent.team[0].atk == 6)
+        self.assertTrue(self.agent.team[0].battle_atk == 6)
+        self.assertTrue(self.agent.team[0].hp == 6)
+        self.assertTrue(self.agent.team[0].battle_hp == 6)
+
+        self.agent.team[0].xp = 2
+        Tier5.shark(self.agent, ("team", 0), ("team", 4), fainted=tier_5.Cow())
+
+        self.assertTrue(self.agent.team[0].atk == 10)
+        self.assertTrue(self.agent.team[0].battle_atk == 10)
+        self.assertTrue(self.agent.team[0].hp == 10)
+        self.assertTrue(self.agent.team[0].battle_hp == 10)
+
+        self.agent.team[0].xp = 5
+        Tier5.shark(self.agent, ("team", 0), ("team", 4), fainted=tier_5.Cow())
+
+        self.assertTrue(self.agent.team[0].atk == 16)
+        self.assertTrue(self.agent.team[0].battle_atk == 16)
+        self.assertTrue(self.agent.team[0].hp == 16)
+        self.assertTrue(self.agent.team[0].battle_hp == 16)
 
     def test__turkey(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_5.Turkey(), ("team", 4))
+        self.agent.summon(tier_5.Cow(), ("team", 2))
+        Tier5.turkey(self.agent, ("team", 4), ("team", 2))
+
+        self.assertTrue(self.agent.team[2].atk == 6)
+        self.assertTrue(self.agent.team[2].battle_atk == 6)
+        self.assertTrue(self.agent.team[2].hp == 9)
+        self.assertTrue(self.agent.team[2].battle_hp == 9)
+
+        self.agent.team[4].xp = 2
+        Tier5.turkey(self.agent, ("team", 4), ("team", 2))
+
+        self.assertTrue(self.agent.team[2].atk == 10)
+        self.assertTrue(self.agent.team[2].battle_atk == 10)
+        self.assertTrue(self.agent.team[2].hp == 15)
+        self.assertTrue(self.agent.team[2].battle_hp == 15)
+
+        self.agent.team[4].xp = 5
+        Tier5.turkey(self.agent, ("team", 4), ("team", 2))
+
+        self.assertTrue(self.agent.team[2].atk == 16)
+        self.assertTrue(self.agent.team[2].battle_atk == 16)
+        self.assertTrue(self.agent.team[2].hp == 24)
+        self.assertTrue(self.agent.team[2].battle_hp == 24)
