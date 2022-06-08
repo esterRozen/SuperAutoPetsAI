@@ -78,12 +78,6 @@ class Tier5:
         else:
             agent.buff(animal_to_buff, 6, 9)
 
-    # copy ability should be stored in the parrot object
-    @staticmethod
-    def parrot(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
-
     @staticmethod
     def poodle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         animals_to_buff = agent.team.ret_diff_tiers()

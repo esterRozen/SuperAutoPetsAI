@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
 from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
-from ....game_elements.game_objects.animals import Bus, Butterfly, Chick
+from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot
 from ....game_elements.game_objects.equipment import Chili, Weak
 
 if TYPE_CHECKING:
@@ -105,6 +105,14 @@ class Tier4:
             unit.held = Weak()
         for unit in agent.enemy.units():
             unit.held = Weak()
+
+    # copy ability should be stored in the parrot object
+    @staticmethod
+    def parrot(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        animal_ahead = agent.team_of_(actor).friend_ahead(actor[1])
+        acting_animal = agent.actor(actor)
+        if isinstance(acting_animal, Parrot):
+            acting_animal.stored = animal_ahead.trigger
 
     @staticmethod
     def penguin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
