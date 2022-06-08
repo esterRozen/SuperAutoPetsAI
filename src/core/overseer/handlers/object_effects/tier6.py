@@ -50,8 +50,15 @@ class Tier6:
 
     @staticmethod
     def leopard(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+        if actor[0] == "team":
+            team = "enemy"
+        else:
+            team = "team"
+
+        damage = agent.actor(actor).battle_atk // 2
+        units = agent.team_opposing_(actor).random_units_idx(agent.actor(actor).level)
+        for unit in units:
+            agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit))
 
     @staticmethod
     def mammoth(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
@@ -64,8 +71,15 @@ class Tier6:
 
     @staticmethod
     def octopus(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO
-        pass
+        if actor[0] == "team":
+            team = "enemy"
+        else:
+            team = "team"
+
+        units = agent.team_opposing_(actor).random_units_idx(2)
+        for unit in units:
+            damage = 3 * agent.actor(actor).level
+            agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit))
 
     @staticmethod
     def sauropod(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
@@ -92,6 +106,7 @@ class Tier6:
     def tyrannosaurus(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.gold < 3:
             return
+
         if agent.actor(actor).level == 1:
             agent.buff(agent.team.units(), 2, 1)
         elif agent.actor(actor).level == 2:
