@@ -108,8 +108,8 @@ class Tier6:
             return
 
         if agent.actor(actor).level == 1:
-            agent.buff(agent.team.units(), 2, 1)
+            agent.buff(agent.team.friends(actor[1]), 2, 1)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.team.units(), 4, 2)
+            agent.buff(agent.team.friends(actor[1]), 4, 2)
         else:
-            agent.buff(agent.team.units(), 6, 3)
+            agent.buff(agent.team.friends(actor[1]), 6, 3)
