@@ -49,14 +49,6 @@ class Beaver(_Tier1):
         return 0
 
 
-class Bee(_Tier1):
-    rollable = False
-    id = 0
-
-    def __init__(self):
-        super(Bee, self).__init__(1, 1)
-
-
 class Beetle(_Tier1):
     id = 3
 
@@ -136,7 +128,7 @@ class Ladybug(_Tier1):
         super(Ladybug, self).__init__(1, 3)
 
     def trigger(self, name):
-        if name == eventnames.FRIEND_EATS_FOOD:
+        if name == eventnames.BUY_FOOD:
             return self.id
         return 0
 
@@ -175,6 +167,14 @@ class Pig(_Tier1):
         if name == eventnames.SELL:
             return self.id
         return 0
+
+
+class Bee(_Tier1):
+    rollable = False
+    id = 0
+
+    def __init__(self):
+        super(Bee, self).__init__(1, 1)
 
 
 class Sloth(_Tier1):
