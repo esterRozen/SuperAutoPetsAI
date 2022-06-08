@@ -1,11 +1,44 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Tuple, Optional
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.animals import Fly_Friend
+from ....game_elements.game_objects.animals import Fly_Friend, Tiger
 from ....game_elements.game_objects.equipment import Coconut
 
 if TYPE_CHECKING:
     from ... import MessageAgent
+
+
+def tiger_check(func):
+    def wrapper_tiger_ability(*args, **kwargs):
+        func(*args, **kwargs)
+        friend_behind = args[0].team_of_(args[1]).friend_behind(args[1][1])
+
+        # check if tiger behind
+        if not isinstance(friend_behind, Tiger):
+            return
+
+        # make sure we're in battle!!
+        if friend_behind.locked:
+            return
+
+        # unpacking for readability
+        agent: MessageAgent = args[0]
+        actor: Tuple[str, int] = args[1]
+        animal = agent.actor(actor)
+
+        # repeat ability as that level.
+        prior_xp = animal.xp
+        if friend_behind.level == 1:
+            animal.xp = 0
+        elif friend_behind.level == 2:
+            animal.xp = 2
+        else:
+            animal.xp = 5
+
+        func(*args, **kwargs)
+        animal.xp = prior_xp
+
+    return wrapper_tiger_ability
 
 
 class Tier6:
@@ -34,7 +67,9 @@ class Tier6:
             agent.buff(agent.team.friends(actor[1]), 3, 3)
 
     @staticmethod
-    def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def fly(agent: 'MessageAgent',
+            actor: Tuple[str, int], target: Tuple[str, int],
+            fainted: Animal):
         fly_friend = Fly_Friend()
 
         fly_friend.battle_hp = 4 * agent.actor(actor).level
@@ -61,7 +96,9 @@ class Tier6:
             agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit))
 
     @staticmethod
-    def mammoth(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def mammoth(agent: 'MessageAgent',
+                actor: Tuple[str, int], target: Tuple[str, int],
+                fainted: Animal):
         if fainted.level == 1:
             agent.buff(agent.team.friends(actor[1]), 2, 2)
         elif fainted.level == 2:
@@ -98,9 +135,10 @@ class Tier6:
 
     # how to do this??
     @staticmethod
-    def tiger(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        # TODO use animal id to get ability and trigger it
-        pass
+    def tiger(agent: 'MessageAgent',
+              actor: Tuple[str, int], target: Tuple[str, int],
+              fainted: Optional[Animal]):
+        return
 
     @staticmethod
     def tyrannosaurus(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):

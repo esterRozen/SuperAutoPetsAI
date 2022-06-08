@@ -1,6 +1,7 @@
 import itertools
 from typing import List, Callable, Tuple, Union
 
+from ...core.overseer.handlers.object_effects.tier6 import tiger_check
 from ..game_elements.abstract_elements import Animal, Empty
 from .state import State
 from .baseagent import BaseAgent
@@ -269,6 +270,7 @@ class MessageAgent(BaseAgent):
         return
 
     # message contains unit_id which sent it
+    @tiger_check
     def trigger_ability(self, message: int, actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal = None):
         # trigger function that manipulates roster
         # does not return anything
