@@ -56,8 +56,8 @@ class Tier6:
             team = "team"
 
         damage = agent.actor(actor).battle_atk // 2
-        units = agent.team_opposing_(actor).random_units_idx(agent.actor(actor).level)
-        for unit in units:
+        for _ in range(agent.actor(actor).level):
+            unit = agent.team_opposing_(actor).random_units_idx(1)[0]
             agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit))
 
     @staticmethod
