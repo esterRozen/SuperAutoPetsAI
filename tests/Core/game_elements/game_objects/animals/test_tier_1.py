@@ -80,7 +80,7 @@ class TestLadybug(TestCase):
         anim = tier_1.Ladybug()
         self.assertTrue(anim.atk == 1)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(eventnames.FRIEND_EATS_FOOD))
+        self.assertTrue(anim.id == anim.trigger(eventnames.BUY_FOOD))
 
 
 class TestMosquito(TestCase):
