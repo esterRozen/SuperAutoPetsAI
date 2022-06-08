@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Callable
 
 from ...abstract_elements import Animal
 from .... import eventnames
@@ -124,6 +124,34 @@ class Microbe(_Tier4):
         if name == eventnames.ON_FAINT:
             return self.id
         return 0
+
+
+class Parrot(_Tier4):
+    id = 50
+    stored: Optional[Callable[[str], int]] = None
+    locked: bool = False
+
+    def __init__(self):
+        super(Parrot, self).__init__(4, 2)
+
+    def trigger(self, name):
+        # start of shop turn, remove state
+        if name == eventnames.BATTLE_END:
+            self.locked = True
+            self.stored = None
+            return 0
+
+        # maintain null state until the shop turn ends
+        # then copy ability of unit ahead.
+        elif name == eventnames.BEFORE_BATTLE:
+            self.locked = False
+            return self.id
+
+        # do not allow anything to edit state during shop phase
+        elif self.locked:
+            return
+
+        return self.stored(name)
 
 
 class Penguin(_Tier4):
