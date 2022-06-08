@@ -155,13 +155,27 @@ class Snake(_Tier6):
 
 class Tiger(_Tier6):
     id = 79
+    locked: bool = True
 
     def __init__(self):
         super(Tiger, self).__init__(4, 3)
 
     def trigger(self, name):
-        # how to make it trigger animal in front's ability twice
-        return self.id
+        # start of shop turn, remove state
+        if name == eventnames.BATTLE_END:
+            self.locked = True
+            return 0
+
+        # maintain null state until the shop turn ends
+        elif name == eventnames.BEFORE_BATTLE:
+            self.locked = False
+            return 0
+
+        # do not allow anything to edit state during shop phase
+        elif self.locked:
+            return 0
+
+        return 0
 
 
 class Tyrannosaurus(_Tier6):
