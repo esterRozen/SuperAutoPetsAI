@@ -114,17 +114,17 @@ class Tier5:
     @staticmethod
     def shark(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         if agent.actor(actor).level == 1:
-            agent.buff(agent.actor(actor), 2, 1)
+            agent.buff(agent.actor(actor), 2, 2)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.actor(actor), 4, 2)
+            agent.buff(agent.actor(actor), 4, 4)
         else:
-            agent.buff(agent.actor(actor), 6, 3)
+            agent.buff(agent.actor(actor), 6, 6)
 
     @staticmethod
     def turkey(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.buff(agent.actor(actor), 3, 3)
+            agent.buff(agent.actor(target), 2, 3)
         elif agent.actor(actor).level == 2:
-            agent.buff(agent.actor(actor), 6, 6)
+            agent.buff(agent.actor(target), 4, 6)
         else:
-            agent.buff(agent.actor(actor), 9, 9)
+            agent.buff(agent.actor(target), 6, 9)
