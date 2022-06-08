@@ -190,6 +190,10 @@ class TestTier4(TestCase):
         for unit in self.agent.enemy.units():
             self.assertTrue(isinstance(unit.held, Weak))
 
+    def test__parrot(self):
+        # TODO
+        self.fail()
+
     def test__penguin(self):
         self.agent.summon(tier_4.Penguin(), ("team", 0))
         self.agent.summon(tier_4.Bus(), ("team", 1))
