@@ -91,7 +91,7 @@ class MessageAgent(BaseAgent):
             t4.skunk, t4.squirrel, t4.whale, t4.worm,
 
             t5.chicken, t5.cow, t5.crocodile, t5.eagle, t5.goat,
-            t4.microbe, t5.monkey, t5.parrot, t5.rhino, t5.scorpion,
+            t4.microbe, t5.monkey, t4.parrot, t5.rhino, t5.scorpion,
             t5.seal, t5.shark, t5.turkey,
 
             t6.boar, t6.cat, t6.dragon, t6.fly, t6.gorilla, t6.leopard,
@@ -204,8 +204,12 @@ class MessageAgent(BaseAgent):
         if message == eventnames.ATTACK:
             self.attack(actor, target)
 
+        elif message == eventnames.BATTLE_END:
+            self.__EP.battle_end(self)
         elif message == eventnames.BEFORE_ATTACK:
             self.__EP.before_attack(self, actor)
+        elif message == eventnames.BEFORE_BATTLE:
+            self.__EP.before_battle(self)
         elif message == eventnames.BUY:
             self.__EP.buy(self, actor)
         elif message == eventnames.BUY_FOOD:
@@ -220,16 +224,20 @@ class MessageAgent(BaseAgent):
             self.__EP.end_turn(self)
         elif message == eventnames.FRIEND_AHEAD_ATTACKS:
             self.__EP.friend_ahead_attacks(self, actor)
+
         elif message == eventnames.FRIEND_AHEAD_FAINTS:
             # special faint function
             self.__EP.friend_ahead_faints(self, actor, fainted)
+
         elif message == eventnames.FRIEND_BOUGHT:
             self.__EP.friend_bought(self, actor)
         elif message == eventnames.FRIEND_EATS_FOOD:
             self.__EP.friend_eats_food(self, actor)
+
         elif message == eventnames.FRIEND_FAINTS:
             # special faint function
             self.__EP.friend_faints(self, actor, fainted)
+
         elif message == eventnames.FRIEND_SOLD:
             self.__EP.friend_sold(self, actor)
         elif message == eventnames.FRIEND_SUMMONED_BATTLE:
@@ -242,9 +250,11 @@ class MessageAgent(BaseAgent):
             self.__EP.is_summoned(self, actor)
         elif message == eventnames.KNOCK_OUT:
             self.__EP.knock_out(self, actor)
+
         elif message == eventnames.ON_FAINT:
             # special faint function
             self.__EP.on_faint(self, actor, fainted)
+
         elif message == eventnames.ON_LEVEL:
             self.__EP.on_level(self, actor)
         elif message == eventnames.SELL:

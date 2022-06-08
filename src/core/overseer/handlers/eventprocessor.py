@@ -218,6 +218,18 @@ class EventProcessor:
         trigger_actor_ability(agent, actor, eventnames.BEFORE_ATTACK)
 
     # battle system
+    # apply to friendly units
+    @staticmethod
+    def battle_end(agent: 'MessageAgent'):
+        for_sorted_trigger(agent, eventnames.BATTLE_END)
+
+    # battle system
+    # apply to all units
+    @staticmethod
+    def before_battle(agent: 'MessageAgent'):
+        for_sorted_both_trigger(agent, eventnames.BEFORE_BATTLE)
+
+    # battle system
     # apply to all friendly units
     @staticmethod
     def enemy_attacks(agent: 'MessageAgent', actor: Tuple[str, int]):
