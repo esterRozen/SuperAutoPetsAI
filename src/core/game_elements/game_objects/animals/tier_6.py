@@ -125,18 +125,16 @@ class Sauropod(_Tier6):
 
     def __init__(self):
         super(Sauropod, self).__init__(4, 12)
-        self.limit = 1
+        self.limit = 3
 
     def trigger(self, name):
         if name == eventnames.BUY_FOOD:
-            if self.limit < 0:
+            if self.limit == 0:
                 return 0
+            self.limit -= 1
             return self.id
         elif name == eventnames.START_TURN:
-            self.limit = self.level
-            return 0
-        elif name == eventnames.ON_LEVEL:
-            self.limit += 1
+            self.limit = 3
             return 0
         return 0
 

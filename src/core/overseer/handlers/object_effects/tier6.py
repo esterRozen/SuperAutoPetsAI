@@ -120,7 +120,7 @@ class Tier6:
 
     @staticmethod
     def sauropod(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        agent.gold += 1
+        agent.gold += agent.actor(actor).level
 
     @staticmethod
     def snake(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
