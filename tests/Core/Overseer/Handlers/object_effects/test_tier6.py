@@ -228,8 +228,17 @@ class TestTier6(TestCase):
         self.assertTrue(self.agent.team[0].battle_hp == 5)
 
     def test__sauropod(self):
+        self.agent.summon(tier_6.Sauropod(), ("team", 0))
         Tier6.sauropod(self.agent, ("team", 0), ("team", 4))
         self.assertTrue(self.agent.gold == 11)
+
+        self.agent.team[0].xp = 2
+        Tier6.sauropod(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.gold == 13)
+
+        self.agent.team[0].xp = 5
+        Tier6.sauropod(self.agent, ("team", 0), ("team", 4))
+        self.assertTrue(self.agent.gold == 16)
 
     def test__snake(self):
         self.agent.in_shop = False
