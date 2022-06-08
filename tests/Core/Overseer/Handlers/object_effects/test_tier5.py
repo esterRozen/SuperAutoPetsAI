@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.core.game_elements.abstract_elements import Unarmed, Empty
+from src.core.game_elements.abstract_elements import Empty
 from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_5
 from src.core.game_elements.game_objects.equipment import Milk, Better_Milk, Best_Milk
 from src.core.overseer.handlers.object_effects.tier5 import Tier5
@@ -53,19 +53,19 @@ class TestTier5(TestCase):
         Tier5.cow(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(isinstance(self.agent.shop[5].item, Milk))
-        self.assertTrue(isinstance(self.agent.shop[6].item, Unarmed))
+        self.assertTrue(isinstance(self.agent.shop[6].item, Milk))
 
         self.agent.team[0].xp = 2
         Tier5.cow(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(isinstance(self.agent.shop[5].item, Better_Milk))
-        self.assertTrue(isinstance(self.agent.shop[6].item, Unarmed))
+        self.assertTrue(isinstance(self.agent.shop[6].item, Better_Milk))
 
         self.agent.team[0].xp = 5
         Tier5.cow(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(isinstance(self.agent.shop[5].item, Best_Milk))
-        self.assertTrue(isinstance(self.agent.shop[6].item, Unarmed))
+        self.assertTrue(isinstance(self.agent.shop[6].item, Best_Milk))
 
     def test__crocodile(self):
         self.agent.in_shop = False
