@@ -20,12 +20,9 @@ class Tier5:
     # add cow's milk to shop
     @staticmethod
     def cow(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        # replace both slots with milk
         for slot in agent.shop.roster[5:]:
-            # guard clause from rest
-            if not slot.is_enabled:
-                pass
-
-            elif agent.actor(actor).level == 1:
+            if agent.actor(actor).level == 1:
                 slot.item = Milk()
             elif agent.actor(actor).level == 2:
                 slot.item = Better_Milk()
