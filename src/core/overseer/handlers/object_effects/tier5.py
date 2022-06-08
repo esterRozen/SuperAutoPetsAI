@@ -88,7 +88,7 @@ class Tier5:
 
     @staticmethod
     def rhino(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        target = agent.team_opposing_(actor).leftmost_unit
+        target = agent.team_opposing_(actor).rightmost_unit
         if actor[0] == "team":
             target_tup = ("enemy", agent.team_opposing_(actor).animals.index(target))
         else:
