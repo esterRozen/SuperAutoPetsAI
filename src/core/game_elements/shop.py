@@ -263,9 +263,6 @@ class ShopSlot:
         self.is_frozen = not self.is_frozen
 
     def buy(self) -> Union[ae.Animal, ae.Equipment]:
-        if not self.is_enabled:
-            return ae.Unarmed()
-
         item = self.item
         self.item = ae.Unarmed()
         self.is_frozen = False
@@ -290,9 +287,6 @@ class AnimalShopSlot(ShopSlot):
         self.item = ae.Empty()
 
     def buy(self) -> Union[ae.Animal, ae.Equipment]:
-        if not self.is_enabled:
-            return ae.Empty()
-
         item = self.item
         self.item = ae.Empty()
         self.is_frozen = False
