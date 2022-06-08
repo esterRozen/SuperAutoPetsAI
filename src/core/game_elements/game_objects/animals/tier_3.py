@@ -49,7 +49,7 @@ class Camel(_Tier3):
 
 
 class Dog(_Tier3):
-    id = 30
+    id = 29
 
     def __init__(self):
         super(Dog, self).__init__(3, 3)
@@ -61,7 +61,7 @@ class Dog(_Tier3):
 
 
 class Giraffe(_Tier3):
-    id = 31
+    id = 30
 
     def __init__(self):
         super(Giraffe, self).__init__(2, 4)
@@ -73,7 +73,7 @@ class Giraffe(_Tier3):
 
 
 class Hatching_Chick(_Tier3):
-    id = 32
+    id = 31
 
     def __init__(self):
         super(Hatching_Chick, self).__init__(1, 1)
@@ -87,7 +87,7 @@ class Hatching_Chick(_Tier3):
 
 
 class Kangaroo(_Tier3):
-    id = 33
+    id = 32
 
     def __init__(self):
         super(Kangaroo, self).__init__(1, 2)
@@ -99,7 +99,7 @@ class Kangaroo(_Tier3):
 
 
 class Owl(_Tier3):
-    id = 34
+    id = 33
 
     def __init__(self):
         super(Owl, self).__init__(5, 3)
@@ -111,7 +111,7 @@ class Owl(_Tier3):
 
 
 class Ox(_Tier3):
-    id = 35
+    id = 34
 
     def __init__(self):
         super(Ox, self).__init__(1, 3)
@@ -123,7 +123,7 @@ class Ox(_Tier3):
 
 
 class Puppy(_Tier3):
-    id = 36
+    id = 35
 
     def __init__(self):
         super(Puppy, self).__init__(1, 1)
@@ -135,7 +135,7 @@ class Puppy(_Tier3):
 
 
 class Rabbit(_Tier3):
-    id = 37
+    id = 36
 
     def __init__(self):
         super(Rabbit, self).__init__(1, 2)
@@ -149,7 +149,7 @@ class Rabbit(_Tier3):
 
 
 class Sheep(_Tier3):
-    id = 38
+    id = 37
 
     def __init__(self):
         super(Sheep, self).__init__(2, 2)
@@ -161,7 +161,7 @@ class Sheep(_Tier3):
 
 
 class Snail(_Tier3):
-    id = 39
+    id = 38
 
     def __init__(self):
         super(Snail, self).__init__(2, 2)
@@ -173,7 +173,7 @@ class Snail(_Tier3):
 
 
 class Tropical_Fish(_Tier3):
-    id = 40
+    id = 39
 
     def __init__(self):
         super(Tropical_Fish, self).__init__(2, 4)
@@ -185,7 +185,7 @@ class Tropical_Fish(_Tier3):
 
 
 class Turtle(_Tier3):
-    id = 41
+    id = 40
 
     def __init__(self):
         super(Turtle, self).__init__(1, 2)

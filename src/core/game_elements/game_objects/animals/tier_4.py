@@ -17,7 +17,7 @@ class _Tier4(Animal):
 
 
 class Bison(_Tier4):
-    id = 42
+    id = 41
 
     def __init__(self):
         super(Bison, self).__init__(4, 4)
@@ -29,7 +29,7 @@ class Bison(_Tier4):
 
 
 class Buffalo(_Tier4):
-    id = 43
+    id = 42
 
     def __init__(self):
         super(Buffalo, self).__init__(4, 4)
@@ -41,7 +41,7 @@ class Buffalo(_Tier4):
 
 
 class Caterpillar(_Tier4):
-    id = 29
+    id = 43
 
     def __init__(self):
         super(Caterpillar, self).__init__(2, 2)
