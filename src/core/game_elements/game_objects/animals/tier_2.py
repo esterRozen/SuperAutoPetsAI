@@ -36,18 +36,6 @@ class Crab(_Tier2):
         return 0
 
 
-class Dromedary(_Tier2):
-    id = 16
-
-    def __init__(self):
-        super(Dromedary, self).__init__(2, 4)
-
-    def trigger(self, name):
-        if name == eventnames.START_TURN:
-            return self.id
-        return 0
-
-
 class Dodo(_Tier2):
     id = 15
 
@@ -56,6 +44,18 @@ class Dodo(_Tier2):
 
     def trigger(self, name):
         if name == eventnames.START_BATTLE:
+            return self.id
+        return 0
+
+
+class Dromedary(_Tier2):
+    id = 16
+
+    def __init__(self):
+        super(Dromedary, self).__init__(2, 4)
+
+    def trigger(self, name):
+        if name == eventnames.START_TURN:
             return self.id
         return 0
 
