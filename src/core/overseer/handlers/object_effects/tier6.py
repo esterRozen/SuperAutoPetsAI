@@ -37,10 +37,10 @@ class Tier6:
     def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         fly_friend = Fly_Friend()
 
-        fly_friend.battle_hp = 4 * fainted.level
-        fly_friend.battle_atk = 4 * fainted.level
-        fly_friend.hp = 4 * fainted.level
-        fly_friend.atk = 4 * fainted.level
+        fly_friend.battle_hp = 4 * agent.actor(actor).level
+        fly_friend.battle_atk = 4 * agent.actor(actor).level
+        fly_friend.hp = 4 * agent.actor(actor).level
+        fly_friend.atk = 4 * agent.actor(actor).level
 
         agent.summon(fly_friend, target)
 
