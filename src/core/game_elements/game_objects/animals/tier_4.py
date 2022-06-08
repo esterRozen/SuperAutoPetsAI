@@ -129,7 +129,7 @@ class Microbe(_Tier4):
 class Parrot(_Tier4):
     id = 50
     stored: Optional[Callable[[str], int]] = None
-    locked: bool = False
+    locked: bool = True
 
     def __init__(self):
         super(Parrot, self).__init__(4, 2)
