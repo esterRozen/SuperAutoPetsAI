@@ -31,7 +31,7 @@ class Tier6:
         elif agent.actor(actor).level == 2:
             agent.buff(agent.team.friends(actor[1]), 2, 2)
         else:
-            agent.buff(agent.team.friends(actor[1]), 2, 2)
+            agent.buff(agent.team.friends(actor[1]), 3, 3)
 
     @staticmethod
     def fly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
