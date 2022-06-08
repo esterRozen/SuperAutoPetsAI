@@ -126,18 +126,6 @@ class Microbe(_Tier4):
         return 0
 
 
-class Parrot(_Tier4):
-    id = 50
-
-    def __init__(self):
-        super(Parrot, self).__init__(4, 2)
-
-    def trigger(self, name):
-        if name == eventnames.END_TURN:
-            return self.id
-        return 0
-
-
 class Penguin(_Tier4):
     id = 51
 
