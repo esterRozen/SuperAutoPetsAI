@@ -89,7 +89,6 @@ class TestTiger(TestCase):
         anim = tier_6.Tiger()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 3)
-        self.assertTrue(anim.id == anim.trigger(eventnames.START_BATTLE))
 
 
 class TestTyrannosaurus(TestCase):
