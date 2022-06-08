@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 def tiger_check(func):
     def wrapper_tiger_ability(*args, **kwargs):
         func(*args, **kwargs)
-        friend_behind = args[0].team_of_(args[1]).friend_behind(args[1][1])
+        friend_behind = args[0].team_of_(args[2]).friend_behind(args[2][1])
 
         # check if tiger behind
         if not isinstance(friend_behind, Tiger):
@@ -23,7 +23,7 @@ def tiger_check(func):
 
         # unpacking for readability
         agent: MessageAgent = args[0]
-        actor: Tuple[str, int] = args[1]
+        actor: Tuple[str, int] = args[2]
         animal = agent.actor(actor)
 
         # repeat ability as that level.
