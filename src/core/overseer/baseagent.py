@@ -101,7 +101,7 @@ class BaseAgent:
         for animal in self.team.animals:
             animal.reset_temp_stats()
 
-    def _nop(self):
+    def _nop(self, *args):
         return
 
     def buff(self, unit: Union[List[Animal], Animal], atk, hp):
