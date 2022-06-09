@@ -20,5 +20,4 @@ setup(
     include_package_data=True,
     python_requires='>=3.10',
     license='',
-    author_email=''
 )
