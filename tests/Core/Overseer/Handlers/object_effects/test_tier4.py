@@ -67,7 +67,8 @@ class TestTier4(TestCase):
         Tier4.caterpillar(self.agent, ("team", 0), ("team", 4))
         Tier4.caterpillar(self.agent, ("team", 0), ("team", 4))
         Tier4.caterpillar(self.agent, ("team", 0), ("team", 4))
-        Tier4.caterpillar(self.agent, ("team", 0), ("team", 4))
+        # start battle type message
+        Tier4.caterpillar(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
         self.assertTrue(isinstance(self.agent.team[0], tier_4.Butterfly))
 
     def test__deer(self):
@@ -82,33 +83,33 @@ class TestTier4(TestCase):
         self.agent.summon(tier_4.Buffalo(), ("enemy", 0))
 
         self.assertTrue(isinstance(self.agent.enemy[0], tier_4.Buffalo))
-        Tier4.dolphin(self.agent, ("team", 0), ("team", 4))
+        Tier4.dolphin(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
 
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
         self.agent.summon(tier_4.Dolphin(), ("enemy", 0))
-        Tier4.dolphin(self.agent, ("enemy", 0), ("enemy", 4))
+        Tier4.dolphin(self.agent, ("enemy", 0), ("enemy", 4), self.agent.team[0])
 
         self.assertTrue(self.agent.team[0].battle_hp == 1)
 
     def test__hippo(self):
         self.agent.summon(tier_4.Hippo(), ("team", 0))
 
-        Tier4.hippo(self.agent, ("team", 0), ("team", 4), fainted=tier_4.Bus())
+        Tier4.hippo(self.agent, ("team", 0), ("team", 4))
         self.assertTrue(self.agent.team[0].battle_atk == 7)
         self.assertTrue(self.agent.team[0].atk == 4)
         self.assertTrue(self.agent.team[0].battle_hp == 10)
         self.assertTrue(self.agent.team[0].hp == 7)
 
         self.agent.team[0].xp = 2
-        Tier4.hippo(self.agent, ("team", 0), ("team", 4), fainted=tier_4.Bus())
+        Tier4.hippo(self.agent, ("team", 0), ("team", 4))
         self.assertTrue(self.agent.team[0].battle_atk == 13)
         self.assertTrue(self.agent.team[0].atk == 4)
         self.assertTrue(self.agent.team[0].battle_hp == 16)
         self.assertTrue(self.agent.team[0].hp == 7)
 
         self.agent.team[0].xp = 5
-        Tier4.hippo(self.agent, ("team", 0), ("team", 4), fainted=tier_4.Bus())
+        Tier4.hippo(self.agent, ("team", 0), ("team", 4))
         self.assertTrue(self.agent.team[0].battle_atk == 22)
         self.assertTrue(self.agent.team[0].atk == 4)
         self.assertTrue(self.agent.team[0].battle_hp == 25)
@@ -294,21 +295,21 @@ class TestTier4(TestCase):
         self.agent.summon(tier_4.Skunk(), ("team", 0))
         self.agent.summon(tier_4.Hippo(), ("enemy", 0))
 
-        Tier4.skunk(self.agent, ("team", 0), ("team", 3))
+        Tier4.skunk(self.agent, ("team", 0), ("team", 3), self.agent.team[0])
         self.assertTrue(self.agent.enemy[0].battle_hp == 5)
 
         self.agent.enemy = Team()
         self.agent.summon(tier_4.Hippo(), ("enemy", 0))
         self.agent.team[0].xp = 2
 
-        Tier4.skunk(self.agent, ("team", 0), ("team", 3))
+        Tier4.skunk(self.agent, ("team", 0), ("team", 3), self.agent.team[0])
         self.assertTrue(self.agent.enemy[0].battle_hp == 3)
 
         self.agent.enemy = Team()
         self.agent.summon(tier_4.Hippo(), ("enemy", 0))
         self.agent.team[0].xp = 5
 
-        Tier4.skunk(self.agent, ("team", 0), ("team", 3))
+        Tier4.skunk(self.agent, ("team", 0), ("team", 3), self.agent.team[0])
         self.assertTrue(self.agent.enemy[0].battle_hp == 1)
 
     def test__squirrel(self):

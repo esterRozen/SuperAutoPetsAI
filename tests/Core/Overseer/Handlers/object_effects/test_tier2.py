@@ -18,14 +18,14 @@ class TestTier2(TestCase):
         self.agent.summon(tier_2.Bat(), ("team", 0))
         self.agent.summon(tier_2.Swan(), ("enemy", 0))
 
-        Tier2.bat(self.agent, ("team", 0), ("team", 2))
+        Tier2.bat(self.agent, ("team", 0), ("team", 2), self.agent.team[0])
         self.assertTrue(isinstance(self.agent.enemy[0].held, Weak))
 
     def test__crab(self):
         self.agent.summon(tier_2.Crab(), ("team", 0))
         self.agent.summon(tier_2.Elephant(), ("team", 1))
 
-        Tier2.crab(self.agent, ("team", 0), ("team", 2))
+        Tier2.crab(self.agent, ("team", 0), ("team", 2), self.agent.team[0])
         self.assertTrue(self.agent.team[0].battle_hp == 2)
         self.assertTrue(self.agent.team[0].hp == 1)
         self.assertTrue(self.agent.team[0].battle_atk == 3)
@@ -35,7 +35,7 @@ class TestTier2(TestCase):
         self.agent.summon(tier_2.Dodo(), ("team", 2))
         self.agent.summon(tier_2.Flamingo(), ("team", 0))
 
-        Tier2.dodo(self.agent, ("team", 2), ("team", 3))
+        Tier2.dodo(self.agent, ("team", 2), ("team", 3), self.agent.team[2])
         self.assertTrue(self.agent.team[0].battle_atk == 5)
         self.assertTrue(self.agent.team[0].atk == 4)
         self.assertTrue(self.agent.team[0].battle_hp == 2)

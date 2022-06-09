@@ -125,7 +125,7 @@ class TestTier3(TestCase):
     def test__ox(self):
         self.agent.summon(tier_3.Ox(), ("team", 0))
 
-        Tier3.ox(self.agent, ("team", 0), ("team", 3), fainted=tier_3.Camel())
+        Tier3.ox(self.agent, ("team", 0), ("team", 3))
 
         self.assertTrue(self.agent.team[0].atk == 2)
         self.assertTrue(isinstance(self.agent.team[0].held, Melon))

@@ -128,7 +128,7 @@ class TestTier1(TestCase):
         self.agent.summon(tier_1.Fish(), ("enemy", 0))
         self.agent.summon(tier_1.Mosquito(), ("team", 0))
 
-        Tier1.mosquito(self.agent, ("team", 0), ("team", 3))
+        Tier1.mosquito(self.agent, ("team", 0), ("team", 3), self.agent.team[0])
         self.assertTrue(self.agent.enemy[0].battle_hp == 1)
         self.assertTrue(self.agent.enemy[0].hp == 2)
 

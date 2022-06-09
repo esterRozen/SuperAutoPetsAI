@@ -20,7 +20,7 @@ class TestTier6(TestCase):
         Tier6.boar(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(self.agent.team[0].atk == 10)
-        self.assertTrue(self.agent.team[0].battle_atk == 12)
+        self.assertTrue(self.agent.team[0].battle_atk == 14)
         self.assertTrue(self.agent.team[0].hp == 6)
         self.assertTrue(self.agent.team[0].battle_hp == 8)
 
@@ -28,7 +28,7 @@ class TestTier6(TestCase):
         Tier6.boar(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(self.agent.team[0].atk == 10)
-        self.assertTrue(self.agent.team[0].battle_atk == 16)
+        self.assertTrue(self.agent.team[0].battle_atk == 22)
         self.assertTrue(self.agent.team[0].hp == 6)
         self.assertTrue(self.agent.team[0].battle_hp == 12)
 
@@ -36,7 +36,7 @@ class TestTier6(TestCase):
         Tier6.boar(self.agent, ("team", 0), ("team", 4))
 
         self.assertTrue(self.agent.team[0].atk == 10)
-        self.assertTrue(self.agent.team[0].battle_atk == 22)
+        self.assertTrue(self.agent.team[0].battle_atk == 34)
         self.assertTrue(self.agent.team[0].hp == 6)
         self.assertTrue(self.agent.team[0].battle_hp == 18)
 
@@ -149,20 +149,20 @@ class TestTier6(TestCase):
         self.agent.summon(tier_6.Leopard(), ("team", 0))
         self.agent.summon(tier_6.Sauropod(), ("enemy", 0))
 
-        Tier6.leopard(self.agent, ("team", 0), ("team", 4))
+        Tier6.leopard(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
         self.assertTrue(self.agent.enemy[0].battle_hp == 7)
 
         self.agent.team[0].xp = 2
-        Tier6.leopard(self.agent, ("team", 0), ("team", 4))
+        Tier6.leopard(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
         self.agent.summon(tier_6.Sauropod(), ("enemy", 0))
         self.agent.team[0].xp = 5
-        Tier6.leopard(self.agent, ("team", 0), ("team", 4))
+        Tier6.leopard(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
         self.agent.summon(tier_6.Leopard(), ("enemy", 0))
-        Tier6.leopard(self.agent, ("enemy", 0), ("enemy", 4))
+        Tier6.leopard(self.agent, ("enemy", 0), ("enemy", 4), self.agent.enemy[0])
         self.assertTrue(isinstance(self.agent.team[0], Empty))
 
     def test__mammoth(self):
