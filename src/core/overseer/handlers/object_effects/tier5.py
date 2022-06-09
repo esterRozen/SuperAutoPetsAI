@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Tuple
 
 from ....game_elements.abstract_elements import Animal
-from ....game_elements.game_objects.equipment import Milk, Better_Milk, Best_Milk
+from ....game_elements.game_objects.equipment import Milk, Better_Milk, Best_Milk, Peanut
 
 if TYPE_CHECKING:
     from ... import MessageAgent
@@ -96,7 +96,7 @@ class Tier5:
 
     @staticmethod
     def scorpion(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        pass
+        agent.actor(actor).held = Peanut()
 
     @staticmethod
     def seal(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
