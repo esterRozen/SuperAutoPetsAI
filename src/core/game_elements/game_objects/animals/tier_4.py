@@ -30,13 +30,20 @@ class Bison(_Tier4):
 
 class Buffalo(_Tier4):
     id = 42
+    _triggers = 3
 
     def __init__(self):
         super(Buffalo, self).__init__(4, 4)
 
     def trigger(self, name):
-        if name == eventnames.FRIEND_BOUGHT:
+        if name == eventnames.FRIEND_BOUGHT and self._triggers > 0:
+            self._triggers -= 1
             return self.id
+
+        if name == eventnames.START_TURN:
+            self._triggers = 3
+            return 0
+
         return 0
 
 
