@@ -93,7 +93,7 @@ class TestParrot(TestCase):
         anim = tier_4.Parrot()
         self.assertTrue(anim.atk == 4)
         self.assertTrue(anim.hp == 2)
-        self.assertTrue(anim.id == anim.trigger(eventnames.BEFORE_BATTLE))
+        self.assertTrue(anim.id == anim.trigger(eventnames.END_TURN))
 
 
 class TestPenguin(TestCase):
