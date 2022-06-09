@@ -1,12 +1,9 @@
 from unittest import TestCase
 
 from src.core.game_elements.abstract_elements import Animal, Empty
-from src.core.game_elements.game_objects.equipment import Milk, Melon
+from src.core.game_elements.game_objects.equipment import Milk, Melon, Coconut, Peanut
 from src.core.game_systems import ShopSystem, BattleSystem
 from src.core.overseer.handlers import EventProcessor
-from src.core.overseer.handlers.eventprocessor import \
-    for_sorted_trigger, for_sorted_both_trigger, for_sorted_without_actor_trigger_, \
-    for_sorted_behind_, trigger_actor_ability, get_roster
 
 from src.core.overseer import MessageAgent
 from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_3, tier_4, tier_5, tier_6
@@ -345,60 +342,135 @@ class TestEventProcessor(TestCase):
 
     def test_hurt(self):
         # blowfish, peacock, gorilla
+        self.agent.in_shop = False
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
 
-        # TODO
-        self.fail()
+        self.agent.summon(tier_3.Blowfish(), ("team", 0))
+        self.agent.summon(tier_2.Peacock(), ("team", 1))
+        self.agent.summon(tier_6.Gorilla(), ("team", 2))
+
+        self.ep.hurt(self.agent, ("team", 0))
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+
+        self.ep.hurt(self.agent, ("team", 1))
+        self.unit_stats(1, 2, 6, 5, 5)
+
+        self.ep.hurt(self.agent, ("team", 2))
+        self.assertTrue(isinstance(self.agent.team[2].held, Coconut))
 
     def test_is_summoned(self):
         # scorpion
+        self.agent.summon(tier_5.Scorpion(), ("team", 0))
+        self.ep.is_summoned(self.agent, ("team", 0))
 
-        # TODO
-        self.fail()
+        self.assertTrue(isinstance(self.agent.team[0].held, Peanut))
 
     def test_on_faint(self):
         # ant, cricket, flamingo, hedgehog, rat
+        self.agent.summon(tier_1.Ant(), ("team", 0))
+        self.agent.summon(tier_1.Cricket(), ("team", 1))
+
+        self.ep.on_faint(self.agent, ("team", 0), fainted=self.agent.team[0])
+        self.unit_stats(1, 3, 3, 3, 3)
+
+        cricket = self.agent.team[1]
+        self.agent.team[1] = Empty()
+        self.ep.on_faint(self.agent, ("team", 1), fainted=cricket)
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Zombie_Cricket))
+
+        self.agent.summon(tier_2.Flamingo(), ("team", 2))
+        self.agent.summon(tier_2.Hedgehog(), ("team", 3))
+        self.agent.summon(tier_2.Rat(), ("team", 4))
+
+        self.ep.on_faint(self.agent, ("team", 2), fainted=self.agent.team[2])
+        self.unit_stats(3, 4, 4, 3, 3)
+        self.unit_stats(4, 5, 5, 6, 6)
+
+        hedgehog = self.agent.team[3]
+        self.agent.team[3] = Empty()
+        self.ep.on_faint(self.agent, ("team", 3), fainted=hedgehog)
+
+        self.assertTrue(isinstance(self.agent.team[1], Empty))
+        self.assertTrue(isinstance(self.agent.team[2], Empty))
+        self.unit_stats(4, 5, 5, 4, 4)
+
+        self.agent.in_shop = False
+        self.ep.on_faint(self.agent, ("team", 4), fainted=self.agent.team[4])
+
+        self.assertTrue(isinstance(self.agent.enemy[0], tier_2.Dirty_Rat))
 
         # spider, badger, sheep, turtle, deer
 
         # microbe, rooster, whale, eagle, mammoth
 
-        # TODO
-        self.fail()
-
     def test_on_level(self):
         # fish
+        self.agent.summon(tier_1.Fish(), ("team", 0))
+        self.agent.summon(tier_1.Bee(), ("team", 1))
+        self.agent.summon(tier_1.Bee(), ("team", 2))
+        self.agent.summon(tier_1.Bee(), ("team", 4))
 
-        # TODO
-        self.fail()
+        self.agent.team[0].xp = 2
+        self.ep.on_level(self.agent, ("team", 0))
+
+        self.unit_stats(1, 2, 2, 2, 2)
+        self.unit_stats(2, 2, 2, 2, 2)
+        self.unit_stats(4, 2, 2, 2, 2)
+
+        self.agent.team[0].xp = 5
+        self.ep.on_level(self.agent, ("team", 0))
+
+        self.unit_stats(1, 4, 4, 4, 4)
+        self.unit_stats(2, 4, 4, 4, 4)
+        self.unit_stats(4, 4, 4, 4, 4)
 
     def test_before_attack(self):
         # elephant, boar, octopus
+
+        self.agent.summon(tier_2.Elephant(), ("team", 0))
+        self.agent.summon(tier_6.Boar(), ("team", 1))
+        self.agent.summon(tier_6.Octopus(), ("team", 2))
 
         # TODO
         self.fail()
 
     def test_friend_ahead_attacks(self):
         # kangaroo, snake
-
+        self.agent.summon(tier_3.Kangaroo(), ("team", 0))
+        self.agent.summon(tier_6.Snake(), ("team", 1))
         # TODO
         self.fail()
 
     def test_friend_summoned_battle(self):
         # horse, dog, turkey
-
+        self.agent.summon(tier_1.Horse(), ("team", 0))
+        self.agent.summon(tier_3.Dog(), ("team", 1))
+        self.agent.summon(tier_5.Turkey(), ("team", 2))
         # TODO
         self.fail()
 
     def test_knock_out(self):
         # hippo, rhino
-
+        self.agent.summon(tier_4.Hippo(), ("team", 0))
+        self.agent.summon(tier_5.Rhino(), ("team", 1))
         # TODO
         self.fail()
 
     def test_start_battle(self):
         # mosquito, bat, crab, dodo, caterpillar
+        self.agent.summon(tier_1.Mosquito(), ("team", 0))
+        self.agent.summon(tier_2.Bat(), ("team", 1))
+        self.agent.summon(tier_2.Crab(), ("team", 2))
+        self.agent.summon(tier_2.Dodo(), ("team", 3))
+        self.agent.summon(tier_4.Caterpillar(), ("team", 4))
 
+        self.agent.team = self.agent.team.__class__()
         # dolphin, skunk, whale, crocodile, leopard
+        self.agent.summon(tier_4.Dolphin(), ("team", 0))
+        self.agent.summon(tier_4.Skunk(), ("team", 1))
+        self.agent.summon(tier_4.Whale(), ("team", 2))
+        self.agent.summon(tier_5.Crocodile(), ("team", 3))
+        self.agent.summon(tier_6.Leopard(), ("team", 4))
 
         # TODO
         self.fail()
