@@ -109,7 +109,7 @@ class Tier4:
     # copy ability should be stored in the parrot object
     @staticmethod
     def parrot(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        animal_ahead = agent.team_of_(actor).friend_ahead(actor[1])
+        animal_ahead = agent.team.friend_ahead(actor[1])
         acting_animal = agent.actor(actor)
         if isinstance(acting_animal, Parrot):
             acting_animal.stored = animal_ahead.trigger
