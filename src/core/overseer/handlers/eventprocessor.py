@@ -148,7 +148,7 @@ class EventProcessor:
     # apply to all units except event raiser
     @staticmethod
     def friend_sold(agent: 'MessageAgent', actor: Tuple[str, int]):
-        for_sorted_without_actor_trigger_(agent, actor, eventnames.FRIEND_SOLD)
+        for_sorted_trigger(agent, eventnames.FRIEND_SOLD)
 
     # shop
     # apply to units except event raiser
