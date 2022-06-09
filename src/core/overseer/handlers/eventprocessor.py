@@ -215,6 +215,10 @@ class EventProcessor:
     ################################################################
 
     # triggered by battle system (which feeds message to message agent)
+    # apply to unit that raised event (is about to attack)
+    @staticmethod
+    def before_attack(agent: 'MessageAgent', actor: Tuple[str, int]):
+        trigger_actor_ability(agent, actor, eventnames.BEFORE_ATTACK)
 
     # battle system
     # apply to friendly units
