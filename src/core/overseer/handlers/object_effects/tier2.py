@@ -10,20 +10,20 @@ if TYPE_CHECKING:
 
 class Tier2:
     @staticmethod
-    def bat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        units = agent.team_opposing_(actor).random_units(agent.actor(actor).level)
+    def bat(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
+        units = agent.team_opposing_(actor).random_units(backup.level)
 
         for unit in units:
             unit.held = Weak()
 
     @staticmethod
-    def crab(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        battle_hp = agent.team_of_(actor).highest_health_unit().battle_hp * agent.actor(actor).level // 2
-        agent.actor(actor).battle_hp = max(1, battle_hp)
+    def crab(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
+        battle_hp = agent.team_of_(actor).highest_health_unit().battle_hp * backup.level // 2
+        backup.battle_hp = max(1, battle_hp)
 
     @staticmethod
-    def dodo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        unit = agent.actor(actor)
+    def dodo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
+        unit = backup
         battle_atk = unit.battle_atk * unit.level // 2
         agent.team_of_(actor).friend_ahead(actor[1]).battle_atk += battle_atk
 

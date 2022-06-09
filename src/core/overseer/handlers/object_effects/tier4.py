@@ -55,15 +55,15 @@ class Tier4:
         agent.summon(unit, actor)
 
     @staticmethod
-    def dolphin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def dolphin(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
         animal = agent.team_opposing_(actor).lowest_health_unit()
         if actor[0] == "team":
             target = ("enemy", agent.enemy.animals.index(animal))
         else:
             target = ("team", agent.team.animals.index(animal))
 
-        agent.deal_ability_damage_handle_hurt(5 * agent.actor(actor).level,
-                                              actor, target)
+        agent.deal_ability_damage_handle_hurt(5 * backup.level,
+                                              backup, target)
 
     @staticmethod
     def hippo(agent: 'MessageAgent',
@@ -138,9 +138,9 @@ class Tier4:
             agent.summon(unit.__copy__(), actor)
 
     @staticmethod
-    def skunk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def skunk(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
         target = agent.team_opposing_(actor).highest_health_unit()
-        target.battle_hp = max(1, target.battle_hp - ((target.battle_hp * agent.actor(actor).level) // 3))
+        target.battle_hp = max(1, target.battle_hp - ((target.battle_hp * backup.level) // 3))
 
     @staticmethod
     def squirrel(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):

@@ -111,18 +111,18 @@ class Tier1:
 
     # start of battle deal 1/2/3 damage to random enemy
     @staticmethod
-    def mosquito(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def mosquito(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
         units = agent.team_opposing_(actor).random_units_idx(1)
 
         if units is None:
             return
 
         if actor[0] == "team":
-            agent.deal_ability_damage_handle_hurt(agent.actor(actor).level,
-                                                  actor, ("enemy", units[0]))
+            agent.deal_ability_damage_handle_hurt(backup.level,
+                                                  backup, ("enemy", units[0]))
         elif actor[0] == "enemy":
-            agent.deal_ability_damage_handle_hurt(agent.actor(actor).level,
-                                                  actor, ("team", units[0]))
+            agent.deal_ability_damage_handle_hurt(backup.level,
+                                                  backup, ("team", units[0]))
 
     # buy, give a random friend +1/1, 2/2, 3/3
     @staticmethod

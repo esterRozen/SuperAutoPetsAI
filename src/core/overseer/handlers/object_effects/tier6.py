@@ -84,16 +84,16 @@ class Tier6:
         agent.actor(actor).held = Coconut()
 
     @staticmethod
-    def leopard(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def leopard(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
         if actor[0] == "team":
             team = "enemy"
         else:
             team = "team"
 
-        damage = agent.actor(actor).battle_atk // 2
+        damage = backup.battle_atk // 2
         for _ in range(agent.actor(actor).level):
             unit = agent.team_opposing_(actor).random_units_idx(1)[0]
-            agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit))
+            agent.deal_ability_damage_handle_hurt(damage, backup, (team, unit))
 
     @staticmethod
     def mammoth(agent: 'MessageAgent',
