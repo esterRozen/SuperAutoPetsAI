@@ -85,12 +85,15 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
 
 
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
-    team = get_roster(agent, actor)
+    if fainted is None:
+        animal = get_roster(agent, actor)[actor[1]]
+    else:
+        animal = fainted
 
-    operation = team[actor[1]].trigger(event)
+    operation = animal.trigger(event)
     agent.trigger_ability(operation, actor, actor, fainted)
 
-    operation = team[actor[1]].held.trigger(event)
+    operation = animal.held.trigger(event)
     agent.trigger_ability(operation, actor, actor, fainted)
 
 
