@@ -1,6 +1,7 @@
 from typing import Union, Tuple, List
 
 from . import abstract_elements as ae
+from .abstract_elements import Animal, Empty
 
 
 class Shop:
@@ -67,6 +68,18 @@ class Shop:
 
     def __setitem__(self, key: int, value: Union[ae.Animal, ae.Equipment]):
         self.roster[key].item = value
+
+    def leftmost_pet(self, n: int) -> List[Animal]:
+        out = []
+        i = 0
+        while n != 0 and i < 5:
+            item: Animal = self.roster[i].item
+            if isinstance(item, Animal) and not isinstance(item, Empty):
+                out.append(item)
+                n -= 1
+            i += 1
+
+        return out
 
     @property
     def size(self):
