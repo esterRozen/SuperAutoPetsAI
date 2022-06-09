@@ -66,7 +66,7 @@ class TestTier2(TestCase):
         self.agent.summon(tier_2.Peacock(), ("team", 1))
         self.agent.summon(tier_2.Shrimp(), ("team", 3))
 
-        Tier2.flamingo(self.agent, ("team", 0), ("team", 2))
+        Tier2.flamingo(self.agent, ("team", 0), ("team", 2), fainted=self.agent.team[0])
 
         self.assertTrue(self.agent.team[1].battle_atk == 3)
         self.assertTrue(self.agent.team[1].battle_hp == 6)
@@ -145,7 +145,14 @@ class TestTier2(TestCase):
         self.agent.summon(tier_2.Flamingo(), ("team", 1))
         self.agent.summon(tier_2.Flamingo(), ("team", 2))
 
-        Tier2.flamingo(self.agent, ("team", 0), ("team", 3))
+        Tier2.tabby_cat(self.agent, ("team", 0), ("team", 3))
 
+        self.assertTrue(self.agent.team[1].atk == 4)
         self.assertTrue(self.agent.team[1].battle_atk == 5)
+        self.assertTrue(self.agent.team[1].hp == 2)
+        self.assertTrue(self.agent.team[1].battle_hp == 2)
+
+        self.assertTrue(self.agent.team[2].atk == 4)
         self.assertTrue(self.agent.team[2].battle_atk == 5)
+        self.assertTrue(self.agent.team[2].hp == 2)
+        self.assertTrue(self.agent.team[2].battle_hp == 2)
