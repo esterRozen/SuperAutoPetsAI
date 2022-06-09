@@ -33,12 +33,13 @@ class Tier2:
 
     @staticmethod
     def dromedary(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        pets = agent.shop.leftmost_pet(2)
         if agent.actor(actor).level == 1:
-            agent.shop.buff(1, 1)
+            agent.buff(pets, 1, 1)
         elif agent.actor(actor).level == 2:
-            agent.shop.buff(2, 2)
+            agent.buff(pets, 2, 2)
         else:
-            agent.shop.buff(3, 3)
+            agent.buff(pets, 3, 3)
 
     @staticmethod
     def elephant(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
