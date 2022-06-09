@@ -337,53 +337,68 @@ class TestEventProcessor(TestCase):
         self.assertTrue(self.agent.team[1].atk == 2)
 
     def test_friend_faints(self):
-        # TODO
-        self.fail()
+        # shark, fly
+        self.agent.summon(tier_5.Shark(), ("team", 3))
+        self.agent.summon(tier_6.Fly(), ("team", 4))
+
+        self.ep.friend_faints(self.agent, ("team", 1), fainted=tier_1.Bee())
 
     def test_hurt(self):
+        # blowfish, peacock, gorilla
+
         # TODO
         self.fail()
 
     def test_is_summoned(self):
+        # scorpion
+
         # TODO
         self.fail()
 
     def test_on_faint(self):
+        # ant, cricket, flamingo, hedgehog, rat
+
+        # spider, badger, sheep, turtle, deer
+
+        # microbe, rooster, whale, eagle, mammoth
+
         # TODO
         self.fail()
 
     def test_on_level(self):
-        # TODO
-        self.fail()
+        # fish
 
-    def test_damage_team(self):
         # TODO
         self.fail()
 
     def test_before_attack(self):
-        # TODO
-        self.fail()
+        # elephant, boar, octopus
 
-    def test_enemy_attacks(self):
         # TODO
         self.fail()
 
     def test_friend_ahead_attacks(self):
+        # kangaroo, snake
+
         # TODO
         self.fail()
 
     def test_friend_summoned_battle(self):
+        # horse, dog, turkey
+
         # TODO
         self.fail()
 
     def test_knock_out(self):
+        # hippo, rhino
+
         # TODO
         self.fail()
 
     def test_start_battle(self):
-        # TODO
-        self.fail()
+        # mosquito, bat, crab, dodo, caterpillar
 
-    def test_deal_enemy(self):
+        # dolphin, skunk, whale, crocodile, leopard
+
         # TODO
         self.fail()
