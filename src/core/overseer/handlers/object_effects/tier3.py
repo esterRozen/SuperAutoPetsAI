@@ -94,7 +94,7 @@ class Tier3:
             agent.team.random_friend(actor[1]).permanent_buff(6, 6)
 
     @staticmethod
-    def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
+    def ox(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         animal = agent.actor(actor)
         agent.buff(animal, animal.level, 0)
         animal.held = Melon()
