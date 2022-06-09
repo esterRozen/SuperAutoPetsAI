@@ -42,11 +42,11 @@ class Tier1:
     @staticmethod
     def beetle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.shop.buff(0, 1)
+            agent.shop.leftmost_pet(1)[0].permanent_buff(0, 1)
         elif agent.actor(actor).level == 2:
-            agent.shop.buff(0, 2)
+            agent.shop.leftmost_pet(1)[0].permanent_buff(0, 2)
         else:
-            agent.shop.buff(0, 3)
+            agent.shop.leftmost_pet(1)[0].permanent_buff(0, 3)
 
     # give leftmost friend 1, 2, 3 atk
     @staticmethod
