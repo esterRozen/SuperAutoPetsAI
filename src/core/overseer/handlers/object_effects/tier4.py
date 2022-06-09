@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
 from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
-from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot
+from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot, Caterpillar
 from ....game_elements.game_objects.equipment import Chili, Weak
 
 if TYPE_CHECKING:
@@ -31,13 +31,22 @@ class Tier4:
             agent.actor(actor).permanent_buff(3, 3)
 
     @staticmethod
-    def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
-            agent.actor(actor).xp += 1
-        elif agent.actor(actor).level == 2:
-            agent.actor(actor).xp += 1
+    def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int],
+                    backup: Optional[Animal] = None):
+        if backup is None:
+            level = agent.actor(actor).level
+            if level == 1:
+                agent.actor(actor).xp += 1
+                return
+            elif level == 2:
+                agent.actor(actor).xp += 1
+                return
         else:
+            if not isinstance(agent.actor(actor), Caterpillar):
+                return
+
             agent.team_of_(actor).animals[actor[1]] = Butterfly()
+            return
 
     @staticmethod
     def deer(agent: 'MessageAgent',
