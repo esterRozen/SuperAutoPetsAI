@@ -143,7 +143,7 @@ class Parrot(_Tier4):
 
         # maintain null state until the shop turn ends
         # then copy ability of unit ahead.
-        elif name == eventnames.BEFORE_BATTLE:
+        elif name == eventnames.END_TURN:
             self.locked = False
             return self.id
 
