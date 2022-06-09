@@ -20,18 +20,26 @@ def get_roster(agent: 'MessageAgent', actor: Tuple[str, int]):
 def for_sorted_both_trigger(agent: 'MessageAgent', event: str):
     animals = agent.sorted_team("both")
 
+    animal_order = []
     for animal in animals:
         if animal in agent.team.animals:
-            actor = ("team", agent.team.acting)
+            animal_order.append(
+                ("team", agent.team.animals.index(animal), animal)
+            )
         elif animal in agent.enemy.animals:
-            actor = ("enemy", agent.enemy.acting)
+            animal_order.append(
+                ("enemy", agent.enemy.animals.index(animal), animal)
+            )
         else:
             raise ValueError(f"{animal} not present in either team")
+
+    for team, pos, animal in animal_order:
+        actor = ("team", pos)
         operation = animal.trigger(event)
-        agent.trigger_ability(operation, actor, actor)
+        agent.trigger_ability(operation, actor, actor, animal)
 
         operation = animal.held.trigger(event)
-        agent.trigger_ability(operation, actor, actor)
+        agent.trigger_ability(operation, actor, actor, animal)
 
 
 def for_sorted_trigger(agent: 'MessageAgent', event: str, team: str = "team", fainted: Animal = None):
@@ -84,12 +92,21 @@ def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str
         agent.trigger_ability(operation, actor, target, fainted)
 
 
-def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
-    if fainted is None:
+def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted_actor: Animal = None):
+    if fainted_actor is None:
         animal = get_roster(agent, actor)[actor[1]]
     else:
-        animal = fainted
+        animal = fainted_actor
 
+    operation = animal.trigger(event)
+    agent.trigger_ability(operation, actor, actor, fainted_actor)
+
+    operation = animal.held.trigger(event)
+    agent.trigger_ability(operation, actor, actor, fainted_actor)
+
+
+def trigger_actor_knock_out(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal):
+    animal = get_roster(agent, actor)[actor[1]]
     operation = animal.trigger(event)
     agent.trigger_ability(operation, actor, actor, fainted)
 
@@ -176,11 +193,11 @@ class EventProcessor:
     # shop and battle system
     # apply to friendly units right of event raiser
     @staticmethod
-    def friend_ahead_faints(agent: 'MessageAgent', actor: Tuple[str, int], fainted: Animal):
+    def friend_ahead_faints(agent: 'MessageAgent', actor: Tuple[str, int]):
         team = get_roster(agent, actor)
         animal_behind = (actor[0], team.animals.index(team.friend_behind(actor[1])))
 
-        trigger_actor_ability(agent, animal_behind, eventnames.FRIEND_AHEAD_FAINTS, fainted)
+        trigger_actor_ability(agent, animal_behind, eventnames.FRIEND_AHEAD_FAINTS)
 
     # shop and battle system
     # apply to all friendly units
