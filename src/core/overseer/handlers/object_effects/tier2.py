@@ -104,7 +104,9 @@ class Tier2:
 
         # stats fixed at 2, 2
         unit.battle_atk = 2
+        unit.atk = 2
         unit.battle_hp = 2
+        unit.hp = 2
 
         if fainted.level == 1:
             unit.xp = 0
