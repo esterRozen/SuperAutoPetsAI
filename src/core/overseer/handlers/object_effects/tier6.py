@@ -45,11 +45,11 @@ class Tier6:
     @staticmethod
     def boar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
-            agent.actor(actor).temp_buff(2, 2)
+            agent.actor(actor).temp_buff(4, 2)
         elif agent.actor(actor).level == 2:
-            agent.actor(actor).temp_buff(4, 4)
+            agent.actor(actor).temp_buff(8, 4)
         elif agent.actor(actor).level == 3:
-            agent.actor(actor).temp_buff(6, 6)
+            agent.actor(actor).temp_buff(12, 6)
 
     # not 100% sure how to implement cat.
     @staticmethod
