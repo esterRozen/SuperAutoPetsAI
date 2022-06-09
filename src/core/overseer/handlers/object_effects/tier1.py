@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class Tier1:
     @staticmethod
-    def nop(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def nop(*args):
         return
 
     @staticmethod
