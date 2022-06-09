@@ -49,11 +49,11 @@ class Tier2:
             agent.deal_ability_damage_handle_hurt(1, actor, friend_tup)
 
     @staticmethod
-    def flamingo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def flamingo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
         friends = agent.team_of_(actor).friends_behind(actor[1], 2)
-        if agent.actor(actor).level == 1:
+        if fainted.level == 1:
             agent.buff(friends, 1, 1)
-        elif agent.actor(actor).level == 2:
+        elif fainted.level == 2:
             agent.buff(friends, 2, 2)
         else:
             agent.buff(friends, 3, 3)
