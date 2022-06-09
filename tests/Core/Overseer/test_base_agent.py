@@ -3,6 +3,7 @@ from unittest import TestCase
 from src.core.game_elements.abstract_elements import Empty, Team
 from src.core.game_elements.game_objects.animals.tier_1 import Ant, Fish, Cricket, Duck, Otter
 from src.core.game_systems import ShopSystem, BattleSystem
+from src.core.overseer import MessageAgent
 from src.core.overseer.baseagent import BaseAgent
 
 
@@ -149,7 +150,7 @@ class TestBaseAgent(TestCase):
         self.assertTrue(agent.team[1].battle_hp == 8)
 
     def test_summon(self):
-        agent = BaseAgent("base pack")
+        agent = MessageAgent("base pack")
         team = agent.team
         ShopSystem(agent)
         BattleSystem(agent)
