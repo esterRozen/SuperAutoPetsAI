@@ -71,6 +71,8 @@ class TestEventProcessor(TestCase):
         self.agent.summon(tier_5.Cow(), ("team", 3))
         self.ep.buy(self.agent, ("team", 3))
 
+        self.ep.sell(self.agent, ("team", 3))
+
         self.assertTrue(isinstance(self.agent.shop[5].item, Milk))
         self.assertTrue(isinstance(self.agent.shop[6].item, Milk))
 
