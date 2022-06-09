@@ -215,10 +215,6 @@ class EventProcessor:
     ################################################################
 
     # triggered by battle system (which feeds message to message agent)
-    # apply to unit that raised event (is about to attack)
-    @staticmethod
-    def before_attack(agent: 'MessageAgent', actor: Tuple[str, int]):
-        trigger_actor_ability(agent, actor, eventnames.BEFORE_ATTACK)
 
     # battle system
     # apply to friendly units
@@ -231,12 +227,6 @@ class EventProcessor:
     @staticmethod
     def before_battle(agent: 'MessageAgent'):
         for_sorted_both_trigger(agent, eventnames.BEFORE_BATTLE)
-
-    # battle system
-    # apply to all friendly units
-    @staticmethod
-    def enemy_attacks(agent: 'MessageAgent', actor: Tuple[str, int]):
-        for_sorted_trigger(agent, eventnames.ENEMY_ATTACKS, actor[0])
 
     # battle system
     # apply to all friendly units left of event raiser
