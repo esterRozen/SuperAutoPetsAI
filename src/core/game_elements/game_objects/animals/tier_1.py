@@ -116,7 +116,7 @@ class Horse(_Tier1):
         super(Horse, self).__init__(2, 1)
 
     def trigger(self, name):
-        if name == eventnames.FRIEND_SUMMONED_BATTLE:
+        if name == eventnames.FRIEND_SUMMONED_BATTLE or name == eventnames.FRIEND_SUMMONED_SHOP:
             return self.id
         return 0
 
