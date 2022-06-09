@@ -431,8 +431,19 @@ class TestEventProcessor(TestCase):
         self.agent.summon(tier_6.Boar(), ("team", 1))
         self.agent.summon(tier_6.Octopus(), ("team", 2))
 
-        # TODO
-        self.fail()
+        self.ep.before_attack(self.agent, ("team", 0))
+        self.unit_stats(1, 10, 10, 5, 5)
+
+        self.ep.before_attack(self.agent, ("team", 1))
+        self.unit_stats(1, 10, 14, 5, 7)
+
+        self.agent.in_shop = False
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.agent.summon(tier_1.Bee(), ("enemy", 1))
+
+        self.ep.before_attack(self.agent, ("team", 2))
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+        self.assertTrue(isinstance(self.agent.enemy[1], Empty))
 
     def test_friend_ahead_attacks(self):
         # kangaroo, snake
