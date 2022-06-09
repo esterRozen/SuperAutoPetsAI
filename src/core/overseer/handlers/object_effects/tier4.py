@@ -66,9 +66,7 @@ class Tier4:
                                               backup, target)
 
     @staticmethod
-    def hippo(agent: 'MessageAgent',
-              actor: Tuple[str, int], target: Tuple[str, int],
-              fainted: Animal):
+    def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
         if agent.actor(actor).level == 1:
             agent.actor(actor).temp_buff(3, 3)
         elif agent.actor(actor).level == 2:
