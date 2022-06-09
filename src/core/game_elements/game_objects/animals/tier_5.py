@@ -64,23 +64,20 @@ class Eagle(_Tier5):
 
 class Goat(_Tier5):
     id = 61
+    _triggers = 2
 
     def __init__(self):
         super(Goat, self).__init__(4, 6)
-        self.limit = 1
 
     def trigger(self, name):
-        if name == eventnames.FRIEND_BOUGHT:
-            self.limit -= 1
-            if self.limit < 0:
-                return 0
+        if name == eventnames.FRIEND_BOUGHT and self._triggers > 0:
+            self._triggers -= 1
             return self.id
+
         elif name == eventnames.START_TURN:
-            self.limit = self.level
+            self._triggers = 2
             return 0
-        elif name == eventnames.ON_LEVEL:
-            self.limit += 1
-            return 0
+
         return 0
 
 
