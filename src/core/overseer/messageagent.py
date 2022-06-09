@@ -357,6 +357,9 @@ class MessageAgent(BaseAgent):
             return
 
         self.actor(target).battle_hp -= damage
+        if self.in_shop:
+            self.actor(target).hp -= damage
+
         if not self.query_faint(target, actor):
             self.enqueue_event(eventnames.HURT,
                                actor=target,
@@ -392,6 +395,9 @@ class MessageAgent(BaseAgent):
             return
 
         target_anim.battle_hp -= damage
+        if self.in_shop:
+            target_anim.hp -= damage
+
         if not self.query_faint(actor, target):
             self.enqueue_event(eventnames.HURT,
                                actor=target,
