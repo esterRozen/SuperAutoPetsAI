@@ -55,7 +55,7 @@ def find_name_id(anims: List[List[Animal]], name: str) -> int:
 class MessageAgent(BaseAgent):
     def __init__(self, mode):
         super(MessageAgent, self).__init__(mode)
-        self.debug_without_handling_queue = True
+        self.debug_mode_no_handle_queue = True
         # event handling matrix
         t1 = Tier1()
         t2 = Tier2()
@@ -271,7 +271,7 @@ class MessageAgent(BaseAgent):
             self._event_queue.append((message, actor, target))
 
     def handle_events(self):
-        if not self._event_queue or self.debug_without_handling_queue:
+        if not self._event_queue or self.debug_mode_no_handle_queue:
             return
 
         self._raise_event()
