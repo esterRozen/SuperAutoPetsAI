@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Tuple, Optional
 
 from .... import eventnames
 from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
-from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot, Caterpillar
+from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot, Caterpillar, Whale
 from ....game_elements.game_objects.equipment import Chili, Weak
 
 if TYPE_CHECKING:
@@ -170,8 +170,10 @@ class Tier4:
     @staticmethod
     def whale(agent: 'MessageAgent',
               actor: Tuple[str, int], target: Tuple[str, int],
-              fainted: Optional[Animal] = None):
-        if fainted is None:
+              fainted: Whale = None):
+        if isinstance(agent.actor(actor), Empty):
+            if fainted.stored is None:
+                return
             # faint unit ahead, "swallow" it for later.
             acting_team = agent.team_of_(actor)
             animal = acting_team.friend_ahead(actor[1])
