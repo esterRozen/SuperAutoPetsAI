@@ -1,11 +1,17 @@
 from unittest import TestCase
 
-from src.core.game_elements.game_objects.animals import Fish, Ant, Beaver, Duck, Cricket, Otter
+from src.core.game_elements.game_objects.animals import Fish, Ant, Beaver, Duck, Cricket, Otter, tier_1
+from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
 
 # testing the actual message handling as well as the other basic functions.
 class TestMessageAgent(TestCase):
+    def setUp(self) -> None:
+        self.agent = MessageAgent("base pack")
+        BattleSystem(self.agent)
+        ShopSystem(self.agent)
+
     def test_sorted_team(self):
         agent = MessageAgent("base pack")
         agent.team[0] = Fish()
@@ -122,10 +128,6 @@ class TestMessageAgent(TestCase):
         # TODO
         self.fail()
 
-    def test_ability(self):
-        # TODO
-        self.fail()
-
     def test_attack(self):
         # TODO
         self.fail()
@@ -139,5 +141,20 @@ class TestMessageAgent(TestCase):
         self.fail()
 
     def test_summon(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_1.Bee(), ("team", 2))
+        self.agent.summon(tier_1.Bee(), ("team", 3))
+        self.agent.summon(tier_1.Bee(), ("team", 4))
+        self.agent.summon(tier_1.Ant(), ("team", 2))
+
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Bee))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Bee))
+        self.assertTrue(isinstance(self.agent.team[4], tier_1.Bee))
+
+        self.agent.summon(tier_1.Cricket(), ("team", 4))
+
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Bee))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Bee))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Bee))
+        self.assertTrue(isinstance(self.agent.team[4], tier_1.Cricket))
