@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
+from .... import eventnames
 from ....game_elements.abstract_elements import Animal, Equipment, Empty, Unarmed
 from ....game_elements.game_objects.animals import Bus, Butterfly, Chick, Parrot, Caterpillar
 from ....game_elements.game_objects.equipment import Chili, Weak
@@ -31,6 +32,15 @@ class Tier4:
             agent.actor(actor).permanent_buff(3, 3)
 
     @staticmethod
+    def butterfly(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+        animal = agent.actor(actor)
+        if isinstance(animal, Butterfly):
+            animals = agent.team_of_(actor)
+            strongest: Animal = max(animals, key=lambda anim: anim.battle_atk + anim.battle_hp)
+            animal.battle_hp = strongest.battle_hp
+            animal.battle_atk = strongest.battle_atk
+
+    @staticmethod
     def caterpillar(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int],
                     backup: Optional[Animal] = None):
         if backup is None:
@@ -46,6 +56,8 @@ class Tier4:
                 return
 
             agent.team_of_(actor).animals[actor[1]] = Butterfly()
+            agent.enqueue_event(eventnames.IS_SUMMONED,
+                                actor, actor)
             return
 
     @staticmethod
