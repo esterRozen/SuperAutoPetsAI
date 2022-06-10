@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple, List
+from typing import TYPE_CHECKING, Tuple
 
 from ... import eventnames
 from ...game_elements.abstract_elements import Animal
@@ -75,23 +75,6 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', position: Tuple[str
         agent.trigger_ability(operation, (team, position), target, fainted)
 
 
-def for_sorted_behind_(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal = None):
-    roster = get_roster(agent, actor)
-    animals: List[Animal] = agent.sorted_units_behind_(actor)
-    team = actor[0]
-    target = actor
-
-    for animal in animals:
-        idx = roster.animals.index(animal)
-        actor = (team, idx)
-
-        operation = animal.trigger(event)
-        agent.trigger_ability(operation, actor, target, fainted)
-
-        operation = animal.held.trigger(event)
-        agent.trigger_ability(operation, actor, target, fainted)
-
-
 def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted_actor: Animal = None):
     if fainted_actor is None:
         animal = get_roster(agent, actor)[actor[1]]
@@ -103,15 +86,6 @@ def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: 
 
     operation = animal.held.trigger(event)
     agent.trigger_ability(operation, actor, actor, fainted_actor)
-
-
-def trigger_actor_knock_out(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted: Animal):
-    animal = get_roster(agent, actor)[actor[1]]
-    operation = animal.trigger(event)
-    agent.trigger_ability(operation, actor, actor, fainted)
-
-    operation = animal.held.trigger(event)
-    agent.trigger_ability(operation, actor, actor, fainted)
 
 
 class EventProcessor:
