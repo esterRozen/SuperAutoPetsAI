@@ -171,9 +171,7 @@ class Tier4:
     def whale(agent: 'MessageAgent',
               actor: Tuple[str, int], target: Tuple[str, int],
               fainted: Whale = None):
-        if isinstance(agent.actor(actor), Empty):
-            if fainted.stored is None:
-                return
+        if isinstance(agent.actor(actor), Whale):
             # faint unit ahead, "swallow" it for later.
             acting_team = agent.team_of_(actor)
             animal = acting_team.friend_ahead(actor[1])
