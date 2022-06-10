@@ -49,6 +49,8 @@ class BattleSystem:
         while self.agent.team.size > 0 and self.agent.enemy.size > 0:
             # before attack (team)
             # before attack (enemy)
+            self.agent.team.push_forward()
+            self.agent.enemy.push_forward()
 
             self._add_event(eventnames.BEFORE_ATTACK, actor=("team", 0))
             self._add_event(eventnames.BEFORE_ATTACK, actor=("enemy", 0))
