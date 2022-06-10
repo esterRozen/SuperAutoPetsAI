@@ -55,6 +55,7 @@ def find_name_id(anims: List[List[Animal]], name: str) -> int:
 class MessageAgent(BaseAgent):
     def __init__(self, mode):
         super(MessageAgent, self).__init__(mode)
+        self.debug_without_handling_queue = True
         # event handling matrix
         t1 = Tier1()
         t2 = Tier2()
@@ -218,17 +219,12 @@ class MessageAgent(BaseAgent):
             self.__EP.buy_t1_pet(self)
         elif message == eventnames.EAT_FOOD:
             self.__EP.eat_food(self, actor)
-        elif message == eventnames.ENEMY_ATTACKS:
-            self.__EP.enemy_attacks(self, actor)
         elif message == eventnames.END_TURN:
             self.__EP.end_turn(self)
         elif message == eventnames.FRIEND_AHEAD_ATTACKS:
             self.__EP.friend_ahead_attacks(self, actor)
-
         elif message == eventnames.FRIEND_AHEAD_FAINTS:
-            # special faint function
-            self.__EP.friend_ahead_faints(self, actor, fainted)
-
+            self.__EP.friend_ahead_faints(self, actor)
         elif message == eventnames.FRIEND_BOUGHT:
             self.__EP.friend_bought(self, actor)
         elif message == eventnames.FRIEND_EATS_FOOD:
@@ -264,6 +260,9 @@ class MessageAgent(BaseAgent):
         elif message == eventnames.START_TURN:
             self.__EP.start_turn(self)
 
+    def clear_events(self):
+        self._event_queue = []
+
     def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None,
                       fainted: Animal = None):
         if fainted is None:
@@ -272,7 +271,7 @@ class MessageAgent(BaseAgent):
             self._event_queue.append((message, actor, target))
 
     def handle_events(self):
-        if not self._event_queue:
+        if not self._event_queue or self.debug_without_handling_queue:
             return
 
         self._raise_event()
