@@ -628,5 +628,7 @@ class TestEventProcessor(TestCase):
         self.ep.start_battle(self.agent)
         self.assertTrue(isinstance(self.agent.team[2].stored, tier_1.Bee))
 
-        self.ep.on_faint(self.agent, ("team", 2), fainted=self.agent.team[2])
+        whale = self.agent.team[2]
+        self.agent.team[2] = Empty()
+        self.ep.on_faint(self.agent, ("team", 2), fainted=whale)
         self.assertTrue(isinstance(self.agent.team[2], tier_1.Bee))
