@@ -75,7 +75,7 @@ class TestTier5(TestCase):
         self.agent.summon(tier_5.Rhino(), ("enemy", 0))
 
         Tier5.crocodile(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
-        self.assertTrue(self.agent.enemy[0].battle_hp == 1)
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
         Tier5.crocodile(self.agent, ("team", 0), ("team", 4), self.agent.team[0])
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
