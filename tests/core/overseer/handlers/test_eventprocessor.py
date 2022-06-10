@@ -460,10 +460,6 @@ class TestEventProcessor(TestCase):
         self.ep.on_faint(self.agent, ("team", 0), fainted=rooster)
         self.assertTrue(isinstance(self.agent.team[0], tier_4.Chick))
 
-        # whale
-
-        # TODO
-
         # eagle
         eagle = tier_5.Eagle()
         self.ep.on_faint(self.agent, ("team", 1), fainted=eagle)
@@ -623,8 +619,14 @@ class TestEventProcessor(TestCase):
         self.ep.start_battle(self.agent)
 
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+
         self.agent.team = self.agent.team.__class__()
         self.agent.enemy = self.agent.enemy.__class__()
-
-        # TODO
+        # whale
         self.agent.summon(tier_4.Whale(), ("team", 2))
+        self.agent.summon(tier_1.Bee(), ("team", 1))
+        self.ep.start_battle(self.agent)
+        self.assertTrue(isinstance(self.agent.team[2].stored, tier_1.Bee))
+
+        self.ep.on_faint(self.agent, ("team", 2), fainted=self.agent.team[2])
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Bee))
