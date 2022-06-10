@@ -32,14 +32,14 @@ class Tier5:
     # deal 7/14/21 damage to last enemy
     @staticmethod
     def crocodile(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], backup: Animal):
-        target = agent.team_opposing_(actor).leftmost_unit
-        if actor[0] == "team":
-            target_tup = ("enemy", agent.team_opposing_(actor).animals.index(target))
-        else:
-            target_tup = ("team", agent.team_opposing_(actor).animals.index(target))
+        for _ in range(backup.level):
+            target = agent.team_opposing_(actor).leftmost_unit
+            if actor[0] == "team":
+                target_tup = ("enemy", agent.team_opposing_(actor).animals.index(target))
+            else:
+                target_tup = ("team", agent.team_opposing_(actor).animals.index(target))
 
-        agent.deal_ability_damage_handle_hurt(7 * backup.level,
-                                              backup, target_tup)
+            agent.deal_ability_damage_handle_hurt(8, backup, target_tup)
 
     @staticmethod
     def eagle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):
