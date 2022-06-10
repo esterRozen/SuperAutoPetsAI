@@ -11,50 +11,67 @@ if TYPE_CHECKING:
 
 class Engine:
     def __init__(self, mode):
-        self.__messenger = MessageAgent(mode)
-        self.__battle_director = BattleSystem(self.__messenger)
-        self.__shop_director = ShopSystem(self.__messenger)
-
-        self.__messenger.set_battler(self.__battle_director)
-        self.__messenger.set_shopper(self.__shop_director)
+        self._messenger = MessageAgent(mode)
+        self._messenger.debug_mode_no_handle_queue = False
+        self._battle_director = BattleSystem(self._messenger)
+        self._shop_director = ShopSystem(self._messenger)
 
     @property
     def save(self, include_shop: bool = True) -> 'State':
-        return self.__messenger.save(include_shop)
+        return self._messenger.save(include_shop)
 
     def load(self, state: 'State'):
-        self.__messenger.load(state)
+        self._messenger.load(state)
 
     def move(self, roster_init: int, roster_final: int):
-        # moves init unit to *left* side of final unit
+        # moves init to final position, moving occupying unit toward space unit was moved from
 
-        self.__shop_director.move(roster_init, roster_final)
+        self._shop_director.move(roster_init, roster_final)
 
     def combine(self, roster_init: int, roster_final: int):
-        # place init unit *onto* final unit
+        # place init unit *onto* final unit, if possible
 
-        self.__shop_director.combine(roster_init, roster_final)
+        self._shop_director.combine(roster_init, roster_final)
 
     def sell(self, unit: int):
-        self.__shop_director.sell(unit)
+        # sell unit in occupying space
+
+        self._shop_director.sell(unit)
 
     def buy(self, shop_init, roster_final):
-        self.__shop_director.buy(shop_init, roster_final)
+        # buy unit from shop position and summon to team position
+        # will prefer in order:
+        # combining unit with occupying unit
+        # move occupying unit left if possible
+        # move occupying unit right if possible
+        # cancel
+
+        self._shop_director.buy(shop_init, roster_final)
 
     def freeze(self, shop_pos):
-        self.__shop_director.toggle_freeze(shop_pos)
+        # toggle freeze of shop position
+
+        self._shop_director.toggle_freeze(shop_pos)
 
     def reroll(self):
-        self.__shop_director.reroll()
+        # reroll shop if you have gold
+
+        self._shop_director.reroll()
 
     def end_turn(self):
-        self.__shop_director.end_turn()
+        # end your turn
+
+        self._shop_director.end_turn()
 
     def fight(self, team: Team):
-        outcome = self.__battle_director.start_battle(team)
+        # fight the provided team
+
+        outcome = self._battle_director.start_battle(team)
 
         # TODO using outcome of fight ->
         #  return info on state (team, wins, life, etc)
 
     def start_turn(self):
-        self.__shop_director.start_turn()
+        # start your turn
+
+        self._shop_director.start_turn()
