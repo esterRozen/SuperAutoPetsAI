@@ -568,12 +568,30 @@ class TestEventProcessor(TestCase):
 
         self.assertTrue(isinstance(self.agent.enemy[0], Empty))
 
-        self.agent.summon(tier_2.Bat(), ("team", 1))
-        self.agent.summon(tier_2.Crab(), ("team", 2))
-        self.agent.summon(tier_2.Dodo(), ("team", 3))
-        self.agent.summon(tier_4.Caterpillar(), ("team", 4))
+        self.agent.team = self.agent.team.__class__()
+        # bat
+        self.agent.summon(tier_2.Bat(), ("team", 0))
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.ep.start_battle(self.agent)
 
-        # TODO
+        self.assertTrue(isinstance(self.agent.enemy[0].held, Weak))
+
+        # crab
+        self.agent.summon(tier_2.Crab(), ("team", 1))
+        self.agent.summon(tier_2.Elephant(), ("team", 2))
+        self.ep.start_battle(self.agent)
+
+        self.unit_stats(1, 3, 3, 1, 2)
+        self.agent.summon(tier_2.Dodo(), ("team", 3))
+        self.ep.start_battle(self.agent)
+
+        self.unit_stats(2, 3, 4, 5, 5)
+
+        self.agent.summon(tier_4.Caterpillar(), ("team", 4))
+        self.agent.team[4].xp = 5
+        self.ep.start_battle(self.agent)
+
+        self.assertTrue(isinstance(self.agent.team[4], tier_4.Butterfly))
 
         self.agent.team = self.agent.team.__class__()
         # dolphin, skunk, whale, crocodile, leopard
