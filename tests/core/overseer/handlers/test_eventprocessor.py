@@ -596,10 +596,35 @@ class TestEventProcessor(TestCase):
         self.agent.team = self.agent.team.__class__()
         # dolphin, skunk, whale, crocodile, leopard
         self.agent.summon(tier_4.Dolphin(), ("team", 0))
-        self.agent.summon(tier_4.Skunk(), ("team", 1))
-        self.agent.summon(tier_4.Whale(), ("team", 2))
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.ep.start_battle(self.agent)
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+
+        self.agent.team = self.agent.team.__class__()
+        self.agent.summon(tier_4.Skunk(), ("team", 0))
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.agent.enemy[0].battle_hp = 50
+        self.ep.start_battle(self.agent)
+
+        self.agent.team[0] = self.agent.enemy[0]
+        self.unit_stats(0, 1, 1, 1, 34)
+
+        self.agent.team = self.agent.team.__class__()
+        self.agent.enemy = self.agent.enemy.__class__()
         self.agent.summon(tier_5.Crocodile(), ("team", 3))
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.ep.start_battle(self.agent)
+
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+
+        self.agent.team = self.agent.team.__class__()
         self.agent.summon(tier_6.Leopard(), ("team", 4))
+        self.agent.summon(tier_1.Bee(), ("enemy", 0))
+        self.ep.start_battle(self.agent)
+
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty))
+        self.agent.team = self.agent.team.__class__()
+        self.agent.enemy = self.agent.enemy.__class__()
 
         # TODO
-        self.fail()
+        self.agent.summon(tier_4.Whale(), ("team", 2))
