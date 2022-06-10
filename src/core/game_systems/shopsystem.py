@@ -28,6 +28,7 @@ class ShopSystem:
         # events
         # start turn
         self.agent.enqueue_event(eventnames.START_TURN)
+        self.agent.handle_events()
 
     def toggle_freeze(self, pos: int):
         self.agent.shop.toggle_freeze(pos)
@@ -54,16 +55,21 @@ class ShopSystem:
 
         if isinstance(self.agent.team.animals[target_pos], Empty):
             self.__buy_to_empty_response(shop_slot, target_pos)
+            self.agent.handle_events()
             return
 
         if isinstance(shop_slot.item, self.agent.team[target_pos].__class__):
             self.__buy_to_same_response(shop_slot, target_pos)
+            self.agent.handle_events()
             return
 
         if isinstance(shop_slot.item, Equipment):
             self.__buy_equipment_response(shop_slot, target_pos)
+            self.agent.handle_events()
+            return
 
         self.__buy_different_animal_response(shop_slot, target_pos)
+        self.agent.handle_events()
         return
 
     def __buy_to_empty_response(self, shop_slot, target_pos: int):
@@ -194,6 +200,9 @@ class ShopSystem:
                                  actor=target,
                                  target=target)
 
+        self.agent.handle_events()
+        return
+
     def sell(self, pos: int):
         actor = ("team", pos)
         if isinstance(self.agent.actor(actor), Empty):
@@ -210,6 +219,9 @@ class ShopSystem:
 
         self.agent.gold += animal.level
         self.agent.team[actor[1]] = Empty()
+
+        self.agent.handle_events()
+        return
 
     def move(self, roster_init, roster_final):
         # attacking unit in roster position 0
@@ -229,7 +241,7 @@ class ShopSystem:
             # push final unit right
             self.agent.team.make_summon_room_with_right_shift_at(roster_final)
             self.agent.team[roster_final] = moved_animal
-        pass
+        return
 
     def combine(self, roster_init, roster_final):
         # final unit keeps held item
@@ -258,7 +270,12 @@ class ShopSystem:
             level = new_level
         team[roster_init] = Empty()
 
+        self.agent.handle_events()
+        return
+
     def end_turn(self):
         # save backup effects are performed in start battle
         # complete end turn effects
         self.agent.enqueue_event(eventnames.END_TURN)
+        self.agent.handle_events()
+        return
