@@ -351,6 +351,10 @@ class Team:
         if isinstance(self[position], Empty):
             self[position] = animal
             return True
+        self.make_summon_room_with_right_shift_at(position)
+        if isinstance(self[position], Empty):
+            self[position] = animal
+            return True
         return False
 
     def units(self) -> Optional[List[Animal]]:
