@@ -219,6 +219,8 @@ class Whale(_Tier4):
     def trigger(self, name):
         if name == eventnames.START_BATTLE:
             return self.id
+        if name == eventnames.ON_FAINT:
+            return self.id
         return 0
 
 
