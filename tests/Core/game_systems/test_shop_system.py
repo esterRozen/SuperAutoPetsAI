@@ -1,7 +1,15 @@
 from unittest import TestCase
 
+from src.core.game_systems import BattleSystem, ShopSystem
+from src.core.overseer import MessageAgent
+
 
 class TestShopSystem(TestCase):
+    def setUp(self) -> None:
+        self.agent = MessageAgent("base pack")
+        BattleSystem(self.agent)
+        ShopSystem(self.agent)
+
     def test_instantiation(self):
         # TODO
         self.fail()
