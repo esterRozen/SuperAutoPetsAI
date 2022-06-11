@@ -20,6 +20,7 @@ class BaseAgent:
         # all that is needed to define current state
         self.team = Team()
         self.life = 10
+        self.wins = 0
         self.gold = 10
         self.turn = 1
         self.battle_lost = False

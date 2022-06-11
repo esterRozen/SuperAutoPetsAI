@@ -181,6 +181,7 @@ class MessageAgent(BaseAgent):
         agent.debug_mode_no_handle_queue = False
         agent.turn = state.turn
         agent.life = state.life
+        agent.wins = state.wins
         agent.gold = state.gold
         agent.battle_lost = state.battle_lost
         agent.team = state.team
@@ -190,11 +191,11 @@ class MessageAgent(BaseAgent):
     def save(self, include_shop: bool) -> State:
         if include_shop:
             state = State(
-                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team, self.shop
+                self.__mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team, self.shop
             )
         else:
             state = State(
-                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team
+                self.__mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team
             )
 
         return state

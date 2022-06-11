@@ -112,7 +112,8 @@ class SAPGame(gym.Env):
                 })
             }),
             "gold": Discrete(_max_gold),
-            "lives": Discrete(10, start=1),
+            "lives": Discrete(11, start=0),
+            "wins": Discrete(11, start=0),
             "turn": Discrete(_max_turn, start=1),
             "battle lost": Discrete(2),
             "pack": Discrete(_num_packs)

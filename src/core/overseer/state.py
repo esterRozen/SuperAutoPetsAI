@@ -9,16 +9,18 @@ class State:
     _mode: str
     _turn: int
     _life: int
+    _wins: int
     _gold: int
     _battle_lost: bool
     _team: Team
     _shop: Shop = None
 
-    def __init__(self, mode: str, turn: int, life: int, gold: int,
+    def __init__(self, mode: str, turn: int, life: int, wins: int, gold: int,
                  battle_lost: bool, team: Team, shop: Shop = None):
         self._mode = mode
         self._turn = turn
         self._life = life
+        self._wins = wins
         self._gold = gold
         self._battle_lost = battle_lost
         self._team = team
@@ -46,6 +48,10 @@ class State:
     @property
     def life(self) -> int:
         return self._life
+
+    @property
+    def wins(self) -> int:
+        return self._wins
 
     @property
     def gold(self) -> int:
