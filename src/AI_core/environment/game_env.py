@@ -1,9 +1,10 @@
-from typing import Optional, Union, Tuple, TypeAlias
+from typing import Optional, Union, Tuple
 
 import gym
 from gym.spaces import MultiDiscrete, Discrete, Dict
 
 from .API import EngineAPI
+from ...core import Engine
 
 _num_packs = 2
 _num_units = 120
@@ -11,13 +12,10 @@ _num_equip = 30
 _max_gold = 25
 _max_turn = 20
 
-Observe: TypeAlias = gym.spaces.Dict[MultiDiscrete, Discrete]
-Action: TypeAlias = gym.spaces.Tuple[Discrete, MultiDiscrete]
-
 
 class SAPGame(gym.Env):
-    def __init__(self, mode):
-        self.__engine = EngineAPI(mode)
+    def __init__(self, mode: str):
+        self._interface = EngineAPI(Engine(mode))
         self.action_space = Dict({
             "move": MultiDiscrete([5, 5]),
             "combine": MultiDiscrete([5, 5]),
@@ -113,16 +111,18 @@ class SAPGame(gym.Env):
                 })
             }),
             "gold": Discrete(_max_gold),
+            "lives": Discrete(10, start=1),
             "turn": Discrete(_max_turn, start=1),
             "battle lost": Discrete(2),
             "pack": Discrete(_num_packs)
         })
 
-    def load(self, state):
-        pass
+        self.reward_range = (-4, 10)
 
-    def step(self, action: Action)\
-            -> Tuple[Observe, float, bool, dict]:
+        self.metadata = {"render modes": ["human", "ansi"]}
+
+    def step(self, action: Dict) \
+            -> Tuple[Dict, float, bool, dict]:
         """
         Run one timestep of the environment's dynamics. When end of
         episode is reached, you are responsible for calling `reset()`
@@ -141,10 +141,12 @@ class SAPGame(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, logging,
             and sometimes learning)
         """
-        pass
 
-    def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: Optional[dict] = None)\
-            -> Union[Observe, Tuple[Observe, dict]]:
+        observation, reward, done, info = self._interface.action(action)
+        return observation, reward, done, info
+
+    def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: Optional[dict] = None) \
+            -> Union[Dict, Tuple[Dict, dict]]:
         """
         Resets the environment to an initial state and returns an initial
         observation.
