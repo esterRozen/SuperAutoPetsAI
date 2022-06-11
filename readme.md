@@ -4,7 +4,7 @@ Super Auto Pets AI
 
 This project has 3 major components:
 
-- Game Engine (90% complete)
+- Game Engine (90% complete, 280 of 320 tests completed)
 - Reinforcement Learning AI (40% complete)
 - Selenium Webdriver (to do)
 
