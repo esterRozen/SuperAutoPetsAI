@@ -24,10 +24,10 @@ class BaseAgent:
         self.gold = 10
         self.turn = 1
         self.battle_lost = False
-        self.in_shop = True
         self.shop = Shop(mode, 1)
         ################################################
 
+        self.in_shop = True
         self._team_backup = None
 
         self.enemy = Team()
