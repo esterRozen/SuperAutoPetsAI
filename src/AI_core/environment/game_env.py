@@ -126,7 +126,7 @@ class SAPGame(gym.Env):
 
         self.metadata = {"render modes": ["human", "ansi"]}
 
-    def step(self, action: Dict) \
+    def step(self, action: int) \
             -> Tuple[Dict, float, bool, dict]:
         """
         Run one timestep of the environment's dynamics. When end of
@@ -146,11 +146,38 @@ class SAPGame(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, logging,
             and sometimes learning)
         """
+        if action < 25:
+            # move
+            command = ["move", action // 5, action % 5]
+        elif action < 50:
+            # combine
+            action -= 25
+            command = ["combine", action // 5, action % 5]
+        elif action < 55:
+            # sell
+            action -= 50
+            command = ["sell", action]
+        elif action < 90:
+            # buy
+            action -= 55
+            command = ["buy", action // 5, action % 5]
+        elif action < 97:
+            # freeze
+            action -= 90
+            command = ["freeze", action]
+        elif action == 98:
+            # reroll
+            command = ["reroll"]
+        elif action == 99:
+            # end turn
+            command = ["end turn"]
+        else:
+            raise ValueError(f"action was invalid number {action}")
 
-        observation, reward, done, info = self._interface.action(action)
+        observation, reward, done, info = self._interface.action(*command)
         return observation, reward, done, info
 
-    def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: Optional[dict] = None) \
+    def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: dict = None) \
             -> Union[Dict, Tuple[Dict, dict]]:
         """
         Resets the environment to an initial state and returns an initial
@@ -171,7 +198,7 @@ class SAPGame(gym.Env):
         """
         # Initialize the RNG if the seed is manually passed
 
-        self._interface.reset()
+        self._interface.reset(options["mode"])
         return self._interface.current_state()
 
     def render(self, mode="human"):
