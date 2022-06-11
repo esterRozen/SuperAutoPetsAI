@@ -14,17 +14,18 @@ _max_turn = 20
 
 
 class SAPGame(gym.Env):
-    def __init__(self, mode: str):
-        self._interface = EngineAPI(Engine(mode))
-        self.action_space = Dict({
-            "move": MultiDiscrete([5, 5]),
-            "combine": MultiDiscrete([5, 5]),
-            "sell": Discrete(5),
-            "buy": Discrete(7),
-            "freeze": Discrete(7),
-            "reroll": Discrete(1),
-            "end turn": Discrete(1)
-        })
+    def __init__(self, replay, mode: str = "base pack"):
+        self._interface = EngineAPI(Engine(mode), replay)
+
+        # move      25  5 5
+        # combine   25  5 5
+        # sell      5   5
+        # buy       35  7 5
+        # freeze    7
+        # reroll    1
+        # end turn  1
+        # total     99
+        self.action_space = Discrete(99)
 
         self.observation_space = Dict({
             "team": Dict({
