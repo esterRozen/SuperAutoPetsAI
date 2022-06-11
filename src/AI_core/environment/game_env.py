@@ -1,18 +1,15 @@
-from abc import ABC
 from typing import Optional, Union, Tuple, TypeAlias
 
 import gym
-from gym.spaces import MultiDiscrete, Discrete
-from gym.core import ObsType
+from gym.spaces import MultiDiscrete, Discrete, Dict
 
 from .API import EngineAPI
 
-
-_num_elements = 150
+_num_packs = 2
+_num_units = 120
 _num_equip = 30
 _max_gold = 25
 _max_turn = 20
-
 
 Observe: TypeAlias = gym.spaces.Dict[MultiDiscrete, Discrete]
 Action: TypeAlias = gym.spaces.Tuple[Discrete, MultiDiscrete]
@@ -21,29 +18,105 @@ Action: TypeAlias = gym.spaces.Tuple[Discrete, MultiDiscrete]
 class SAPGame(gym.Env):
     def __init__(self, mode):
         self.__engine = EngineAPI(mode)
-        self.action_space = gym.spaces.Tuple(
-            Discrete(7),                # represents action
-            MultiDiscrete([5, 5, 7])    # represents targets TODO double check this
-        )
-        self.observation_space = gym.spaces.Dict(
-            {
-                'TeamUnit1': MultiDiscrete([_num_elements, 50, 50, _num_equip]),
-                'TeamUnit2': MultiDiscrete([_num_elements, 50, 50, _num_equip]),
-                'TeamUnit3': MultiDiscrete([_num_elements, 50, 50, _num_equip]),
-                'TeamUnit4': MultiDiscrete([_num_elements, 50, 50, _num_equip]),
-                'TeamUnit5': MultiDiscrete([_num_elements, 50, 50, _num_equip]),
-                'ShopSlot1': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot2': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot3': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot4': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot5': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot6': MultiDiscrete([_num_elements, 50, 50]),
-                'ShopSlot7': Discrete(_num_equip),
-                'ShopSlot8': Discrete(_num_equip),
-                'Gold': Discrete(_max_gold),
-                'Turn': Discrete(_max_turn)
-            }
-        )
+        self.action_space = Dict({
+            "move": MultiDiscrete([5, 5]),
+            "combine": MultiDiscrete([5, 5]),
+            "sell": Discrete(5),
+            "buy": Discrete(7),
+            "freeze": Discrete(7),
+            "reroll": Discrete(1),
+            "end turn": Discrete(1)
+        })
+
+        self.observation_space = Dict({
+            "team": Dict({
+                "slot 1": Dict({
+                    "unit": Discrete(_num_units),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "held": Discrete(_num_equip)
+                }),
+                "slot 2": Dict({
+                    "unit": Discrete(_num_units),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "held": Discrete(_num_equip)
+                }),
+                "slot 3": Dict({
+                    "unit": Discrete(_num_units),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "held": Discrete(_num_equip)
+                }),
+                "slot 4": Dict({
+                    "unit": Discrete(_num_units),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "held": Discrete(_num_equip)
+                }),
+                "slot 5": Dict({
+                    "unit": Discrete(_num_units),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "held": Discrete(_num_equip)
+                }),
+            }),
+            "shop": Dict({
+                "slot 1": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 2": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 3": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 4": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 5": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 6": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                }),
+                "slot 7": Dict({
+                    "item": Discrete(_num_units + _num_equip),
+                    "atk": Discrete(50, start=1),
+                    "hp": Discrete(50, start=1),
+                    "frozen": Discrete(2),
+                    "cost": Discrete(4)
+                })
+            }),
+            "gold": Discrete(_max_gold),
+            "turn": Discrete(_max_turn, start=1),
+            "battle lost": Discrete(2),
+            "pack": Discrete(_num_packs)
+        })
 
     def load(self, state):
         pass
