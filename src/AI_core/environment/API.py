@@ -11,7 +11,18 @@ class EngineAPI:
     def __init__(self, engine: Engine, replay):
         self.engine = engine
         self.replay = replay
-        self.__free_actions_this_turn = 0
+
+        self._action_lookup = {
+            "sell": self.engine.sell,
+            "buy": self.engine.buy,
+            "reroll": self.engine.reroll,
+            "end turn": self.engine.end_turn,
+            "freeze": self.engine.freeze,
+            "move": self.engine.move,
+            "combine": self.engine.combine
+        }
+
+        self.__actions_this_turn = 0
 
     def action(self, *args):
         """
@@ -22,35 +33,19 @@ class EngineAPI:
         Returns:
 
         """
-        reward = 0
-        done = False
 
-        if args[0] == "sell":
-            self.engine.sell(args[1])
-        elif args[0] == "buy":
-            self.engine.buy(args[1], args[2])
-        elif args[0] == "reroll":
-            self.engine.reroll()
-        elif args[0] == "end turn":
-            self.engine.end_turn()
+        wins = self.engine.messenger.wins
+        lives = self.engine.messenger.life
 
-            # get a team to fight using the replay sampler.
-            reward = self.engine.fight(self.replay.sample)
-            done = self.engine.messenger.life == 0 or self.engine.messenger.wins == 10
-            self.__free_actions_this_turn = 0
+        if self.__actions_this_turn == _limit:
+            self._action_lookup["end turn"]()
+        else:
+            self._action_lookup[args[0]](*args[1:])
 
-        elif self.__free_actions_this_turn > _limit:
-            return self.current_state(), -0.1, False, None
+        life_change = lives - self.engine.messenger.life
 
-        elif args[0] == "freeze":
-            self.engine.freeze(args[1])
-            self.__free_actions_this_turn += 1
-        elif args[0] == "move":
-            self.engine.move(args[1], args[2])
-            self.__free_actions_this_turn += 1
-        elif args[0] == "combine":
-            self.engine.combine(args[1], args[2])
-            self.__free_actions_this_turn += 1
+        reward = self.engine.messenger.wins - wins + life_change
+        done = self.engine.messenger.wins == 10
 
         return self.current_state(), reward, done, None
 
