@@ -1,6 +1,7 @@
 # must have a way to save and load states
 from typing import TYPE_CHECKING
 
+from .game_elements.game_objects import GameObjects
 from .game_systems import BattleSystem, ShopSystem
 from .game_elements.abstract_elements import Team
 from .overseer import *
@@ -10,18 +11,31 @@ if TYPE_CHECKING:
 
 
 class Engine:
+    """
+    This engine makes no attempt to prevent an actor from stalling.
+    In implementing AI with this engine, you should ensure the agent cannot
+    stall by placing limits on number of total actions
+    """
+
     def __init__(self, mode):
+        # loads the GameObjects singleton, so it doesn't need to be loaded again
+        self.__units = GameObjects()
         self._messenger = MessageAgent(mode)
         self._messenger.debug_mode_no_handle_queue = False
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
 
     @property
+    def messenger(self) -> MessageAgent:
+        return self._messenger
+
     def save(self, include_shop: bool = True) -> 'State':
         return self._messenger.save(include_shop)
 
     def load(self, state: 'State'):
-        self._messenger.load(state)
+        self._messenger = MessageAgent.load(state)
+        self._battle_director = BattleSystem(self._messenger)
+        self._shop_director = ShopSystem(self._messenger)
 
     def move(self, roster_init: int, roster_final: int):
         # moves init to final position, moving occupying unit toward space unit was moved from
