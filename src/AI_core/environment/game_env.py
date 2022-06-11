@@ -1,7 +1,7 @@
 from typing import Optional, Union, Tuple
 
 import gym
-from gym.spaces import MultiDiscrete, Discrete, Dict
+from gym.spaces import Discrete, Dict
 
 from .API import EngineAPI
 from ...core import Engine
@@ -126,6 +126,29 @@ class SAPGame(gym.Env):
 
         self.metadata = {"render modes": ["human", "ansi"]}
 
+        self._cmd_cache = []
+        self._create_action_cache()
+
+    def _create_action_cache(self):
+        for i in range(25):
+            self._cmd_cache.append(["move", i // 5, i % 5])
+
+        for i in range(25):
+            self._cmd_cache.append(["combine", i // 5, i % 5])
+
+        for i in range(5):
+            self._cmd_cache.append(["sell", i])
+
+        for i in range(35):
+            self._cmd_cache.append(["buy", i // 5, i % 5])
+
+        for i in range(7):
+            self._cmd_cache.append(["freeze", i])
+
+        self._cmd_cache.append(["reroll"])
+
+        self._cmd_cache.append(["end turn"])
+
     def step(self, action: int) \
             -> Tuple[Dict, float, bool, dict]:
         """
@@ -146,35 +169,8 @@ class SAPGame(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, logging,
             and sometimes learning)
         """
-        if action < 25:
-            # move
-            command = ["move", action // 5, action % 5]
-        elif action < 50:
-            # combine
-            action -= 25
-            command = ["combine", action // 5, action % 5]
-        elif action < 55:
-            # sell
-            action -= 50
-            command = ["sell", action]
-        elif action < 90:
-            # buy
-            action -= 55
-            command = ["buy", action // 5, action % 5]
-        elif action < 97:
-            # freeze
-            action -= 90
-            command = ["freeze", action]
-        elif action == 98:
-            # reroll
-            command = ["reroll"]
-        elif action == 99:
-            # end turn
-            command = ["end turn"]
-        else:
-            raise ValueError(f"action was invalid number {action}")
 
-        observation, reward, done, info = self._interface.action(*command)
+        observation, reward, done, info = self._interface.action(*self._cmd_cache[action])
         return observation, reward, done, info
 
     def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: dict = None) \
