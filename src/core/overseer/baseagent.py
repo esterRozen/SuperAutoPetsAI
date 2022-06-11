@@ -70,18 +70,6 @@ class BaseAgent:
     def load(state: State) -> 'BaseAgent':
         pass
 
-    def save(self, include_shop: bool) -> State:
-        if include_shop:
-            state = State(
-                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team, self.shop
-            )
-        else:
-            state = State(
-                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team
-            )
-
-        return state
-
     # enables reset of team after a battle
     def store_backup(self):
         self._team_backup = copy.deepcopy(self.team)

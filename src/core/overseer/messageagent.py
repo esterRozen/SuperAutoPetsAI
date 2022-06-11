@@ -176,8 +176,9 @@ class MessageAgent(BaseAgent):
         raise ValueError(f"actor should not contain {actor[0]}")
 
     @staticmethod
-    def load(state: State) -> 'BaseAgent':
+    def load(state: State) -> 'MessageAgent':
         agent = MessageAgent(state.mode)
+        agent.debug_mode_no_handle_queue = False
         agent.turn = state.turn
         agent.life = state.life
         agent.gold = state.gold
@@ -185,6 +186,18 @@ class MessageAgent(BaseAgent):
         agent.team = state.team
         agent.shop = state.shop
         return agent
+
+    def save(self, include_shop: bool) -> State:
+        if include_shop:
+            state = State(
+                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team, self.shop
+            )
+        else:
+            state = State(
+                self.__mode, self.turn, self.life, self.gold, self.battle_lost, self.team
+            )
+
+        return state
 
     def _raise_event(self):
         tup = self._event_queue.pop(0)
