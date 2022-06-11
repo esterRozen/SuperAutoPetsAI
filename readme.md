@@ -4,30 +4,31 @@ Super Auto Pets AI
 
 This project has 3 major components:
 
-- Game Engine
-- Reinforcement Learning AI
-- Selenium Webdriver
+- Game Engine (90% complete)
+- Reinforcement Learning AI (40% complete)
+- Selenium Webdriver (to do)
 
-The engine mimics the engine which
-drives the game Super Auto Pets (c. Team
-Wood Games) as best as I could determine
-through reverse engineering the logic
+The game engine mimics the engine which drives the strategy
+auto-battler game Super Auto Pets (c. Team Wood Games) as near
+as I could through reverse engineering the minutiae of the logic
 behind the game mechanics.
 
-The engine is to support save and load states
-through the OpenAI Gym API. Outputs are
-non-deterministic but discrete.
+The engine has its own program interface with intuitive controls
+analogous to the discrete actions possible in the real game.
+Results are non-deterministic but discrete. The program interface
+has a builtin save and load method for easily changing contexts.
 
-The RL AI is to be trained on artificial
-matches generated within this project's
-game engine. The AI incrementally learns
-how to play the game, eventually becoming
-skilled.
+The engine is also packaged as an Open AI Gym environment.
 
-The webdriver is to be an implementation of the
-AI, used so players may play against the
-AI in the real game. Image analysis is
-used to convert the game image to the
-state representation used by the AI and
-project's engine, and the webdriver performs
-the actions based on the AI's decisions.
+Three RL AIs are to be trained on this game, one DQN, one AQN,
+and one A3C network.
+
+The webdriver is to be an implementation of the AI, used so
+players may play against the AI in the real game in the 1v1
+versus mode. Image analysis is used to convert the game image
+to the state representation used by the AI and project's engine,
+and the webdriver performs the actions based on the AI's decisions.
+
+The image analysis will be completed using numerous fixed position crops
+followed by basic feature matching to determine which unit is in which
+position, if it is holding an item, and what its stats are.
