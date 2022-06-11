@@ -117,7 +117,10 @@ class SAPGame(gym.Env):
             "pack": Discrete(_num_packs)
         })
 
-        self.reward_range = (-4, 10)
+        # hearts lost worth -0.5
+        # wins worth +1.0
+        # max of 10 each
+        self.reward_range = (-5, 10)
 
         self.metadata = {"render modes": ["human", "ansi"]}
 
@@ -165,7 +168,9 @@ class SAPGame(gym.Env):
             return_info is set to true
         """
         # Initialize the RNG if the seed is manually passed
-        pass
+
+        self._interface.reset()
+        return self._interface.current_state()
 
     def render(self, mode="human"):
         """
