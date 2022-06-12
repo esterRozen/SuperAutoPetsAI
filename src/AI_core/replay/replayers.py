@@ -1,6 +1,6 @@
 import collections as coll
 import random as rand
-from typing import List
+from typing import List, Optional
 
 Transition = coll.namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
 
@@ -36,7 +36,10 @@ class MultiChannelReplay:
     def push(self, channel, *args):
         self._replayer[channel].push(*args)
 
-    def sample(self, batch_size) -> List[Transition]:
+    def sample(self, batch_size, channel: Optional[int] = None) -> List[Transition]:
+        if channel is not None:
+            return self._replayer[channel].sample(batch_size)
+
         out = []
         for _ in batch_size:
             i = rand.randrange(0, self.__channels)
