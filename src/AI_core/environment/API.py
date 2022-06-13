@@ -8,9 +8,12 @@ _limit = 50
 
 
 class EngineAPI:
-    def __init__(self, engine: Engine, replay):
+    loss_reward = -0.5
+    win_reward = 1.0
+
+    def __init__(self, engine: Engine):
+
         self.engine = engine
-        self.replay = replay
 
         self._action_lookup = {
             "sell": self.engine.sell,
@@ -28,7 +31,8 @@ class EngineAPI:
         """
         Processes action state commands into engine readable commands
         Args:
-            *args:
+            *args: arg[0] is action id
+                   arg[1:] is information needed for that action
 
         Returns:
 
@@ -39,12 +43,14 @@ class EngineAPI:
 
         if self.__actions_this_turn == _limit:
             self._action_lookup["end turn"]()
+            self.engine.fight(args[1])
+            self.engine.start_turn()
         else:
             self._action_lookup[args[0]](*args[1:])
 
         life_change = lives - self.engine.messenger.life
 
-        reward = self.engine.messenger.wins - wins + life_change
+        reward = self.win_reward * (self.engine.messenger.wins - wins) + self.loss_reward * life_change
         done = self.engine.messenger.wins == 10
 
         return self.current_state(), reward, done, None
