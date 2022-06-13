@@ -15,7 +15,7 @@ _max_turn = 20
 
 class SAPGame(gym.Env):
     def __init__(self, replay, mode: str = "base pack"):
-        self._interface = EngineAPI(Engine(mode), replay)
+        self._interface = EngineAPI(Engine(mode))
 
         # move      25  5 5
         # combine   25  5 5
@@ -27,6 +27,10 @@ class SAPGame(gym.Env):
         # total     99
         self.action_space = Discrete(99)
 
+        # 5 * 4 team
+        # 7 * 5 shop
+        # 6
+        # 61 total
         self.observation_space = Dict({
             "team": Dict({
                 "slot 1": Dict({
