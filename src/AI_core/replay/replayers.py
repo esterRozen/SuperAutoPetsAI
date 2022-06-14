@@ -5,6 +5,16 @@ from typing import List, Optional
 Transition = coll.namedtuple('Transition', ('state', 'action', 'reward', 'next_state', 'done'))
 
 
+def compress_transition(experiences: List[Transition]) -> Transition:
+    state = [experience.state for experience in experiences]
+    action = [experience.action for experience in experiences]
+    reward = [experience.reward for experience in experiences]
+    next_state = [experience.next_state for experience in experiences]
+    done = [experience.done for experience in experiences]
+
+    return Transition(state, action, next_state, reward, done)
+
+
 class ReplayMemory:
     def __init__(self, capacity=5000):
         self.memory = coll.deque([], maxlen=capacity)
@@ -20,6 +30,11 @@ class ReplayMemory:
 
     def sample(self, batch_size) -> List[Transition]:
         return rand.sample(self.memory, batch_size)
+
+    def sample_processed(self, batch_size) -> Transition:
+        experiences = self.sample(batch_size)
+
+        return compress_transition(experiences)
 
     def __len__(self) -> int:
         return len(self.memory)
@@ -60,13 +75,7 @@ class MultiChannelReplay:
     def sample_processed(self, batch_size, channel: Optional[int] = None) -> Transition:
         experiences = self.sample(batch_size, channel)
 
-        state = [experience.state for experience in experiences]
-        action = [experience.action for experience in experiences]
-        reward = [experience.reward for experience in experiences]
-        next_state = [experience.next_state for experience in experiences]
-        done = [experience.done for experience in experiences]
-
-        return Transition(state, action, next_state, reward, done)
+        return compress_transition(experiences)
 
     def __len__(self):
         return sum([replayer.__len__() for replayer in self._replayers])
