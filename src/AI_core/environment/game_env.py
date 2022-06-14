@@ -6,6 +6,7 @@ from gym.spaces import Discrete, Dict
 from .API import EngineAPI
 from ...core import Engine
 
+_num_actions = 99
 _num_packs = 2
 _num_units = 120
 _num_equip = 30
@@ -14,7 +15,7 @@ _max_turn = 20
 
 
 class SAPGame(gym.Env):
-    def __init__(self, replay, mode: str = "base pack"):
+    def __init__(self, mode: str = "base pack"):
         self._interface = EngineAPI(Engine(mode))
 
         # move      25  5 5
@@ -25,7 +26,7 @@ class SAPGame(gym.Env):
         # reroll    1
         # end turn  1
         # total     99
-        self.action_space = Discrete(99)
+        self.action_space = Discrete(_num_actions)
 
         # 5 * 4 team
         # 7 * 5 shop
@@ -126,7 +127,7 @@ class SAPGame(gym.Env):
         # hearts lost worth -0.5
         # wins worth +1.0
         # max of 10 each
-        self.reward_range = (-5, 10)
+        self.reward_range = (self._interface.loss_reward * 10, self._interface.win_reward * 10)
 
         self.metadata = {"render modes": ["human", "ansi"]}
 
