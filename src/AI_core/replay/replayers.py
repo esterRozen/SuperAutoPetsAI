@@ -2,7 +2,7 @@ import collections as coll
 import random as rand
 from typing import List, Optional
 
-Transition = coll.namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
+Transition = coll.namedtuple('Transition', ('state', 'action', 'reward', 'next_state', 'done'))
 
 
 class ReplayMemory:
