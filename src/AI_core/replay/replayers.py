@@ -57,5 +57,16 @@ class MultiChannelReplay:
 
         return out
 
+    def sample_processed(self, batch_size, channel: Optional[int] = None) -> Transition:
+        experiences = self.sample(batch_size, channel)
+
+        state = [experience.state for experience in experiences]
+        action = [experience.action for experience in experiences]
+        reward = [experience.reward for experience in experiences]
+        next_state = [experience.next_state for experience in experiences]
+        done = [experience.done for experience in experiences]
+
+        return Transition(state, action, next_state, reward, done)
+
     def __len__(self):
         return sum([replayer.__len__() for replayer in self._replayers])
