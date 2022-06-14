@@ -259,7 +259,7 @@ class Butterfly(_Tier4):
 
 class Chick(_Tier4):
     rollable = False
-    id = 0
+    id = 86
 
     def __init__(self):
         super(Chick, self).__init__(1, 1)

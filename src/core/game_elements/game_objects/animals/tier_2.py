@@ -170,12 +170,7 @@ class Tabby_Cat(_Tier2):
 
 class Dirty_Rat(_Tier2):
     rollable = False
-    id = 0
+    id = 84
 
     def __init__(self):
         super(Dirty_Rat, self).__init__(1, 1)
-
-    def trigger(self, name):
-        if name == eventnames.ENEMY_ATTACKS:
-            return NotImplemented
-        return 0

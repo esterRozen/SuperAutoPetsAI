@@ -190,7 +190,7 @@ class Tyrannosaurus(_Tier6):
 
 class Fly_Friend(_Tier6):
     rollable = False
-    id = 0
+    id = 87
 
     def __init__(self):
         super(Fly_Friend, self).__init__(2, 2)

@@ -198,7 +198,7 @@ class Turtle(_Tier3):
 
 class Ram(_Tier3):
     rollable = False
-    id = 0
+    id = 85
 
     def __init__(self):
         super(Ram, self).__init__(2, 2)

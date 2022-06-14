@@ -171,7 +171,7 @@ class Pig(_Tier1):
 
 class Bee(_Tier1):
     rollable = False
-    id = 0
+    id = 81
 
     def __init__(self):
         super(Bee, self).__init__(1, 1)
@@ -179,7 +179,7 @@ class Bee(_Tier1):
 
 class Sloth(_Tier1):
     rollable = False
-    id = 0
+    id = 82
 
     def __init__(self):
         super(Sloth, self).__init__(1, 1)
@@ -187,7 +187,7 @@ class Sloth(_Tier1):
 
 class Zombie_Cricket(_Tier1):
     rollable = False
-    id = 0
+    id = 83
 
     def __init__(self):
         super(Zombie_Cricket, self).__init__(1, 1)
