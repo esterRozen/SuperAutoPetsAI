@@ -1,7 +1,10 @@
+import numpy as np
+from numpy.typing import NDArray
 from dataclasses import dataclass
 
 from ..game_elements import Shop
 from ..game_elements.abstract_elements import Team
+from ..game_elements.game_objects.game_objects import pack_names
 
 
 @dataclass
@@ -71,3 +74,20 @@ class State:
             return Shop(self.mode, self.turn)
         else:
             return self._shop
+
+    def as_array(self) -> NDArray:
+        state_list = []
+        for unit in self._team:
+            state_list.append([unit.id, unit.atk, unit.hp, unit.held.id])
+
+        for slot in self._shop:
+            item = slot.item
+            state_list.append([item.id, item.hp, item.atk, int(slot.is_frozen), item.cost])
+        state_list.append(self._gold)
+        state_list.append(self._life)
+        state_list.append(self._wins)
+        state_list.append(self._turn)
+        state_list.append(int(self._battle_lost))
+        pack_id = pack_names.index(self.mode)
+        state_list.append(pack_id)
+        return np.array(state_list)
