@@ -30,19 +30,32 @@ class ReplayMemory:
 
 class MultiChannelReplay:
     def __init__(self, channels: int, capacity=5000):
-        self._replayer = [ReplayMemory(capacity) for _ in range(channels)]
+        self._replayers = [ReplayMemory(capacity) for _ in range(channels)]
         self.__channels = channels
 
     def push(self, channel, *args):
-        self._replayer[channel].push(*args)
+        self._replayers[channel].push(*args)
 
     def sample(self, batch_size, channel: Optional[int] = None) -> List[Transition]:
         if channel is not None:
-            return self._replayer[channel].sample(batch_size)
+            return self._replayers[channel].sample(batch_size)
 
         out = []
-        for _ in batch_size:
-            i = rand.randrange(0, self.__channels)
-            out.append(self._replayer[i].sample(1)[0])
+        lens = [replayer.__len__() for replayer in self._replayers]
+        samples = sum(lens)
+        for _ in range(batch_size):
+            idx = rand.randrange(0, samples)
+            channel = 0
+
+            while idx > 0:
+                idx -= lens[channel]
+                channel += 1
+
+            channel -= 1
+            idx += lens[channel]
+            out.append(self._replayers[channel][idx])
 
         return out
+
+    def __len__(self):
+        return sum([replayer.__len__() for replayer in self._replayers])
