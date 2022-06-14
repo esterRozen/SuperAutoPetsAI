@@ -124,10 +124,11 @@ class SAPGame(gym.Env):
             "pack": Discrete(_num_packs)
         })
 
-        # hearts lost worth -0.5
+        # hearts lost worth -0.5 per heart
         # wins worth +1.0
-        # max of 10 each
-        self.reward_range = (self._interface.loss_reward * 10, self._interface.win_reward * 10)
+        # start with 10 hearts, 0 wins
+        # losses worth up to -1.5, wins worth 1.0
+        self.reward_range = (self._interface.loss_reward * 3, self._interface.win_reward)
 
         self.metadata = {"render modes": ["human", "ansi"]}
 
