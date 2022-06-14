@@ -75,6 +75,11 @@ paid_1_items = [
     ['Best_Milk', 'Better_Milk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
 ]
 
+pack_names = [
+    "base pack", "base pack items",
+    "paid pack 1", "paid pack 1 items"
+]
+
 
 class MetaSingleton(type):
     _instances = {}
@@ -103,17 +108,11 @@ def get_object_list(pack_type: str) -> List[List[str]]:
     raise ValueError(f"{pack_type} is not a valid pack")
 
 
-def add_unit_if_present(collection, list_objs, unit, name, tier: int):
+def add_item_if_in_collection(collection, list_objs, unit, name, tier: int):
     if name in collection[tier - 1]:
         list_objs[tier - 1].append(unit)
     elif name in collection[6]:
         list_objs[6].append(unit)
-
-
-pack_types = [
-    "base pack", "base pack items",
-    "paid pack 1", "paid pack 1 items"
-]
 
 
 # this will create a list of all different animal or equipment objects,
@@ -129,40 +128,47 @@ class GameObjects:
             "paid pack 1 items"
         Args:
         """
+        self.animals = {}
         self.packs: Dict[str, List[List[Union[type(animals.Animal), type(equipment.Equipment)]]]] = {}
-        for pack in pack_types:
+        for pack in pack_names:
             self.objs = [[], [], [], [], [], [], []]
 
             for name, obj in inspect.getmembers(sys.modules[__name__]):
                 if inspect.ismodule(obj) and (name == 'animals' or name == 'equipment'):
                     obj_collection = get_object_list(pack)
 
-                    for anim_name, anim_obj in inspect.getmembers(obj):
-                        module = inspect.getmodule(anim_obj)
+                    for item_name, item_obj in inspect.getmembers(obj):
+                        module = inspect.getmodule(item_obj)
 
-                        if module is not None and inspect.isclass(anim_obj):
+                        if module is not None and inspect.isclass(item_obj):
                             if module.__name__.endswith("tier_1"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 1)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 1)
+                                self.animals[item_obj().id] = item_obj
 
                             elif module.__name__.endswith("tier_2"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 2)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 2)
+                                self.animals[item_obj().id] = item_obj
 
                             elif module.__name__.endswith("tier_3"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 3)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 3)
+                                self.animals[item_obj().id] = item_obj
 
                             elif module.__name__.endswith("tier_4"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 4)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 4)
+                                self.animals[item_obj().id] = item_obj
 
                             elif module.__name__.endswith("tier_5"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 5)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 5)
+                                self.animals[item_obj().id] = item_obj
 
                             elif module.__name__.endswith("tier_6"):
-                                add_unit_if_present(obj_collection, self.objs,
-                                                    anim_obj(), anim_name, 6)
+                                add_item_if_in_collection(obj_collection, self.objs,
+                                                          item_obj(), item_name, 6)
+                                self.animals[item_obj().id] = item_obj
 
             self.packs[pack] = self.objs
