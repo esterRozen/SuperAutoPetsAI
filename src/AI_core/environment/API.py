@@ -1,5 +1,3 @@
-from gym.spaces import Dict
-
 from src.core import Engine
 
 __all__ = ['EngineAPI']
@@ -55,8 +53,8 @@ class EngineAPI:
 
         return self.current_state(), reward, done, None
 
-    def current_state(self) -> Dict:
-        pass
+    def current_state(self):
+        return self.engine.save(include_shop=True).as_array()
 
     def reset(self, mode: str):
         self.engine = self.engine.__class__(mode)
