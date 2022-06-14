@@ -12,7 +12,7 @@ _num_actions = 99
 
 class DQN:
     replay = MultiChannelReplay(20)
-    env = SAPGame(replay=replay)
+    env = SAPGame()
     gamma = 0.95
     epsilon = 0.04
 
