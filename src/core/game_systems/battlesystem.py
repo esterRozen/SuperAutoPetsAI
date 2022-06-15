@@ -20,7 +20,7 @@ class BattleSystem:
     def _add_event(self, event: str, actor=None, target=None):
         self.agent.enqueue_event(event, actor, target)
 
-    def start_battle(self, enemy: Team) -> int:
+    def start_battle(self, enemy: Team):
         """
         returns a result of the agent's team fighting the provided enemy
 
@@ -82,7 +82,19 @@ class BattleSystem:
             pass
 
         # handle win, loss, draw actions
-        return 0
+        loss: bool = False
+        win: bool = False
+        if loss:
+            self.agent.life -= min(3, (self.agent.turn + 1) // 2)
+            self.agent.battle_lost = True
+            return
+        if win:
+            self.agent.wins += 1
+            self.agent.battle_lost = False
+            return
+
+        self.agent.battle_lost = False
+        return
 
     def summon(self, unit: Animal, target: Tuple[str, int]):
         success = self.agent.team_of_(target).summon(unit, target[1])
