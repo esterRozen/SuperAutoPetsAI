@@ -118,7 +118,7 @@ def add_item_if_in_collection(collection, list_objs, unit, name, tier: int):
 # this will create a list of all different animal or equipment objects,
 # sorted into sub-lists according to their respective tiers
 # last list are the un-rollable objects
-class GameObjects:
+class GameObjects(metaclass=MetaSingleton):
     def __init__(self):
         """
         supports flags:
