@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from .game_elements.game_objects import GameObjects
 from .game_systems import BattleSystem, ShopSystem
-from .game_elements.abstract_elements import Team
+from .game_systems.fightbuffer import FightBuffer
 from .overseer import *
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ class Engine:
         self._messenger.debug_mode_no_handle_queue = False
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
+        self._fight_buffer = FightBuffer()
 
     @property
     def messenger(self) -> MessageAgent:
@@ -76,16 +77,10 @@ class Engine:
         # end your turn
 
         self._shop_director.end_turn()
-
-    def fight(self, team: Team):
-        # fight the provided team
-
-        outcome = self._battle_director.start_battle(team)
-
-        # TODO using outcome of fight ->
-        #  return info on state (team, wins, life, etc)
-
-    def start_turn(self):
-        # start your turn
+        self._fight_buffer.push(self._messenger.team, self._messenger.turn)
+        enemy = self._fight_buffer.pop(self._messenger.turn)
+        self._battle_director.start_battle(enemy)
+        if self._messenger.life == 0 or self._messenger.wins == 10:
+            return
 
         self._shop_director.start_turn()
