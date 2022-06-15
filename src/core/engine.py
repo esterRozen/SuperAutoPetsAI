@@ -53,7 +53,7 @@ class Engine:
 
         self._shop_director.sell(unit)
 
-    def buy(self, shop_init, roster_final):
+    def buy(self, shop_init: int, roster_final: int):
         # buy unit from shop position and summon to team position
         # will prefer in order:
         # combining unit with occupying unit
@@ -63,7 +63,7 @@ class Engine:
 
         self._shop_director.buy(shop_init, roster_final)
 
-    def freeze(self, shop_pos):
+    def freeze(self, shop_pos: int):
         # toggle freeze of shop position
 
         self._shop_director.toggle_freeze(shop_pos)
