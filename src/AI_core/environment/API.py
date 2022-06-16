@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.core import Engine
 
 __all__ = ['EngineAPI']
@@ -54,6 +56,6 @@ class EngineAPI:
     def current_state(self):
         return self.engine.save(include_shop=True).as_array()
 
-    def reset(self, mode: str):
+    def reset(self, mode: Optional[str] = None):
         self.engine = self.engine.__class__(mode)
         return self.current_state()
