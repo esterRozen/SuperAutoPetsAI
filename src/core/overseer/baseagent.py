@@ -11,7 +11,7 @@ from ..game_systems import BattleSystem, ShopSystem
 # all messages flow through the agent
 class BaseAgent:
     def __init__(self, mode):
-        self.__mode = mode
+        self._mode = mode
         self.__battler: Optional[BattleSystem] = None
         self.__shopper: Optional[ShopSystem] = None
 

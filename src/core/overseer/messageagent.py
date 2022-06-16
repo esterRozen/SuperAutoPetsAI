@@ -191,11 +191,11 @@ class MessageAgent(BaseAgent):
     def save(self, include_shop: bool) -> State:
         if include_shop:
             state = State(
-                self.__mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team, self.shop
+                self._mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team, self.shop
             )
         else:
             state = State(
-                self.__mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team
+                self._mode, self.turn, self.life, self.wins, self.gold, self.battle_lost, self.team
             )
 
         return state
