@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Tuple
 
 from .. import eventnames
 from ..game_elements.abstract_elements import Empty, Unarmed, Equipment, Animal
+from ..game_elements.shop import ShopSlot
 
 if TYPE_CHECKING:
     from ..overseer import MessageAgent
@@ -45,7 +46,7 @@ class ShopSystem:
     def buy(self, item_pos: int, target_pos: int):
         # differentiate between food/equipment and animals!
         # presume it is a valid purchase
-        shop_slot = self.agent.shop.roster[item_pos]
+        shop_slot: ShopSlot = self.agent.shop.roster[item_pos]
 
         if isinstance(shop_slot.item, Empty) or isinstance(shop_slot, Unarmed):
             return
@@ -120,47 +121,53 @@ class ShopSystem:
     def __buy_equipment_response(self, shop_slot, target_pos: int):
         item: Equipment = shop_slot.item
 
-        actor = ("team", target_pos)
-
         if item.is_targeted:
-            # handle consumable targeted food e.g. pear
-            # enqueue buy food ability for all units, if ability exists
-            if isinstance(self.agent.team[target_pos], Empty):
-                return
-
-            self.agent.gold -= item.cost
-            shop_slot.buy()
-
-            self.agent.enqueue_event(eventnames.BUY_FOOD)
-
-            if item.is_holdable:
-                self.agent.team[target_pos].held = item
-            else:
-                # perform food effects
-                self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
-
-            # enqueue "eat food" ability of animal that ate, if ability exists
-            self.agent.enqueue_event(eventnames.EAT_FOOD,
-                                     actor=actor)
-
-            # enqueue "friend eats food" ability of friends, if ability exists
-            self.agent.enqueue_event(eventnames.FRIEND_EATS_FOOD,
-                                     actor=actor)
-            return
+            self.__buy_targeted_equipment(shop_slot, target_pos)
         else:
-            if self.agent.team.size < 1:
-                return
+            self.__buy_non_targeted_equipment(shop_slot, target_pos)
 
-            self.agent.gold -= item.cost
-            shop_slot.buy()
-
-            # handle non targeted food e.g. sushi
-            self.agent.enqueue_event(eventnames.BUY_FOOD)
-
-            # perform food effects
-            # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
-            self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
+    def __buy_targeted_equipment(self, shop_slot, target_pos: int):
+        # handle consumable targeted food e.g. pear
+        # enqueue buy food ability for all units, if ability exists
+        if isinstance(self.agent.team[target_pos], Empty):
             return
+
+        item = shop_slot.item
+        actor = ("team", target_pos)
+        self.agent.gold -= item.cost
+        shop_slot.buy()
+
+        self.agent.enqueue_event(eventnames.BUY_FOOD)
+
+        if item.is_holdable:
+            self.agent.team[target_pos].held = item
+        else:
+            self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
+
+        # enqueue "eat food" ability of animal that ate, if ability exists
+        self.agent.enqueue_event(eventnames.EAT_FOOD,
+                                 actor=actor)
+
+        # enqueue "friend eats food" ability of friends, if ability exists
+        self.agent.enqueue_event(eventnames.FRIEND_EATS_FOOD,
+                                 actor=actor)
+        return
+
+    def __buy_non_targeted_equipment(self, shop_slot, target_pos: int):
+        if self.agent.team.size < 1:
+            return
+        item = shop_slot.item
+
+        self.agent.gold -= item.cost
+        shop_slot.buy()
+
+        # handle non targeted food e.g. sushi
+        self.agent.enqueue_event(eventnames.BUY_FOOD)
+
+        # perform food effects
+        # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
+        self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
+        return
 
     def __buy_different_animal_response(self, shop_slot, target_pos: int):
         if not self.agent.team.has_summon_space:
