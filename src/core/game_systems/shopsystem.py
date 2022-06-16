@@ -23,6 +23,7 @@ class ShopSystem:
         self.agent.reset_temp_stats()
 
         # shop flows
+        self.agent.turn += 1
         self.agent.shop.start_turn()
 
         # events
@@ -260,7 +261,7 @@ class ShopSystem:
         anim1.battle_hp = max(anim1.battle_hp, anim2.battle_hp)
 
         level = anim2.level
-        for _ in anim1.xp:
+        for _ in range(anim1.xp):
             anim2.increase_xp(1)
             new_level = anim2.level
 
