@@ -1,7 +1,7 @@
 import random
 from typing import List, Union
 
-from ..game_objects import GameObjects
+from ..game_objects import GameObjects, pack_names, spawn_groups
 from . import Animal, Equipment
 
 
@@ -9,17 +9,13 @@ from . import Animal, Equipment
 class Spawner:
     def __init__(self, mode: str):
         """
-        supports flags:
-            "base pack"
-            "base pack items"
-            "paid pack 1"
-            "paid pack 1 items"
+        supports flags based on spawn_groups in game_objects.py
         Args:
             mode: flag
         """
         self._mode = mode
         self._population = []
-        if mode == "base pack" or mode == "paid pack 1":
+        if mode in pack_names:
             animals = GameObjects().packs[mode]
             self._population = []
             for tier in animals:
@@ -27,8 +23,7 @@ class Spawner:
                 for animal in tier:
                     if animal.rollable:
                         self._population[-1].append(animal)
-
-        elif mode == "base pack items" or mode == "paid pack 1 items":
+        elif mode in spawn_groups:
             items = GameObjects().packs[mode]
             self._population = []
             for tier in items:
