@@ -138,6 +138,8 @@ class Equipment:
     id = 0
     is_targeted = True
     is_holdable = False
+    hp = 0
+    atk = 0
 
     def __eq__(self, other: 'Equipment') -> bool:
         for key in self.__dict__:
