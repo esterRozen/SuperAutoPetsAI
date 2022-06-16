@@ -42,20 +42,34 @@ class EngineAPI:
         lives = self.engine.messenger.life
 
         if self.__actions_this_turn == _limit:
-            self._action_lookup["end turn"]()
+            done = self._action_lookup["end turn"]()
+            self.__actions_this_turn = 0
         else:
-            self._action_lookup[args[0]](*args[1:])
+            done = self._action_lookup[args[0]](*args[1:])
 
         life_change = lives - self.engine.messenger.life
 
         reward = self.win_reward * (self.engine.messenger.wins - wins) + self.loss_reward * life_change
         done = self.engine.messenger.wins == 10
+        self.__actions_this_turn += 1
 
         return self.current_state(), reward, done, None
 
     def current_state(self):
-        return self.engine.save(include_shop=True).as_array()
+        return self.engine.save(include_shop=True).as_array().reshape((1, 76))
 
     def reset(self, mode: Optional[str] = None):
         self.engine = self.engine.__class__(mode)
+
+        self._action_lookup = {
+            "sell": self.engine.sell,
+            "buy": self.engine.buy,
+            "reroll": self.engine.reroll,
+            "end turn": self.engine.end_turn,
+            "freeze": self.engine.freeze,
+            "move": self.engine.move,
+            "combine": self.engine.combine
+        }
+
+        self.__actions_this_turn = 0
         return self.current_state()
