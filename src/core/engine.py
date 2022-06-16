@@ -2,7 +2,9 @@
 from typing import TYPE_CHECKING, Optional
 import random as rand
 
+from .game_elements.abstract_elements import Team
 from .game_elements.game_objects import GameObjects
+from .game_elements.game_objects.animals import Ant
 from .game_elements.game_objects.game_objects import pack_names
 from .game_systems import BattleSystem, ShopSystem
 from .game_systems.fightbuffer import FightBuffer
@@ -29,6 +31,10 @@ class Engine:
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
         self._fight_buffer = FightBuffer()
+        team = Team()
+        team.animals[0] = Ant()
+        for i in range(1, 21):
+            self._fight_buffer.push(team, i)
 
     @property
     def messenger(self) -> MessageAgent:
@@ -77,14 +83,15 @@ class Engine:
 
         self._shop_director.reroll()
 
-    def end_turn(self):
+    def end_turn(self) -> bool:
         # end your turn
 
         self._shop_director.end_turn()
         self._fight_buffer.push(self._messenger.team, self._messenger.turn)
         enemy = self._fight_buffer.pop(self._messenger.turn)
         self._battle_director.start_battle(enemy)
-        if self._messenger.life == 0 or self._messenger.wins == 10:
-            return
+        if self._messenger.life == 0 or self._messenger.wins == 10 or self._messenger.turn == 20:
+            return True
 
         self._shop_director.start_turn()
+        return False
