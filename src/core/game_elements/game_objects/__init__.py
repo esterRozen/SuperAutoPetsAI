@@ -1,3 +1,3 @@
-from .game_objects import GameObjects
+from .game_objects import GameObjects, pack_names, spawn_groups
 
-__all__ = ['GameObjects']
+__all__ = ['GameObjects', 'pack_names', 'spawn_groups']
