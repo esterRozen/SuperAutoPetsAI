@@ -41,8 +41,6 @@ class EngineAPI:
 
         if self.__actions_this_turn == _limit:
             self._action_lookup["end turn"]()
-            self.engine.fight(args[1])
-            self.engine.start_turn()
         else:
             self._action_lookup[args[0]](*args[1:])
 
