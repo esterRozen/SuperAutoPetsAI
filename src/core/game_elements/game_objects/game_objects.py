@@ -75,9 +75,13 @@ paid_1_items = [
     ['Best_Milk', 'Better_Milk', 'Coconut', 'Milk', 'Peanut', 'Weak'],
 ]
 
-pack_names = [
+spawn_groups = [
     "base pack", "base pack items",
     "paid pack 1", "paid pack 1 items"
+]
+
+pack_names = [
+    "base pack", "paid pack 1"
 ]
 
 
@@ -130,7 +134,7 @@ class GameObjects(metaclass=MetaSingleton):
         """
         self.animals = {}
         self.packs: Dict[str, List[List[Union[type(animals.Animal), type(equipment.Equipment)]]]] = {}
-        for pack in pack_names:
+        for pack in spawn_groups:
             self.objs = [[], [], [], [], [], [], []]
 
             for name, obj in inspect.getmembers(sys.modules[__name__]):
