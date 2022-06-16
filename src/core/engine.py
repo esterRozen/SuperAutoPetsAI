@@ -1,7 +1,9 @@
 # must have a way to save and load states
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
+import random as rand
 
 from .game_elements.game_objects import GameObjects
+from .game_elements.game_objects.game_objects import pack_names
 from .game_systems import BattleSystem, ShopSystem
 from .game_systems.fightbuffer import FightBuffer
 from .overseer import *
@@ -17,8 +19,10 @@ class Engine:
     stall by placing limits on number of total actions
     """
 
-    def __init__(self, mode):
+    def __init__(self, mode: Optional[str] = None):
         # loads the GameObjects singleton, so it doesn't need to be loaded again
+        if mode is None:
+            mode = rand.choice(pack_names)
         self.__units = GameObjects()
         self._messenger = MessageAgent(mode)
         self._messenger.debug_mode_no_handle_queue = False
