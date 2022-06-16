@@ -77,12 +77,20 @@ class State:
 
     def as_array(self) -> NDArray:
         state_list = []
+        # 5 x 7
         for unit in self._team:
-            state_list.append([unit.id, unit.atk, unit.hp, unit.held.id])
+            state_list += [unit.id,
+                           unit.atk, unit.battle_atk,
+                           unit.hp, unit.battle_hp,
+                           unit.xp, unit.held.id]
 
+        # 7 x 5
         for slot in self._shop:
             item = slot.item
-            state_list.append([item.id, item.hp, item.atk, int(slot.is_frozen), item.cost])
+            state_list += [item.id,
+                           item.hp, item.atk,
+                           int(slot.is_frozen), item.cost]
+
         state_list.append(self._gold)
         state_list.append(self._life)
         state_list.append(self._wins)
