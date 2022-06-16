@@ -8,7 +8,7 @@ from ..game_elements.game_objects.game_objects import MetaSingleton
 
 class FightBuffer(metaclass=MetaSingleton):
     def __init__(self, limit=500):
-        self._stored: Dict[int, List] = {}
+        self._stored: Dict[int, List] = {turn: [] for turn in range(1, 21)}
         self._size: Dict[int, int] = {turn: 0 for turn in range(1, 21)}
         self._limit = limit
         self._lock = Lock()
