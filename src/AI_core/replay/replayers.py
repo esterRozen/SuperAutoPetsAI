@@ -1,32 +1,33 @@
 import collections as coll
 import random as rand
 from typing import List, Optional
+import numpy as np
 
 Transition = coll.namedtuple('Transition', ('state', 'action', 'reward', 'next_state', 'done'))
 
 
 def compress_transition(experiences: List[Transition]) -> Transition:
-    state = [experience.state for experience in experiences]
-    action = [experience.action for experience in experiences]
-    reward = [experience.reward for experience in experiences]
-    next_state = [experience.next_state for experience in experiences]
-    done = [experience.done for experience in experiences]
+    state = np.concatenate([experience.state for experience in experiences])
+    action = np.array([experience.action for experience in experiences])
+    reward = np.array([experience.reward for experience in experiences])
+    next_state = np.concatenate([experience.next_state for experience in experiences])
+    done = np.array([experience.done for experience in experiences])
 
-    return Transition(state, action, next_state, reward, done)
+    return Transition(state, action, reward, next_state, done)
 
 
 class ReplayMemory:
     def __init__(self, capacity=5000):
         self.memory = coll.deque([], maxlen=capacity)
 
-    def push(self, *args):
+    def push(self, item):
         """
         save a transition
         Args:
-            *args: the components of the Transition type
+            item: one transition
         Returns:
         """
-        self.memory.append(Transition(*args))
+        self.memory.append(item)
 
     def sample(self, batch_size) -> List[Transition]:
         return rand.sample(self.memory, batch_size)
