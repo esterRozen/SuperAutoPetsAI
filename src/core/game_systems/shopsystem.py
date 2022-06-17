@@ -25,6 +25,7 @@ class ShopSystem:
 
         # shop flows
         self.agent.turn += 1
+        self.agent.gold = 10
         self.agent.shop.start_turn()
 
         # events
