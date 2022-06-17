@@ -32,51 +32,51 @@ class ShopSystem:
         self.agent.enqueue_event(eventnames.START_TURN)
         self.agent.handle_events()
 
-    def toggle_freeze(self, pos: int):
+    def toggle_freeze(self, pos: int) -> int:
         self.agent.shop.toggle_freeze(pos)
-        return
+        return 0
 
-    def reroll(self):
+    def reroll(self) -> int:
         if self.agent.gold < 1:
-            return
+            return -1
         self.agent.gold -= 1
         self.agent.shop.reroll()
-        return
+        return 0
 
-    def buy(self, item_pos: int, target_pos: int):
+    def buy(self, item_pos: int, target_pos: int) -> int:
         # differentiate between food/equipment and animals!
         # presume it is a valid purchase
         shop_slot: ShopSlot = self.agent.shop.roster[item_pos]
 
         if isinstance(shop_slot.item, Empty) or isinstance(shop_slot, Unarmed):
-            return
+            return -1
 
         # guard clause, no gold, no purchase.
         if self.agent.gold < shop_slot.item.cost:
-            return
+            return -1
 
         if isinstance(self.agent.team.animals[target_pos], Empty):
-            self.__buy_to_empty_response(shop_slot, target_pos)
+            success = self.__buy_to_empty_response(shop_slot, target_pos)
             self.agent.handle_events()
-            return
+            return success
 
         if isinstance(shop_slot.item, self.agent.team[target_pos].__class__):
-            self.__buy_to_same_response(shop_slot, target_pos)
+            success = self.__buy_to_same_response(shop_slot, target_pos)
             self.agent.handle_events()
-            return
+            return success
 
         if isinstance(shop_slot.item, Equipment):
-            self.__buy_equipment_response(shop_slot, target_pos)
+            success = self.__buy_equipment_response(shop_slot, target_pos)
             self.agent.handle_events()
-            return
+            return success
 
-        self.__buy_different_animal_response(shop_slot, target_pos)
+        success = self.__buy_different_animal_response(shop_slot, target_pos)
         self.agent.handle_events()
-        return
+        return success
 
-    def __buy_to_empty_response(self, shop_slot, target_pos: int):
+    def __buy_to_empty_response(self, shop_slot, target_pos: int) -> int:
         if isinstance(shop_slot.item, Equipment):
-            return
+            return -1
 
         target = ("team", target_pos)
         item: Animal = shop_slot.item
@@ -96,9 +96,9 @@ class ShopSystem:
                                  actor=target)
         if item.tier == 1:
             self.agent.enqueue_event(eventnames.BUY_T1_PET)
-        return
+        return 0
 
-    def __buy_to_same_response(self, shop_slot, target_pos: int):
+    def __buy_to_same_response(self, shop_slot, target_pos: int) -> int:
         target_unit = self.agent.team[target_pos]
         target = ("team", target_pos)
 
@@ -116,21 +116,21 @@ class ShopSystem:
         if item.tier == 1:
             self.agent.enqueue_event(eventnames.BUY_T1_PET,
                                      actor=("team", target_pos))
-        return
+        return 0
 
-    def __buy_equipment_response(self, shop_slot, target_pos: int):
+    def __buy_equipment_response(self, shop_slot, target_pos: int) -> int:
         item: Equipment = shop_slot.item
 
         if item.is_targeted:
-            self.__buy_targeted_equipment(shop_slot, target_pos)
+            return self.__buy_targeted_equipment(shop_slot, target_pos)
         else:
-            self.__buy_non_targeted_equipment(shop_slot, target_pos)
+            return self.__buy_non_targeted_equipment(shop_slot, target_pos)
 
-    def __buy_targeted_equipment(self, shop_slot, target_pos: int):
+    def __buy_targeted_equipment(self, shop_slot, target_pos: int) -> int:
         # handle consumable targeted food e.g. pear
         # enqueue buy food ability for all units, if ability exists
         if isinstance(self.agent.team[target_pos], Empty):
-            return
+            return -1
 
         item = shop_slot.item
         actor = ("team", target_pos)
@@ -151,11 +151,11 @@ class ShopSystem:
         # enqueue "friend eats food" ability of friends, if ability exists
         self.agent.enqueue_event(eventnames.FRIEND_EATS_FOOD,
                                  actor=actor)
-        return
+        return 0
 
-    def __buy_non_targeted_equipment(self, shop_slot, target_pos: int):
+    def __buy_non_targeted_equipment(self, shop_slot, target_pos: int) -> int:
         if self.agent.team.size < 1:
-            return
+            return -1
         item = shop_slot.item
 
         self.agent.gold -= item.cost
@@ -167,11 +167,11 @@ class ShopSystem:
         # perform food effects
         # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
         self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
-        return
+        return 0
 
-    def __buy_different_animal_response(self, shop_slot, target_pos: int):
+    def __buy_different_animal_response(self, shop_slot, target_pos: int) -> int:
         if not self.agent.team.has_summon_space:
-            return
+            return -1
 
         actor = ("team", target_pos)
         animal: Animal = shop_slot.item
@@ -189,16 +189,16 @@ class ShopSystem:
         if animal.tier == 1:
             self.agent.enqueue_event(eventnames.BUY_T1_PET,
                                      actor=actor)
-        return
+        return 0
 
-    def summon(self, unit: Animal, target: Tuple[str, int]):
+    def summon(self, unit: Animal, target: Tuple[str, int]) -> int:
         if target[0] == "enemy":
-            return
+            return -1
 
         success = self.agent.team_of_(target).summon(unit, target[1])
 
         if not success:
-            return
+            return -1
 
         self.agent.enqueue_event(eventnames.IS_SUMMONED,
                                  actor=target,
@@ -209,12 +209,13 @@ class ShopSystem:
                                  target=target)
 
         self.agent.handle_events()
-        return
 
-    def sell(self, pos: int):
+        return 0
+
+    def sell(self, pos: int) -> int:
         actor = ("team", pos)
         if isinstance(self.agent.actor(actor), Empty):
-            return
+            return -1
 
         animal = self.agent.actor(actor)
 
@@ -229,12 +230,15 @@ class ShopSystem:
         self.agent.team[actor[1]] = Empty()
 
         self.agent.handle_events()
-        return
+        return 0
 
-    def move(self, roster_init, roster_final):
+    def move(self, roster_init, roster_final) -> int:
         # attacking unit in roster position 0
+        if isinstance(self.agent.team[roster_init], Empty):
+            return -1
+
         if roster_init - roster_final == 0:
-            return
+            return -1
 
         moved_animal = self.agent.team[roster_init]
         self.agent.team[roster_init] = Empty()
@@ -249,16 +253,25 @@ class ShopSystem:
             # push final unit right
             self.agent.team.make_summon_room_with_right_shift_at(roster_final)
             self.agent.team[roster_final] = moved_animal
-        return
 
-    def combine(self, roster_init, roster_final):
+        return 0
+
+    def combine(self, roster_init, roster_final) -> int:
         # final unit keeps held item
         # choose max of each of both units stats, increase final unit xp by init unit xp
 
-        # guard clause should be same animal type
         team = self.agent.team
+        # guard clause, unit combining should not be empty
+        if isinstance(team[roster_init], Empty):
+            return -1
+
+        # guard clause, unit combined should not be empty
+        if isinstance(team[roster_final], Empty):
+            return -1
+
+        # guard clause should be same animal type
         if not isinstance(team[roster_init], type(team[roster_final])):
-            return
+            return -1
 
         anim1 = team[roster_init]
         anim2 = team[roster_final]
@@ -279,11 +292,11 @@ class ShopSystem:
         team[roster_init] = Empty()
 
         self.agent.handle_events()
-        return
+        return 0
 
     def end_turn(self):
         # save backup effects are performed in start battle
         # complete end turn effects
         self.agent.enqueue_event(eventnames.END_TURN)
         self.agent.handle_events()
-        return
+        return 0
