@@ -68,33 +68,21 @@ class BattleSystem:
             self._add_event(eventnames.FRIEND_AHEAD_ATTACKS, actor=("enemy", 0))
             self.agent.handle_events()
 
-            # if team unit not above 0 hp:
-            # on faint (team)
-            # friend faints
-            # friend ahead faints
-            # knock out (on enemy team)
-
-            # if enemy unit not above 0 hp:
-            # on faint (enemy)
-            # friend faints (enemy)
-            # friend ahead faints (enemy)
-            # knock out (on friendly team)
-            pass
-
-        # handle win, loss, draw actions
-        loss: bool = False
-        win: bool = False
-        if loss:
+        # handle end of battle conditions.
+        if self.agent.team.size == 0 and self.agent.enemy.size == 0:
+            # draw, overwrite battle_lost
+            self.agent.battle_lost = False
+            return
+        elif self.agent.team.size == 0:
+            # loss, remove life
             self.agent.life -= min(3, (self.agent.turn + 1) // 2)
             self.agent.battle_lost = True
             return
-        if win:
+        else:
+            # win, gain 1 trophy
             self.agent.wins += 1
             self.agent.battle_lost = False
             return
-
-        self.agent.battle_lost = False
-        return
 
     def summon(self, unit: Animal, target: Tuple[str, int]):
         success = self.agent.team_of_(target).summon(unit, target[1])
