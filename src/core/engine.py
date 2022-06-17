@@ -26,10 +26,13 @@ class Engine:
         if mode is None:
             mode = rand.choice(pack_names)
         self.__units = GameObjects()
+
         self._messenger = MessageAgent(mode)
         self._messenger.debug_mode_no_handle_queue = False
+
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
+
         self._fight_buffer = FightBuffer()
         team = Team()
         team.animals[0] = Ant()
@@ -48,22 +51,22 @@ class Engine:
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
 
-    def move(self, roster_init: int, roster_final: int):
+    def move(self, roster_init: int, roster_final: int) -> int:
         # moves init to final position, moving occupying unit toward space unit was moved from
 
-        self._shop_director.move(roster_init, roster_final)
+        return self._shop_director.move(roster_init, roster_final)
 
-    def combine(self, roster_init: int, roster_final: int):
+    def combine(self, roster_init: int, roster_final: int) -> int:
         # place init unit *onto* final unit, if possible
 
-        self._shop_director.combine(roster_init, roster_final)
+        return self._shop_director.combine(roster_init, roster_final)
 
-    def sell(self, unit: int):
+    def sell(self, unit: int) -> int:
         # sell unit in occupying space
 
-        self._shop_director.sell(unit)
+        return self._shop_director.sell(unit)
 
-    def buy(self, shop_init: int, roster_final: int):
+    def buy(self, shop_init: int, roster_final: int) -> int:
         # buy unit from shop position and summon to team position
         # will prefer in order:
         # combining unit with occupying unit
@@ -71,19 +74,19 @@ class Engine:
         # move occupying unit right if possible
         # cancel
 
-        self._shop_director.buy(shop_init, roster_final)
+        return self._shop_director.buy(shop_init, roster_final)
 
-    def freeze(self, shop_pos: int):
+    def freeze(self, shop_pos: int) -> int:
         # toggle freeze of shop position
 
-        self._shop_director.toggle_freeze(shop_pos)
+        return self._shop_director.toggle_freeze(shop_pos)
 
-    def reroll(self):
+    def reroll(self) -> int:
         # reroll shop if you have gold
 
-        self._shop_director.reroll()
+        return self._shop_director.reroll()
 
-    def end_turn(self) -> bool:
+    def end_turn(self) -> int:
         # end your turn
 
         self._shop_director.end_turn()
@@ -91,7 +94,7 @@ class Engine:
         enemy = self._fight_buffer.pop(self._messenger.turn)
         self._battle_director.start_battle(enemy)
         if self._messenger.life == 0 or self._messenger.wins == 10 or self._messenger.turn == 20:
-            return True
+            return -1
 
         self._shop_director.start_turn()
-        return False
+        return 0
