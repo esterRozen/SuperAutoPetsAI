@@ -10,19 +10,20 @@ _limit = 50
 class EngineAPI:
     loss_reward = -0.5
     win_reward = 1.0
+    invalid_move_penalty = -0.01
 
     def __init__(self, engine: Engine):
 
         self.engine = engine
 
         self._action_lookup = {
-            "sell": self.engine.sell,
-            "buy": self.engine.buy,
-            "reroll": self.engine.reroll,
-            "end turn": self.engine.end_turn,
-            "freeze": self.engine.freeze,
-            "move": self.engine.move,
-            "combine": self.engine.combine
+            "sell": self._sell,
+            "buy": self._buy,
+            "reroll": self._reroll,
+            "end turn": self._end_turn,
+            "freeze": self._freeze,
+            "move": self._move,
+            "combine": self._combine
         }
 
         self.__actions_this_turn = 0
@@ -42,16 +43,16 @@ class EngineAPI:
         lives = self.engine.messenger.life
 
         if self.__actions_this_turn == _limit:
-            done = self._action_lookup["end turn"]()
-            self.__actions_this_turn = 0
+            penalty = self._action_lookup["end turn"]()
         else:
-            done = self._action_lookup[args[0]](*args[1:])
+            penalty = self._action_lookup[args[0]](*args[1:])
 
         life_change = lives - self.engine.messenger.life
 
         reward = self.win_reward * (self.engine.messenger.wins - wins) + self.loss_reward * life_change
-        done = self.engine.messenger.wins == 10
-        self.__actions_this_turn += 1
+        reward += penalty * self.invalid_move_penalty
+
+        done = self.engine.messenger.wins == 10 or self.engine.messenger.life == 0
 
         return self.current_state(), reward, done, None
 
@@ -60,16 +61,40 @@ class EngineAPI:
 
     def reset(self, mode: Optional[str] = None):
         self.engine = self.engine.__class__(mode)
-
-        self._action_lookup = {
-            "sell": self.engine.sell,
-            "buy": self.engine.buy,
-            "reroll": self.engine.reroll,
-            "end turn": self.engine.end_turn,
-            "freeze": self.engine.freeze,
-            "move": self.engine.move,
-            "combine": self.engine.combine
-        }
-
         self.__actions_this_turn = 0
         return self.current_state()
+
+    def _sell(self, *args):
+        penalty = self.engine.sell(*args[1:])
+        self.__actions_this_turn -= penalty
+        return penalty
+
+    def _buy(self, *args):
+        penalty = self.engine.buy(*args[1:])
+        self.__actions_this_turn -= penalty
+        return penalty
+
+    def _reroll(self):
+        penalty = self.engine.reroll()
+        self.__actions_this_turn -= penalty
+        return penalty
+
+    def _end_turn(self):
+        self.engine.end_turn()
+        self.__actions_this_turn = 0
+        return 0
+
+    def _freeze(self, *args):
+        penalty = self.engine.freeze(*args[1:])
+        self.__actions_this_turn -= penalty - 1
+        return penalty
+
+    def _move(self, *args):
+        penalty = self.engine.move(*args[1:])
+        self.__actions_this_turn -= penalty - 1
+        return penalty
+
+    def _combine(self, *args):
+        penalty = self.engine.combine(*args[1:])
+        self.__actions_this_turn -= penalty - 1
+        return penalty
