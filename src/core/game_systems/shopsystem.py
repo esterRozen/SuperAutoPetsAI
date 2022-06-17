@@ -33,6 +33,10 @@ class ShopSystem:
         self.agent.handle_events()
 
     def toggle_freeze(self, pos: int) -> int:
+        shop_slot = self.agent.shop[pos]
+        if isinstance(shop_slot.item, Empty) or isinstance(shop_slot.item, Unarmed):
+            return -1
+
         self.agent.shop.toggle_freeze(pos)
         return 0
 
@@ -299,4 +303,4 @@ class ShopSystem:
         # complete end turn effects
         self.agent.enqueue_event(eventnames.END_TURN)
         self.agent.handle_events()
-        return 0
+        return
