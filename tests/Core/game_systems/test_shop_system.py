@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 from src.core.game_elements.abstract_elements import Empty, Unarmed
-from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_4
+from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_3, tier_4, tier_6
+from src.core.game_elements.game_objects.equipment import Apple, Canned_Food, Salad_Bowl, Sushi
 from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
@@ -136,8 +137,17 @@ class TestShopSystem(TestCase):
         self.unit_stats(0, 5, 5, 5, 5)
 
     def test_buy_triggers_buy_t1_pet(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_6.Dragon()
+        self.agent.team[1] = tier_1.Fish()
+
+        self.shop_sys.buy(0, 2)
+        self.unit_stats(1, 3, 3, 3, 3)
+        self.write_shop_from_team(2, 0)
+        self.shop_sys.buy(0, 2)
+        self.unit_stats(1, 4, 4, 4, 4)
+
+        self.shop_sys.buy(1, 3)
+        self.unit_stats(1, 5, 5, 5, 5)
 
     def test_buy_to_empty(self):
         item = self.agent.shop[0].item
@@ -187,32 +197,113 @@ class TestShopSystem(TestCase):
 
     def test__buy_food(self):
         self.agent.team[0] = tier_1.Ant()
-        # TODO
-        self.fail()
+        self.agent.shop[5].item = Apple()
+        self.shop_sys.buy(5, 0)
+        self.unit_stats(0, 3, 3, 2, 2)
+        self.assertTrue(self.agent.gold == 7)
+        self.assertTrue(isinstance(self.agent.shop[5].item, Unarmed))
 
     def test__buy_food_empty(self):
-        # TODO
-        self.fail()
+        self.agent.team[2] = tier_1.Ladybug()
+        self.agent.shop[5].item = Apple()
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(isinstance(self.agent.shop[5].item, Apple))
+        self.assertTrue(self.agent.gold == 10)
+        self.unit_stats(2, 1, 1, 3, 3)
 
     def test__buy_food_poor(self):
-        # TODO
-        self.fail()
+        self.agent.team[2] = tier_1.Ladybug()
+        self.agent.shop[5].item = Apple()
+        self.agent.gold = 2
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(isinstance(self.agent.shop[5].item, Apple))
+        self.assertTrue(self.agent.gold == 2)
+        self.unit_stats(2, 1, 1, 3, 3)
 
     def test__buy_targeted_food(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Fish()
+        # check buy food trigger
+        self.agent.team[2] = tier_1.Ladybug()
+        # check friend eat food trigger
+        self.agent.team[3] = tier_3.Rabbit()
+        self.agent.shop[5].item = Apple()
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == 0)
+        self.assertTrue(isinstance(self.agent.shop[5].item, Unarmed))
+        self.assertTrue(isinstance(self.agent.team[0].held, Unarmed))
+        self.assertTrue(self.agent.gold == 7)
+        self.unit_stats(0, 3, 3, 4, 4)
+        self.unit_stats(2, 1, 2, 3, 4)
+
+        # testing that eat food triggers
+        self.agent.shop[5].item = Apple()
+        result = self.shop_sys.buy(5, 3)
+        self.assertTrue(result == 0)
+        self.unit_stats(3, 2, 2, 4, 4)
 
     def test__buy_non_targeted_food(self):
-        # TODO
-        self.fail()
+        self.agent.shop[5].item = Canned_Food()
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[2] = tier_1.Ladybug()
+        self.agent.team[3] = tier_3.Rabbit()
+
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == 0)
+        self.assertTrue(self.agent.gold == 7)
+        self.unit_stats(0, 2, 2, 2, 2)
+        self.unit_stats(2, 1, 2, 3, 4)
+        self.unit_stats(3, 1, 1, 2, 2)
+
+        self.assertTrue(self.agent.shop._perm_buff == [2, 1])
+        self.agent.team[0] = Empty()
+        self.agent.shop[5].item = Salad_Bowl()
+
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == 0)
+        self.assertTrue(self.agent.gold == 4)
+
+        self.unit_stats(2, 2, 4, 5, 7)
+        self.unit_stats(3, 2, 2, 4, 4)
+
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.shop[5].item = Sushi()
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == 0)
+        self.assertTrue(self.agent.gold == 1)
+
+        self.unit_stats(0, 3, 3, 4, 4)
+        self.unit_stats(2, 3, 6, 7, 10)
+        self.unit_stats(3, 3, 3, 6, 6)
 
     def test__buy_different_animal(self):
-        # TODO
-        self.fail()
+        self.agent.shop[0].item = tier_1.Ant()
+        self.agent.shop[1].item = tier_1.Fish()
+        self.agent.shop[2].item = tier_1.Ladybug()
 
-    def test__buy_different_animal_full_team(self):
-        # TODO
-        self.fail()
+        self.shop_sys.buy(0, 0)
+        self.shop_sys.buy(1, 0)
+        self.shop_sys.buy(2, 0)
+        self.shop_sys.reroll()
+
+        self.agent.gold = 10
+        self.agent.shop[0].item = tier_1.Otter()
+        self.agent.shop[1].item = tier_1.Horse()
+
+        self.shop_sys.buy(0, 0)
+        self.shop_sys.buy(1, 0)
+        result = self.shop_sys.buy(2, 3)
+
+        self.assertTrue(result == -1)
+        self.assertTrue(self.agent.team.size == 5)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Horse))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Otter))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Ladybug))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[4], tier_1.Ant))
 
     def test_sell(self):
         # TODO
