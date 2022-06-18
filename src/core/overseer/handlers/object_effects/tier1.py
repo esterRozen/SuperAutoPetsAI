@@ -27,14 +27,14 @@ class Tier1:
 
     # on sell give 2 +1/2/3 hp
     @staticmethod
-    def beaver(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
+    def beaver(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], removed: Animal):
         friends = agent.team.random_friends(actor[1], 2)
         if not friends:
             return
 
-        if agent.actor(actor).level == 1:
+        if removed.level == 1:
             [friend.permanent_buff(0, 1) for friend in friends]
-        elif agent.actor(actor).level == 2:
+        elif removed.level == 2:
             [friend.permanent_buff(0, 2) for friend in friends]
         else:
             [friend.permanent_buff(0, 3) for friend in friends]
@@ -71,10 +71,10 @@ class Tier1:
         agent.summon(unit, actor)
 
     @staticmethod
-    def duck(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
+    def duck(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], removed: Animal):
+        if removed.level == 1:
             agent.shop.buff(0, 1)
-        elif agent.actor(actor).level == 2:
+        elif removed.level == 2:
             agent.shop.buff(0, 2)
         else:
             agent.shop.buff(0, 3)
@@ -136,10 +136,10 @@ class Tier1:
 
     # gain extra +1/2/3 gold on sell
     @staticmethod
-    def pig(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
+    def pig(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], removed: Animal):
+        if removed.level == 1:
             agent.gold += 1
-        elif agent.actor(actor).level == 2:
+        elif removed.level == 2:
             agent.gold += 2
         else:
             agent.gold += 3

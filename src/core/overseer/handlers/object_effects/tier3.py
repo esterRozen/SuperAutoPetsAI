@@ -85,10 +85,10 @@ class Tier3:
         agent.actor(actor).temp_buff(buff_amt, buff_amt)
 
     @staticmethod
-    def owl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):
-        if agent.actor(actor).level == 1:
+    def owl(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], removed: Animal):
+        if removed.level == 1:
             agent.team.random_friend(actor[1]).permanent_buff(2, 2)
-        elif agent.actor(actor).level == 2:
+        elif removed.level == 2:
             agent.team.random_friend(actor[1]).permanent_buff(4, 4)
         else:
             agent.team.random_friend(actor[1]).permanent_buff(6, 6)

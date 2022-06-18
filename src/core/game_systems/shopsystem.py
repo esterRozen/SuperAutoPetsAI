@@ -229,7 +229,8 @@ class ShopSystem:
 
         # enqueue sell event and friend sold event
         self.agent.enqueue_event(eventnames.SELL,
-                                 actor=actor)
+                                 actor=actor,
+                                 removed=animal)
 
         self.agent.enqueue_event(eventnames.FRIEND_SOLD,
                                  actor=actor)

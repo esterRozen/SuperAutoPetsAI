@@ -75,17 +75,17 @@ def for_sorted_without_actor_trigger_(agent: 'MessageAgent', position: Tuple[str
         agent.trigger_ability(operation, (team, position), target, fainted)
 
 
-def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, fainted_actor: Animal = None):
-    if fainted_actor is None:
+def trigger_actor_ability(agent: 'MessageAgent', actor: Tuple[str, int], event: str, removed_actor: Animal = None):
+    if removed_actor is None:
         animal = get_roster(agent, actor)[actor[1]]
     else:
-        animal = fainted_actor
+        animal = removed_actor
 
     operation = animal.trigger(event)
-    agent.trigger_ability(operation, actor, actor, fainted_actor)
+    agent.trigger_ability(operation, actor, actor, removed_actor)
 
     operation = animal.held.trigger(event)
-    agent.trigger_ability(operation, actor, actor, fainted_actor)
+    agent.trigger_ability(operation, actor, actor, removed_actor)
 
 
 class EventProcessor:
@@ -153,8 +153,8 @@ class EventProcessor:
     # shop
     # apply to unit that raised event (got sold)
     @staticmethod
-    def sell(agent: 'MessageAgent', actor: Tuple[str, int]):
-        trigger_actor_ability(agent, actor, eventnames.SELL)
+    def sell(agent: 'MessageAgent', actor: Tuple[str, int], removed: Animal):
+        trigger_actor_ability(agent, actor, eventnames.SELL, removed_actor=removed)
 
     # shop
     # apply to all units
