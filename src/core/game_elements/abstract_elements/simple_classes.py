@@ -40,8 +40,8 @@ class Animal:
 
     def __repr__(self):
         return f"({self.__class__.__name__}): " \
-               f"perm.{self.atk}/{self.hp}, " \
-               f"temp.{self.battle_atk}/{self.battle_hp}"
+               f"{self.atk}+{self.battle_atk - self.atk}/" \
+               f"{self.hp}+{self.battle_hp - self.hp}"
 
     def is_identical(self, other: 'Animal') -> bool:
         if type(other) != type(self):
@@ -110,6 +110,9 @@ class Empty(Animal):
 
     def __eq__(self, other):
         return isinstance(other, Empty)
+
+    def __repr__(self):
+        return "Empty"
 
     def permanent_buff(self, atk: int, hp: int):
         return self
