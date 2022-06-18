@@ -68,7 +68,7 @@ class TestEventProcessor(TestCase):
         self.agent.summon(tier_5.Cow(), ("team", 3))
         self.ep.buy(self.agent, ("team", 3))
 
-        self.ep.sell(self.agent, ("team", 3))
+        self.ep.sell(self.agent, ("team", 3), removed=self.agent.team[3])
 
         self.assertTrue(isinstance(self.agent.shop[5].item, Milk))
         self.assertTrue(isinstance(self.agent.shop[6].item, Milk))
@@ -294,19 +294,19 @@ class TestEventProcessor(TestCase):
         self.agent.summon(tier_3.Owl(), ("team", 0))
         self.agent.summon(tier_1.Duck(), ("team", 1))
 
-        self.ep.sell(self.agent, ("team", 0))
+        self.ep.sell(self.agent, ("team", 0), removed=self.agent.team[0])
         self.unit_stats(1, 4, 4, 5, 5)
 
-        self.ep.sell(self.agent, ("team", 1))
+        self.ep.sell(self.agent, ("team", 1), removed=self.agent.team[1])
         self.check_shop_buffs(0, 1)
 
         self.agent.summon(tier_1.Beaver(), ("team", 2))
-        self.ep.sell(self.agent, ("team", 2))
+        self.ep.sell(self.agent, ("team", 2), removed=self.agent.team[2])
         self.unit_stats(0, 5, 5, 4, 4)
         self.unit_stats(1, 4, 4, 6, 6)
 
         self.agent.summon(tier_1.Pig(), ("team", 2))
-        self.ep.sell(self.agent, ("team", 2))
+        self.ep.sell(self.agent, ("team", 2), removed=self.agent.team[2])
         self.assertTrue(self.agent.gold == 11)
 
     def test_start_turn(self):

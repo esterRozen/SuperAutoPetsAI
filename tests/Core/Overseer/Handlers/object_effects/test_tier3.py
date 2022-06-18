@@ -117,7 +117,7 @@ class TestTier3(TestCase):
         self.agent.summon(tier_3.Owl(), ("team", 0))
         self.agent.summon(tier_3.Kangaroo(), ("team", 1))
 
-        Tier3.owl(self.agent, ("team", 0), ("team", 3))
+        Tier3.owl(self.agent, ("team", 0), ("team", 3), removed=self.agent.team[0])
 
         self.assertTrue(self.agent.team[1].atk == 3)
         self.assertTrue(self.agent.team[1].hp == 4)

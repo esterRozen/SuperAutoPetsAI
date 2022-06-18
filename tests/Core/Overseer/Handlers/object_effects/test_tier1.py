@@ -38,7 +38,7 @@ class TestTier1(TestCase):
         self.agent.summon(tier_1.Bee(), ("team", 1))
         self.agent.summon(tier_1.Beaver(), ("team", 0))
 
-        Tier1.beaver(self.agent, ("team", 0), ("team", 3))
+        Tier1.beaver(self.agent, ("team", 0), ("team", 3), removed=self.agent.team[0])
         self.assertTrue(self.agent.team[1].atk == 1)
         self.assertTrue(self.agent.team[1].hp == 2)
         self.assertTrue(self.agent.team[1].battle_atk == 1)
@@ -76,7 +76,7 @@ class TestTier1(TestCase):
 
     def test__duck(self):
         self.agent.summon(tier_1.Duck(), ("team", 0))
-        Tier1.duck(self.agent, ("team", 0), ("team", 4))
+        Tier1.duck(self.agent, ("team", 0), ("team", 4), removed=self.agent.team[0])
 
         shop_anim = self.agent.shop[0].item
         new_shop_anim = shop_anim.__class__()
@@ -145,5 +145,5 @@ class TestTier1(TestCase):
     def test__pig(self):
         self.agent.summon(tier_1.Pig(), ("team", 0))
 
-        Tier1.pig(self.agent, ("team", 0), ("team", 4))
+        Tier1.pig(self.agent, ("team", 0), ("team", 4), removed=self.agent.team[0])
         self.assertTrue(self.agent.gold == 11)
