@@ -53,13 +53,20 @@ class ShopSystem:
         # presume it is a valid purchase
         shop_slot: ShopSlot = self.agent.shop.roster[item_pos]
 
-        if isinstance(shop_slot.item, Empty) or isinstance(shop_slot, Unarmed):
+        if isinstance(shop_slot.item, Empty) or isinstance(shop_slot.item, Unarmed):
             return -1
 
         # guard clause, no gold, no purchase.
         if self.agent.gold < shop_slot.item.cost:
             return -1
 
+        if isinstance(shop_slot.item, Animal):
+            return self._buy_animal_response(shop_slot, target_pos)
+
+        if isinstance(shop_slot.item, Equipment):
+            return self.__buy_food_response(shop_slot, target_pos)
+
+    def _buy_animal_response(self, shop_slot, target_pos: int) -> int:
         if isinstance(self.agent.team.animals[target_pos], Empty):
             success = self.__buy_to_empty_response(shop_slot, target_pos)
             self.agent.handle_events()
@@ -70,19 +77,11 @@ class ShopSystem:
             self.agent.handle_events()
             return success
 
-        if isinstance(shop_slot.item, Equipment):
-            success = self.__buy_food_response(shop_slot, target_pos)
-            self.agent.handle_events()
-            return success
-
         success = self.__buy_different_animal_response(shop_slot, target_pos)
         self.agent.handle_events()
         return success
 
     def __buy_to_empty_response(self, shop_slot, target_pos: int) -> int:
-        if isinstance(shop_slot.item, Equipment):
-            return -1
-
         target = ("team", target_pos)
         item: Animal = shop_slot.item
 
@@ -123,13 +122,39 @@ class ShopSystem:
                                      actor=("team", target_pos))
         return 0
 
+    def __buy_different_animal_response(self, shop_slot, target_pos: int) -> int:
+        if not self.agent.team.has_summon_space:
+            return -1
+
+        actor = ("team", target_pos)
+        animal: Animal = shop_slot.item
+        self.agent.gold -= animal.cost
+        self.agent.team.summon(animal, target_pos)
+
+        self.agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
+                                 actor=actor)
+
+        self.agent.enqueue_event(eventnames.FRIEND_BOUGHT,
+                                 actor=actor)
+
+        self.agent.enqueue_event(eventnames.BUY,
+                                 actor=actor)
+        if animal.tier == 1:
+            self.agent.enqueue_event(eventnames.BUY_T1_PET,
+                                     actor=actor)
+        return 0
+
     def __buy_food_response(self, shop_slot, target_pos: int) -> int:
         item: Equipment = shop_slot.item
 
         if item.is_targeted:
-            return self.__buy_targeted_food(shop_slot, target_pos)
-        else:
-            return self.__buy_non_targeted_food(shop_slot, target_pos)
+            success = self.__buy_targeted_food(shop_slot, target_pos)
+            self.agent.handle_events()
+            return success
+
+        success = self.__buy_non_targeted_food(shop_slot, target_pos)
+        self.agent.handle_events()
+        return success
 
     def __buy_targeted_food(self, shop_slot, target_pos: int) -> int:
         # handle consumable targeted food e.g. pear
@@ -166,34 +191,12 @@ class ShopSystem:
         self.agent.gold -= item.cost
         shop_slot.buy()
 
-        # handle non targeted food e.g. sushi
+        # handle non targeted food e.g. sushi, canned food
         self.agent.enqueue_event(eventnames.BUY_FOOD)
 
         # perform food effects
         # food function will enqueue proper EAT FOOD and FRIEND EATS FOOD events.
         self.agent.func[item.id](self.agent, ("team", target_pos), ("team", target_pos))
-        return 0
-
-    def __buy_different_animal_response(self, shop_slot, target_pos: int) -> int:
-        if not self.agent.team.has_summon_space:
-            return -1
-
-        actor = ("team", target_pos)
-        animal: Animal = shop_slot.item
-        self.agent.gold -= animal.cost
-        self.agent.team.summon(animal, target_pos)
-
-        self.agent.enqueue_event(eventnames.FRIEND_SUMMONED_SHOP,
-                                 actor=actor)
-
-        self.agent.enqueue_event(eventnames.FRIEND_BOUGHT,
-                                 actor=actor)
-
-        self.agent.enqueue_event(eventnames.BUY,
-                                 actor=actor)
-        if animal.tier == 1:
-            self.agent.enqueue_event(eventnames.BUY_T1_PET,
-                                     actor=actor)
         return 0
 
     def summon(self, unit: Animal, target: Tuple[str, int]) -> int:
