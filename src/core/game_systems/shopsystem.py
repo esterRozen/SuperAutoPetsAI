@@ -288,10 +288,10 @@ class ShopSystem:
 
         anim1 = team[roster_init]
         anim2 = team[roster_final]
-        anim1.atk = max(anim1.atk, anim2.atk)
-        anim1.battle_atk = max(anim1.battle_atk, anim2.battle_atk)
-        anim1.hp = max(anim1.hp, anim2.hp)
-        anim1.battle_hp = max(anim1.battle_hp, anim2.battle_hp)
+        anim2.atk = max(anim1.atk, anim2.atk)
+        anim2.battle_atk = max(anim1.battle_atk, anim2.battle_atk)
+        anim2.hp = max(anim1.hp, anim2.hp)
+        anim2.battle_hp = max(anim1.battle_hp, anim2.battle_hp)
 
         higher = max(anim1, anim2, key=lambda anim: anim.xp).xp
         lower = min(anim1, anim2, key=lambda anim: anim.xp).xp
@@ -300,7 +300,7 @@ class ShopSystem:
         anim1.xp = lower
 
         level = anim2.level
-        for _ in range(anim1.xp):
+        for _ in range(anim1.xp + 1):
             anim2.increase_xp(1)
             new_level = anim2.level
 
