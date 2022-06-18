@@ -186,6 +186,8 @@ class MessageAgent(BaseAgent):
         agent.battle_lost = state.battle_lost
         agent.team = state.team
         agent.shop = state.shop
+        agent.in_shop = True
+        agent.clear_events()
         return agent
 
     def save(self, include_shop: bool) -> State:
