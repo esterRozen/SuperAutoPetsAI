@@ -472,5 +472,7 @@ class TestShopSystem(TestCase):
         self.assertTrue(self.agent.team[0].xp == 0)
 
     def test_end_turn(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Bluebird()
+        self.shop_sys.end_turn()
+
+        self.unit_stats(0, 3, 3, 1, 1)
