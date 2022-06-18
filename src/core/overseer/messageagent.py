@@ -280,9 +280,9 @@ class MessageAgent(BaseAgent):
     def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None,
                       removed: Animal = None):
         if removed is None:
-            self._event_queue.append((message, actor, target, removed))
-        else:
             self._event_queue.append((message, actor, target))
+        else:
+            self._event_queue.append((message, actor, target, removed))
 
     def handle_events(self):
         if not self._event_queue or self.debug_mode_no_handle_queue:
