@@ -251,6 +251,13 @@ class TestShopSystem(TestCase):
         self.assertTrue(result == 0)
         self.unit_stats(3, 2, 2, 4, 4)
 
+        self.agent.shop[5].item = Honey()
+        result = self.shop_sys.buy(5, 3)
+        self.unit_stats(2, 1, 4, 3, 6)
+        self.unit_stats(3, 2, 2, 5, 5)
+        self.assertTrue(isinstance(self.agent.team[3].held, Honey))
+        self.assertTrue(result == 0)
+
     def test__buy_non_targeted_food(self):
         self.agent.shop[5].item = Canned_Food()
         self.agent.team[0] = tier_1.Fish()
