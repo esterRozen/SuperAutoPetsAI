@@ -142,15 +142,9 @@ class Parrot(_Tier4):
         super(Parrot, self).__init__(4, 2)
 
     def trigger(self, name):
-        # start of shop turn, remove state
-        if name == eventnames.BATTLE_END:
-            self.locked = True
-            self.stored = None
-            return 0
-
         # maintain null state until the shop turn ends
         # then copy ability of unit ahead.
-        elif name == eventnames.END_TURN:
+        if name == eventnames.END_TURN:
             self.locked = False
             return self.id
 

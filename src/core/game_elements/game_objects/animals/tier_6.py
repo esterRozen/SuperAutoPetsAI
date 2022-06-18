@@ -159,13 +159,11 @@ class Tiger(_Tier6):
         super(Tiger, self).__init__(4, 3)
 
     def trigger(self, name):
-        # start of shop turn, remove state
-        if name == eventnames.BATTLE_END:
-            self.locked = True
-            return 0
+        # start of shop turn, remove state.
+        # state removed by loading from backup!
 
         # maintain null state until the shop turn ends
-        elif name == eventnames.BEFORE_BATTLE:
+        if name == eventnames.BEFORE_BATTLE:
             self.locked = False
             return 0
 
