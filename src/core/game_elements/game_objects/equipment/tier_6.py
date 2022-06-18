@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ...abstract_elements import Equipment, Animal, Unarmed
+from .... import eventnames
 
 if TYPE_CHECKING:
     from ....overseer import MessageAgent
@@ -42,6 +43,11 @@ class Melon(_Tier6):
 class Mushroom(_Tier6):
     id = 419
     is_holdable = True
+
+    def trigger(self, name: str) -> int:
+        if name == eventnames.ON_FAINT:
+            return self.id
+        return 0
 
 
 class Pizza(_Tier6):
