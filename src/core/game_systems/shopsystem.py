@@ -71,7 +71,7 @@ class ShopSystem:
             return success
 
         if isinstance(shop_slot.item, Equipment):
-            success = self.__buy_equipment_response(shop_slot, target_pos)
+            success = self.__buy_food_response(shop_slot, target_pos)
             self.agent.handle_events()
             return success
 
@@ -123,15 +123,15 @@ class ShopSystem:
                                      actor=("team", target_pos))
         return 0
 
-    def __buy_equipment_response(self, shop_slot, target_pos: int) -> int:
+    def __buy_food_response(self, shop_slot, target_pos: int) -> int:
         item: Equipment = shop_slot.item
 
         if item.is_targeted:
-            return self.__buy_targeted_equipment(shop_slot, target_pos)
+            return self.__buy_targeted_food(shop_slot, target_pos)
         else:
-            return self.__buy_non_targeted_equipment(shop_slot, target_pos)
+            return self.__buy_non_targeted_food(shop_slot, target_pos)
 
-    def __buy_targeted_equipment(self, shop_slot, target_pos: int) -> int:
+    def __buy_targeted_food(self, shop_slot, target_pos: int) -> int:
         # handle consumable targeted food e.g. pear
         # enqueue buy food ability for all units, if ability exists
         if isinstance(self.agent.team[target_pos], Empty):
@@ -158,7 +158,7 @@ class ShopSystem:
                                  actor=actor)
         return 0
 
-    def __buy_non_targeted_equipment(self, shop_slot, target_pos: int) -> int:
+    def __buy_non_targeted_food(self, shop_slot, target_pos: int) -> int:
         if self.agent.team.size < 1:
             return -1
         item = shop_slot.item
