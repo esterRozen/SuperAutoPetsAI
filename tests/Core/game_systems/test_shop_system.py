@@ -1,12 +1,21 @@
 from unittest import TestCase
 
 from src.core.game_elements.abstract_elements import Empty, Unarmed
-from src.core.game_elements.game_objects.animals import Swan, Ant
+from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_4
 from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
 
 class TestShopSystem(TestCase):
+    def unit_stats(self, pos, atk, battle_atk, hp, battle_hp):
+        self.assertTrue(self.agent.team[pos].atk == atk)
+        self.assertTrue(self.agent.team[pos].battle_atk == battle_atk)
+        self.assertTrue(self.agent.team[pos].hp == hp)
+        self.assertTrue(self.agent.team[pos].battle_hp == battle_hp)
+
+    def write_shop_from_team(self, team_pos, shop_pos):
+        self.agent.shop[shop_pos].item = self.agent.team[team_pos].__class__()
+
     def setUp(self) -> None:
         self.agent = MessageAgent("base pack")
         self.agent.debug_mode_no_handle_queue = False
@@ -15,7 +24,7 @@ class TestShopSystem(TestCase):
 
     def test_start_turn(self):
         self.agent.gold = 4
-        self.agent.team[0] = Swan()
+        self.agent.team[0] = tier_2.Swan()
         self.agent.team[0].temp_buff(1, 1)
         self.agent.store_backup()
         self.shop_sys.start_turn()
@@ -72,7 +81,7 @@ class TestShopSystem(TestCase):
         self.assertTrue(isinstance(self.agent.team[0], Empty))
 
     def test_buy_unarmed_slot(self):
-        self.agent.team[0] = Ant()
+        self.agent.team[0] = tier_1.Ant()
         self.agent.shop[5].item = Unarmed()
         result = self.shop_sys.buy(5, 0)
         self.assertTrue(result == -1)
@@ -132,6 +141,7 @@ class TestShopSystem(TestCase):
         self.assertTrue(unit.atk == unit.__class__().atk + 1)
 
     def test__buy_food(self):
+        self.agent.team[0] = tier_1.Ant()
         # TODO
         self.fail()
 
