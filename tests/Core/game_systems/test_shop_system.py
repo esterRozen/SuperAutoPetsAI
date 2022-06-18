@@ -260,6 +260,9 @@ class TestShopSystem(TestCase):
 
     def test__buy_non_targeted_food(self):
         self.agent.shop[5].item = Canned_Food()
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == -1)
+
         self.agent.team[0] = tier_1.Fish()
         self.agent.team[2] = tier_1.Ladybug()
         self.agent.team[3] = tier_3.Rabbit()
