@@ -29,7 +29,6 @@ class BattleSystem:
         Returns:    1 if result is a win
                     0 if result is a draw
                     -1 if result is a loss
-
         """
         # make backup of team
         self.agent.store_backup()
@@ -38,6 +37,9 @@ class BattleSystem:
         # the opponent needs no inter-turn backup as
         # opponent is randomized each turn and
         # opponent team state stored in experience replay
+
+        self._add_event(eventnames.BEFORE_BATTLE)
+        self.agent.handle_events()
 
         # start battle trigger
         # handles start of battle for both teams
@@ -59,7 +61,6 @@ class BattleSystem:
             # attack (team)
             # attack (enemy)
             self._add_event(eventnames.ATTACK, actor=("team", 0), target=("enemy", 0))
-            self._add_event(eventnames.ATTACK, actor=("enemy", 0), target=("team", 0))
             self.agent.handle_events()
             # friend ahead attacks (team)
             # friend ahead attacks (enemy)
