@@ -94,6 +94,51 @@ class TestShopSystem(TestCase):
         self.assertTrue(isinstance(self.agent.team[0], Empty))
         self.assertTrue(not isinstance(self.agent.shop[0].item, Empty))
 
+    def test_buy_triggers_friend_summoned(self):
+        # only for buy to empty and buy to different
+        self.agent.team[0] = tier_1.Horse()
+        self.shop_sys.buy(0, 1)
+        battle_atk = self.agent.team[1].__class__().battle_atk
+        self.assertTrue(self.agent.team[1].battle_atk == battle_atk + 1)
+
+        self.setUp()
+        self.agent.team[0] = tier_1.Horse()
+        self.agent.team[1] = tier_1.Ant()
+        self.agent.shop[0].item = tier_1.Ant()
+        self.shop_sys.buy(0, 1)
+        self.assertTrue(self.agent.team[1].atk == 3)
+        self.assertTrue(self.agent.team[1].battle_atk == 3)
+
+    def test_buy_triggers_friend_bought(self):
+        # for all buy animal responses
+        self.agent.team[0] = tier_4.Buffalo()
+        self.shop_sys.buy(0, 1)
+        self.unit_stats(0, 5, 5, 5, 5)
+        self.write_shop_from_team(1, 0)
+        self.shop_sys.buy(0, 1)
+        self.unit_stats(0, 6, 6, 6, 6)
+        self.shop_sys.buy(1, 1)
+        self.unit_stats(0, 7, 7, 7, 7)
+
+    def test_buy_triggers_buy(self):
+        # for all buy responses that are successful
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.shop[0].item = tier_1.Otter()
+        self.agent.shop[1].item = tier_1.Otter()
+        self.shop_sys.buy(0, 1)
+        self.unit_stats(0, 3, 3, 3, 3)
+        self.shop_sys.buy(1, 1)
+        self.unit_stats(0, 4, 4, 4, 4)
+
+        self.agent.shop[0].item = tier_1.Otter()
+        self.agent.team[1] = tier_1.Ant()
+        self.shop_sys.buy(0, 1)
+        self.unit_stats(0, 5, 5, 5, 5)
+
+    def test_buy_triggers_buy_t1_pet(self):
+        # TODO
+        self.fail()
+
     def test_buy_to_empty(self):
         item = self.agent.shop[0].item
         result = self.shop_sys.buy(0, 0)
