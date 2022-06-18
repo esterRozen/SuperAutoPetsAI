@@ -338,21 +338,77 @@ class TestShopSystem(TestCase):
         self.assertTrue(self.agent.gold == 10)
         self.unit_stats(0, 2, 2, 2, 2)
 
-    def test_move(self):
-        # TODO
-        self.fail()
+    def test_move_invalid(self):
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[1] = tier_1.Ladybug()
+
+        self.shop_sys.move(0, 2)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ladybug))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Fish))
+
+        self.shop_sys.move(0, 3)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ladybug))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[3], Empty))
+
+        self.shop_sys.move(1, 1)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ladybug))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[3], Empty))
 
     def test_move_left(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Ant()
+        self.agent.team[1] = tier_1.Fish()
+
+        self.shop_sys.move(0, 1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[2], Empty))
+
+        self.agent.team[3] = tier_1.Otter()
+        self.shop_sys.move(1, 3)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[1], Empty))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Otter))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Ant))
+
+        self.agent.team[1] = tier_1.Cricket()
+        self.agent.team[4] = tier_1.Mosquito()
+
+        self.shop_sys.move(0, 4)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Cricket))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Otter))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Mosquito))
+        self.assertTrue(isinstance(self.agent.team[4], tier_1.Fish))
 
     def test_move_right(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Ant()
+        self.agent.team[1] = tier_1.Fish()
 
-    def test_move_invalid(self):
-        # TODO
-        self.fail()
+        self.shop_sys.move(1, 0)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[2], Empty))
+
+        self.agent.team[3] = tier_1.Otter()
+        self.shop_sys.move(3, 1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Otter))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Ant))
+
+        self.agent.team[3] = tier_1.Cricket()
+        self.agent.team[4] = tier_1.Mosquito()
+
+        self.shop_sys.move(4, 0)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Mosquito))
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Fish))
+        self.assertTrue(isinstance(self.agent.team[2], tier_1.Otter))
+        self.assertTrue(isinstance(self.agent.team[3], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[4], tier_1.Cricket))
 
     def test_combine(self):
         # TODO
