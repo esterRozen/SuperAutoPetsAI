@@ -203,10 +203,10 @@ class MessageAgent(BaseAgent):
     def _raise_event(self):
         tup = self._event_queue.pop(0)
         if len(tup) == 4:
-            (message, actor, target, fainted) = tup
+            (message, actor, target, removed) = tup
         else:
             (message, actor, target) = tup
-            fainted = None
+            removed = None
 
         # sending messages like buy, sell, move, combine, start turn, end turn,
 
@@ -246,7 +246,7 @@ class MessageAgent(BaseAgent):
 
         elif message == eventnames.FRIEND_FAINTS:
             # special faint function
-            self.__EP.friend_faints(self, actor, fainted)
+            self.__EP.friend_faints(self, actor, removed)
 
         elif message == eventnames.FRIEND_SOLD:
             self.__EP.friend_sold(self, actor)
@@ -263,12 +263,12 @@ class MessageAgent(BaseAgent):
 
         elif message == eventnames.ON_FAINT:
             # special faint function
-            self.__EP.on_faint(self, actor, fainted)
+            self.__EP.on_faint(self, actor, removed)
 
         elif message == eventnames.ON_LEVEL:
             self.__EP.on_level(self, actor)
         elif message == eventnames.SELL:
-            self.__EP.sell(self, actor)
+            self.__EP.sell(self, actor, removed)
         elif message == eventnames.START_BATTLE:
             self.__EP.start_battle(self)
         elif message == eventnames.START_TURN:
@@ -278,9 +278,9 @@ class MessageAgent(BaseAgent):
         self._event_queue = []
 
     def enqueue_event(self, message, actor: Tuple[str, int] = None, target: Tuple[str, int] = None,
-                      fainted: Animal = None):
-        if fainted is None:
-            self._event_queue.append((message, actor, target, fainted))
+                      removed: Animal = None):
+        if removed is None:
+            self._event_queue.append((message, actor, target, removed))
         else:
             self._event_queue.append((message, actor, target))
 
@@ -433,24 +433,24 @@ class MessageAgent(BaseAgent):
         self.enqueue_event(eventnames.ON_FAINT,
                            actor=actor,
                            target=target,
-                           fainted=animal)
+                           removed=animal)
 
         self.enqueue_event(eventnames.FRIEND_AHEAD_FAINTS,
                            actor=actor,
                            target=target,
-                           fainted=animal)
+                           removed=animal)
 
         self.enqueue_event(eventnames.FRIEND_FAINTS,
                            actor=actor,
                            target=target,
-                           fainted=animal)
+                           removed=animal)
 
         if not self.in_shop:
             # handle from perspective of unit which knocked unit out.
             self.enqueue_event(eventnames.KNOCK_OUT,
                                actor=target,
                                target=actor,
-                               fainted=animal)
+                               removed=animal)
 
 
 if __name__ == '__main__':

@@ -38,17 +38,17 @@ class Equipment:
 
         agent.enqueue_event(ON_FAINT,
                             actor=actor,
-                            fainted=animal)
+                            removed=animal)
 
         agent.team.faint(actor[1])
 
         agent.enqueue_event(FRIEND_AHEAD_FAINTS,
                             actor=actor,
-                            fainted=animal)
+                            removed=animal)
 
         agent.enqueue_event(FRIEND_FAINTS,
                             actor=actor,
-                            fainted=animal)
+                            removed=animal)
 
     ###################################################################
 
