@@ -218,9 +218,6 @@ class MessageAgent(BaseAgent):
         # raise event
         if message == eventnames.ATTACK:
             self.attack(actor, target)
-
-        elif message == eventnames.BATTLE_END:
-            self.__EP.battle_end(self)
         elif message == eventnames.BEFORE_ATTACK:
             self.__EP.before_attack(self, actor)
         elif message == eventnames.BEFORE_BATTLE:
