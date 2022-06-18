@@ -113,6 +113,9 @@ class TestShopSystem(TestCase):
     def test_buy_triggers_friend_bought(self):
         # for all buy animal responses
         self.agent.team[0] = tier_4.Buffalo()
+        self.agent.shop[0].item = tier_1.Bee()
+        self.agent.shop[1].item = tier_1.Bee()
+        self.agent.shop[2].item = tier_1.Bee()
         self.shop_sys.buy(0, 1)
         self.unit_stats(0, 5, 5, 5, 5)
         self.write_shop_from_team(1, 0)
@@ -132,13 +135,16 @@ class TestShopSystem(TestCase):
         self.unit_stats(0, 4, 4, 4, 4)
 
         self.agent.shop[0].item = tier_1.Otter()
-        self.agent.team[1] = tier_1.Ant()
+        self.agent.team[1] = Empty()
         self.shop_sys.buy(0, 1)
         self.unit_stats(0, 5, 5, 5, 5)
 
     def test_buy_triggers_buy_t1_pet(self):
         self.agent.team[0] = tier_6.Dragon()
         self.agent.team[1] = tier_1.Fish()
+        self.agent.shop[0].item = tier_1.Ant()
+        self.agent.shop[1].item = tier_1.Bee()
+        self.agent.shop[2].item = tier_1.Ladybug()
 
         self.shop_sys.buy(0, 2)
         self.unit_stats(1, 3, 3, 3, 3)
@@ -295,6 +301,7 @@ class TestShopSystem(TestCase):
 
         self.shop_sys.buy(0, 0)
         self.shop_sys.buy(1, 0)
+        self.agent.shop[2].item = tier_1.Ant()
         result = self.shop_sys.buy(2, 3)
 
         self.assertTrue(result == -1)
@@ -306,12 +313,30 @@ class TestShopSystem(TestCase):
         self.assertTrue(isinstance(self.agent.team[4], tier_1.Ant))
 
     def test_sell(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[1] = tier_2.Shrimp()
+        self.agent.team[2] = tier_1.Ant()
+
+        result = self.shop_sys.sell(2)
+        self.assertTrue(result == 0)
+        self.unit_stats(0, 2, 2, 3, 3)
+        self.assertTrue(self.agent.gold == 11)
+
+        self.agent.team[0] = tier_3.Owl()
+        result = self.shop_sys.sell(0)
+        self.assertTrue(result == 0)
+        self.unit_stats(1, 4, 4, 5, 5)
+        self.assertTrue(self.agent.gold == 12)
 
     def test_sell_bad_position(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[1] = tier_2.Shrimp()
+
+        result = self.shop_sys.sell(2)
+        self.assertTrue(result == -1)
+
+        self.assertTrue(self.agent.gold == 10)
+        self.unit_stats(0, 2, 2, 2, 2)
 
     def test_move(self):
         # TODO
