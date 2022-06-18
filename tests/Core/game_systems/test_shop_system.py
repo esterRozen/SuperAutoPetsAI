@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from src.core.game_elements.abstract_elements import Empty, Unarmed
 from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_3, tier_4, tier_6
-from src.core.game_elements.game_objects.equipment import Apple, Canned_Food, Salad_Bowl, Sushi
+from src.core.game_elements.game_objects.equipment import Apple, Canned_Food, Salad_Bowl, Sushi, Honey
 from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
@@ -421,20 +421,55 @@ class TestShopSystem(TestCase):
         self.assertTrue(isinstance(self.agent.team[4], tier_1.Cricket))
 
     def test_combine(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[1] = tier_1.Fish()
+        self.agent.team[2] = tier_1.Bee()
+        self.agent.team[1].xp = 1
+        self.agent.team[1].atk = 5
+        self.agent.team[1].battle_atk = 5
+        self.agent.team[0].hp = 5
+        self.agent.team[0].battle_hp = 5
+
+        result = self.shop_sys.combine(1, 0)
+        self.unit_stats(0, 6, 6, 6, 6)
+        self.unit_stats(2, 2, 2, 2, 2)
+        self.assertTrue(result == 0)
 
     def test_combine_empty(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Ant()
+        result = self.shop_sys.combine(0, 1)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[1], Empty))
+
+        result = self.shop_sys.combine(1, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Ant))
+        self.assertTrue(isinstance(self.agent.team[1], Empty))
+
+        result = self.shop_sys.combine(2, 1)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[1], Empty))
+        self.assertTrue(isinstance(self.agent.team[2], Empty))
 
     def test_combine_different_animals(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Fish()
+        self.agent.team[1] = tier_1.Bee()
+
+        result = self.shop_sys.combine(0, 1)
+        self.assertTrue(result == -1)
+        self.unit_stats(0, 2, 2, 2, 2)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Fish))
+        self.unit_stats(1, 1, 1, 1, 1)
+        self.assertTrue(isinstance(self.agent.team[1], tier_1.Bee))
 
     def test_combine_same_position(self):
-        # TODO
-        self.fail()
+        self.agent.team[0] = tier_1.Ant()
+
+        result = self.shop_sys.combine(0, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Ant))
+        self.assertTrue(self.agent.team[0].xp == 0)
 
     def test_end_turn(self):
         # TODO
