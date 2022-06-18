@@ -278,6 +278,10 @@ class ShopSystem:
         if isinstance(team[roster_final], Empty):
             return -1
 
+        # guard clause, units should not be the each other
+        if roster_init - roster_final == 0:
+            return -1
+
         # guard clause should be same animal type
         if not isinstance(team[roster_init], type(team[roster_final])):
             return -1
@@ -288,6 +292,12 @@ class ShopSystem:
         anim1.battle_atk = max(anim1.battle_atk, anim2.battle_atk)
         anim1.hp = max(anim1.hp, anim2.hp)
         anim1.battle_hp = max(anim1.battle_hp, anim2.battle_hp)
+
+        higher = max(anim1, anim2, key=lambda anim: anim.xp).xp
+        lower = min(anim1, anim2, key=lambda anim: anim.xp).xp
+
+        anim2.xp = higher
+        anim1.xp = lower
 
         level = anim2.level
         for _ in range(anim1.xp):
