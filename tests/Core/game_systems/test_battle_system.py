@@ -23,7 +23,8 @@ class TestBattleSystem(TestCase):
         enemy[0] = tier_1.Cricket()
 
         self.battle_sys.start_battle(enemy)
-        self.fail()
+        self.assertTrue(self.agent.wins == 1)
+        self.assertTrue(isinstance(self.agent.team[0], tier_1.Bee))
 
     def test_summon(self):
         # TODO
