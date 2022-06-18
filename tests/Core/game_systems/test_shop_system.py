@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from src.core.game_elements.abstract_elements import Empty
-from src.core.game_elements.game_objects.animals import Swan
+from src.core.game_elements.abstract_elements import Empty, Unarmed
+from src.core.game_elements.game_objects.animals import Swan, Ant
 from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
@@ -45,7 +45,9 @@ class TestShopSystem(TestCase):
     def test_reroll(self):
         item1 = self.agent.shop[0].item
         item2 = self.agent.shop[1].item
-        self.shop_sys.reroll()
+        result = self.shop_sys.reroll()
+        self.assertTrue(result == 0)
+
         # equality checks if it's the same object instance.
         self.assertTrue(self.agent.shop[0].item != item1)
         self.assertTrue(self.agent.shop[1].item != item2)
@@ -56,18 +58,32 @@ class TestShopSystem(TestCase):
         item1 = self.agent.shop[0].item
         item2 = self.agent.shop[1].item
         self.agent.gold = 0
-        self.shop_sys.reroll()
+        result = self.shop_sys.reroll()
+        self.assertTrue(result == -1)
 
         self.assertTrue(self.agent.shop[0].item == item1)
         self.assertTrue(self.agent.shop[1].item == item2)
 
     def test_buy_empty_slot(self):
-        # TODO
-        self.fail()
+        self.agent.shop[0].item = Empty()
+        result = self.shop_sys.buy(0, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.shop[0].item, Empty))
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+
+    def test_buy_unarmed_slot(self):
+        self.agent.team[0] = Ant()
+        self.agent.shop[5].item = Unarmed()
+        result = self.shop_sys.buy(5, 0)
+        self.assertTrue(result == -1)
+        self.assertTrue(isinstance(self.agent.shop[5].item, Unarmed))
+        self.assertTrue(isinstance(self.agent.team[0].held, Unarmed))
 
     def test_buy_poor(self):
-        # TODO
-        self.fail()
+        self.agent.gold = 2
+        self.shop_sys.buy(0, 0)
+        self.assertTrue(isinstance(self.agent.team[0], Empty))
+        self.assertTrue(not isinstance(self.agent.shop[0].item, Empty))
 
     def test_buy_to_empty(self):
         item = self.agent.shop[0].item
@@ -101,8 +117,19 @@ class TestShopSystem(TestCase):
         self.assertTrue(unit.level == 1)
 
     def test__buy_to_same_level_up(self):
-        # TODO
-        self.fail()
+        item = self.agent.shop[0].item
+        copy = item.__class__()
+        copy.xp = 1
+        self.agent.team[0] = copy
+        self.shop_sys.buy(0, 0)
+        self.assertTrue(isinstance(self.agent.team[0], item.__class__))
+        self.assertTrue(self.agent.gold == 7)
+
+        unit = self.agent.team[0]
+        self.assertTrue(unit.xp == 2)
+        self.assertTrue(unit.level == 2)
+        self.assertTrue(unit.hp == unit.__class__().hp + 1)
+        self.assertTrue(unit.atk == unit.__class__().atk + 1)
 
     def test__buy_food(self):
         # TODO
