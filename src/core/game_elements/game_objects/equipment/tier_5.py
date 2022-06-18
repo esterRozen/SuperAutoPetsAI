@@ -14,8 +14,20 @@ class _Tier5(Equipment):
         return 5
 
 
-class Chili(_Tier5):
+class Best_Milk(_Tier5):
     id = 410
+    rollable = False
+    cost = 0
+
+
+class Better_Milk(_Tier5):
+    id = 411
+    rollable = False
+    cost = 0
+
+
+class Chili(_Tier5):
+    id = 412
     is_holdable = True
 
     def query(self, animal: Animal, agent: 'MessageAgent', damage: int, message: str) -> int:
@@ -36,11 +48,17 @@ class Chili(_Tier5):
 
 
 class Chocolate(_Tier5):
-    id = 411
+    id = 413
+
+
+class Milk(_Tier5):
+    id = 414
+    rollable = False
+    cost = 0
 
 
 class Peanut(_Tier5):
-    id = 412
+    id = 415
     rollable = False
     is_holdable = True
 
@@ -52,23 +70,5 @@ class Peanut(_Tier5):
 
 
 class Sushi(_Tier5):
-    id = 413
-    is_targeted = False
-
-
-class Milk(_Tier5):
-    id = 414
-    rollable = False
-    cost = 0
-
-
-class Better_Milk(_Tier5):
-    id = 415
-    rollable = False
-    cost = 0
-
-
-class Best_Milk(_Tier5):
     id = 416
-    rollable = False
-    cost = 0
+    is_targeted = False
