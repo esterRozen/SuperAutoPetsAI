@@ -287,8 +287,10 @@ class MessageAgent(BaseAgent):
         if not self._event_queue or self.debug_mode_no_handle_queue:
             return
 
-        self._raise_event()
-        self.handle_events()
+        while self._event_queue:
+            if isinstance(self._event_queue[0][1], Animal):
+                raise ValueError
+            self._raise_event()
         return
 
     # message contains unit_id which sent it
