@@ -38,6 +38,9 @@ class TestBattleSystem(TestCase):
 
         self.battle_sys.start_battle(enemy)
 
+        # TODO assertions
+        self.fail()
+
     def test_complex_battle(self):
         self.agent.team[0] = tier_2.Hedgehog()
         self.agent.team[1] = tier_3.Camel()
@@ -55,6 +58,9 @@ class TestBattleSystem(TestCase):
         enemy[3] = tier_1.Otter()
         enemy[4] = tier_4.Deer()
         self.battle_sys.start_battle(enemy)
+
+        # TODO assertions
+        self.fail()
 
     def test_summon(self):
         # TODO
