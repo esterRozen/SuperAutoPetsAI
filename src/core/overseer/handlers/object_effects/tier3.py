@@ -25,7 +25,7 @@ class Tier3:
         teammate_ahead = team.friend_ahead(actor[1])
 
         # deal damage to unit behind
-        agent.deal_ability_damage_handle_hurt(damage, fainted, behind)
+        agent.deal_ability_damage_handle_hurt(damage, actor, behind, fainted)
 
         if isinstance(teammate_ahead, Empty):
             enemy_pos = agent.team_opposing_(actor).animals.index(agent.team_opposing_(actor).rightmost_unit)
@@ -34,7 +34,7 @@ class Tier3:
             target = (actor[0], team.animals.index(teammate_ahead))
 
         # deal damage to unit ahead
-        agent.deal_ability_damage_handle_hurt(damage, fainted, target)
+        agent.deal_ability_damage_handle_hurt(damage, actor, target, fainted)
 
     # triggers hurt
     @staticmethod
