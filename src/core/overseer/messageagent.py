@@ -347,7 +347,7 @@ class MessageAgent(BaseAgent):
                                    target=actor)
 
     def deal_ability_damage_handle_hurt(self, damage: int, actor: Union[Tuple[str, int], Animal],
-                                        target: Tuple[str, int]):
+                                        target: Tuple[str, int], removed: Animal = None):
         """
         actor deals damage
         target receives damage
@@ -360,8 +360,8 @@ class MessageAgent(BaseAgent):
         if isinstance(self.actor(target), Empty):
             return
 
-        if isinstance(actor, Animal):
-            damage = actor.damage_modifier(self, damage, "ability")
+        if removed is not None:
+            damage = removed.damage_modifier(self, damage, "ability")
         else:
             damage = self.actor(actor).damage_modifier(self, damage, "ability")
 
