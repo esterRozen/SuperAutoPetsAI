@@ -1,6 +1,6 @@
 import random
 from copy import copy
-from typing import List, Optional, Dict
+from typing import List, Dict
 
 from . import Animal, Empty
 
@@ -91,11 +91,11 @@ class Team:
         return self.size < self.__max_capacity
 
     @property
-    def leftmost_unit(self) -> Optional[Animal]:
+    def leftmost_unit(self) -> Animal:
         if self.size == 0:
             return Empty()
 
-        i = len(self.animals)-1
+        i = len(self.animals) - 1
         while isinstance(self.animals[i], Empty):
             i -= 1
         return self.animals[i]
@@ -105,7 +105,7 @@ class Team:
         return self.animals[acting].level
 
     @property
-    def rightmost_unit(self) -> Optional[Animal]:
+    def rightmost_unit(self) -> Animal:
         if self.size == 0:
             return Empty()
         i = 0
@@ -114,7 +114,7 @@ class Team:
         return self.animals[i]
 
     @property
-    def second_unit(self) -> Optional[Animal]:
+    def second_unit(self) -> Animal:
         if self.size <= 1:
             return Empty()
         j = 0
@@ -142,7 +142,7 @@ class Team:
         """
         self.animals[acting] = Empty()
 
-    def friends(self, acting: int) -> Optional[List[Animal]]:
+    def friends(self, acting: int) -> List[Animal]:
         a = list(range(0, 5))
         a.remove(acting)
         for i in a.copy():
@@ -152,17 +152,17 @@ class Team:
                 a.remove(i)
 
         if not a:
-            return Empty()
+            return []
 
         return [self.animals[i] for i in a]
 
-    def friend_ahead(self, acting: int) -> Optional[Animal]:
+    def friend_ahead(self, acting: int) -> Animal:
         for j in range(acting - 1, -1, -1):
             if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 return self.animals[j]
         return Empty()
 
-    def friends_ahead(self, acting: int, n: int) -> Optional[List[Animal]]:
+    def friends_ahead(self, acting: int, n: int) -> List[Animal]:
         ret = []
         i = 0
         for j in range(acting - 1, -1, -1):
@@ -171,17 +171,17 @@ class Team:
                     ret += [self.animals[j]]
                     i += 1
         if not ret:
-            return Empty()
+            return []
         return ret
 
-    def friend_behind(self, acting: int) -> Optional[Animal]:
+    def friend_behind(self, acting: int) -> Animal:
         for j in range(acting + 1, len(self.animals)):
             if not isinstance(self.animals[j], Empty) and self.animals[j].battle_hp > 0:
                 return self.animals[j]
 
         return Empty()
 
-    def friends_behind(self, acting: int, n: int) -> Optional[List[Animal]]:
+    def friends_behind(self, acting: int, n: int) -> List[Animal]:
         ret = []
         i = 0
         for j in range(acting + 1, len(self.animals)):
@@ -190,7 +190,7 @@ class Team:
                     ret += [self.animals[j]]
                     i += 1
         if not ret:
-            return Empty()
+            return []
 
         return ret
 
@@ -228,7 +228,7 @@ class Team:
     def mark_fainted(self, pos: int):
         self.animals[pos].battle_hp = 0
 
-    def other_lvl2_or_3(self, acting: int) -> Optional[List[Animal]]:
+    def other_lvl2_or_3(self, acting: int) -> List[Animal]:
         a = list(range(0, 5))
         a.remove(acting)
         for i in a.copy():
@@ -236,7 +236,7 @@ class Team:
                 a.remove(i)
 
         if not a:
-            return Empty()
+            return []
         return [self.animals[i] for i in a]
 
     def push_forward(self):
@@ -244,7 +244,7 @@ class Team:
             send_to_front(i, self)
         return
 
-    def random_friend(self, acting: int) -> Optional[Animal]:
+    def random_friend(self, acting: int) -> Animal:
         a = list(range(0, 5))
         a.remove(acting)
         for i in a.copy():
@@ -258,7 +258,7 @@ class Team:
 
         return self.animals[random.choice(a)]
 
-    def random_friends(self, acting: int, n: int) -> Optional[List[Animal]]:
+    def random_friends(self, acting: int, n: int) -> List[Animal]:
         a = list(range(0, 5))
         a.remove(acting)
         for i in a.copy():
@@ -268,14 +268,14 @@ class Team:
                 a.remove(i)
 
         if not a:
-            return Empty()
+            return []
 
         if len(a) < n:
             return [self.animals[i] for i in a]
         else:
             return random.sample([self.animals[i] for i in a], n)
 
-    def random_unit(self) -> Optional[Animal]:
+    def random_unit(self) -> Animal:
         if self.size == 0:
             return Empty()
 
@@ -288,7 +288,7 @@ class Team:
 
         return self.animals[random.choice(a)]
 
-    def random_units(self, n) -> Optional[List[Animal]]:
+    def random_units(self, n) -> List[Animal]:
         if self.size == 0:
             return Empty()
 
@@ -300,14 +300,14 @@ class Team:
                 a.remove(i)
 
         if not a:
-            return Empty()
+            return []
 
         if len(a) <= n:
             return [self.animals[i] for i in a]
         else:
             return random.sample([self.animals[i] for i in a], n)
 
-    def random_units_idx(self, n) -> Optional[List[int]]:
+    def random_units_idx(self, n) -> List[int]:
         a = list(range(0, 5))
         for i in a.copy():
             if isinstance(self.animals[i], Empty):
@@ -316,14 +316,14 @@ class Team:
                 a.remove(i)
 
         if not a:
-            return Empty()
+            return []
 
         if len(a) <= n:
             return a
         else:
             return random.sample(a, n)
 
-    def ret_diff_tiers(self) -> Optional[List[Animal]]:
+    def ret_diff_tiers(self) -> List[Animal]:
         animals: Dict = {}
         for animal in self.animals:
             if not isinstance(animal, Empty):
@@ -331,7 +331,7 @@ class Team:
 
         animals: List[Animal] = list(animals.values())
         if not animals:
-            return Empty()
+            return []
         return animals
 
     def summon(self, animal, position) -> bool:
@@ -357,13 +357,13 @@ class Team:
             return True
         return False
 
-    def units(self) -> Optional[List[Animal]]:
+    def units(self) -> List[Animal]:
         out = []
         for animal in self.animals:
             if not isinstance(animal, Empty) and animal.battle_hp > 0:
                 out.append(animal)
 
         if not out:
-            return Empty()
+            return []
 
         return out
