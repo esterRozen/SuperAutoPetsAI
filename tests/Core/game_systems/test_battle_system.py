@@ -26,6 +26,18 @@ class TestBattleSystem(TestCase):
         self.assertTrue(self.agent.wins == 1)
         self.assertTrue(isinstance(self.agent.team[0], tier_1.Bee))
 
+    def test_battle_summons(self):
+        self.agent.team[0] = tier_2.Spider()
+        self.agent.team[1] = tier_1.Bee()
+        self.agent.team[2] = tier_2.Spider()
+
+        enemy = Team()
+        enemy[0] = tier_2.Spider()
+        enemy[1] = tier_1.Bee()
+        enemy[2] = tier_2.Spider()
+
+        self.battle_sys.start_battle(enemy)
+
     def test_complex_battle(self):
         self.agent.team[0] = tier_2.Hedgehog()
         self.agent.team[1] = tier_3.Camel()
