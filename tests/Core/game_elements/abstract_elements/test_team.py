@@ -132,10 +132,10 @@ class TestTeam(TestCase):
 
         self.clean_start()
         self.team[3] = self.spawner.spawn(5)
-        self.assertTrue(self.team.friends(3) == Empty())
+        self.assertTrue(self.team.friends(3) == [])
 
         self.clean_start()
-        self.assertTrue(self.team.friends(0) == Empty(), "should be none due as there are no units present")
+        self.assertTrue(self.team.friends(0) == [], "should be none due as there are no units present")
 
     def test_friend_ahead(self):
         self.clean_start()
@@ -164,7 +164,7 @@ class TestTeam(TestCase):
 
         self.assertTrue(self.team.friends_ahead(2, 4) == [self.team[0]],
                         "only unit ahead of position 2 is in position 0")
-        self.assertTrue(self.team.friends_ahead(0, 4) == Empty(),
+        self.assertTrue(self.team.friends_ahead(0, 4) == [],
                         "front unit, no friend ahead of it")
 
         self.clean_start()
@@ -181,7 +181,7 @@ class TestTeam(TestCase):
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.assertTrue(self.team.friends_ahead(0, 1) == Empty())
+        self.assertTrue(self.team.friends_ahead(0, 1) == [])
 
     def test_friend_behind(self):
         self.clean_start()
@@ -208,7 +208,7 @@ class TestTeam(TestCase):
         self.team[0] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(4)
 
-        self.assertTrue(self.team.friends_behind(2, 4) == Empty(), "no units behind position 2")
+        self.assertTrue(self.team.friends_behind(2, 4) == [], "no units behind position 2")
         self.assertTrue(self.team.friends_behind(0, 4) == [self.team[2]], "1 unit behind position 0")
 
         self.clean_start()
@@ -226,7 +226,7 @@ class TestTeam(TestCase):
         self.clean_start()
         self.team[0] = self.spawner.spawn(5)
 
-        self.assertTrue(self.team.friends_behind(0, 1) == Empty())
+        self.assertTrue(self.team.friends_behind(0, 1) == [])
 
     def test_make_summon_room_with_left_shift_at(self):
         self.clean_start()
@@ -290,7 +290,7 @@ class TestTeam(TestCase):
     def test_other_lvl2_or_3(self):
         self.clean_start()
         self.team[1] = self.spawner.spawn(5)
-        self.assertTrue(self.team.other_lvl2_or_3(1) == Empty())
+        self.assertTrue(self.team.other_lvl2_or_3(1) == [])
 
         self.team[1].xp = 5
         self.team[2] = self.spawner.spawn(3)
@@ -352,7 +352,7 @@ class TestTeam(TestCase):
         self.clean_start()
         self.team[2] = self.spawner.spawn(5)
         friends = self.team.random_friends(2, 1)
-        self.assertTrue(friends == Empty())
+        self.assertTrue(friends == [])
 
         self.team[3] = self.spawner.spawn(1)
         friends = self.team.random_friends(2, 1)
@@ -441,7 +441,7 @@ class TestTeam(TestCase):
     def test_random_units_idx(self):
         self.clean_start()
         units = self.team.random_units_idx(2)
-        self.assertTrue(units == Empty())
+        self.assertTrue(units == [])
 
         self.team[3] = self.spawner.spawn(3)
         self.team[2] = self.spawner.spawn(5)
@@ -506,7 +506,7 @@ class TestTeam(TestCase):
         self.clean_start()
 
         units = self.team.ret_diff_tiers()
-        self.assertTrue(units == Empty())
+        self.assertTrue(units == [])
 
         self.team[4] = self.spawner.spawn_tier(4)
         units = self.team.ret_diff_tiers()
@@ -561,7 +561,7 @@ class TestTeam(TestCase):
     def test_units(self):
         self.clean_start()
         units = self.team.units()
-        self.assertTrue(units == Empty())
+        self.assertTrue(units == [])
 
         self.team[3] = self.spawner.spawn(4)
         units = self.team.units()
