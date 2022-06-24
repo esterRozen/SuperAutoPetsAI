@@ -288,8 +288,9 @@ class MessageAgent(BaseAgent):
             return
 
         while self._event_queue:
+                # TODO remove this once engine is validated
             if isinstance(self._event_queue[0][1], Animal):
-                raise ValueError
+                raise ValueError(self._event_queue[0])
             self._raise_event()
         return
 
