@@ -432,11 +432,6 @@ class MessageAgent(BaseAgent):
         else:
             raise ValueError(f"actpr should not be {actor[0]}")
 
-        self.enqueue_event(eventnames.ON_FAINT,
-                           actor=actor,
-                           target=target,
-                           removed=animal)
-
         self.enqueue_event(eventnames.FRIEND_AHEAD_FAINTS,
                            actor=actor,
                            target=target,
@@ -453,6 +448,11 @@ class MessageAgent(BaseAgent):
                                actor=target,
                                target=actor,
                                removed=animal)
+
+        self.enqueue_event(eventnames.ON_FAINT,
+                           actor=actor,
+                           target=target,
+                           removed=animal)
 
 
 if __name__ == '__main__':
