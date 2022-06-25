@@ -43,6 +43,10 @@ class Engine:
     def messenger(self) -> MessageAgent:
         return self._messenger
 
+    @property
+    def fight_buffer(self) -> FightBuffer:
+        return self._fight_buffer
+
     def save(self, include_shop: bool = True) -> 'State':
         return self._messenger.save(include_shop)
 
