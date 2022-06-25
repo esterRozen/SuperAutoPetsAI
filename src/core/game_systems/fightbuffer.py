@@ -1,9 +1,13 @@
 from threading import Lock
 import random as rand
 from typing import Dict, List
+import pickle as pkl
 
 from ..game_elements.abstract_elements import Team
+from ..game_elements.game_objects.animals import Ant
 from ..game_elements.game_objects.game_objects import MetaSingleton
+
+_file_name = "./pickle_cache"
 
 
 class FightBuffer(metaclass=MetaSingleton):
@@ -24,10 +28,24 @@ class FightBuffer(metaclass=MetaSingleton):
     def pop(self, turn: int):
         with self._lock:
             if self._size[turn] == 0:
-                return Team()
+                team = Team()
+                team[0] = Ant()
+                team[1] = Ant()
+                team[2] = Ant()
+                return team
 
             if self._size[turn] == 5000:
                 self._size -= 1
                 return self._stored[turn].pop(rand.randrange(0, self._size[turn]))
 
             return self._stored[turn][rand.randrange(0, self._size[turn])]
+
+    def dump_to_cache(self):
+        with open(_file_name, 'wb') as f:
+            pkl.dump(self, f, pkl.HIGHEST_PROTOCOL)
+
+    @staticmethod
+    def load_cache() -> 'FightBuffer':
+        with open(_file_name, 'rb') as f:
+            fight_buffer = pkl.load(f)
+        return fight_buffer
