@@ -7,17 +7,18 @@ from ..game_elements.abstract_elements import Team
 from ..game_elements.game_objects.animals import Ant
 from ..game_elements.game_objects.game_objects import MetaSingleton
 
-_file_name = "./pickle_cache"
+_stored_name = "./pickle/stored_cache"
+_size_name = "./pickle/size_cache"
 
 
 class FightBuffer(metaclass=MetaSingleton):
     def __init__(self, limit=500):
-        self._stored: Dict[int, List] = {turn: [] for turn in range(1, 21)}
+        self._stored: Dict[int, List[Team]] = {turn: [] for turn in range(1, 21)}
         self._size: Dict[int, int] = {turn: 0 for turn in range(1, 21)}
         self._limit = limit
         self._lock = Lock()
 
-    def push(self, team, turn: int):
+    def push(self, team: Team, turn: int):
         with self._lock:
             if self._size[turn] < self._limit:
                 self._stored[turn].append(team)
@@ -41,11 +42,18 @@ class FightBuffer(metaclass=MetaSingleton):
             return self._stored[turn][rand.randrange(0, self._size[turn])]
 
     def dump_to_cache(self):
-        with open(_file_name, 'wb') as f:
-            pkl.dump(self, f, pkl.HIGHEST_PROTOCOL)
+        # have to store and load these separately as pickling singletons can be weird.
+        with self._lock:
+            with open(_stored_name, 'wb') as f:
+                pkl.dump(self._stored, f, pkl.HIGHEST_PROTOCOL)
 
-    @staticmethod
-    def load_cache() -> 'FightBuffer':
-        with open(_file_name, 'rb') as f:
-            fight_buffer = pkl.load(f)
-        return fight_buffer
+            with open(_size_name, 'wb') as f:
+                pkl.dump(self._size, f, pkl.HIGHEST_PROTOCOL)
+
+    def load_cache(self):
+        with self._lock:
+            with open(_stored_name, 'rb') as f:
+                self._stored = pkl.load(f)
+
+            with open(_size_name, 'rb') as f:
+                self._size = pkl.load(f)
