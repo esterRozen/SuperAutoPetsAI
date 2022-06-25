@@ -94,8 +94,9 @@ class Engine:
         # end your turn
 
         self._shop_director.end_turn()
-        self._fight_buffer.push(self._messenger.team, self._messenger.turn)
         enemy = self._fight_buffer.pop(self._messenger.turn)
+        if self._messenger.team.size != 0:
+            self._fight_buffer.push(self._messenger.team, self._messenger.turn)
         self._battle_director.start_battle(enemy)
         if self._messenger.life == 0 or self._messenger.wins == 10 or self._messenger.turn == 20:
             return -1
