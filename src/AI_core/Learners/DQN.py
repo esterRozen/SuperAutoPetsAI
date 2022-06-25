@@ -40,8 +40,11 @@ class DQN:
         self.network = model
         self.optimizer = tf.optimizers.Adagrad()
 
-    def write_weights_from(self, network: 'DQN'):
-        pass
+    def write_weights_from(self, network_manager: 'DQN'):
+        main = self.network.trainable_variables
+        other = network_manager.network.trainable_variables
+        for (main_var, other_var) in zip(main, other):
+            main_var.assign(other_var.numpy())
 
     def action(self, observation):
         if rand.random() < self.epsilon:
@@ -56,7 +59,6 @@ class DQN:
         return transition
 
     def play_episode(self, target: 'DQN', mode: Optional[str] = None):
-        i = 0
         done = False
         options = {"mode": mode}
         state = self.env.reset(options=options)
@@ -81,7 +83,9 @@ class DQN:
         if self.replay.__len__() < _min_buffer:
             return None
 
+        # 32 batch
         experiences = self.replay.sample_processed(32)
+        # easy unpacking
         state = experiences.state
         action = experiences.action
         reward = experiences.reward
@@ -89,8 +93,10 @@ class DQN:
         done = experiences.done
 
         s_t1_values_pred = target.evaluate_forward(next_state)
+        # use discounting equation for visible reward values
         s_t1_values_actual = np.where(done, reward, reward + self.gamma * np.max(s_t1_values_pred, axis=1))
 
+        # set loss as error of values.
         with tf.GradientTape() as recorder:
             action_values = tf.math.reduce_sum(
                 self.evaluate_forward(state) * tf.one_hot(action, _num_actions),
