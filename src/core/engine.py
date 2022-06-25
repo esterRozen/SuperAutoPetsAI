@@ -2,9 +2,7 @@
 from typing import TYPE_CHECKING, Optional
 import random as rand
 
-from .game_elements.abstract_elements import Team
 from .game_elements.game_objects import GameObjects
-from .game_elements.game_objects.animals import Ant
 from .game_elements.game_objects.game_objects import pack_names
 from .game_systems import BattleSystem, ShopSystem
 from .game_systems.fightbuffer import FightBuffer
@@ -34,10 +32,6 @@ class Engine:
         self._shop_director = ShopSystem(self._messenger)
 
         self._fight_buffer = FightBuffer()
-        team = Team()
-        team.animals[0] = Ant()
-        for i in range(1, 21):
-            self._fight_buffer.push(team, i)
 
     @property
     def messenger(self) -> MessageAgent:
