@@ -84,7 +84,7 @@ class Tier4:
             target = ("team", agent.team.animals.index(animal))
 
         agent.deal_ability_damage_handle_hurt(5 * backup.level,
-                                              backup, target)
+                                              actor, target, backup)
 
     @staticmethod
     def hippo(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int]):

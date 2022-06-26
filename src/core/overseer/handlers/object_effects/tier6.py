@@ -93,7 +93,7 @@ class Tier6:
         damage = backup.battle_atk // 2
         for _ in range(agent.actor(actor).level):
             unit = agent.team_opposing_(actor).random_units_idx(1)[0]
-            agent.deal_ability_damage_handle_hurt(damage, backup, (team, unit))
+            agent.deal_ability_damage_handle_hurt(damage, actor, (team, unit), backup)
 
     @staticmethod
     def mammoth(agent: 'MessageAgent',

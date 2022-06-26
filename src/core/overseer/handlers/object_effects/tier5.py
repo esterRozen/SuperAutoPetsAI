@@ -39,7 +39,7 @@ class Tier5:
             else:
                 target_tup = ("team", agent.team_opposing_(actor).animals.index(target))
 
-            agent.deal_ability_damage_handle_hurt(8, backup, target_tup)
+            agent.deal_ability_damage_handle_hurt(8, actor, target_tup, backup)
 
     @staticmethod
     def eagle(agent: 'MessageAgent', actor: Tuple[str, int], target: Tuple[str, int], fainted: Animal):

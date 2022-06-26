@@ -288,7 +288,7 @@ class MessageAgent(BaseAgent):
             return
 
         while self._event_queue:
-                # TODO remove this once engine is validated
+            # TODO remove this once engine is validated
             if isinstance(self._event_queue[0][1], Animal):
                 raise ValueError(self._event_queue[0])
             self._raise_event()
@@ -347,7 +347,7 @@ class MessageAgent(BaseAgent):
                                    actor=target,
                                    target=actor)
 
-    def deal_ability_damage_handle_hurt(self, damage: int, actor: Union[Tuple[str, int], Animal],
+    def deal_ability_damage_handle_hurt(self, damage: int, actor: Tuple[str, int],
                                         target: Tuple[str, int], removed: Animal = None):
         """
         actor deals damage
@@ -356,6 +356,7 @@ class MessageAgent(BaseAgent):
             damage:
             actor:
             target:
+            removed:
         Returns:
         """
         if isinstance(self.actor(target), Empty):

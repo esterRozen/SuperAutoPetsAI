@@ -119,10 +119,10 @@ class Tier1:
 
         if actor[0] == "team":
             agent.deal_ability_damage_handle_hurt(backup.level,
-                                                  backup, ("enemy", units[0]))
+                                                  actor, ("enemy", units[0]), backup)
         elif actor[0] == "enemy":
             agent.deal_ability_damage_handle_hurt(backup.level,
-                                                  backup, ("team", units[0]))
+                                                  actor, ("team", units[0]), backup)
 
     # buy, give a random friend +1/1, 2/2, 3/3
     @staticmethod
