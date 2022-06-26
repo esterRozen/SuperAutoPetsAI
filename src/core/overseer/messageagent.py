@@ -152,9 +152,13 @@ class MessageAgent(BaseAgent):
     def sorted_without_(self, actor: Tuple[str, int]):
         sorted_team = self.sorted_team(actor[0])
         if actor[0] == "team":
+            if isinstance(self.team.animals[actor[1]], Empty):
+                return sorted_team
             sorted_team.remove(self.team.animals[actor[1]])
             return sorted_team
         elif actor[0] == "enemy":
+            if isinstance(self.enemy.animals[actor[1]], Empty):
+                return sorted_team
             sorted_team.remove(self.enemy.animals[actor[1]])
             return sorted_team
         raise ValueError(f"actor should not contain {actor[0]}")
