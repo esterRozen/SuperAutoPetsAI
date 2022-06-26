@@ -16,10 +16,10 @@ class FightBuffer(metaclass=MetaSingleton):
         self._stored: Dict[int, List[Team]] = {turn: [] for turn in range(1, 21)}
         self._size: Dict[int, int] = {turn: 0 for turn in range(1, 21)}
         self._limit = limit
-        self._lock = Lock()
+        self._locks: List[Lock] = [Lock() for _ in range(20)]
 
     def push(self, team: Team, turn: int):
-        with self._lock:
+        with self._locks[turn - 1]:
             if self._size[turn] < self._limit:
                 self._stored[turn].append(team)
                 self._size[turn] += 1
@@ -27,7 +27,7 @@ class FightBuffer(metaclass=MetaSingleton):
                 self._stored[turn][rand.randrange(0, self._limit)] = team
 
     def pop(self, turn: int):
-        with self._lock:
+        with self._locks[turn - 1]:
             if self._size[turn] == 0:
                 team = Team()
                 team[0] = Ant()
@@ -43,17 +43,38 @@ class FightBuffer(metaclass=MetaSingleton):
 
     def dump_to_cache(self):
         # have to store and load these separately as pickling singletons can be weird.
-        with self._lock:
-            with open(_stored_name, 'wb') as f:
-                pkl.dump(self._stored, f, pkl.HIGHEST_PROTOCOL)
+        locked = self._acquire_all_locks()
 
-            with open(_size_name, 'wb') as f:
-                pkl.dump(self._size, f, pkl.HIGHEST_PROTOCOL)
+        with open(_stored_name, 'wb') as f:
+            pkl.dump(self._stored, f, pkl.HIGHEST_PROTOCOL)
+
+        with open(_size_name, 'wb') as f:
+            pkl.dump(self._size, f, pkl.HIGHEST_PROTOCOL)
+
+        self._release_all_locks_to_self(locked)
 
     def load_cache(self):
-        with self._lock:
-            with open(_stored_name, 'rb') as f:
-                self._stored = pkl.load(f)
+        locked = self._acquire_all_locks()
 
-            with open(_size_name, 'rb') as f:
-                self._size = pkl.load(f)
+        with open(_stored_name, 'rb') as f:
+            self._stored = pkl.load(f)
+
+        with open(_size_name, 'rb') as f:
+            self._size = pkl.load(f)
+
+        self._release_all_locks_to_self(locked)
+
+    def _acquire_all_locks(self) -> List[Lock]:
+        locked = []
+        while not self._locks:
+            for lock_idx in range(self._locks.__len__() - 1, -1, -1):
+                acquired = self._locks[lock_idx].acquire(blocking=False)
+                if acquired:
+                    locked.append(self._locks.pop(lock_idx))
+
+        return locked
+
+    def _release_all_locks_to_self(self, locks: List[Lock]):
+        self._locks = locks
+        for lock in self._locks:
+            lock.release()
