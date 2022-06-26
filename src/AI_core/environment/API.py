@@ -65,12 +65,12 @@ class EngineAPI:
         return self.current_state()
 
     def _sell(self, *args):
-        penalty = self.engine.sell(*args[1:])
+        penalty = self.engine.sell(*args)
         self.__actions_this_turn -= penalty
         return penalty
 
     def _buy(self, *args):
-        penalty = self.engine.buy(*args[1:])
+        penalty = self.engine.buy(*args)
         self.__actions_this_turn -= penalty
         return penalty
 
@@ -85,16 +85,16 @@ class EngineAPI:
         return 0
 
     def _freeze(self, *args):
-        penalty = self.engine.freeze(*args[1:])
+        penalty = self.engine.freeze(*args)
         self.__actions_this_turn -= penalty - 1
         return penalty
 
     def _move(self, *args):
-        penalty = self.engine.move(*args[1:])
+        penalty = self.engine.move(*args)
         self.__actions_this_turn -= penalty - 1
         return penalty
 
     def _combine(self, *args):
-        penalty = self.engine.combine(*args[1:])
+        penalty = self.engine.combine(*args)
         self.__actions_this_turn -= penalty - 1
         return penalty
