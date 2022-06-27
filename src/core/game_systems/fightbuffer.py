@@ -51,7 +51,7 @@ class FightBuffer(metaclass=MetaSingleton):
         with open(_size_name, 'wb') as f:
             pkl.dump(self._size, f, pkl.HIGHEST_PROTOCOL)
 
-        self._release_all_locks_to_self(locked)
+        self._release_locks_to_self(locked)
 
     def load_cache(self):
         locked = self._acquire_all_locks()
@@ -62,7 +62,7 @@ class FightBuffer(metaclass=MetaSingleton):
         with open(_size_name, 'rb') as f:
             self._size = pkl.load(f)
 
-        self._release_all_locks_to_self(locked)
+        self._release_locks_to_self(locked)
 
     def _acquire_all_locks(self) -> List[Lock]:
         locked = []
@@ -74,7 +74,7 @@ class FightBuffer(metaclass=MetaSingleton):
 
         return locked
 
-    def _release_all_locks_to_self(self, locks: List[Lock]):
+    def _release_locks_to_self(self, locks: List[Lock]):
         self._locks = locks
         for lock in self._locks:
             lock.release()
