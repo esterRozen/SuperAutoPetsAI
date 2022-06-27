@@ -11,8 +11,16 @@ class TestFightBuffer(TestCase):
         return
 
     def test_is_singleton(self):
-        fightbuffer_2 = FightBuffer()
+        fightbuffer_2 = FightBuffer(limit=1000)
         self.assertTrue(fightbuffer_2 == self.fightbuffer)
+        self.assertTrue(fightbuffer_2._limit == 500)
+
+        self.fightbuffer.__class__.clear()
+        del fightbuffer_2
+        del self.fightbuffer
+
+        self.fightbuffer = FightBuffer(limit=1000)
+        self.assertTrue(self.fightbuffer._limit == 1000)
 
     def test_pop_empty(self):
         for i in range(1, 21):
@@ -40,3 +48,18 @@ class TestFightBuffer(TestCase):
             self.assertTrue(isinstance(team[0], tier_1.Ant))
             self.assertTrue(isinstance(team[1], tier_1.Ant))
             self.assertTrue(isinstance(team[2], tier_1.Ant))
+
+    def test_push(self):
+        team = Team()
+        team[0] = tier_1.Bee()
+        self.fightbuffer.push(team, 1)
+
+        team = Team()
+        team[0] = tier_1.Ant()
+        self.fightbuffer.push(team, 2)
+
+        team = self.fightbuffer.pop(1)
+        self.assertTrue(isinstance(team[0], tier_1.Bee))
+
+        team = self.fightbuffer.pop(2)
+        self.assertTrue(isinstance(team[0], tier_1.Ant))
