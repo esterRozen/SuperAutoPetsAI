@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.core.game_elements.abstract_elements import Team
+from src.core.game_elements.abstract_elements import Team, Empty
 from src.core.game_elements.game_objects.animals import tier_1, tier_2, tier_3, tier_4, tier_5
 from src.core.game_elements.game_objects.equipment import Honey, Garlic
 from src.core.game_systems import BattleSystem, ShopSystem
@@ -36,10 +36,23 @@ class TestBattleSystem(TestCase):
         enemy[1] = tier_1.Bee()
         enemy[2] = tier_2.Spider()
 
-        self.battle_sys.start_battle(enemy)
+        result = self.battle_sys.start_battle(enemy)
 
-        # TODO assertions
-        self.fail()
+        if result == 1:
+            self.assertTrue(self.agent.life == 10)
+            self.assertTrue(self.agent.wins == 1)
+            self.assertTrue(not self.agent.battle_lost)
+        elif result == 0:
+            self.assertTrue(self.agent.life == 10)
+            self.assertTrue(self.agent.wins == 0)
+            self.assertTrue(not self.agent.battle_lost)
+        elif result == -1:
+            self.assertTrue(self.agent.life == 9)
+            self.assertTrue(self.agent.wins == 0)
+            self.assertTrue(not self.agent.battle_lost)
+        self.assertTrue(self.agent.turn == 1)
+
+        self.assertTrue(isinstance(self.agent.enemy[0], Empty) or isinstance(self.agent.team[0], Empty))
 
     def test_complex_battle(self):
         self.agent.team[0] = tier_2.Hedgehog()
