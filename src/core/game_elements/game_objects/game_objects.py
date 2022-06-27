@@ -98,6 +98,10 @@ class MetaSingleton(type):
 
         return cls._instances[cls]
 
+    def clear(cls):
+        with cls._lock:
+            cls._instances = {}
+
 
 def get_object_list(pack_type: str) -> List[List[str]]:
     if pack_type == "base pack":
