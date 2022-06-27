@@ -35,7 +35,7 @@ class FightBuffer(metaclass=MetaSingleton):
                 team[2] = Ant()
                 return team
 
-            if self._size[turn] == 5000:
+            if self._size[turn] == self._limit:
                 self._size -= 1
                 return self._stored[turn].pop(rand.randrange(0, self._size[turn]))
 
