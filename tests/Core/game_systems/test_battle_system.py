@@ -75,6 +75,10 @@ class TestBattleSystem(TestCase):
         # TODO assertions
         self.fail()
 
+    def test_lose_health(self):
+        # TODO
+        self.fail()
+
     def test_summon(self):
         # TODO
         self.fail()
