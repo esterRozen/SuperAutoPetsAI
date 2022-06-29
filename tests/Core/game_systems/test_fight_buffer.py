@@ -63,3 +63,18 @@ class TestFightBuffer(TestCase):
 
         team = self.fightbuffer.pop(2)
         self.assertTrue(isinstance(team[0], tier_1.Ant))
+
+    def test_cache(self):
+        team = Team()
+        team[0] = tier_1.Bee()
+        self.fightbuffer.push(team, 1)
+
+        self.fightbuffer.dump_to_cache()
+        self.fightbuffer.load_cache()
+
+        team = self.fightbuffer.pop(1)
+        self.assertTrue(isinstance(team[0], tier_1.Bee))
+        self.assertTrue(isinstance(team[1], Empty))
+        self.assertTrue(isinstance(team[2], Empty))
+        self.assertTrue(isinstance(team[3], Empty))
+        self.assertTrue(isinstance(team[4], Empty))

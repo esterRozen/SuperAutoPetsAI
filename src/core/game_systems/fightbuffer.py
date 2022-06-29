@@ -2,13 +2,15 @@ from threading import Lock
 import random as rand
 from typing import Dict, List
 import pickle as pkl
+import os
 
 from ..game_elements.abstract_elements import Team
 from ..game_elements.game_objects.animals import Ant
 from ..game_elements.game_objects.game_objects import MetaSingleton
 
-_stored_name = "./pickle/stored_cache"
-_size_name = "./pickle/size_cache"
+_dir = os.path.dirname(__file__)
+_stored_name = _dir + '\\pickle\\stored_cache'
+_size_name = _dir + '\\pickle\\size_cache'
 
 
 class FightBuffer(metaclass=MetaSingleton):
@@ -66,7 +68,7 @@ class FightBuffer(metaclass=MetaSingleton):
 
     def _acquire_all_locks(self) -> List[Lock]:
         locked = []
-        while not self._locks:
+        while self._locks:
             for lock_idx in range(self._locks.__len__() - 1, -1, -1):
                 acquired = self._locks[lock_idx].acquire(blocking=False)
                 if acquired:
