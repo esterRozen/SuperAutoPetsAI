@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING, Tuple
 
-from src.core import Engine
+if TYPE_CHECKING:
+    from src.core import Engine, State
 
 __all__ = ['EngineAPI']
 
@@ -28,7 +29,7 @@ class EngineAPI:
 
         self.__actions_this_turn = 0
 
-    def action(self, *args):
+    def action(self, *args) -> Tuple[State, float, bool, Optional[dict]]:
         """
         Processes action state commands into engine readable commands
         Args:
@@ -56,15 +57,15 @@ class EngineAPI:
 
         return self.current_state(), reward, done, None
 
-    def current_state(self):
+    def current_state(self) -> State:
         return self.engine.save(include_shop=True).as_array().reshape((1, 76))
 
-    def reset(self, mode: Optional[str] = None):
+    def reset(self, mode: Optional[str] = None) -> State:
         self.engine = self.engine.__class__(mode)
         self.__actions_this_turn = 0
         return self.current_state()
 
-    def _sell(self, *args):
+    def _sell(self, *args) -> int:
         penalty = self.engine.sell(*args)
         self.__actions_this_turn -= penalty
         return penalty
