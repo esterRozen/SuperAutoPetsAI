@@ -14,13 +14,13 @@ _size_name = _dir + '\\pickle\\size_cache'
 
 
 class FightBuffer(metaclass=MetaSingleton):
-    def __init__(self, limit=500):
+    def __init__(self, limit=500) -> None:
         self._stored: Dict[int, List[Team]] = {turn: [] for turn in range(1, 21)}
         self._size: Dict[int, int] = {turn: 0 for turn in range(1, 21)}
         self._limit = limit
         self._locks: List[Lock] = [Lock() for _ in range(20)]
 
-    def push(self, team: Team, turn: int):
+    def push(self, team: Team, turn: int) -> None:
         with self._locks[turn - 1]:
             if self._size[turn] < self._limit:
                 self._stored[turn].append(team)
@@ -28,7 +28,7 @@ class FightBuffer(metaclass=MetaSingleton):
             else:
                 self._stored[turn][rand.randrange(0, self._limit)] = team
 
-    def pop(self, turn: int):
+    def pop(self, turn: int) -> Team:
         with self._locks[turn - 1]:
             if self._size[turn] == 0:
                 team = Team()
@@ -43,7 +43,7 @@ class FightBuffer(metaclass=MetaSingleton):
 
             return self._stored[turn][rand.randrange(0, self._size[turn])]
 
-    def dump_to_cache(self):
+    def dump_to_cache(self) -> None:
         # have to store and load these separately as pickling singletons can be weird.
         locked = self._acquire_all_locks()
 
@@ -55,7 +55,7 @@ class FightBuffer(metaclass=MetaSingleton):
 
         self._release_locks_to_self(locked)
 
-    def load_cache(self):
+    def load_cache(self) -> None:
         locked = self._acquire_all_locks()
 
         with open(_stored_name, 'rb') as f:
@@ -76,7 +76,7 @@ class FightBuffer(metaclass=MetaSingleton):
 
         return locked
 
-    def _release_locks_to_self(self, locks: List[Lock]):
+    def _release_locks_to_self(self, locks: List[Lock]) -> None:
         self._locks = locks
         for lock in self._locks:
             lock.release()
