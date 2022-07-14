@@ -6,6 +6,7 @@ from src.core.game_elements.game_objects.equipment import Coconut
 from src.core.overseer.handlers.object_effects.tier6 import Tier6
 from src.core.game_systems import ShopSystem, BattleSystem
 from src.core.overseer import MessageAgent
+from src.core.eventnames import BEFORE_BATTLE
 
 
 class TestTier6(TestCase):
@@ -260,8 +261,16 @@ class TestTier6(TestCase):
         self.assertTrue(self.agent.team[1].battle_hp == 1)
 
     def test__tiger(self):
-        # TODO
-        self.fail()
+        self.agent.summon(tier_6.Mammoth(), ("team", 0))
+        self.agent.summon(tier_6.Tiger(), ("team", 1))
+
+        self.agent.enqueue_event(BEFORE_BATTLE)
+        self.agent.faint(("team", 0), ("team", 0))
+        self.agent.debug_mode_no_handle_queue = False
+        self.agent.handle_events()
+
+        self.assertTrue(self.agent.team[1].hp == 7)
+        self.assertTrue(self.agent.team[1].atk == 8)
 
     def test__tyrannosaurus(self):
         self.agent.gold = 2
