@@ -49,7 +49,7 @@ class TestBattleSystem(TestCase):
         elif result == -1:
             self.assertTrue(self.agent.life == 9)
             self.assertTrue(self.agent.wins == 0)
-            self.assertTrue(not self.agent.battle_lost)
+            self.assertTrue(self.agent.battle_lost)
         self.assertTrue(self.agent.turn == 1)
 
         self.assertTrue(isinstance(self.agent.enemy[0], Empty) or isinstance(self.agent.team[0], Empty))
