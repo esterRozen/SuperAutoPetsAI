@@ -13,7 +13,7 @@ class EngineAPI:
     win_reward = 1.0
     invalid_move_penalty = -0.01
 
-    def __init__(self, engine: Engine):
+    def __init__(self, engine: 'Engine'):
 
         self.engine = engine
 
@@ -29,7 +29,7 @@ class EngineAPI:
 
         self.__actions_this_turn = 0
 
-    def action(self, *args) -> Tuple[State, float, bool, Optional[dict]]:
+    def action(self, *args) -> Tuple['State', float, bool, Optional[dict]]:
         """
         Processes action state commands into engine readable commands
         Args:
@@ -57,10 +57,10 @@ class EngineAPI:
 
         return self.current_state(), reward, done, None
 
-    def current_state(self) -> State:
+    def current_state(self) -> 'State':
         return self.engine.save(include_shop=True).as_array().reshape((1, 76))
 
-    def reset(self, mode: Optional[str] = None) -> State:
+    def reset(self, mode: Optional[str] = None) -> 'State':
         self.engine = self.engine.__class__(mode)
         self.__actions_this_turn = 0
         return self.current_state()
