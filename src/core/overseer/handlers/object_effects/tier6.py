@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Tuple, Optional
 
-from ....game_elements.abstract_elements import Animal
+from ....game_elements.abstract_elements import Animal, Empty
 from ....game_elements.game_objects.animals import Fly_Friend, Tiger
 from ....game_elements.game_objects.equipment import Coconut
 
@@ -25,6 +25,8 @@ def tiger_check(func):
         agent: MessageAgent = args[0]
         actor: Tuple[str, int] = args[2]
         animal = agent.actor(actor)
+        if isinstance(animal, Empty):
+            animal = args[4]
 
         # repeat ability as that level.
         prior_xp = animal.xp
@@ -133,7 +135,6 @@ class Tier6:
         agent.deal_ability_damage_handle_hurt(5 * agent.actor(actor).level,
                                               actor, target_tup)
 
-    # how to do this??
     @staticmethod
     def tiger(agent: 'MessageAgent',
               actor: Tuple[str, int], target: Tuple[str, int],
