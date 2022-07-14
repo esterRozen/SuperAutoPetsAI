@@ -19,7 +19,7 @@ class Engine:
     stall by placing limits on number of total actions
     """
 
-    def __init__(self, mode: Optional[str] = None):
+    def __init__(self, mode: Optional[str] = None) -> None:
         # loads the GameObjects singleton, so it doesn't need to be loaded again
         if mode is None:
             mode = rand.choice(pack_names)
@@ -44,7 +44,7 @@ class Engine:
     def save(self, include_shop: bool = True) -> 'State':
         return self._messenger.save(include_shop)
 
-    def load(self, state: 'State'):
+    def load(self, state: 'State') -> None:
         self._messenger = MessageAgent.load(state)
         self._battle_director = BattleSystem(self._messenger)
         self._shop_director = ShopSystem(self._messenger)
