@@ -210,7 +210,7 @@ class MessageAgent(BaseAgent):
 
         return state
 
-    def _raise_event(self):
+    def _raise_event(self) -> None:
         tup = self._event_queue.pop(0)
         if len(tup) == 4:
             (message, actor, target, removed) = tup
@@ -291,7 +291,7 @@ class MessageAgent(BaseAgent):
         else:
             self._event_queue.append((message, actor, target, removed))
 
-    def handle_events(self):
+    def handle_events(self) -> None:
         if not self._event_queue or self.debug_mode_no_handle_queue:
             return
 
