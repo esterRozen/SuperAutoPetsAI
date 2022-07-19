@@ -7,6 +7,7 @@ from src.core.game_systems import BattleSystem, ShopSystem
 from src.core.overseer import MessageAgent
 
 
+# noinspection PyMissingTypeHints
 class TestBattleSystem(TestCase):
 
     def setUp(self) -> None:
@@ -56,11 +57,15 @@ class TestBattleSystem(TestCase):
 
     def test_complex_battle(self):
         self.agent.team[0] = tier_2.Hedgehog()
+
         self.agent.team[1] = tier_3.Camel()
         self.agent.team[1].held = Garlic()
+
         self.agent.team[2] = tier_4.Skunk()
         self.agent.team[2].held = Garlic()
+
         self.agent.team[3] = tier_3.Sheep()
+
         self.agent.team[4] = tier_3.Badger()
         self.agent.team[4].held = Honey()
 
@@ -70,15 +75,15 @@ class TestBattleSystem(TestCase):
         enemy[2] = tier_2.Spider()
         enemy[3] = tier_1.Otter()
         enemy[4] = tier_4.Deer()
-        self.battle_sys.start_battle(enemy)
+        value = self.battle_sys.start_battle(enemy)
 
-        # TODO assertions
-        self.fail()
+        self.assertTrue(value == 1)
 
     def test_lose_health(self):
-        # TODO
-        self.fail()
+        enemy = Team()
+        enemy[0] = tier_1.Bee()
 
-    def test_summon(self):
-        # TODO
-        self.fail()
+        value = self.battle_sys.start_battle(enemy)
+        self.assertTrue(value == -1)
+
+        self.assertTrue(self.agent.life == 9)
