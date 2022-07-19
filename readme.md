@@ -4,9 +4,13 @@ Super Auto Pets AI
 
 This project has 3 major components:
 
-- Game Engine (90% complete, 280 of 320 tests completed)
-- Reinforcement Learning AI (40% complete)
-- Selenium Webdriver (to do)
+- Game Engine (90% complete, 320 of 340 tests completed)
+- Reinforcement Learning AI
+    - DQN Complete
+    - AQN In Progress
+    - A3C In Progress
+    - Future Revisions TBD
+- Selenium Webdriver (to be completed)
 
 The game engine mimics the engine which drives the strategy
 auto-battler game Super Auto Pets (c. Team Wood Games) as near
