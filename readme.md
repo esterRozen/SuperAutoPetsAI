@@ -8,6 +8,7 @@ This project has 3 major components:
 - Reinforcement Learning AI
     - DQN Complete
     - AQN In Progress
+    - A2C In Progress
     - A3C In Progress
     - Future Revisions TBD
 - Selenium Webdriver (to be completed)
