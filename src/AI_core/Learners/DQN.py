@@ -33,7 +33,6 @@ class DQN:
         model.add(layers.BatchNormalization())
 
         model.add(layers.Dense(_num_actions))
-        model.add(layers.BatchNormalization())
 
         model.compile(jit_compile=True)
 
