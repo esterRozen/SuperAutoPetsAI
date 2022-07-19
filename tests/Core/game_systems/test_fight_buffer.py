@@ -5,6 +5,7 @@ from src.core.game_elements.game_objects.animals import tier_1
 from src.core.game_systems.fightbuffer import FightBuffer
 
 
+# noinspection PyMissingTypeHints
 class TestFightBuffer(TestCase):
     def setUp(self) -> None:
         self.fightbuffer = FightBuffer()
