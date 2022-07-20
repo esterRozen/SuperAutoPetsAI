@@ -25,8 +25,9 @@ class AQN(DQN):
         done = experiences.done
 
         s_t1_values_pred = target.evaluate_forward(next_state)
+        adv_values_pred = s_t1_values_pred - tf.reshape(tf.reduce_max(s_t1_values_pred, axis=1), [-1, 1])
         # use discounting equation for visible reward values
-        s_t1_values_actual = np.where(done, reward, reward + self.gamma * np.max(s_t1_values_pred, axis=1))
+        adv_values_actual = np.where(done, reward, reward + self.gamma * np.max(adv_values_pred, axis=1))
 
         # set loss as error of values.
         # TODO set loss to be advantage loss
@@ -34,7 +35,7 @@ class AQN(DQN):
             action_values = tf.math.reduce_sum(
                     self.evaluate_forward(state) * tf.one_hot(action, _num_actions),
                     axis=1)
-            loss = tf.math.reduce_mean(tf.square(s_t1_values_actual - action_values))
+            loss = tf.math.reduce_mean(tf.square(adv_values_actual - action_values))
 
         training_variables = self.network.trainable_variables
         grads = recorder.gradient(loss, training_variables, None)
