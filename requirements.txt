@@ -3,6 +3,6 @@ selenium==4.2.0
 setuptools==62.4.0
 selenium-wire==4.6.4
 webdriver-manager==3.7.0
-tensorflow==2.9.1
+tensorflow==2.9.3
 keras==2.9.0
 numpy>=1.22.4
